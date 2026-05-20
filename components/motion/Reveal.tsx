@@ -1,101 +1,58 @@
-"use client";
-
-import { motion, useReducedMotion, type Variants } from "framer-motion";
 import type { ReactNode } from "react";
 
 /**
- * Calm scroll reveal. Slow, eased, no spring or bounce — motion advances
- * the story, it does not decorate. Honors prefers-reduced-motion by
- * rendering content statically.
+ * Reveal / RevealGroup / RevealItem — passthrough wrappers.
+ *
+ * These used to wrap content in framer-motion components that hid it
+ * (opacity:0) on first render and revealed it via `whileInView`. The
+ * IntersectionObserver behind `whileInView` was unreliable in some
+ * browser/timing combinations: above-the-fold elements that were already
+ * in view at hydration occasionally never received the observer event,
+ * leaving content stuck at opacity:0 forever (whole pages went blank).
+ *
+ * Reliability wins. These now render their children plainly, fully
+ * visible from first paint. The site still has plenty of motion —
+ * HeroBanner parallax, ThePath's drawing line + morph, modal entries,
+ * accordion expand — but it's no longer load-bearing for content
+ * visibility. Nothing in here hides anything.
+ *
+ * The exports keep the original signatures so no JSX changes are needed
+ * elsewhere in the app.
  */
 
-const EASE = [0.22, 0.61, 0.36, 1] as const; // soft, organic ease-out
-
-type Direction = "up" | "none";
+type AsTag = "div" | "section" | "li" | "span" | "ul";
 
 export default function Reveal({
   children,
-  delay = 0,
-  direction = "up",
   className,
   as = "div",
 }: {
   children: ReactNode;
+  /** Kept for API compatibility, no longer applied. */
   delay?: number;
-  direction?: Direction;
+  /** Kept for API compatibility, no longer applied. */
+  direction?: "up" | "none";
   className?: string;
-  as?: "div" | "section" | "li" | "span";
+  as?: AsTag;
 }) {
-  const reduce = useReducedMotion();
-  const MotionTag = motion[as];
-
-  if (reduce) {
-    const Tag = as;
-    return <Tag className={className}>{children}</Tag>;
-  }
-
-  const variants: Variants = {
-    hidden: { opacity: 0, y: direction === "up" ? 24 : 0 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.7, ease: EASE, delay },
-    },
-  };
-
-  return (
-    <MotionTag
-      className={className}
-      variants={variants}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.25 }}
-    >
-      {children}
-    </MotionTag>
-  );
+  const Tag = as;
+  return <Tag className={className}>{children}</Tag>;
 }
 
-/**
- * Staggered container — children that are <Reveal> or motion items
- * animate in sequence. Used for column grids and lists.
- */
 export function RevealGroup({
   children,
   className,
-  stagger = 0.12,
   as = "div",
 }: {
   children: ReactNode;
   className?: string;
+  /** Kept for API compatibility, no longer applied. */
   stagger?: number;
-  as?: "div" | "ul";
+  as?: AsTag;
 }) {
-  const reduce = useReducedMotion();
-  const MotionTag = motion[as];
-
-  if (reduce) {
-    const Tag = as;
-    return <Tag className={className}>{children}</Tag>;
-  }
-
-  return (
-    <MotionTag
-      className={className}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.2 }}
-      variants={{
-        hidden: {},
-        visible: { transition: { staggerChildren: stagger } },
-      }}
-    >
-      {children}
-    </MotionTag>
-  );
+  const Tag = as;
+  return <Tag className={className}>{children}</Tag>;
 }
-
-const ITEM_EASE = EASE;
 
 export function RevealItem({
   children,
@@ -104,29 +61,8 @@ export function RevealItem({
 }: {
   children: ReactNode;
   className?: string;
-  as?: "div" | "li";
+  as?: AsTag;
 }) {
-  const reduce = useReducedMotion();
-  const MotionTag = motion[as];
-
-  if (reduce) {
-    const Tag = as;
-    return <Tag className={className}>{children}</Tag>;
-  }
-
-  return (
-    <MotionTag
-      className={className}
-      variants={{
-        hidden: { opacity: 0, y: 24 },
-        visible: {
-          opacity: 1,
-          y: 0,
-          transition: { duration: 0.6, ease: ITEM_EASE },
-        },
-      }}
-    >
-      {children}
-    </MotionTag>
-  );
+  const Tag = as;
+  return <Tag className={className}>{children}</Tag>;
 }

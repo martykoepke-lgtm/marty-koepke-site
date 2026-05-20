@@ -1,31 +1,22 @@
-"use client";
-
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
 
-/** Soft cross-fade between pages. Static when reduced motion is requested. */
+/**
+ * Passthrough wrapper around page content.
+ *
+ * Previously this wrapped children in an AnimatePresence + motion.div
+ * that did an opacity 0 → 1 cross-fade on every route change. That made
+ * content rendering depend on framer-motion's animation lifecycle, which
+ * is the exact thing causing pages to occasionally land blank. With this
+ * passthrough, page navigation is instant and content is always visible.
+ *
+ * Kept as a component (rather than removed) so the layout.tsx markup
+ * stays unchanged and we can re-introduce a safer page transition later
+ * without touching every page.
+ */
 export default function RouteTransition({
   children,
 }: {
   children: ReactNode;
 }) {
-  const pathname = usePathname();
-  const reduce = useReducedMotion();
-
-  if (reduce) return <>{children}</>;
-
-  return (
-    <AnimatePresence mode="wait" initial={false}>
-      <motion.div
-        key={pathname}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.35, ease: [0.22, 0.61, 0.36, 1] }}
-      >
-        {children}
-      </motion.div>
-    </AnimatePresence>
-  );
+  return <>{children}</>;
 }
