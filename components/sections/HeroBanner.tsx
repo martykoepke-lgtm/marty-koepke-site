@@ -21,7 +21,7 @@ export default function HeroBanner() {
 
   return (
     <section
-      aria-label="Practical Informatics — helping foothills businesses buy back their time"
+      aria-label="Practical Informatics — smart AI for small businesses"
       className="relative w-full overflow-hidden bg-forest"
       style={{ height: "min(90vh, 820px)", minHeight: "560px" }}
     >

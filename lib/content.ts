@@ -8,7 +8,7 @@ export const SITE = {
   name: "Practical Informatics",
   legalName: "Practical Informatics LLC",
   url: "https://www.practicalinformatics.com",
-  tagline: "Helping foothills businesses buy back their time.",
+  tagline: "Smart AI for small businesses.",
   location: "Mokelumne Hill, California",
   serviceArea: ["Calaveras County", "Amador County", "Tuolumne County"],
   serviceAreaText: "Serving Calaveras, Amador, and Tuolumne counties",
@@ -42,9 +42,9 @@ export const POLICIES: { label: string; href: string; gettermsSlug: string }[] =
 export const META = {
   home: {
     title:
-      "Practical Informatics | Helping foothills businesses buy back their time",
+      "Practical Informatics | Smart AI for small businesses",
     description:
-      "Practical Informatics helps small businesses in Calaveras, Amador, and Tuolumne counties reclaim their time with AI and smarter process.",
+      "Practical Informatics brings smart AI to small businesses in Calaveras, Amador, and Tuolumne counties — without the AI-hype.",
   },
   about: {
     title: "About Marty Koepke | Practical Informatics",
