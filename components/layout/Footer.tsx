@@ -9,15 +9,15 @@ export default function Footer() {
       <div className="mx-auto grid max-w-6xl gap-12 md:grid-cols-3">
         {/* Brand */}
         <div>
-          {/* Interim: full-color logo on a cream plate until a white logo
-              variant exists. Swap the src + drop the wrapper when ready. */}
-          <span className="inline-block rounded-md bg-cream p-3">
+          {/* Long horizontal lockup on a cream plate so the dark-green
+              wordmark stays legible against the forest-green footer. */}
+          <span className="inline-block rounded-md bg-cream p-4">
             <Image
-              src="/images/logo-full.png"
-              alt="Practical Informatics"
-              width={180}
-              height={135}
-              className="h-12 w-auto"
+              src="/images/logo-horizontal.png"
+              alt="Practical Informatics LLC — Smart AI for small businesses"
+              width={2231}
+              height={892}
+              className="h-24 w-auto"
             />
           </span>
           <p className="mt-5 max-w-xs text-cream/80">{SITE.tagline}</p>

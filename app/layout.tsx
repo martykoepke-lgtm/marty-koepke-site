@@ -70,7 +70,7 @@ const localBusinessJsonLd = {
   url: SITE.url,
   email: CONTACT_EMAIL,
   image: `${SITE.url}/images/hero-bg.jpg`,
-  logo: `${SITE.url}/images/logo-full.png`,
+  logo: `${SITE.url}/images/logo-horizontal.png`,
   address: {
     "@type": "PostalAddress",
     addressLocality: "Mokelumne Hill",

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 
-type Variant = "primary" | "ghost" | "onForest" | "onPhoto";
+type Variant = "primary" | "secondary" | "ghost" | "onForest" | "onPhoto";
 
 const base =
   "inline-flex items-center justify-center gap-2 rounded-md px-7 py-3.5 text-base font-semibold transition-colors duration-300 motion-safe:transition-transform motion-safe:hover:-translate-y-0.5 focus-visible:outline-2";
@@ -11,7 +11,11 @@ const base =
 const variants: Record<Variant, string> = {
   // Solid forest, darkens on hover. No shadow. No hype.
   primary: "bg-forest text-cream hover:bg-forest-dark",
-  // Quiet outline for secondary actions on cream sections.
+  // Solid cream with a forest outline — pairs with primary in busy
+  // contexts (e.g. the hero) where a transparent ghost would blend in.
+  secondary:
+    "bg-cream text-forest border border-forest hover:bg-cream-dim",
+  // Quiet outline for secondary actions on calm cream sections.
   ghost:
     "border border-tan bg-transparent text-forest hover:border-forest hover:bg-cream-dim",
   // For use on a forest-green background (final CTA sections). Cream pill,

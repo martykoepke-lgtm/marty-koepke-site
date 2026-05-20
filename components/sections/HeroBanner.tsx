@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { motion, useReducedMotion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import Button from "@/components/ui/Button";
 import { ArrowRightIcon } from "@/components/ui/Icons";
 import { SITE, HOME } from "@/lib/content";
@@ -10,31 +11,38 @@ import { BOOK_CALL_HREF, BOOK_CALL_LABEL } from "@/lib/links";
 const EASE = [0.22, 0.61, 0.36, 1] as const;
 
 /**
- * Home hero. A calm golden-hour foothills photo with the headline and
- * primary CTA both placed above the fold. Constrained height so a typical
- * phone or laptop viewer never has to scroll to find "schedule a call."
- * Motion is restrained: a slow background drift and a breathing gold
- * sun-glow. Fully reduced-motion safe.
+ * Home hero. Foothills landscape photo with slow parallax + a forest
+ * gradient wash on the left so the cream type reads cleanly against the
+ * dark side of the image, with the sun-side oak left visible on the
+ * right. Eyebrow → "Smart AI for small businesses." h1 → intro line →
+ * primary (cream-on-forest) + secondary (outlined cream-on-photo) CTAs.
+ * Subtle breathing gold sun-glow that matches the sun in the photo.
+ * Fully reduced-motion safe.
  */
 export default function HeroBanner() {
+  const ref = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"],
+  });
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "12%"]);
 
   return (
     <section
+      ref={ref}
       aria-label="Practical Informatics — smart AI for small businesses"
       className="relative w-full overflow-hidden bg-forest"
       style={{ height: "min(90vh, 820px)", minHeight: "560px" }}
     >
-      {/* Background photo */}
+      {/* Background landscape with subtle parallax drift */}
       <motion.div
         className="absolute inset-0"
-        initial={reduce ? false : { scale: 1.06 }}
-        animate={reduce ? undefined : { scale: 1.0 }}
-        transition={{ duration: 14, ease: EASE }}
+        style={reduce ? undefined : { y, scale: 1.06 }}
       >
         <Image
           src="/images/hero-bg.jpg"
-          alt="A great oak overlooking the rolling Calaveras County foothills at golden hour."
+          alt=""
           fill
           priority
           sizes="100vw"
@@ -43,7 +51,8 @@ export default function HeroBanner() {
         />
       </motion.div>
 
-      {/* Forest gradient overlay for text legibility on the left */}
+      {/* Forest gradient on the left — lifts the cream type off the
+          photo and keeps the sun-side oak visible on the right. */}
       <div
         aria-hidden="true"
         className="absolute inset-0 bg-gradient-to-r from-forest/85 via-forest/55 to-transparent"
@@ -68,7 +77,7 @@ export default function HeroBanner() {
         />
       )}
 
-      {/* Content */}
+      {/* Upper-left content */}
       <div className="absolute inset-0 flex items-center">
         <div className="mx-auto w-full max-w-6xl px-6">
           <motion.div
@@ -77,11 +86,13 @@ export default function HeroBanner() {
             animate={reduce ? undefined : "visible"}
             variants={{
               hidden: {},
-              visible: { transition: { staggerChildren: 0.12, delayChildren: 0.15 } },
+              visible: {
+                transition: { staggerChildren: 0.12, delayChildren: 0.15 },
+              },
             }}
           >
             <Fade>
-              <p className="font-serif text-sm uppercase tracking-[0.18em] text-gold">
+              <p className="font-serif text-sm font-semibold uppercase tracking-[0.18em] text-gold">
                 Calaveras · Amador · Tuolumne
               </p>
             </Fade>
