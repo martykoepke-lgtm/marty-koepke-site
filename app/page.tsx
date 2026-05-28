@@ -57,8 +57,8 @@ export default function HomePage() {
           ))}
         </RevealGroup>
         <Reveal className="mt-14 text-center" delay={0.1}>
-          <Button href="/time-back-assessment" variant="onForest">
-            Learn more about the Time Back Assessment
+          <Button href="/ai-visibility-index" variant="onForest">
+            See the AI Visibility Index in full
             <ArrowRightIcon className="h-4 w-4" />
           </Button>
         </Reveal>

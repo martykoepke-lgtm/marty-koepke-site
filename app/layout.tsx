@@ -40,7 +40,7 @@ export const metadata: Metadata = {
         url: "/images/hero-bg.jpg",
         width: 1914,
         height: 822,
-        alt: "A great oak overlooking the rolling Calaveras County foothills at golden hour.",
+        alt: "A great oak at golden hour — calm, grounded, durable.",
         type: "image/jpeg",
       },
     ],
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
     images: [
       {
         url: "/images/hero-bg.jpg",
-        alt: "A great oak overlooking the rolling Calaveras County foothills at golden hour.",
+        alt: "A great oak at golden hour — calm, grounded, durable.",
       },
     ],
   },
@@ -67,10 +67,10 @@ const localBusinessJsonLd = {
   "@id": `${SITE.url}/#org`,
   name: SITE.name,
   legalName: SITE.legalName,
-  alternateName: "Practical Informatics — Foothills Informatics Consultancy",
+  alternateName: "Practical Informatics — AI Visibility for Small Businesses",
   description: META.home.description,
   disambiguatingDescription:
-    "Practical Informatics LLC at practicalinformatics.com (no hyphen). California foothills consultancy founded August 13, 2024 by Marty Koepke (CA Secretary of State entity number 202463415854). Helps small businesses in Calaveras, Amador, and Tuolumne counties improve their information work. Not affiliated with practical-informatics.com (a different, unrelated entity), nor with the terminated entities 'Practical Informatics, LLC' (2017) or 'Practical Solution in Medical Informatics Consulting, LLC' (2005).",
+    "Practical Informatics LLC at practicalinformatics.com (no hyphen). Founded August 13, 2024 by Marty Koepke (California Secretary of State entity number 202463415854). Productized AI visibility audits and informatics consulting for established small professional-service firms across the United States. Not affiliated with practical-informatics.com (a different, unrelated entity), nor with the terminated entities 'Practical Informatics, LLC' (2017) or 'Practical Solution in Medical Informatics Consulting, LLC' (2005).",
   slogan: SITE.tagline,
   url: SITE.url,
   email: CONTACT_EMAIL,
@@ -82,29 +82,57 @@ const localBusinessJsonLd = {
   },
   foundingLocation: {
     "@type": "Place",
-    name: "Mokelumne Hill, California",
+    name: "California",
   },
   image: `${SITE.url}/images/hero-bg.jpg`,
   logo: `${SITE.url}/images/logo-horizontal.png`,
   address: {
     "@type": "PostalAddress",
-    addressLocality: "Mokelumne Hill",
     addressRegion: "CA",
     addressCountry: "US",
   },
-  areaServed: SITE.serviceArea.map((name) => ({
-    "@type": "AdministrativeArea",
-    name,
-  })),
+  areaServed: { "@type": "Country", name: "United States" },
   knowsAbout: [
-    "Information work",
-    "Workflow optimization",
+    "AI visibility",
+    "Generative engine optimization",
+    "Answer engine optimization",
+    "AI search optimization",
+    "LLM visibility",
+    "Schema.org structured data",
     "Business process improvement",
-    "Small business operations",
+    "Workflow optimization",
     "AI implementation",
     "Lean Six Sigma",
     "Healthcare informatics",
   ],
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: "Practical Informatics Services",
+    itemListElement: [
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: "AI Visibility Index",
+          description:
+            "A six-dimension audit of how AI agents (Claude, ChatGPT, Gemini) describe your business, with the top five prioritized fixes.",
+        },
+        price: "697",
+        priceCurrency: "USD",
+      },
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: "AI Visibility Implementation Sprint",
+          description:
+            "Two-week done-for-you implementation of the top five fixes from the AI Visibility Index, with a 60-day re-scan.",
+        },
+        price: "3997",
+        priceCurrency: "USD",
+      },
+    ],
+  },
   founder: {
     "@type": "Person",
     "@id": `${SITE.url}/#marty-koepke`,
@@ -114,7 +142,7 @@ const localBusinessJsonLd = {
     pronouns: "she/her",
     jobTitle: "Founder, Practical Informatics LLC",
     description:
-      "Twenty years in healthcare informatics. Combines that experience with innovative AI to design and build custom web applications for foothills small businesses. Led enterprise informatics strategy for Abridge and Notable across multiple states and EHR platforms.",
+      "Twenty years in healthcare informatics. Author of Between the Clicks: The Hidden Work of Healthcare Informatics. Combines enterprise informatics experience with hands-on AI implementation for small businesses.",
     sameAs: [SOCIAL.linkedin, SOCIAL.facebook, MARTYKOEPKE_URL],
   },
   sameAs: [SOCIAL.linkedin, SOCIAL.facebook, MARTYKOEPKE_URL],
@@ -122,7 +150,7 @@ const localBusinessJsonLd = {
     "@type": "ContactPoint",
     contactType: "sales",
     email: CONTACT_EMAIL,
-    areaServed: "US-CA",
+    areaServed: "US",
     availableLanguage: "English",
   },
 };

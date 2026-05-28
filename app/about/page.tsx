@@ -31,14 +31,13 @@ const personJsonLd = {
   url: `${SITE.url}/about`,
   image: `${SITE.url}/images/headshot.jpg`,
   disambiguatingDescription:
-    "Marty Koepke (she/her), founder of Practical Informatics LLC at practicalinformatics.com (no hyphen). Based in Mokelumne Hill, California. Author of 'Between the Clicks: The Hidden Work of Healthcare Informatics.' Former System Clinical Informaticist at CommonSpirit Health. Not affiliated with practical-informatics.com (different entity) or other people named Marty or Mark Koepke.",
+    "Marty Koepke (she/her), founder of Practical Informatics LLC at practicalinformatics.com (no hyphen). Based in California. Author of 'Between the Clicks: The Hidden Work of Healthcare Informatics.' Twenty years in healthcare informatics including enterprise-scale digital transformation across multiple states and EHR platforms. Not affiliated with practical-informatics.com (different entity) or other people named Marty or Mark Koepke.",
   homeLocation: {
     "@type": "Place",
-    name: "Mokelumne Hill, California",
+    name: "California",
   },
   address: {
     "@type": "PostalAddress",
-    addressLocality: "Mokelumne Hill",
     addressRegion: "CA",
     addressCountry: "US",
   },
@@ -49,16 +48,17 @@ const personJsonLd = {
     url: SITE.url,
   },
   knowsAbout: [
+    "AI visibility",
+    "Generative engine optimization",
+    "Answer engine optimization",
     "Healthcare informatics",
     "Clinical informatics",
-    "Information work",
     "Business process improvement",
     "Workflow optimization",
-    "EHR governance",
+    "Schema.org structured data",
     "Lean Six Sigma",
     "Agile delivery",
     "AI implementation for small business",
-    "Small business operations consulting",
   ],
   hasCredential: [
     {
@@ -100,10 +100,10 @@ const personJsonLd = {
     name: "Informatics Consultant",
     occupationLocation: {
       "@type": "Place",
-      name: "Mokelumne Hill, California",
+      name: "United States",
     },
     skills:
-      "Healthcare informatics; information work; workflow optimization; process improvement; AI implementation; Lean Six Sigma; agile delivery",
+      "AI visibility; generative engine optimization; healthcare informatics; workflow optimization; process improvement; AI implementation; Lean Six Sigma; agile delivery",
   },
   workExample: {
     "@type": "Book",

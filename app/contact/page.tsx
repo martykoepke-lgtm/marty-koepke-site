@@ -22,10 +22,9 @@ const contactJsonLd = {
     "@type": "ProfessionalService",
     name: SITE.legalName,
     email: CONTACT_EMAIL,
-    areaServed: SITE.serviceArea,
+    areaServed: { "@type": "Country", name: "United States" },
     address: {
       "@type": "PostalAddress",
-      addressLocality: "Mokelumne Hill",
       addressRegion: "CA",
       addressCountry: "US",
     },

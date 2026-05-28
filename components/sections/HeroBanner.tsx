@@ -6,7 +6,7 @@ import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion
 import Button from "@/components/ui/Button";
 import { ArrowRightIcon } from "@/components/ui/Icons";
 import { SITE, HOME } from "@/lib/content";
-import { BOOK_CALL_HREF, BOOK_CALL_LABEL } from "@/lib/links";
+import { BOOK_CALL_HREF } from "@/lib/links";
 
 const EASE = [0.22, 0.61, 0.36, 1] as const;
 
@@ -31,7 +31,7 @@ export default function HeroBanner() {
   return (
     <section
       ref={ref}
-      aria-label="Practical Informatics — smart AI for small businesses"
+      aria-label="Practical Informatics — become the answer when AI is asked about your business"
       className="relative w-full overflow-hidden bg-forest"
       style={{ height: "min(90vh, 820px)", minHeight: "560px" }}
     >
@@ -93,7 +93,7 @@ export default function HeroBanner() {
           >
             <Fade>
               <p className="font-serif text-sm font-semibold uppercase tracking-[0.18em] text-gold">
-                Calaveras · Amador · Tuolumne
+                {HOME.heroEyebrow}
               </p>
             </Fade>
             <Fade>
@@ -114,12 +114,12 @@ export default function HeroBanner() {
             </Fade>
             <Fade>
               <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
-                <Button href={BOOK_CALL_HREF} variant="onForest">
-                  {BOOK_CALL_LABEL}
+                <Button href="/ai-visibility-index" variant="onForest">
+                  See the AI Visibility Index
                   <ArrowRightIcon className="h-4 w-4" />
                 </Button>
-                <Button href="/time-back-assessment" variant="onPhoto">
-                  See how it works
+                <Button href={BOOK_CALL_HREF} variant="onPhoto">
+                  Book a free 20-minute call
                 </Button>
               </div>
             </Fade>
