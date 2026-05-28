@@ -10,6 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "",
     "/about",
     "/ai-visibility-index",
+    "/scorecard",
     "/time-back-assessment",
     ...blogRoutes,
     "/contact",
@@ -27,9 +28,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
           ? 1
           : path === "/ai-visibility-index"
             ? 0.95
-            : path === "/time-back-assessment"
-              ? 0.7
-              : 0.7,
+            : path === "/scorecard"
+              ? 0.85
+              : path === "/time-back-assessment"
+                ? 0.7
+                : 0.7,
     })),
     ...policy.map((path) => ({
       url: `${SITE.url}${path}`,
