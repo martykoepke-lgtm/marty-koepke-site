@@ -32,3 +32,31 @@ export function mailto(subject?: string, body?: string): string {
 export const BOOK_CALL_HREF = "https://tally.so/r/xXVPgo";
 
 export const BOOK_CALL_LABEL = "Schedule a free 20-minute conversation";
+
+/**
+ * AVI checkout links — Stripe Payment Links from env vars.
+ *
+ * These are NEXT_PUBLIC_ because the customer's browser navigates to them.
+ * .env.local uses TEST links during development; Vercel production env vars
+ * should hold the LIVE links.
+ *
+ * If the env var isn't set, fall back to the contact page so the button
+ * still does something useful (no broken links).
+ */
+export const AVI_CHECKOUT = {
+  report:
+    process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK_REPORT || "/contact",
+  sprint:
+    process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK_SPRINT || "/contact",
+} as const;
+
+/**
+ * Resolve a pricing-tier `ctaTarget` string from content.ts into a real URL.
+ * Keeps the resolution logic in one place so content can stay declarative.
+ */
+export function resolveTierCta(target: string): string {
+  if (target === "STRIPE_LINK_REPORT") return AVI_CHECKOUT.report;
+  if (target === "STRIPE_LINK_SPRINT") return AVI_CHECKOUT.sprint;
+  if (target === "BOOK_CALL") return BOOK_CALL_HREF;
+  return target; // already a path/URL
+}

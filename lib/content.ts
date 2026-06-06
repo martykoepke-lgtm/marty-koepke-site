@@ -59,6 +59,11 @@ export const META = {
     description:
       "An on-site assessment for foothills small businesses. We map where your information work is leaking time, then fix one quick win before we're done. $1,500.",
   },
+  aiVisibility: {
+    title: "The AI Visibility Index | Practical Informatics",
+    description:
+      "When AI is asked about your business, what does it say? The AI Visibility Index audits how findable your business is to ChatGPT, Claude, and Gemini — and shows you exactly where you're being missed. Free scan; full audit $497.",
+  },
   blog: {
     title: "Notes from the Foothills | Practical Informatics",
     description:
@@ -385,6 +390,199 @@ export const CONTACT = {
   serviceAreaTitle: "Where I work",
   serviceArea:
     "Practical Informatics is based in Mokelumne Hill and serves small businesses across Calaveras, Amador, and Tuolumne counties. For businesses outside this area, reach out anyway — we can talk about it.",
+} as const;
+
+/* ===== AI VISIBILITY INDEX ===== */
+export const AVI = {
+  /** Hero — the load-bearing question. */
+  heroEyebrow: "The AI Visibility Index",
+  heroHeadline: "When AI is asked about your business, what does it say?",
+  /** Italic gold sub-tagline between H1 and subhead. */
+  subTagline: "Six dimensions. Real LLM queries. One clear number.",
+  heroSubhead:
+    "ChatGPT, Claude, and Gemini are answering questions about your industry right now. The AI Visibility Index shows you exactly what they're saying — and where you're being missed.",
+  /** Trust strip below the hero CTAs. Concrete proof of method. */
+  heroTrust: [
+    "Live queries across 4 AI systems",
+    "Six-dimension scoring rubric",
+    "Quantified, prioritized fixes",
+    "Built by an enterprise informaticist",
+  ],
+
+  /** The problem framing — short, visceral, true. */
+  problem: [
+    "Your customers are increasingly asking AI instead of Google. “Best [your industry] near me.” “Who should I call for [the work you do]?” “Is [your business] reputable?” The answer they get is the answer that wins them.",
+    "For most small businesses, that answer doesn't include you — or worse, it's outdated, confused, or quietly wrong. You don't see it happen. You only see fewer inbound calls than the quality of your work should produce.",
+    "The AI Visibility Index measures exactly what's happening, in plain numbers, with quoted evidence. Then it tells you what to fix first.",
+  ],
+
+  /** The six dimensions — approachable language, not jargon. */
+  dimensionsEyebrow: "What gets measured",
+  dimensionsHeadline: "Six dimensions, weighted for your stage of business.",
+  dimensions: [
+    {
+      icon: "user",
+      name: "Founder Credibility",
+      body: "How findable your background, credentials, and published work are — the human evidence AI uses to decide whether to recommend you.",
+    },
+    {
+      icon: "search",
+      name: "Live AI Test",
+      body: "What ChatGPT, Claude, and Gemini actually say when asked about your business. Quoted in your report.",
+    },
+    {
+      icon: "fingerprint",
+      name: "Entity Clarity",
+      body: "Whether AI can tell you apart from similar-named people, businesses, and look-alike domains. Most small businesses are bleeding here.",
+    },
+    {
+      icon: "layers",
+      name: "Methodology Depth",
+      body: "Whether your offer, pricing, and approach are extractable in plain language — not buried in marketing copy.",
+    },
+    {
+      icon: "code",
+      name: "Structured Data",
+      body: "The machine-readable layer (schema.org, llms.txt, FAQ markup) that lets AI quote you accurately instead of guessing.",
+    },
+    {
+      icon: "network",
+      name: "Agent + Citation Graph",
+      body: "Where you appear across the web that AI is reading — directories, references, agent permissions, citations.",
+    },
+  ],
+
+  /** Pricing tiers visible on the landing page. */
+  pricingEyebrow: "Choose your starting point",
+  pricingHeadline: "Two ways in.",
+  tiers: [
+    // Free Scan tier hidden until the lightweight /scan page is built.
+    // Restore this block when /scan is live with the URL-only quick scan.
+    // {
+    //   id: "scan",
+    //   name: "Free AI Visibility Scan",
+    //   price: "$0",
+    //   priceNote: "No card required",
+    //   tagline: "A preliminary score in ~10 seconds.",
+    //   includes: [
+    //     "Real scan of your website if you have one (schema, llms.txt, robots.txt, surface signals)",
+    //     "Works without a URL too — we'll still check AI search visibility for your category",
+    //     "A preliminary AVI score (0–100) and tier",
+    //     "2–3 of the most obvious findings, in plain language",
+    //   ],
+    //   cta: "Run my free scan",
+    //   ctaTarget: "/scan",
+    //   featured: false,
+    // },
+    {
+      id: "report",
+      name: "AI Visibility Report",
+      price: "$497",
+      priceNote: "Delivered within 24 hours",
+      tagline: "The full audit, plus a 30-minute walk-through call.",
+      includes: [
+        "Live queries against ChatGPT, Claude, and Gemini — quoted in your report",
+        "Side-by-side comparison with two competitors AI is recommending instead of you",
+        "All six dimensions scored, with explanations",
+        "Top 10 prioritized fixes with effort + impact estimates",
+        "Your projected 60-day score if you implement",
+        "A 30-minute walk-through call with Marty",
+      ],
+      cta: "Get the full report",
+      ctaTarget: "STRIPE_LINK_REPORT", // wired to env var
+      featured: true,
+    },
+    {
+      id: "sprint",
+      name: "Agentic Readiness Sprint",
+      price: "$2,997",
+      priceNote: "Two-week implementation · 60-day re-scan included",
+      tagline: "Want it done for you? Every fix in your report, implemented.",
+      includes: [
+        "Site credentials updated, founder dossier built, Person + Service + FAQ schema written",
+        "Google Business Profile set up and optimized",
+        "llms.txt and robots.txt configured for AI crawlers",
+        "Amazon Author Central, Wikidata, and citation cleanup",
+        "A 60-day re-scan to measure the actual AVI movement",
+        "A 30-minute walk-through call when it's complete",
+      ],
+      cta: "Book a 20-min fit call",
+      ctaTarget: "BOOK_CALL", // book a call first — Sprint isn't a self-serve purchase
+      featured: false,
+    },
+  ],
+
+  /** What makes this different from generic SEO / AEO tools. */
+  differentEyebrow: "Why this is different",
+  differentHeadline: "The live AI test changes everything.",
+  differentBody: [
+    "Most “AI SEO” tools check whether your structured data is well-formed. That's table stakes — necessary but not sufficient.",
+    "The AI Visibility Index runs real queries against the actual AI systems your customers are using, captures what they say about you (or fail to say), and quotes it back to you. You don't have to take my word for what AI thinks — you see it.",
+    "That moment — reading what ChatGPT actually returned when asked about you — is the moment the work becomes obvious.",
+  ],
+
+  /** Who this is for / not for. */
+  forYouHeadline: "Who this is for",
+  forYou:
+    "Small business owners with a website who suspect they're being skipped over when customers ask AI instead of Google. Solo experts, local services, consultancies, professional practices, founder-led B2B. Especially valuable if your category has clear local or niche positioning that should be a moat — but AI doesn't yet know it.",
+  notForYouHeadline: "Who it isn't for",
+  notForYou:
+    "Businesses without a public website yet. Anyone hoping for a magic-bullet ranking score with no work attached — the report is the diagnosis, not the cure. Anyone who wants to argue the methodology before seeing the data.",
+
+  /** Trust block — Marty's credibility in this specific work. */
+  aboutMartyEyebrow: "Who built this",
+  aboutMartyHeadline: "Built by an enterprise informaticist who needed it for her own foothills business.",
+  aboutMartyBody: [
+    "I'm Marty Koepke. Twenty years in healthcare informatics, fifteen-plus driving enterprise-wide digital transformation across multi-state health systems. System Clinical Informaticist at CommonSpirit Health. Author of Between the Clicks: The Hidden Work of Healthcare Informatics.",
+    "I built the AI Visibility Index because I ran the analysis on my own consulting practice and was startled by what AI didn't know about me — even though I have a book, an enterprise career, and a documented public history. If it was hard for me, it's harder for the small businesses I serve.",
+    "The methodology in this report is the same one I use on my own work. Same rubric, same queries, same prioritization formula.",
+  ],
+
+  /** FAQ — answers the real objections. */
+  faq: [
+    {
+      q: "How long does the free scan actually take?",
+      a: "About 10 seconds. The scan fetches your homepage and checks a few specific things — your structured data, your llms.txt and robots.txt, whether your founder is named, whether your offer is clearly priced. You get the preliminary score, the tier you fall into, and 2–3 of the most obvious findings on the spot.",
+    },
+    {
+      q: "What's in the $497 report that's not in the free scan?",
+      a: "The live AI test — real queries run against ChatGPT, Claude, and Gemini, with the answers quoted directly. A side-by-side comparison with two competitors AI is recommending instead of you. All six dimensions scored with explanations. The top 10 prioritized fixes with effort and impact estimates. Your projected 60-day score. And a 30-minute walk-through call with me.",
+    },
+    {
+      q: "Why $497? What am I actually paying for?",
+      a: "You're paying for two things you can't get cheaply elsewhere: the live AI queries (each audit costs me real money in API fees across four AI providers) and the judgment that ranks the fixes by what will actually move your score. A typical SEO audit is $2,500–5,000 and doesn't include any of this. I've priced this to be the smallest reasonable bet on the question.",
+    },
+    {
+      q: "What's the Sprint, and how is it different from the Report?",
+      a: "The Report is the diagnosis — what's wrong, why it matters, what to do about it. The Sprint is the cure — I implement every fix in your report over two weeks. Schema, llms.txt, Google Business Profile, founder dossier, structured data, citation building. Plus a 60-day re-scan to measure the lift. $2,997 includes everything.",
+    },
+    {
+      q: "Do you do refunds?",
+      a: "Yes. If you read the report and feel it doesn't deliver what I promised, tell me. I'll refund part or all of the fee. I'd rather have a refunded client who tells the truth than a frustrated one who never says anything.",
+    },
+    {
+      q: "Does this work for my industry?",
+      a: "Yes, if AI is being asked about your industry at all. The AVI rubric works for solo experts, local services, consultancies, professional practices, e-commerce, and founder-led B2B. The dimensions and weights adjust by archetype, so a brand-new solo practice and a 10-year multi-location firm are graded on the right curve for each.",
+    },
+    {
+      q: "Is this just SEO with a new name?",
+      a: "No. Traditional SEO is about ranking in Google's results. The AI Visibility Index is about being correctly understood and recommended when customers use AI assistants — ChatGPT, Claude, Gemini — instead of Google. They draw on different signals: live queries, structured data, citation graphs, agent permissions. Some overlap with classical SEO, much doesn't.",
+    },
+    {
+      q: "Do you keep my data private?",
+      a: "Yes. Your submission stores your email and URL. We never sell, share, or train on your data. The AI queries we run are public-style questions (“tell me about [your business]”) — the same kind anyone could run. See our privacy policy for the full picture.",
+    },
+    {
+      q: "I'd rather just talk to you first.",
+      a: "Sure. Book a free 20-minute conversation — link below. We can talk about your business and whether the Report or the Sprint is the right next step. No pitch, no pressure.",
+    },
+  ],
+
+  /** Secondary CTA at the bottom of the page, for talk-first folks. */
+  secondaryCta: {
+    headline: "Prefer to talk first?",
+    body: "Book a free 20-minute conversation. We'll talk about your business and what the AVI might surface for you.",
+  },
 } as const;
 
 /* ===== BLOG ===== */
