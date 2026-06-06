@@ -396,19 +396,19 @@ No Phase 0 signups needed beyond what you already have.
 
 ---
 
-## 10. Open questions blocking implementation
+## 10. Locked decisions (resolved 2026-06-06)
 
-Things I need answers to before I open source files. Numbered for response.
+What was previously "open questions" is now locked.
 
-1. **Timezone for the Monday 8 AM email.** I assumed Pacific (since you're in Mokelumne Hill). Confirm? The cron is stored in UTC internally either way.
+1. **Timezone for the Monday 8 AM email.** America/Los_Angeles (Pacific). The cron in `vercel.json` is stored in UTC — Monday 15:00 UTC during PST, shifts to Monday 16:00 UTC during PDT (will need a daylight-saving review twice a year, or we can just leave it at 8 AM Pacific accepting one-hour drift across DST changes; either is fine).
 
-2. **Where do alerts go?** I assumed `ALERT_TO_ADDRESS` which is already in `.env.example` pointing at `mkoepkeci@gmail.com`. Same address for weekly summary and out-of-band 95% alerts, or different addresses?
+2. **Where alerts go.** Both weekly summary and 95% out-of-band alerts go to `ALERT_TO_ADDRESS=mkoepkeci@gmail.com`. Single destination; no split inboxes.
 
-3. **Tavily cap.** You haven't signed up for Tavily yet. When you do, what's the cap you'll set? I'll add it as `SPEND_CAP_TAVILY=N` — just need the number when you have it. (Not blocking the monitor build — the wrapper handles Tavily-not-yet-configured gracefully.)
+3. **Tavily cap.** `SPEND_CAP_TAVILY=20`, derived from Tavily PAYG basic-search rate × her self-set 4k/month search cutoff = ~$20. Backed by a $30 prepaid balance with no auto-reload — triple safety net (PAYG + 4k usage cap + prepaid balance). The 80% HEADS-UP fires at $16; the 95% out-of-band fires at $19, leaving ~$11 of prepaid headroom before Tavily would actually stop responding.
 
-4. **The Vercel Cron tier.** Vercel Cron on the Hobby plan limits you to one cron job per day. Pro plan ($20/mo) allows unlimited. We need hourly + weekly = 2 schedules. Are you on Hobby or Pro? If Hobby, I'd recommend upgrading for $20/mo — the monitor's safety value is well worth it, and the upgrade unlocks better deploy logs and team features anyway.
+4. **Vercel Cron tier.** Pro ($20/mo, already in place). Clean architecture: hourly threshold check + separate weekly summary. Worst-case alert delay: ~1 hour. No combined-cron compromise needed.
 
-5. **What about archiving?** `api_calls` will grow forever. At ~30 inserts/day, you'll have ~11k rows after a year, ~110k after 10 years. Still tiny by Postgres standards. No archive strategy needed in v1. Worth a `TODO` to revisit at 100k rows.
+5. **`api_calls` archive strategy.** Deferred. At ~30 inserts/day, the table will hold ~11k rows after a year — tiny by Postgres standards. `TODO`: revisit when the table crosses 100k rows.
 
 ---
 
