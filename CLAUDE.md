@@ -9,6 +9,29 @@ Clicks: The Hidden Work of Healthcare Informatics*. Based in Mokelumne Hill,
 California. Use **she/her** pronouns throughout the site, schema, copy, and any
 AI-facing documentation. Female. Do not assume otherwise based on the name "Marty."
 
+## Strategic spine
+
+`VISION.md` is the strategic north star. Read it when a design, copy, scope,
+or pricing decision is hard. The voice rules in section 10 govern every
+piece of brand-facing output (site pages, reports, emails, social copy):
+
+- Plain English; no jargon, no buzzwords
+- Sentence case headings, not Title Case
+- Calm, not urgent — no countdown timers, no "only 3 spots left"
+- Honest about uncertainty — "the literature suggests" beats "it is proven"
+- Specific over vague — cite the number and the study
+- Generous to the reader — footnote sources, link to rubric, show the work
+
+Section 8 ("What we are deliberately not building") is a refusal list. If a
+proposed feature contradicts it (a SaaS dashboard, a generalist agency
+service line, a guaranteed-rankings promise), flag it before building.
+
+`AVI_BUILD_PLAN.md` is the locked tactical sequence for the AI Visibility
+Index work. `AVI_CUSTOMER_FLOW.md` documents the customer journey.
+`AVI_AGENT_DESIGN.md` is **v1.0 and superseded** — its "4 agents + orchestrator"
+framing is rejected in favor of deterministic pipeline orchestration; see the
+build plan §2.
+
 ## What This Is
 
 Marketing site for **Practical Informatics LLC**, Marty Koepke's one-person local
@@ -30,6 +53,31 @@ Marty's broader healthcare-informatics, speaking, and writing work lives at a
 separate site, **martykoepke.com** — cross-linked here, not featured.
 
 **Live URL:** https://www.practicalinformatics.com
+
+### Second offering: AI Visibility Index (added May 2026)
+
+The site also hosts a separate productized service, the **AI Visibility Index**,
+that lives under `/ai-visibility`. This is not a foothills-local offering — it
+serves established small businesses, solo founders, and small practices
+anywhere in the U.S. who want to be findable by AI search engines (ChatGPT,
+Claude, Gemini, Perplexity). Four-tier ladder:
+
+1. **Free AI Readiness Check** — URL-only, ~30s, lead magnet
+2. **Paid AI Visibility Index Report — $1,000** — ~3–8 min async pipeline,
+   8–10 page PDF + walkthrough call. Fee credits 100% toward a Sprint if
+   booked within 30 days.
+3. **Done-with-You Remediation Sprint — $3,000 (Foundations) / $5,000 (Expanded)**
+4. **Visibility Partner — $600/mo (optional, post-Sprint only)**
+
+See `VISION.md` for the strategic framing and `AVI_BUILD_PLAN.md` for build
+sequence. Code lives in `app/ai-visibility/`, `app/api/submissions/`,
+`components/ai-visibility/`, `lib/avi/`, and `supabase/`.
+
+> Note: VISION.md positions Practical Informatics as primarily an AI
+> visibility consultancy. The existing "one-person local consulting practice"
+> framing above (still serving the Time Back Assessment) is in tension with
+> that. The two-offer narrative isn't fully resolved yet — flag in copy or
+> nav changes that depend on the answer.
 
 ## Architecture
 
@@ -157,6 +205,10 @@ whole site updates. `BOOK_CALL_HREF` is the single most important CTA.
 | `/time-back-assessment` | The single offer in full — what's different, not-local note, **The Path** (interactive 5 steps), cost, who it's/isn't for, note on AI, FAQ, final CTA |
 | `/contact` | Hero + booking band (Tally) + email fallback + service-area note |
 | `/blog`, `/blog/[slug]` | Markdown blog. Zero posts at launch; UI handles the empty state. Hidden from nav until first posts ship |
+| `/ai-visibility` | AI Visibility Index landing — value prop, four-tier ladder, CTA to order form |
+| `/ai-visibility/order` | Form (URL + email + business info) → posts to `/api/submissions` → redirects to results teaser |
+| `/ai-visibility/results/[id]` | Token-gated teaser of the free crawler scan + CTA to purchase the full Index Report |
+| `/api/submissions` | POST handler: validate, crawl URL, score, persist row to Supabase, return access token |
 | `/privacy`, `/terms`, `/cookies`, `/acceptable-use`, `/returns` | Policy pages — GetTerms embeds via `PolicyPage` + `GetTermsEmbed` |
 | 404 | `app/not-found.tsx` |
 
@@ -193,6 +245,30 @@ steps below it as an SEO / no-JS / AI-readable fallback.
 - `/llms.txt` linked from `<head>` as an LLM-readable summary
 - Google Search Console verified
 
+## AVI app — architectural rules
+
+The AVI implementation in `lib/avi/`, `app/api/submissions/`, and
+`app/ai-visibility/` follows these locked decisions (see `AVI_BUILD_PLAN.md`):
+
+- **No autonomous orchestrating agent.** Deterministic pipeline orchestration
+  (Inngest is the planned background-job surface for the paid pipeline).
+  LLM calls happen at bounded points only: structured extraction per query
+  response, LLM-as-judge per driver dimension.
+- **Every LLM call:** temperature 0, JSON mode where supported, schema-validated
+  output, raw inputs and outputs logged. Replay against logged inputs must
+  produce the same result.
+- **Never disable Supabase RLS.** Every table is RLS-enabled in the same
+  migration that creates it. The AVI app uses service-role-only access
+  through `/api/*` — customers never authenticate to Supabase directly.
+- **Never commit `.env.local`.** Set hard daily spend caps in every LLM
+  vendor dashboard. `.env.example` enumerates every key the AVI runtime
+  expects, with comments on which phase each one is needed for.
+- **Rubric version stamped on every audit row.** Bump `AVI_RUBRIC_VERSION`
+  when scoring prompts or anchored scales change.
+- **Pricing source of truth:** `public/Practical-Informatics-Pricing-Structure.md`
+  is canonical. On-page copy in `lib/content.ts` needs to match it. Current
+  state may drift — verify before quoting numbers.
+
 ## Development
 
 ```bash
@@ -203,4 +279,7 @@ npm run start  # Production server
 
 ## Deployment
 
-Vercel. Push to `main` triggers auto-deploy.
+Vercel. Push to `main` triggers auto-deploy. AVI runtime needs API keys in
+Vercel env vars (Anthropic, OpenAI, Google AI, Supabase, eventually
+Perplexity/Tavily/Inngest/Stripe/Resend) — add them in the Vercel dashboard
+when ready to enable paid flows.
