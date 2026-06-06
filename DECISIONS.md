@@ -5,6 +5,48 @@ Each entry: what we chose, why, what we considered, when we logged it.
 
 ---
 
+## D004 — Build the ops monitor first, before any customer-facing AVI work
+
+**Date:** 2026-06-06
+**Status:** Locked
+
+**Decision.** Build the AVI operations monitor (per-call logging + weekly
+summary email + 95% out-of-band spend alerts) before rebuilding the free
+Readiness Check (Phase 3) or the paid Index Report pipeline (Phase 4).
+This supersedes the strict Phase 2 → 3 → 4 sequence in `AVI_BUILD_PLAN.md` §5.
+
+The monitor's three jobs:
+1. Log every external API call (LLM, search, email) to a new `api_calls`
+   table — provider, tokens, cost estimate, status, latency, link to
+   triggering submission.
+2. Email a weekly summary every Monday 8:00 AM Pacific covering last week's
+   spend per provider, traffic, conversion, anomalies. Calm by default;
+   `[HEADS UP]` subject prefix if any provider crosses 80% of monthly cap.
+3. Send an immediate out-of-band alert email when any provider crosses 95%
+   of its monthly cap, regardless of cadence. Only fires when something's
+   wrong.
+
+**Why.** With $25/mo caps on Anthropic and OpenAI (no auto-reload), a single
+bad-faith script or viral post could burn the monthly budget in an
+afternoon. When a cap hits 100% the API key stops responding and the free
+scan fails for customers. Per-call logging is also necessary infrastructure
+for everything that comes after — the paid Index Report needs to know its
+own per-audit cost, drift monitoring (Phase 5) reads the same data. Building
+the monitor first is buying the safety rail before driving on the road.
+
+**Considered.** (a) Build free scan first per the build plan — rejected;
+unsafe to ship without logging. (b) Build a simpler logging-only layer
+without the email — rejected; you'd never look at it. (c) Defer to Phase 5
+when the build plan calls for monitoring — rejected; too late.
+
+**Affects.** Build order. The monitor adds ~8.5 hours of code time and ~$0
+runtime cost. It uses Vercel Cron (already on stack) and Resend (already
+set up). No new vendor signups required.
+
+See `AVI_OPS_MONITOR.md` for the plain-English flow.
+
+---
+
 ## D003 — Build scope: free flow first, then paid
 
 **Date:** 2026-06-06

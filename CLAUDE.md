@@ -32,7 +32,13 @@ chronological order — read it when you suspect a design choice has been
 made and you want to confirm. `AVI_CUSTOMER_FLOW.md` documents the customer
 journey (v1.0; supersedes pending). `AVI_FREE_FLOW.md` is the plain-English
 walkthrough of the free Readiness Check — read this before touching any
-code that implements the free scan.
+code that implements the free scan. `AVI_OPS_MONITOR.md` is the plain-English
+walkthrough of the AVI ops monitor (per-call logging + weekly summary email
++ 95% out-of-band spend alerts) — read this before touching anything in
+`lib/avi/llm.ts`, `app/api/cron/*`, or the `api_calls` table.
+
+**Build order is locked to monitor-first** (DECISIONS.md D004): the ops
+monitor ships before any customer-facing AVI work. No exceptions.
 
 `AVI_AGENT_DESIGN.md` is **v1.0 and superseded** — its "4 agents + orchestrator"
 framing is rejected in favor of deterministic pipeline orchestration; see the
