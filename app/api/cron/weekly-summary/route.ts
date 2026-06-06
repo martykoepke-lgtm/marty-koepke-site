@@ -257,12 +257,11 @@ function aggregateWeek(
     (c.endpoint ?? "").startsWith("monitor_")
   ).length;
 
-  // Top IPs
+  // Top IPs. Submissions don't have an IP column today; we approximate
+  // from api_calls (which is populated by the LLM wrapper with context.ip
+  // when the originating endpoint passed one). If we add submissions.ip
+  // later, prefer that — one row per scan instead of one per LLM call.
   const ipCounts = new Map<string, number>();
-  for (const sub of subs) {
-    // submissions don't have an IP column today; if we add one,
-    // pull from there. For v1 we approximate from api_calls.
-  }
   for (const call of calls) {
     if (!call.ip || !call.submission_id) continue;
     ipCounts.set(call.ip, (ipCounts.get(call.ip) ?? 0) + 1);
