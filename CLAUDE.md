@@ -27,10 +27,16 @@ proposed feature contradicts it (a SaaS dashboard, a generalist agency
 service line, a guaranteed-rankings promise), flag it before building.
 
 `AVI_BUILD_PLAN.md` is the locked tactical sequence for the AI Visibility
-Index work. `AVI_CUSTOMER_FLOW.md` documents the customer journey.
+Index work. `DECISIONS.md` logs architectural and product decisions in
+chronological order — read it when you suspect a design choice has been
+made and you want to confirm. `AVI_CUSTOMER_FLOW.md` documents the customer
+journey (v1.0; supersedes pending). `AVI_FREE_FLOW.md` is the plain-English
+walkthrough of the free Readiness Check — read this before touching any
+code that implements the free scan.
+
 `AVI_AGENT_DESIGN.md` is **v1.0 and superseded** — its "4 agents + orchestrator"
 framing is rejected in favor of deterministic pipeline orchestration; see the
-build plan §2.
+build plan §2 and DECISIONS.md D001.
 
 ## What This Is
 
