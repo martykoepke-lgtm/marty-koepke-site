@@ -11,9 +11,7 @@
  * step for now — we keep the raw text so reviewers can read it themselves.
  */
 
-import { askOpenAI } from "./llm-providers/openai";
-import { askAnthropic } from "./llm-providers/anthropic";
-import { askGemini } from "./llm-providers/gemini";
+import { llmCall, type LlmCallContext } from "./llm";
 import type { LlmProviderName, LlmResponse } from "./llm-providers/types";
 
 // ============================================================================
@@ -25,6 +23,11 @@ export type QueryAgentInput = {
   industry: string;            // "what does your business do?" — full phrase
   location?: string | null;
   targetQuery?: string | null; // optional — customer's own phrasing
+
+  // Ops-monitor context. Required so every LLM call is attributable to a
+  // submission (for traffic-by-IP-and-submission slicing in the weekly email).
+  submissionId?: string | null;
+  ip?: string | null;
 };
 
 export type QueryPromptCategory = "category-search" | "name-search";
@@ -119,13 +122,21 @@ export async function runQueryAgent(
 ): Promise<QueryAgentOutput> {
   const startedAt = Date.now();
 
+  // Every llmCall logs to api_calls with this context attached, so the
+  // ops monitor can attribute the spend back to this submission and IP.
+  const context: LlmCallContext = {
+    endpoint: "free_scan_query",
+    submissionId: input.submissionId ?? null,
+    ip: input.ip ?? null,
+  };
+
   // Build all prompt × provider combos
   const tasks: Promise<QueryResult>[] = [];
   for (const tpl of PROMPT_TEMPLATES) {
     const promptText = tpl.build(input);
-    tasks.push(runOne(askOpenAI, tpl, promptText, input.companyName));
-    tasks.push(runOne(askAnthropic, tpl, promptText, input.companyName));
-    tasks.push(runOne(askGemini, tpl, promptText, input.companyName));
+    tasks.push(runOne("openai", tpl, promptText, input.companyName, context));
+    tasks.push(runOne("anthropic", tpl, promptText, input.companyName, context));
+    tasks.push(runOne("gemini", tpl, promptText, input.companyName, context));
   }
 
   // Run them all. allSettled means one failure doesn't kill the whole batch.
@@ -150,15 +161,14 @@ export async function runQueryAgent(
 // One prompt × one provider
 // ============================================================================
 
-type AskFn = (prompt: string) => Promise<LlmResponse>;
-
 async function runOne(
-  ask: AskFn,
+  provider: LlmProviderName,
   tpl: PromptTemplate,
   promptText: string,
-  companyName: string
+  companyName: string,
+  context: LlmCallContext
 ): Promise<QueryResult> {
-  const r = await ask(promptText);
+  const r: LlmResponse = await llmCall(provider, promptText, context);
   return {
     promptId: tpl.id,
     promptCategory: tpl.category,
