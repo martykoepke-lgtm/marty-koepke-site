@@ -37,6 +37,13 @@ walkthrough of the AVI ops monitor (per-call logging + weekly summary email
 + 95% out-of-band spend alerts) — read this before touching anything in
 `lib/avi/llm.ts`, `app/api/cron/*`, or the `api_calls` table.
 
+`AVI_INDEX_REPORT.md` is the plain-English walkthrough of the **full AVI
+scoring tool** (Crawler → Corroboration → QueryGrid → Extraction →
+Aggregation → Scoring → Composite). CLI-driven, no customer-facing pages
+in this build per D005. Read before touching `lib/avi/corroboration.ts`,
+`lib/avi/extraction.ts`, `lib/avi/aggregation.ts`, `lib/avi/scoring.ts`,
+`scripts/run-audit.mjs`, or any of the `audit_*` tables.
+
 **Build order is locked to monitor-first** (DECISIONS.md D004): the ops
 monitor ships before any customer-facing AVI work. No exceptions.
 
