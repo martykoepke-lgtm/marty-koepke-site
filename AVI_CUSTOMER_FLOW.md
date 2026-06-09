@@ -1,5 +1,28 @@
 # AVI Customer Flow — Plain English Walkthrough
 
+> ## ⚠ DEPRECATED — v1.0 era, superseded
+>
+> This document describes the **v1.0 customer journey** with the old
+> 8-field form, the old $497 pricing, the old "free → paid Report → Sprint"
+> ladder, and the v1.0 four-agent architecture. It is **not** the current
+> customer journey.
+>
+> Key superseding decisions:
+> - Build order changed: full AVI tool first (CLI for Marty), customer
+>   journey deferred until after the rubric is validated on real subjects
+>   (`DECISIONS.md` D005).
+> - Architecture changed: no autonomous agents (`DECISIONS.md` D001).
+> - Rubric changed: Option 2 seven-dim subject-adaptive (`DECISIONS.md` D002).
+> - Pricing changed: $1,000 / $3K–$5K / $600/mo (`VISION.md` §6).
+> - Free flow form: URL-only, email-gate after results (when eventually
+>   rebuilt) (`AVI_BUILD_PLAN.md` §6, `AVI_FREE_FLOW.md`).
+>
+> Kept in the repo for historical reference. **Not safe to use as a build guide.**
+> The new customer journey will be documented in a fresh `AVI_CUSTOMER_FLOW_v2.md`
+> when we get back to customer-facing work after the tool is validated.
+
+---
+
 **Audience:** Marty. Read this before any code gets written.
 **Goal:** You should be able to close your eyes and trace a customer from "saw a LinkedIn post" all the way to "paid $497 and got a report in their inbox" — knowing every page they see, every tool that runs, every email that fires, and every dollar that changes hands.
 

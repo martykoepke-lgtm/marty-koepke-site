@@ -1,5 +1,30 @@
 # AI Visibility Index (AVI) — Agent System Design
 
+> ## ⚠ DEPRECATED — v1.0 (2026-05-27), superseded
+>
+> This document is the **v1.0 design**. It does **not** reflect current
+> architecture or product decisions. Significant differences:
+>
+> | v1.0 (this doc) | v2.0 (current canon) |
+> |---|---|
+> | "4 agents + 1 orchestrator" | Deterministic pipeline of 7 services, no autonomous agents (`DECISIONS.md` D001) |
+> | Rubric A — six dimensions with archetype weights | Option 2 — seven-dim subject-adaptive (`DECISIONS.md` D002) |
+> | Build free flow first, then paid | Build full tool first (CLI-driven), free flow deferred (`DECISIONS.md` D005) |
+> | Pricing $497 / $2,997 / $397/mo | Pricing $1,000 / $3K–$5K / $600/mo (`VISION.md` §6) |
+> | 8-field free-scan form | URL-only (when free flow is eventually rebuilt) |
+> | Wizard-of-Oz MVP, Marty hand-runs first 20 | Fully automated, CLI-driven for Marty's own evaluation |
+>
+> **For the current architecture, read:**
+> - `VISION.md` — strategic direction (2026-06-06)
+> - `DECISIONS.md` — D001–D005 architectural + product decisions
+> - `AVI_BUILD_PLAN.md` §6 — complete change log from this doc
+> - `AVI_INDEX_REPORT.md` — full tool walkthrough (v2.0, current)
+> - `AVI_OPS_MONITOR.md` — ops monitor walkthrough (shipped)
+>
+> Kept in the repo as historical reference. **Not safe to use as a build guide.**
+
+---
+
 **Document owner:** Marty Koepke, Practical Informatics LLC
 **Status:** v1.0 — ready for Claude Code implementation
 **Reference output:** `avi-report-practical-informatics.pdf` (the prototype report, hand-built in chat for Practical Informatics LLC — serves as the example deliverable the system must produce)

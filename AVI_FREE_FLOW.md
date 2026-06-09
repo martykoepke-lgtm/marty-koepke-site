@@ -1,5 +1,19 @@
 # The free AI Readiness Check — plain-English flow
 
+> ## ⓘ DEFERRED — build order changed per D005
+>
+> The **design here is still current**, but the build order changed.
+> Per `DECISIONS.md` D005 (2026-06-06), the full AVI Index Report tool
+> (see `AVI_INDEX_REPORT.md`) is being built first — used by Marty
+> (CLI-driven) to evaluate the rubric on a real sample of businesses
+> across sectors. The free flow rebuild this doc describes is **deferred
+> until after that evaluation phase**.
+>
+> Nothing has technically changed about the free flow itself — just the
+> order. When we return to free-flow work, this doc is the starting point.
+
+---
+
 **Status:** Draft v0.1 — read this before any source files get touched.
 **Scope:** The free tier of the AI Visibility Index — URL-only, ~30 seconds, on-screen tier and a few findings, email gate for the full PDF.
 **Out of scope:** The paid Index Report ($1,000), the Remediation Sprint, the ongoing Partner tier. Those get their own flow docs when we build them.
