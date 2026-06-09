@@ -110,7 +110,4 @@ alter table public.audit_query_responses enable row level security;
 -- No policies. Service role only.
 
 comment on table public.audit_query_responses is
-  'One row per (audit × query × engine × rep). The granular outcome ' ||
-  'storage that lets you slice mention rates, share-of-voice, position ' ||
-  'bands across the test set without unpacking JSON blobs. See ' ||
-  'AVI_INDEX_REPORT.md (when written) for the design.';
+  'One row per (audit x query x engine x rep). Granular outcome storage that lets you slice mention rates, share-of-voice, and position bands across the test set without unpacking JSON blobs. See AVI_INDEX_REPORT.md (when written) for the design.';

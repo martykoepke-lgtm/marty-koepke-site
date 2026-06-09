@@ -79,6 +79,4 @@ alter table public.audit_dimension_scores enable row level security;
 -- No policies. Service role only.
 
 comment on table public.audit_dimension_scores is
-  'One row per (audit × rubric dimension). Stores the judge LLM''s ' ||
-  'score, prose justification, evidence pointers, and per-call cost. ' ||
-  'Separated from audits so dimension-level analytics work cleanly.';
+  'One row per (audit x rubric dimension). Stores the judge LLM score, prose justification, evidence pointers, and per-call cost. Separated from audits so dimension-level analytics work cleanly.';
