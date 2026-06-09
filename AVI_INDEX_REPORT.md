@@ -559,11 +559,11 @@ ops monitor will tell you what each step costs as you go.
 
    | Tier | Composite score range |
    |---|---|
-   | Invisible | 0.00 – 0.20 |
-   | Hidden | 0.21 – 0.40 |
-   | Faintly Visible | 0.41 – 0.60 |
-   | Discoverable | 0.61 – 0.80 |
-   | Agent-Ready | 0.81 – 1.00 |
+   | Invisible | 0.00 – 0.19 |
+   | Hidden | 0.20 – 0.39 |
+   | Faintly Visible | 0.40 – 0.59 |
+   | Discoverable | 0.60 – 0.79 |
+   | Agent-Ready | 0.80 – 1.00 |
 
    In code, the mapping is implemented as cumulative thresholds so the
    bands cover [0.00, 1.00] continuously without ambiguity.
