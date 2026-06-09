@@ -28,6 +28,9 @@ Free Toolkits/
 *.docx
 *.docx.md
 
+# AVI tool: per-audit JSON report dumps (local-only; raw data lives in Supabase)
+/reports/
+
 # os
 .DS_Store
 Thumbs.db

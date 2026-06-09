@@ -1,0 +1,17 @@
+{
+  "name": "Practical Informatics",
+  "url": "https://www.practicalinformatics.com",
+  "industry": "AI visibility consulting",
+  "location": "the United States",
+  "subject_type": "company",
+  "competitor_urls": [
+    "https://tryprofound.com",
+    "https://otterly.ai",
+    "https://peec.ai"
+  ],
+  "target_query": "Best AI visibility consultant for small healthcare practices",
+  "buyer_descriptor": "small healthcare practice",
+  "pain_point": "showing up in ChatGPT and Claude recommendations",
+  "scenario": "wants to be found when buyers ask AI search engines for help",
+  "distinctive_term": "AI Visibility Index"
+}
