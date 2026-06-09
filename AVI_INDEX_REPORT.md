@@ -568,13 +568,24 @@ ops monitor will tell you what each step costs as you go.
    In code, the mapping is implemented as cumulative thresholds so the
    bands cover [0.00, 1.00] continuously without ambiguity.
 
-4. **Concurrency limit on the query grid.** 10 concurrent LLM calls at a
-   time. Higher would trip rate limits more often; lower would slow audit
-   wall-clock significantly.
+4. **Concurrency limit on the query grid.** 5 concurrent LLM calls at a
+   time. Initially set at 10 but lowered after the first real audit
+   surfaced a 75% failure rate from Gemini's free-tier rate limits at
+   that level. 5 keeps every provider comfortable; audit wall-clock
+   ~80–90 seconds instead of ~45.
 
-5. **Seed test set.** Pending. Marty is supplying the starter companies
-   to validate the tool. Update this section when the list is in.
+   **Rule (set 2026-06-06 by Marty):** if Gemini still produces a high
+   failure rate at concurrency 5, drop it from `DEFAULT_ENGINES` in
+   `lib/avi/query.ts`. We're not staying on a provider that can't
+   reliably answer the protocol — better to run 3 reliable engines than
+   4 where one fails ~half the time.
 
+5. **Seed test set.** 
+Practical Informatics (your own)
+One healthcare scribe vendor (Abridge)
+One regional law firm (Wilshire Law Firm, Jackson, CA)
+One personal-brand consultant (Jonathan Cousins)
+One local foothills business (Ferrell Photography)
 ---
 
 ## 10. What I'll do next

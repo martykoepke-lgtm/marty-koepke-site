@@ -156,7 +156,7 @@ export const DEFAULT_ENGINES: LlmProviderName[] = [
 ];
 
 export const DEFAULT_REPS = 2;
-export const DEFAULT_CONCURRENCY = 10;
+export const DEFAULT_CONCURRENCY = 5;
 
 export type QueryGridConfig = {
   templates?: QueryTemplate[];
