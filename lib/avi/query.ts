@@ -258,11 +258,12 @@ function summarize(results: QueryResult[]): Summary {
   const successCount = results.filter((r) => r.ok).length;
   const errorCount = totalCalls - successCount;
 
-  const providers: LlmProviderName[] = ["openai", "anthropic", "gemini"];
+  const providers: LlmProviderName[] = ["openai", "anthropic", "gemini", "perplexity"];
   const mentionRateByProvider: Record<LlmProviderName, number> = {
     openai: 0,
     anthropic: 0,
     gemini: 0,
+    perplexity: 0,
   };
   for (const p of providers) {
     const subset = results.filter((r) => r.provider === p && r.ok);

@@ -20,6 +20,7 @@
 import { askAnthropic } from "./llm-providers/anthropic";
 import { askOpenAI } from "./llm-providers/openai";
 import { askGemini } from "./llm-providers/gemini";
+import { askPerplexity } from "./llm-providers/perplexity";
 import type { LlmProviderName, LlmResponse } from "./llm-providers/types";
 import { estimateCost, logApiCall } from "./logging";
 
@@ -100,4 +101,5 @@ const ASK_FUNCTIONS: Record<
   anthropic: askAnthropic,
   openai: askOpenAI,
   gemini: askGemini,
+  perplexity: askPerplexity,
 };

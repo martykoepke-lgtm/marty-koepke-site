@@ -9,7 +9,7 @@
  * so a single provider outage doesn't sink the whole audit.
  */
 
-export type LlmProviderName = "openai" | "anthropic" | "gemini";
+export type LlmProviderName = "openai" | "anthropic" | "gemini" | "perplexity";
 
 export type LlmResponse = {
   provider: LlmProviderName;
