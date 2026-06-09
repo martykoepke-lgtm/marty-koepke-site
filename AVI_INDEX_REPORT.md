@@ -543,32 +543,37 @@ ops monitor will tell you what each step costs as you go.
 
 ---
 
-## 9. Open questions blocking implementation
+## 9. Locked decisions (resolved 2026-06-06)
 
-1. **Concrete competitor list for testing.** Profound, Otterly, Peec,
-   Scrunch are named in `VISION.md`. Is that the comparison set, or do
-   you have others in mind for the seed tests?
+1. **Competitor reference set.** Profound, Otterly, Peec, Scrunch. These
+   are the named comparison set for share-of-voice math when an audit
+   subject is itself in the AVI / GEO consulting space. For audits in
+   other industries, the subject's own `competitor_urls` (1–3) drive the
+   competitive query and Share-of-Voice math.
 
-2. **Rubric weights for Readiness.** Per `VISION.md §9` ("the v0.1
-   weights are starting hypotheses"), what do we ship the v2.0 spec with?
-   Default proposal: equal weight 1/7 across all seven dimensions. We
-   calibrate from test results.
+2. **Readiness weights.** Equal 1/7 across all seven dimensions for v2.0.
+   Starting hypothesis per `VISION.md §9`. Recalibrate from real audit
+   data once 20+ subjects have been measured.
 
-3. **Tier band thresholds.** Default proposal: Invisible 0–0.2, Hidden
-   0.2–0.4, Faintly Visible 0.4–0.6, Discoverable 0.6–0.8, Agent-Ready
-   0.8–1.0. Acceptable starting point, recalibrate after 20+ audits?
+3. **Tier band thresholds.** No numeric overlap between bands:
 
-4. **Concurrency limit on the query grid.** Default 10 concurrent calls.
-   Higher (20) is faster but more likely to trip a per-minute provider
-   rate limit. Lower (5) is slower but kinder. Recommended 10.
+   | Tier | Composite score range |
+   |---|---|
+   | Invisible | 0.00 – 0.20 |
+   | Hidden | 0.21 – 0.40 |
+   | Faintly Visible | 0.41 – 0.60 |
+   | Discoverable | 0.61 – 0.80 |
+   | Agent-Ready | 0.81 – 1.00 |
 
-5. **What's the seed test set?** Five subjects from different segments
-   gives enough signal to spot whether the rubric over- or under-rewards
-   a dimension. Recommended starter set: yourself; one healthcare scribe
-   vendor (e.g. Suki, Abridge); one regional law firm (any small-city
-   personal injury); one personal-brand consultant (any LinkedIn-active
-   solo); one local foothills business. Acceptable, or do you have
-   specific subjects you want first?
+   In code, the mapping is implemented as cumulative thresholds so the
+   bands cover [0.00, 1.00] continuously without ambiguity.
+
+4. **Concurrency limit on the query grid.** 10 concurrent LLM calls at a
+   time. Higher would trip rate limits more often; lower would slow audit
+   wall-clock significantly.
+
+5. **Seed test set.** Pending. Marty is supplying the starter companies
+   to validate the tool. Update this section when the list is in.
 
 ---
 
