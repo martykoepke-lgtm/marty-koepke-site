@@ -98,7 +98,7 @@ A four-tier ladder, designed so every tier is honest about what it is.
 
 **Free — AI-Readiness Check.** Top of funnel. Answers *"are you built to be found?"* Takes thirty seconds. Email-gated for the full report. The job: prove the problem is real and that we know what we're doing.
 
-**Paid — AI Visibility Index Report (~$1,000).** Answers *"are you actually being found, where are the gaps, and what do you do about it?"* Full live cross-engine measurement, six-dimension scorecard, top-five prioritized fixes, 30-minute walk-through call. **The report fee credits 100% toward a Sprint if booked within 30 days** — so the report is an on-ramp, not a dead end.
+**Paid — AI Visibility Index Report (~$1,000).** Answers *"are you actually being found, where are the gaps, and what do you do about it?"* Full live cross-engine measurement, seven-dimension scorecard, top-five prioritized fixes, 30-minute walk-through call. **The report fee credits 100% toward a Sprint if booked within 30 days** — so the report is an on-ramp, not a dead end.
 
 **Done-with-you — Remediation Sprint ($3K–$5K).** Foundations or Expanded, depending on the size of the footprint (locations, services, competitors, platforms). 30–60 day engagement. The priority fixes done with the client, plus a 60-day re-measure that proves the number moved.
 

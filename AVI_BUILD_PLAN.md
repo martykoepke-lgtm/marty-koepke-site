@@ -58,11 +58,13 @@ Why this is the right call: replay any single LLM call against its logged inputs
 
 Use the rubric in `public/AI-Visibility-Index-Rubric-and-Protocol.md` (Rubric B) as the spine. Two open variants for how to recover the brand-language dimensions from the older Rubric A:
 
+> **CLOSED 2026-06-06:** Per `DECISIONS.md` D002, **Option 2 was locked**.
+> The two options are kept here for historical context only — see
+> `AVI_INDEX_REPORT.md` for the active 7-dimension subject-adaptive design.
+
 **Option 1 — Six-dimension calibrated hybrid.** Six dimensions, B's architecture intact. Founder Credibility lives as a named sub-score inside D1 (Entity Clarity). Methodology Depth lives as a named sub-score inside D4 (Information-Gain). Cleaner math, cleaner radar chart, brand language preserved in sub-scores and prose.
 
-**Option 2 — Seven-dimension subject-adaptive.** Six universal dimensions plus a seventh that toggles by subject type: "Founder & Author Signal" for personal brands, "Methodology & Offer Definition" for companies. Louder buyer-language hook, slightly more complex math, two distinct radar shapes (personal vs. company).
-
-**Pick before any scoring code is written.** Recommendation pending — both work; Option 2 has stronger marketing payoff if the segmentation between personal-brand subjects and company subjects is meaningful.
+**Option 2 — Seven-dimension subject-adaptive (LOCKED).** Six universal dimensions plus a seventh that toggles by subject type: "Founder & Author Signal" for personal brands, "Methodology & Offer Definition" for companies. Louder buyer-language hook, slightly more complex math, two distinct radar shapes (personal vs. company).
 
 Both variants share the spine:
 - Drivers (X, Readiness) vs. Outcome (Y, Visibility) split
@@ -184,7 +186,7 @@ If anyone (including future Claude) is reading the old design doc to orient, the
 
 ## 7. Open decisions to close before code
 
-1. **Rubric variant** — Option 1 (six-dim hybrid) or Option 2 (seven-dim adaptive). Default recommendation: Option 2 if you'll segment marketing by personal-brand vs. company buyer; Option 1 if you want a single comparable radar across all clients.
+1. **Rubric variant** — ~~Option 1 (six-dim hybrid) or Option 2 (seven-dim adaptive).~~ **CLOSED 2026-06-06:** Option 2 locked per `DECISIONS.md` D002.
 2. **Background job runner** — Default: **Inngest**. Override only with reason.
 3. **PDF generator** — weasyprint (Python) vs. Puppeteer (Node). Default: **weasyprint** (already used for the lead-magnet PDF; lighter; better for serverless).
 4. **Google AIO inclusion** — yes via SerpAPI ($75/mo), or skip for v1 (defer). Default: defer; ChatGPT + Claude + Gemini + Perplexity is enough for the headline visibility story.
