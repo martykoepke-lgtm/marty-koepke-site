@@ -284,20 +284,29 @@ total. All run in parallel with a concurrency limit (default 10 at a time)
 so wall-clock is bounded by the slowest concurrent batch, not 80 ×
 single-cell-time.
 
-The 10 templates fill from the subject:
+**Locked v2.0 starting set (2026-06-06).** Split 5 / 3 / 1 / 1 across intent
+types. Category-heavy because that's where most lost leads happen; name-search
+for accuracy; one competitive query bounds Share-of-Voice math; one
+buyer-scenario captures realistic decision-context phrasing. Matches
+Princeton GEO study patterns.
 
-| # | Template | Category |
-|---|---|---|
-| 1 | `Best {industry} for {buyer_descriptor}?` | category-search |
-| 2 | `{target_query OR generated buyer-pain question}` | category-search |
-| 3 | `Top 5 {industry} in {location}` | category-search |
-| 4 | `I'm a {buyer_descriptor}. Who do you recommend for {industry}?` | category-search |
-| 5 | `What companies offer {distinctive_term}?` | category-search |
-| 6 | `Tell me about {name}. What do they do today?` | name-search |
-| 7 | `Is {name} reputable? Should a customer hire them?` | name-search |
-| 8 | `What's the {distinctive_offering} by {name}?` | name-search |
-| 9 | `{name} vs {competitor_1}` (only if competitor_urls supplied) | competitive |
-| 10 | `I'm a {buyer_descriptor} in {location}. Should I hire {name}?` | buyer-scenario |
+| # | Template | Intent | Why this template earns its slot |
+|---|---|---|---|
+| 1 | `Best {industry} for {buyer_descriptor}?` | category-search | Most common buyer phrasing; tests Presence |
+| 2 | `Top 5 {industry} in {location}` | category-search | List-based; captures incumbent lock-in |
+| 3 | `Who helps {buyer_descriptor} with {pain_point}?` | category-search | Long-tail buyer language; most influenceable |
+| 4 | `Recommend a {industry} for someone who {scenario}` | category-search | Hypothetical buyer; tests recommendation engine |
+| 5 | `What companies offer {distinctive_term}?` | category-search | Feature/method specificity; tests differentiation |
+| 6 | `Tell me about {name}. What do they do?` | name-search | Entity description accuracy |
+| 7 | `Is {name} reputable? Should I hire them?` | name-search | Citation + sentiment signal |
+| 8 | `What's {name}'s pricing / approach?` | name-search | Schema/Information-Gain depth |
+| 9 | `{name} vs {competitor_1}` (only if `competitor_urls` supplied) | competitive | Direct Share-of-Voice signal |
+| 10 | `I'm a {buyer_descriptor} in {location}. Should I hire {name}?` | buyer-scenario | Highest-stakes long-tail decision context |
+
+**Optional override:** if `subject.target_query` is supplied in the subject
+JSON, it replaces template 3 for that audit — lets you test against the
+customer's *actual* phrasing. The slot itself stays category-search; only
+the rendered text changes.
 
 For each cell, one `audit_query_responses` row is inserted with the raw
 response text and call-level bookkeeping (tokens, cost, duration, status).
