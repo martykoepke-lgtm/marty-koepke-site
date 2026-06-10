@@ -821,9 +821,56 @@ function FailuresSection({
 
 function ReportFooter({ audit }: { audit: AuditRow }) {
   return (
-    <footer className="mt-12 pt-4 text-xs text-moss text-center">
-      Audit <code className="font-mono">{audit.id}</code> · {formatDate(audit.created_at)}
-    </footer>
+    <>
+      {/* The audit metadata line stays close to the report body */}
+      <p className="mt-12 mb-8 text-xs text-moss text-center">
+        Audit <code className="font-mono">{audit.id}</code> ·{" "}
+        {formatDate(audit.created_at)}
+      </p>
+
+      {/* Brand-styled footer mirrors the boxed sections of the website footer
+          (logo + tagline + martykoepke.com link, plus GET IN TOUCH + email). */}
+      <footer className="bg-forest text-cream px-10 py-10 -mx-8 print:break-inside-avoid">
+        <div className="max-w-2xl">
+          <span className="inline-block rounded-md bg-cream p-3">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/logo-horizontal.png"
+              alt="Practical Informatics LLC"
+              className="h-16 w-auto"
+            />
+          </span>
+          <p className="mt-4 text-cream/80 text-base">
+            Reclaim your time. Run a smarter business.
+          </p>
+          <p className="mt-2 text-sm text-cream/60">
+            For Marty&apos;s healthcare informatics work, speaking, and
+            writing, visit{" "}
+            <a
+              href="https://martykoepke.com"
+              className="underline decoration-gold underline-offset-4"
+            >
+              martykoepke.com
+            </a>
+            .
+          </p>
+
+          <div className="mt-8">
+            <h2 className="text-xs font-semibold uppercase tracking-widest text-gold">
+              Get in touch
+            </h2>
+            <p className="mt-2 text-cream/90">
+              <a
+                href="mailto:marty.koepke@practicalinformatics.com"
+                className="hover:text-gold"
+              >
+                marty.koepke@practicalinformatics.com
+              </a>
+            </p>
+          </div>
+        </div>
+      </footer>
+    </>
   );
 }
 
