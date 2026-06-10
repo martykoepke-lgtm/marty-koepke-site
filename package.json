@@ -10,7 +10,8 @@
     "audit": "tsx scripts/run-audit.ts",
     "audit:errors": "tsx scripts/audit-errors.ts",
     "audit:report": "tsx scripts/audit-report.ts",
-    "audit:pdf": "tsx scripts/audit-pdf.ts"
+    "audit:pdf": "tsx scripts/audit-pdf.ts",
+    "audit:recommend": "tsx scripts/audit-recommend.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.99.0",
