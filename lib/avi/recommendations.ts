@@ -126,7 +126,13 @@ export async function runRecommendations(
   };
 
   const startedAt = Date.now();
-  const response = await llmCall(RECOMMENDATIONS_PROVIDER, prompt, callContext);
+  // Long-form output — needs more headroom than the 600-token default.
+  const response = await llmCall(
+    RECOMMENDATIONS_PROVIDER,
+    prompt,
+    callContext,
+    { maxTokens: 4000 }
+  );
   const durationMs = Date.now() - startedAt;
   const cost = estimateCost(
     response.model,
@@ -281,47 +287,95 @@ function tryParse(text: string): Recommendation[] | null {
   let parsed: unknown;
   try {
     parsed = JSON.parse(cleaned);
-  } catch {
+  } catch (e) {
+    console.warn(
+      "[recommendations] JSON.parse failed:",
+      (e as Error).message,
+      "\nRaw (first 500 chars):",
+      cleaned.slice(0, 500)
+    );
     return null;
   }
-  if (typeof parsed !== "object" || parsed === null) return null;
+  if (typeof parsed !== "object" || parsed === null) {
+    console.warn("[recommendations] root is not an object");
+    return null;
+  }
   const p = parsed as { recommendations?: unknown };
-  if (!Array.isArray(p.recommendations)) return null;
+  if (!Array.isArray(p.recommendations)) {
+    console.warn(
+      "[recommendations] root.recommendations missing or not array; keys:",
+      Object.keys(p)
+    );
+    return null;
+  }
 
   const out: Recommendation[] = [];
-  for (const r of p.recommendations) {
-    if (typeof r !== "object" || r === null) continue;
+  const rejected: Array<{ index: number; reason: string }> = [];
+
+  p.recommendations.forEach((r, idx) => {
+    if (typeof r !== "object" || r === null) {
+      rejected.push({ index: idx, reason: "not an object" });
+      return;
+    }
     const rr = r as Record<string, unknown>;
 
-    if (typeof rr.title !== "string") continue;
-    if (typeof rr.category !== "string") continue;
-    if (!CATEGORIES.includes(rr.category as RecommendationCategory)) continue;
-    if (typeof rr.why_it_matters !== "string") continue;
-    if (!Array.isArray(rr.do_this)) continue;
-    const doThis = rr.do_this.filter((s): s is string => typeof s === "string");
-    if (doThis.length === 0) continue;
-    if (typeof rr.youll_know_it_worked !== "string") continue;
-    if (typeof rr.effort !== "string") continue;
-    if (!EFFORT_LEVELS.includes(rr.effort as EffortLevel)) continue;
-    if (!Array.isArray(rr.dimensions_lifted)) continue;
-    const dims = rr.dimensions_lifted.filter(
+    const reasons: string[] = [];
+    if (typeof rr.title !== "string") reasons.push("title not string");
+    if (typeof rr.category !== "string") reasons.push("category not string");
+    else if (!CATEGORIES.includes(rr.category as RecommendationCategory))
+      reasons.push(`category=${rr.category} not in list`);
+    if (typeof rr.why_it_matters !== "string")
+      reasons.push("why_it_matters not string");
+    if (!Array.isArray(rr.do_this)) reasons.push("do_this not array");
+    if (typeof rr.youll_know_it_worked !== "string")
+      reasons.push("youll_know_it_worked not string");
+    if (typeof rr.effort !== "string") reasons.push("effort not string");
+    else if (!EFFORT_LEVELS.includes(rr.effort as EffortLevel))
+      reasons.push(`effort=${rr.effort} not in list`);
+    if (!Array.isArray(rr.dimensions_lifted))
+      reasons.push("dimensions_lifted not array");
+    if (typeof rr.estimated_delta !== "string")
+      reasons.push("estimated_delta not string");
+    if (typeof rr.priority !== "number") reasons.push("priority not number");
+
+    if (reasons.length > 0) {
+      rejected.push({ index: idx, reason: reasons.join("; ") });
+      return;
+    }
+
+    const doThis = (rr.do_this as unknown[]).filter(
       (s): s is string => typeof s === "string"
     );
-    if (typeof rr.estimated_delta !== "string") continue;
-    if (typeof rr.priority !== "number") continue;
+    if (doThis.length === 0) {
+      rejected.push({ index: idx, reason: "do_this empty after filter" });
+      return;
+    }
+
+    const dims = (rr.dimensions_lifted as unknown[]).filter(
+      (s): s is string => typeof s === "string"
+    );
 
     out.push({
-      title: rr.title,
+      title: rr.title as string,
       category: rr.category as RecommendationCategory,
-      why_it_matters: rr.why_it_matters,
+      why_it_matters: rr.why_it_matters as string,
       do_this: doThis,
-      youll_know_it_worked: rr.youll_know_it_worked,
+      youll_know_it_worked: rr.youll_know_it_worked as string,
       effort: rr.effort as EffortLevel,
       dimensions_lifted: dims,
-      estimated_delta: rr.estimated_delta,
-      priority: rr.priority,
+      estimated_delta: rr.estimated_delta as string,
+      priority: rr.priority as number,
     });
+  });
+
+  if (rejected.length > 0) {
+    console.warn(
+      `[recommendations] rejected ${rejected.length}/${p.recommendations.length} items:`,
+      rejected
+    );
   }
+
+  if (out.length === 0) return null;
 
   // Sort by priority ascending (1 = highest)
   out.sort((a, b) => a.priority - b.priority);

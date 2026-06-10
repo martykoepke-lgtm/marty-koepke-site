@@ -39,7 +39,20 @@ type AuditRow = {
   crawler_output: Record<string, unknown> | null;
   scoring_output: { corroboration?: Corroboration | null } | null;
   query_output: VisibilityQueryOutput | null;
+  recommendations: Recommendation[] | null;
   created_at: string;
+};
+
+type Recommendation = {
+  title: string;
+  category: string;
+  why_it_matters: string;
+  do_this: string[];
+  youll_know_it_worked: string;
+  effort: string;
+  dimensions_lifted: string[];
+  estimated_delta: string;
+  priority: number;
 };
 
 type DimensionScore = {
@@ -98,7 +111,7 @@ async function loadAuditData(auditId: string): Promise<{
   const { data: audit, error: auditErr } = await supabase
     .from("audits")
     .select(
-      "id, submission_id, rubric_version, subject_type, composite_score, readiness_score, visibility_score, total_spend_usd, tier, crawler_output, scoring_output, query_output, created_at"
+      "id, submission_id, rubric_version, subject_type, composite_score, readiness_score, visibility_score, total_spend_usd, tier, crawler_output, scoring_output, query_output, recommendations, created_at"
     )
     .eq("id", auditId)
     .single<AuditRow>();
@@ -171,6 +184,7 @@ export default async function AdminAuditPage({
       <article className="mx-auto max-w-3xl px-8 pt-16 pb-12">
         <Header audit={audit} submission={submission} />
         <Headline audit={audit} />
+        <RecommendationsSection recommendations={audit.recommendations} />
         <VisibilityBreakdown audit={audit} />
         <DimensionsSection dimensions={dimensions} />
         <PerQuerySection responses={responses} />
@@ -807,21 +821,136 @@ function FailuresSection({
 
 function ReportFooter({ audit }: { audit: AuditRow }) {
   return (
-    <footer className="mt-16 pt-8 border-t border-tan text-sm text-moss">
-      <p className="mb-2">
-        <strong className="text-charcoal">Reading this report.</strong>{" "}
-        Composite is the single headline number, blended from Readiness (built
-        to be found) and Visibility (actually being found). The seven
-        dimension justifications explain <em>why</em> the visibility number
-        landed where it did. The per-query section shows which questions the
-        subject passes vs. fails — the long-tail ones are most actionable.
-      </p>
-      <p className="text-xs">
-        Audit ID: <code className="font-mono">{audit.id}</code> · Rubric{" "}
-        <code className="font-mono">{audit.rubric_version}</code> · Generated{" "}
-        {formatDate(audit.created_at)} · Practical Informatics LLC
-      </p>
+    <footer className="mt-12 pt-4 text-xs text-moss text-center">
+      Audit <code className="font-mono">{audit.id}</code> · {formatDate(audit.created_at)}
     </footer>
+  );
+}
+
+// ============================================================================
+// Recommendations section
+// ============================================================================
+
+const EFFORT_LABEL: Record<string, string> = {
+  "15min": "15 min",
+  "1hr": "~1 hour",
+  "half day": "half day",
+  "1day": "1 day",
+  "1week": "1 week",
+  "2+weeks": "2+ weeks",
+};
+
+function RecommendationsSection({
+  recommendations,
+}: {
+  recommendations: Recommendation[] | null;
+}) {
+  if (!recommendations || recommendations.length === 0) {
+    return (
+      <section className="mb-12">
+        <h2 className="font-serif text-2xl text-forest mb-4">
+          What to do next
+        </h2>
+        <p className="text-moss italic">
+          No recommendations yet — run{" "}
+          <code className="font-mono text-charcoal">
+            npm run audit:recommend -- &lt;audit_id&gt;
+          </code>
+          .
+        </p>
+      </section>
+    );
+  }
+
+  // Group by category, preserving priority order within each
+  const sorted = [...recommendations].sort((a, b) => a.priority - b.priority);
+  const byCategory = new Map<string, Recommendation[]>();
+  for (const r of sorted) {
+    const arr = byCategory.get(r.category) ?? [];
+    arr.push(r);
+    byCategory.set(r.category, arr);
+  }
+
+  return (
+    <section className="mb-12">
+      <h2 className="font-serif text-2xl text-forest mb-2">What to do next</h2>
+      <p className="text-sm text-moss mb-6">
+        Your prioritized action list. Numbers in the title show overall
+        priority — item 1 has the highest impact-per-hour. Pick one, follow
+        the checklist, then check the &ldquo;you&rsquo;ll know it worked
+        when&rdquo; line in a couple of weeks to confirm.
+      </p>
+
+      <div className="space-y-8">
+        {[...byCategory.entries()].map(([category, items]) => (
+          <div key={category} className="break-inside-avoid">
+            <h3 className="font-serif text-lg text-forest mb-4 pb-2 border-b border-tan/70">
+              {category}
+            </h3>
+            <div className="space-y-5">
+              {items.map((rec) => (
+                <RecommendationCard key={rec.title} rec={rec} />
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function RecommendationCard({ rec }: { rec: Recommendation }) {
+  return (
+    <div className="bg-white border border-tan p-5 break-inside-avoid">
+      <div className="flex items-start justify-between gap-4 mb-3">
+        <h4 className="font-serif text-base text-charcoal leading-snug">
+          <span className="text-gold-dark font-mono text-sm mr-2">
+            {rec.priority}.
+          </span>
+          {rec.title}
+        </h4>
+        <span className="text-xs text-moss font-mono whitespace-nowrap pt-1">
+          {EFFORT_LABEL[rec.effort] ?? rec.effort}
+        </span>
+      </div>
+
+      <p className="text-sm text-charcoal mb-4 leading-relaxed">
+        <strong className="text-forest">Why this matters: </strong>
+        {rec.why_it_matters}
+      </p>
+
+      <div className="mb-4">
+        <p className="text-xs uppercase tracking-widest text-moss mb-2">
+          Do this
+        </p>
+        <ul className="space-y-1.5">
+          {rec.do_this.map((step, i) => (
+            <li
+              key={i}
+              className="text-sm text-charcoal flex items-start gap-2"
+            >
+              <span
+                className="inline-block w-3.5 h-3.5 border border-charcoal/60 rounded-sm mt-1 flex-shrink-0"
+                aria-hidden
+              />
+              <span>{step}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <p className="text-sm text-charcoal leading-relaxed border-l-2 border-gold pl-3 italic">
+        <strong className="not-italic text-forest">
+          You&apos;ll know it worked when:{" "}
+        </strong>
+        {rec.youll_know_it_worked}
+      </p>
+
+      <p className="text-xs text-moss mt-3 font-mono">
+        Lifts {rec.dimensions_lifted.join(", ")} by{" "}
+        <strong className="text-charcoal">{rec.estimated_delta}</strong>
+      </p>
+    </div>
   );
 }
 

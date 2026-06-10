@@ -1,5 +1,6 @@
 import Anthropic from "@anthropic-ai/sdk";
 import {
+  type LlmCallOptions,
   type LlmResponse,
   MAX_RESPONSE_TOKENS,
   PROVIDER_TIMEOUT_MS,
@@ -32,13 +33,16 @@ function getClient(): Anthropic {
   return client;
 }
 
-export async function askAnthropic(prompt: string): Promise<LlmResponse> {
+export async function askAnthropic(
+  prompt: string,
+  options?: LlmCallOptions
+): Promise<LlmResponse> {
   const startedAt = Date.now();
   try {
     const anthropic = getClient();
     const msg = await anthropic.messages.create({
       model: MODEL,
-      max_tokens: MAX_RESPONSE_TOKENS,
+      max_tokens: options?.maxTokens ?? MAX_RESPONSE_TOKENS,
       temperature: 0.2,
       messages: [{ role: "user", content: prompt }],
     });

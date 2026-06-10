@@ -24,10 +24,18 @@ export type LlmResponse = {
 };
 
 /**
- * Bounded response — keep AI outputs under a token cap so a runaway
- * response can't blow up our cost budget for one audit.
+ * Default bounded response — keep query-grid LLM outputs under a token
+ * cap so a runaway response can't blow up our cost budget for one audit.
+ * Callers that need long-form output (recommendations, extraction) can
+ * override via the `maxTokens` option on llmCall.
  */
 export const MAX_RESPONSE_TOKENS = 600;
+
+/** Options propagated through the wrapper to provider adapters. */
+export type LlmCallOptions = {
+  /** Override the default MAX_RESPONSE_TOKENS for this single call. */
+  maxTokens?: number;
+};
 
 /**
  * Per-prompt timeout. If an LLM hangs, we move on with the others.

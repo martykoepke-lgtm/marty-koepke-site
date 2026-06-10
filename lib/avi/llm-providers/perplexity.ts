@@ -1,5 +1,6 @@
 import OpenAI from "openai";
 import {
+  type LlmCallOptions,
   type LlmResponse,
   MAX_RESPONSE_TOKENS,
   PROVIDER_TIMEOUT_MS,
@@ -44,14 +45,17 @@ function getClient(): OpenAI {
   return client;
 }
 
-export async function askPerplexity(prompt: string): Promise<LlmResponse> {
+export async function askPerplexity(
+  prompt: string,
+  options?: LlmCallOptions
+): Promise<LlmResponse> {
   const startedAt = Date.now();
   try {
     const perplexity = getClient();
     const completion = await perplexity.chat.completions.create({
       model: MODEL,
       messages: [{ role: "user", content: prompt }],
-      max_tokens: MAX_RESPONSE_TOKENS,
+      max_tokens: options?.maxTokens ?? MAX_RESPONSE_TOKENS,
       temperature: 0.2, // deterministic-ish — same as the other adapters
     });
 

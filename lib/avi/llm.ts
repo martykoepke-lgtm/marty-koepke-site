@@ -21,8 +21,14 @@ import { askAnthropic } from "./llm-providers/anthropic";
 import { askOpenAI } from "./llm-providers/openai";
 import { askGemini } from "./llm-providers/gemini";
 import { askPerplexity } from "./llm-providers/perplexity";
-import type { LlmProviderName, LlmResponse } from "./llm-providers/types";
+import type {
+  LlmCallOptions,
+  LlmProviderName,
+  LlmResponse,
+} from "./llm-providers/types";
 import { estimateCost, logApiCall } from "./logging";
+
+export type { LlmCallOptions } from "./llm-providers/types";
 
 /**
  * Context attached to every logged LLM call.
@@ -64,10 +70,11 @@ export type LlmCallContext = {
 export async function llmCall(
   provider: LlmProviderName,
   prompt: string,
-  context: LlmCallContext
+  context: LlmCallContext,
+  options?: LlmCallOptions
 ): Promise<LlmResponse> {
   const askFn = ASK_FUNCTIONS[provider];
-  const response = await askFn(prompt);
+  const response = await askFn(prompt, options);
 
   // Always log, success or failure. The monitor needs every attempt to
   // detect anomalies like "Anthropic is timing out 30% of the time today."
@@ -96,7 +103,7 @@ export async function llmCall(
 
 const ASK_FUNCTIONS: Record<
   LlmProviderName,
-  (prompt: string) => Promise<LlmResponse>
+  (prompt: string, options?: LlmCallOptions) => Promise<LlmResponse>
 > = {
   anthropic: askAnthropic,
   openai: askOpenAI,

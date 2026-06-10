@@ -1,5 +1,6 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import {
+  type LlmCallOptions,
   type LlmResponse,
   MAX_RESPONSE_TOKENS,
   PROVIDER_TIMEOUT_MS,
@@ -29,14 +30,17 @@ function getClient(): GoogleGenerativeAI {
   return client;
 }
 
-export async function askGemini(prompt: string): Promise<LlmResponse> {
+export async function askGemini(
+  prompt: string,
+  options?: LlmCallOptions
+): Promise<LlmResponse> {
   const startedAt = Date.now();
   try {
     const genAI = getClient();
     const model = genAI.getGenerativeModel({
       model: MODEL,
       generationConfig: {
-        maxOutputTokens: MAX_RESPONSE_TOKENS,
+        maxOutputTokens: options?.maxTokens ?? MAX_RESPONSE_TOKENS,
         temperature: 0.2,
       },
     });

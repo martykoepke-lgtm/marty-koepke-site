@@ -1,5 +1,6 @@
 import OpenAI from "openai";
 import {
+  type LlmCallOptions,
   type LlmResponse,
   MAX_RESPONSE_TOKENS,
   PROVIDER_TIMEOUT_MS,
@@ -29,14 +30,17 @@ function getClient(): OpenAI {
   return client;
 }
 
-export async function askOpenAI(prompt: string): Promise<LlmResponse> {
+export async function askOpenAI(
+  prompt: string,
+  options?: LlmCallOptions
+): Promise<LlmResponse> {
   const startedAt = Date.now();
   try {
     const openai = getClient();
     const completion = await openai.chat.completions.create({
       model: MODEL,
       messages: [{ role: "user", content: prompt }],
-      max_tokens: MAX_RESPONSE_TOKENS,
+      max_tokens: options?.maxTokens ?? MAX_RESPONSE_TOKENS,
       temperature: 0.2, // deterministic-ish — we want the model's stable knowledge
     });
 
