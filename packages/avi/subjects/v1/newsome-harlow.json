@@ -1,0 +1,18 @@
+{
+  "name": "Newsome-Harlow Wines",
+  "url": "https://www.nhvino.com",
+  "industry": "California foothills winery",
+  "location": "Calaveras County, California",
+  "subject_type": "company",
+  "competitor_urls": [
+    "https://www.hollyshill.com",
+    "https://www.madronavineyards.com",
+    "https://www.terrerougewines.com",
+    "https://www.lavenderridge.com"
+  ],
+  "target_query": "Best wineries to visit in El Dorado, Amador, or Calaveras Counties",
+  "buyer_descriptor": "wine enthusiast",
+  "pain_point": "finding distinctive small-production wines worth visiting",
+  "scenario": "wants to discover boutique wineries in California gold country",
+  "distinctive_term": "boutique foothills winery"
+}

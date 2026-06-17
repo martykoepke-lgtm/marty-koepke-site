@@ -1,0 +1,9 @@
+{
+  "name": "console",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "echo \"console scaffold pending phase 5\" && exit 0",
+    "build": "echo \"console scaffold pending phase 5\" && exit 0"
+  }
+}

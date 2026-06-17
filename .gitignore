@@ -31,6 +31,12 @@ Free Toolkits/
 # AVI tool: per-audit JSON report dumps (local-only; raw data lives in Supabase)
 /reports/
 
+# AVI CLI audit output (local-only; raw data lives in Supabase)
+/audits/
+
+# Turborepo build cache
+.turbo/
+
 # os
 .DS_Store
 Thumbs.db

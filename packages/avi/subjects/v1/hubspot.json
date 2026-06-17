@@ -1,0 +1,18 @@
+{
+  "name": "HubSpot",
+  "url": "https://www.hubspot.com",
+  "industry": "customer relationship management platform",
+  "location": "the United States",
+  "subject_type": "company",
+  "competitor_urls": [
+    "https://www.zoho.com/crm",
+    "https://dynamics.microsoft.com",
+    "https://www.freshworks.com",
+    "https://www.activecampaign.com"
+  ],
+  "target_query": "Best CRM platform for a small business",
+  "buyer_descriptor": "growing business owner",
+  "pain_point": "selecting a CRM that fits how they actually sell",
+  "scenario": "wants to manage leads and customer relationships without a bloated or hard-to-learn tool",
+  "distinctive_term": "modern CRM platform"
+}

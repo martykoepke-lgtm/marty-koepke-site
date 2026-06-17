@@ -1,0 +1,18 @@
+{
+  "name": "McKinsey & Company",
+  "url": "https://www.mckinsey.com",
+  "industry": "global management consulting firm",
+  "location": "the United States",
+  "subject_type": "company",
+  "competitor_urls": [
+    "https://www.pwc.com",
+    "https://www.ey.com",
+    "https://kpmg.com",
+    "https://www.boozallen.com"
+  ],
+  "target_query": "Best global management consulting firm for enterprise transformation",
+  "buyer_descriptor": "Fortune 500 executive",
+  "pain_point": "selecting a strategy consulting partner for major transformation",
+  "scenario": "wants strategic advice for a large enterprise transformation initiative",
+  "distinctive_term": "management consulting"
+}

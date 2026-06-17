@@ -1,40 +1,26 @@
 {
-  "name": "nextjs-rebuild",
-  "version": "0.1.0",
+  "name": "practical-informatics",
   "private": true,
+  "workspaces": [
+    "apps/site",
+    "apps/console",
+    "packages/avi"
+  ],
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint",
-    "audit": "tsx scripts/run-audit.ts",
-    "audit:errors": "tsx scripts/audit-errors.ts",
-    "audit:report": "tsx scripts/audit-report.ts",
-    "audit:pdf": "tsx scripts/audit-pdf.ts",
-    "audit:recommend": "tsx scripts/audit-recommend.ts",
-    "audit:cleanup": "tsx scripts/audit-cleanup.ts"
-  },
-  "dependencies": {
-    "@anthropic-ai/sdk": "^0.99.0",
-    "@google/generative-ai": "^0.24.1",
-    "@supabase/supabase-js": "^2.106.2",
-    "framer-motion": "^12.34.3",
-    "next": "16.1.6",
-    "openai": "^6.39.0",
-    "react": "19.2.3",
-    "react-dom": "19.2.3",
-    "resend": "^6.12.4"
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "site:dev": "npm run dev --workspace=site",
+    "site:build": "npm run build --workspace=site",
+    "console:dev": "npm run dev --workspace=console",
+    "audit": "npm run audit --workspace=@practical-informatics/avi",
+    "compare": "npm run compare --workspace=@practical-informatics/avi"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "16.1.6",
-    "puppeteer": "^25.1.0",
-    "tailwindcss": "^4",
-    "tsx": "^4.22.4",
+    "prettier": "^3.4.2",
+    "turbo": "^2.5.0",
     "typescript": "^5"
-  }
+  },
+  "packageManager": "npm@11.11.0"
 }

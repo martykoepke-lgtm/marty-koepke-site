@@ -1,0 +1,18 @@
+{
+  "name": "Vouch",
+  "url": "https://www.vouch.us",
+  "industry": "small business insurance carrier",
+  "location": "the United States",
+  "subject_type": "company",
+  "competitor_urls": [
+    "https://www.nextinsurance.com",
+    "https://www.progressivecommercial.com",
+    "https://www.statefarm.com",
+    "https://www.thehartford.com"
+  ],
+  "target_query": "Best small business insurance carrier for an early-stage company",
+  "buyer_descriptor": "small business owner",
+  "pain_point": "finding affordable, comprehensive insurance for their business",
+  "scenario": "wants to insure their small business properly without overpaying",
+  "distinctive_term": "small business insurance"
+}

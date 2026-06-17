@@ -1,0 +1,18 @@
+{
+  "name": "Banner Health",
+  "url": "https://www.bannerhealth.com",
+  "industry": "U.S. healthcare system",
+  "location": "the United States",
+  "subject_type": "company",
+  "competitor_urls": [
+    "https://www.massgeneralbrigham.org",
+    "https://www.northwell.edu",
+    "https://www.providence.org",
+    "https://www.adventhealth.com"
+  ],
+  "target_query": "Best mid-tier U.S. healthcare system for complex care",
+  "buyer_descriptor": "patient comparing healthcare systems",
+  "pain_point": "finding quality care across complex specialties",
+  "scenario": "wants to know which health system delivers the best outcomes for their condition",
+  "distinctive_term": "integrated healthcare system"
+}

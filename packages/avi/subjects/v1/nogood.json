@@ -1,0 +1,18 @@
+{
+  "name": "NoGood",
+  "url": "https://nogood.io",
+  "industry": "performance marketing agency",
+  "location": "the United States",
+  "subject_type": "company",
+  "competitor_urls": [
+    "https://www.wpromote.com",
+    "https://disruptiveadvertising.com",
+    "https://www.smartsites.com",
+    "https://thriveagency.com"
+  ],
+  "target_query": "Best performance marketing agency for a growth-stage SaaS company",
+  "buyer_descriptor": "growth-stage company",
+  "pain_point": "scaling paid acquisition and content marketing effectively",
+  "scenario": "wants a marketing agency that can drive measurable growth",
+  "distinctive_term": "performance marketing agency"
+}

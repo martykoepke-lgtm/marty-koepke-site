@@ -1,0 +1,18 @@
+{
+  "name": "Webflow",
+  "url": "https://webflow.com",
+  "industry": "B2B SaaS platform",
+  "location": "the United States",
+  "subject_type": "company",
+  "competitor_urls": [
+    "https://www.atlassian.com",
+    "https://drata.com",
+    "https://www.outreach.io",
+    "https://www.squarespace.com"
+  ],
+  "target_query": "Best modern B2B SaaS platform for a growing tech company",
+  "buyer_descriptor": "operations leader at a growing company",
+  "pain_point": "selecting modern software for a specific business function",
+  "scenario": "wants software that's well-built, well-supported, and not bloated with features",
+  "distinctive_term": "modern B2B SaaS"
+}
