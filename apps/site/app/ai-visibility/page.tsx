@@ -33,7 +33,7 @@ const faqJsonLd = {
 const serviceJsonLd = {
   "@context": "https://schema.org",
   "@type": "Service",
-  name: "AI Visibility Index",
+  name: "AI Visibility and AI Business Accuracy",
   provider: { "@id": `${SITE.url}/#org` },
   description: META.aiVisibility.description,
   offers: [
@@ -42,40 +42,39 @@ const serviceJsonLd = {
       name: "Free AI Readiness Check",
       price: "0",
       priceCurrency: "USD",
-      description:
-        "Preliminary readiness score and 2–3 surface findings. Coming soon.",
+      description: "Readiness-only website scan with 2-3 obvious findings.",
     },
     {
       "@type": "Offer",
-      name: "AI Visibility Report",
-      price: "697",
+      name: "AI Visibility Snapshot",
+      price: "495",
       priceCurrency: "USD",
       description:
-        "Cross-engine measurement scored against 7 dimensions, with a prioritized remediation roadmap and a 45-minute walkthrough call. 100% credited toward a Sprint within 30 days.",
+        "Focused paid review of whether AI can find, understand, and describe the business, with a short fix list and walkthrough.",
     },
     {
       "@type": "Offer",
-      name: "Done-With-You Sprint — Foundations",
-      price: "2997",
+      name: "AI Business Accuracy Audit",
+      price: "1950",
       priceCurrency: "USD",
       description:
-        "Every fix in your AI Visibility Report, implemented with you. For solo operators, single location, focused service set. 30-day engagement with a 60-day re-measure.",
+        "Core audit measuring readiness, visibility, representation accuracy, claim support, context preservation, and recommendation fit.",
     },
     {
       "@type": "Offer",
-      name: "Done-With-You Sprint — Expanded",
-      price: "4997",
+      name: "Monthly Monitoring",
+      price: "500",
       priceCurrency: "USD",
       description:
-        "Every fix in your AI Visibility Report, implemented with you. For multi-location, multi-service businesses, or larger competitive fields. 45-day engagement with a 60-day re-measure.",
+        "Monthly monitoring for AI visibility and accuracy drift after a Snapshot or Audit.",
     },
     {
       "@type": "Offer",
-      name: "Visibility Partner",
-      price: "597",
+      name: "Implementation Planning",
+      price: "0",
       priceCurrency: "USD",
       description:
-        "Optional ongoing maintenance after a Sprint. Monthly monitoring, quarterly re-measure, ongoing guidance. Cancel anytime.",
+        "Scoped after diagnosis. Implementation work is quoted only after the audit clarifies what needs fixing.",
     },
   ],
 };

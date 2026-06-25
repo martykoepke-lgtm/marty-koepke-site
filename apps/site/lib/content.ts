@@ -60,9 +60,9 @@ export const META = {
       "An assessment that maps where your information work is leaking time, then fixes one quick win before we're done. Coming soon as part of the operational AI assessments lineup.",
   },
   aiVisibility: {
-    title: "The AI Visibility Index | Practical Informatics",
+    title: "AI Visibility & Business Accuracy | Practical Informatics",
     description:
-      "Does AI find your business when buyers search? The AI Visibility Index is our productized measurement of what AI engines actually see when they're asked about you — and a clear plan to fix what's missing.",
+      "Does AI get your business right? Practical Informatics measures whether AI systems can find, understand, cite, and recommend your business in right-fit situations.",
   },
   blog: {
     title: "Notes | Practical Informatics",
@@ -97,43 +97,43 @@ export const HOME = {
   /** BLOCK 1 — AI Visibility (the lead, productized offer). */
   aviBlock: {
     eyebrow: "Lead offer",
-    headline: "Does AI find your business when buyers search?",
+    headline: "Does AI get your business right?",
     intro:
-      "The AI Visibility Index is our productized measurement of what AI engines actually see when they're asked about you — and a clear plan to fix what's missing.",
+      "AI Visibility is the front door. AI Business Accuracy is the deeper work: checking whether AI can find, understand, cite, and recommend your business in right-fit situations.",
     tiers: [
       {
         name: "Free AI Readiness Check",
         price: "$0",
-        note: "Coming soon",
+        note: "Readiness only",
         description:
-          "A quick automated readiness score in plain English. URL-only, ~30 seconds.",
+          "A quick website-readiness score in plain English. URL-only, about 30 seconds.",
       },
       {
-        name: "AI Visibility Report",
-        price: "$697",
-        note: "100% credited toward a Sprint within 30 days",
+        name: "AI Visibility Snapshot",
+        price: "$495",
+        note: "Entry paid review",
         description:
-          "Cross-engine measurement, scored against 7 dimensions, with a prioritized remediation roadmap and a 45-minute walkthrough call.",
+          "A focused review of whether AI can find, understand, and describe your business, with a short fix list and walkthrough.",
       },
       {
-        name: "Done-With-You Sprint",
-        price: "$2,997 / $4,997",
-        note: "Foundations or Expanded",
+        name: "AI Business Accuracy Audit",
+        price: "$1,950",
+        note: "Core offer",
         description:
-          "Every fix in your Report, done with you over 30–45 days, with a 60-day re-measure that proves the number moved.",
+          "A deeper audit of visibility, accuracy, claim support, context preservation, and recommendation fit.",
       },
       {
-        name: "Visibility Partner",
-        price: "$597/mo",
-        note: "Optional, post-Sprint only",
+        name: "Monthly Monitoring",
+        price: "$500/mo",
+        note: "After a Snapshot or Audit",
         description:
-          "Monthly monitoring, quarterly re-measure, ongoing guidance. Cancel anytime.",
+          "A light monthly watch on AI visibility and accuracy drift, with trend notes and recommended next actions.",
       },
     ],
-    cta: { label: "See the AI Visibility Index", href: "/ai-visibility" },
+    cta: { label: "See AI Visibility & Business Accuracy", href: "/ai-visibility" },
   },
 
-  /** BLOCK 2 — Custom engagements (custom software + AI integrations). */
+  /** BLOCK 2  /** BLOCK 2 — Custom engagements (custom software + AI integrations). */
   customBlock: {
     eyebrow: "Custom engagements",
     headline: "Custom software and AI integrations.",
@@ -433,76 +433,66 @@ export const CONTACT = {
 
 /* ===== AI VISIBILITY INDEX ===== */
 export const AVI = {
-  /** Hero — the load-bearing question. */
-  heroEyebrow: "The AI Visibility Index",
-  heroHeadline: "When AI is asked about your business, what does it say?",
+  /** Hero - the load-bearing question. */
+  heroEyebrow: "AI Visibility + AI Business Accuracy",
+  heroHeadline: "We help AI get your business right.",
   /** Italic gold sub-tagline between H1 and subhead. */
-  subTagline: "Seven dimensions. Real LLM queries. One clear number.",
+  subTagline: "AI Visibility is the doorway. AI Business Accuracy is the framework.",
   heroSubhead:
-    "ChatGPT, Claude, and Perplexity are answering questions about your industry right now. The AI Visibility Index shows you exactly what they're saying — and where you're being missed.",
+    "ChatGPT, Claude, Perplexity, and Gemini are answering questions about your industry right now. We test whether AI can find, understand, cite, and recommend your business in right-fit situations.",
   /** Trust strip below the hero CTAs. Concrete proof of method. */
   heroTrust: [
-    "Live queries across 4 AI systems",
-    "Seven-dimension scoring rubric",
+    "Live AI testing for paid audits",
+    "Five readiness drivers",
     "Quantified, prioritized fixes",
     "Built by an enterprise informaticist",
   ],
 
-  /** The problem framing — short, visceral, true. */
+  /** The problem framing - short, visceral, true. */
   problem: [
-    "Your customers are increasingly asking AI instead of Google. “Best [your industry] near me.” “Who should I call for [the work you do]?” “Is [your business] reputable?” The answer they get is the answer that wins them.",
-    "For most small businesses, that answer doesn't include you — or worse, it's outdated, confused, or quietly wrong. You don't see it happen. You only see fewer inbound calls than the quality of your work should produce.",
-    "The AI Visibility Index measures exactly what's happening, in plain numbers, with quoted evidence. Then it tells you what to fix first.",
+    "Your customers are increasingly asking AI instead of Google. Best [your industry] near me. Who should I call for [the work you do]? Is [your business] reputable? The answer they get shapes who they trust.",
+    "For most small businesses, that answer may skip them, flatten what makes them different, or say something outdated, confused, or quietly wrong.",
+    "Our process measures both sides: whether AI can find you, and whether AI is getting the business right. Then it tells you what to fix first.",
   ],
 
-  /** The seven dimensions — v2.0 rubric, validated against 62 subjects. */
+  /** The V3 readiness drivers. */
   dimensionsEyebrow: "What gets measured",
-  dimensionsHeadline: "Seven dimensions. One clear number.",
+  dimensionsHeadline: "Five readiness drivers. Clearer AI answers.",
   dimensions: [
     {
       icon: "fingerprint",
-      name: "Entity Clarity",
-      body: "Can AI tell who you are from the site itself? Clean name, clear About page, consistent identity across platforms.",
+      name: "Business Clarity",
+      body: "Can AI tell who you are, what you do, who you serve, where you work, and what you should be known for?",
     },
     {
       icon: "network",
-      name: "Cross-Source Corroboration",
-      body: "Does your business show up across LinkedIn, Wikidata, press, podcasts, and directories — not just on your own site?",
+      name: "Source Support",
+      body: "Are the important claims about your business backed by your website, reviews, directories, profiles, articles, or other credible sources?",
     },
     {
       icon: "code",
-      name: "Schema & Structured Data",
-      body: "The machine-readable layer (schema.org, FAQ markup, llms.txt, robots.txt) that lets AI quote you accurately instead of guessing.",
+      name: "AI Readability",
+      body: "Is your website structured so crawlers and AI systems can read your pages, services, FAQs, schema, and source material?",
     },
     {
       icon: "search",
-      name: "Information Gain",
-      body: "Does your content offer something AI can't easily find elsewhere — proprietary data, frameworks, original research, unique perspective?",
+      name: "Distinctive Point of View",
+      body: "Do you have a clear, supportable reason to be recommended instead of alternatives?",
     },
     {
       icon: "layers",
-      name: "Topical Authority",
-      body: "Sustained, deep coverage of the topic your business claims expertise in — a body of work, not a single article.",
-    },
-    {
-      icon: "pin",
-      name: "Distribution Surface",
-      body: "Where else your voice lives — newsletters, YouTube, podcasts, syndication. Are you present where AI engines are reading?",
-    },
-    {
-      icon: "user",
-      name: "Method/Founder Signal",
-      body: "A clear, named methodology and a visible expert behind it. For companies: clear offer definition. For personal brands: founder and author signal.",
+      name: "Recommendation Fit",
+      body: "Is it clear when your business is the appropriate choice, who it is best for, and when it is not the right fit?",
     },
   ],
 
-  /** Org-level section — the brand context before the pricing pitch. */
+  /** Org-level section - the brand context before the pricing pitch. */
   orgSection: {
     eyebrow: "How we work",
     headline: "Complementary, not substitutive.",
     bodyParagraphs: [
       "Practical Informatics LLC partners with organizations and professionals who are the recognized experts in their own fields. We provide the tools, assessments, and infrastructure that help them adopt AI thoughtfully and improve operational efficiency and AI visibility.",
-      "Our role is complementary, not substitutive. A physician remains the medical expert in her practice. An attorney remains the legal expert in his firm. A facility operator remains the operational expert in his business. We bring expertise in AI, software, and process design — and we leave the substantive professional judgment, licensed decision-making, and final implementation choices where they belong: with our clients.",
+      "Our role is complementary, not substitutive. A physician remains the medical expert in her practice. An attorney remains the legal expert in his firm. A facility operator remains the operational expert in his business. We bring expertise in AI, software, and process design - and we leave the substantive professional judgment, licensed decision-making, and final implementation choices where they belong: with our clients.",
     ],
     weBring: [
       "AI expertise",
@@ -518,74 +508,88 @@ export const AVI = {
     ],
   },
 
-  /** Pricing tiers visible on the landing page. Four-tier ladder. */
+  /** Pricing tiers visible on the landing page. */
   pricingEyebrow: "Choose your starting point",
-  pricingHeadline: "Four ways in.",
+  pricingHeadline: "Five ways in.",
   tiers: [
     {
       id: "scan",
       name: "Free AI Readiness Check",
       price: "$0",
-      priceNote: "Live now — no email required",
-      tagline: "A preliminary readiness score in ~30 seconds.",
+      priceNote: "Live now - no email required",
+      tagline: "A fast readiness-only preview.",
       includes: [
-        "Automated check of structure, schema, llms.txt, robots.txt, and entity basics",
-        "Plain-English summary of what your score means",
-        "Top 2–3 most obvious findings",
-        "Your tier band (Invisible · Hidden · Faintly Visible · Discoverable · Agent-Ready)",
+        "Website-readiness scan in plain English",
+        "Checks business clarity, source support, AI readability, point of view, and recommendation fit",
+        "Top 2-3 obvious gaps",
+        "No claim that live AI systems recommend you unless live prompts are run",
       ],
       cta: "Run the free check",
       ctaTarget: "SCAN",
       featured: false,
     },
     {
-      id: "report",
-      name: "AI Visibility Report",
-      price: "$697",
-      priceNote: "100% credited toward a Sprint within 30 days",
-      tagline: "The full audit, plus a 45-minute walkthrough call.",
+      id: "snapshot",
+      name: "AI Visibility Snapshot",
+      price: "$495",
+      priceNote: "Focused paid review",
+      tagline: "A practical first look at how AI understands your business.",
       includes: [
-        "Live queries across ChatGPT, Claude, and Perplexity — quoted in your report",
-        "Scored Visibility (the outcome) AND Readiness (the drivers)",
-        "Benchmark against up to 3 named competitors",
-        "All 7 dimensions scored with judge justifications",
-        "A prioritized remediation roadmap",
-        "A 45-minute walkthrough call with Marty",
+        "Focused live AI visibility review",
+        "Business accuracy and obvious misrepresentation checks",
+        "Light competitor and source gap review",
+        "Short fix list ranked by practical next step",
+        "Walkthrough call with Marty",
       ],
-      cta: "Get the full report",
+      cta: "Get the Snapshot",
       ctaTarget: "STRIPE_LINK_REPORT",
       featured: true,
     },
     {
-      id: "sprint",
-      name: "Done-With-You Sprint",
-      price: "$2,997 / $4,997",
-      priceNote: "Foundations or Expanded · 30–45 day engagement",
-      tagline: "Every fix in your report, implemented with you.",
+      id: "core-audit",
+      name: "AI Business Accuracy Audit",
+      price: "$1,950",
+      priceNote: "Core audit",
+      tagline: "The full measurement protocol for AI visibility and accuracy.",
       includes: [
-        "Index Report fee credited in",
-        "Entity cleanup across LinkedIn, Wikidata, press, directories",
-        "On-site schema rollout (Organization, Person, Service, FAQPage)",
-        "llms.txt creation + ongoing AI bot policy",
-        "Original-data / content publishing guidance",
-        "60-day re-measure that proves the number moved",
+        "Readiness drivers plus measured AI outcomes",
+        "Live AI testing across the agreed prompt set",
+        "Representation accuracy and claim-support review",
+        "Context preservation and recommendation-fit assessment",
+        "Prioritized remediation roadmap",
       ],
-      cta: "Book a 20-min fit call",
+      cta: "Book a fit call",
       ctaTarget: "BOOK_CALL",
       featured: false,
     },
     {
-      id: "partner",
-      name: "Visibility Partner",
-      price: "$597/mo",
-      priceNote: "Optional · post-Sprint only · cancel anytime",
-      tagline: "Maintain and keep growing after the Sprint.",
+      id: "implementation",
+      name: "Implementation Planning",
+      price: "Scoped after audit",
+      priceNote: "Not sold before diagnosis",
+      tagline: "We define what to fix before offering an implementation sprint.",
       includes: [
-        "Monthly monitoring and alerts",
-        "Quarterly re-measure with delta report",
-        "Ongoing entity, content, and distribution guidance",
-        "Monthly check-in call",
-        "Month-to-month or quarterly — cancel anytime",
+        "Translate audit findings into a work plan",
+        "Identify which fixes belong to site copy, schema, source support, or positioning",
+        "Separate quick wins from larger content or authority work",
+        "Quote an implementation sprint only after scope is known",
+      ],
+      cta: "Talk through implementation",
+      ctaTarget: "BOOK_CALL",
+      featured: false,
+    },
+    {
+      id: "monitoring",
+      name: "Monthly Monitoring",
+      price: "$500/mo",
+      priceNote: "After a Snapshot or Audit",
+      tagline: "Track whether AI visibility and business accuracy are drifting or improving.",
+      includes: [
+        "Monthly rerun of a lightweight prompt set",
+        "Visibility and accuracy drift notes",
+        "Citation/source changes worth watching",
+        "Competitor movement highlights",
+        "Monthly action note; optional quarterly deep re-measure if needed",
       ],
       cta: "Talk to Marty",
       ctaTarget: "BOOK_CALL",
@@ -595,90 +599,82 @@ export const AVI = {
 
   /** What makes this different from generic SEO / AEO tools. */
   differentEyebrow: "Why this is different",
-  differentHeadline: "The live AI test changes everything.",
+  differentHeadline: "Visibility is only the first question.",
   differentBody: [
-    "Most “AI SEO” tools check whether your structured data is well-formed. That's table stakes — necessary but not sufficient.",
-    "The AI Visibility Index runs real queries against the actual AI systems your customers are using, captures what they say about you (or fail to say), and quotes it back to you. You don't have to take my word for what AI thinks — you see it.",
-    "That moment — reading what ChatGPT actually returned when asked about you — is the moment the work becomes obvious.",
+    "Most AI SEO tools focus on whether you show up. That matters, but it is not enough.",
+    "AI Business Accuracy asks the next questions: Did AI understand you? Did it support what it said? Did it preserve what makes you different? Did it recommend you in right-fit situations?",
+    "That is the useful work: not just getting mentioned, but helping AI get your business right.",
   ],
 
   /** Who this is for / not for. */
   forYouHeadline: "Who this is for",
   forYou:
-    "Small business owners with a website who suspect they're being skipped over when customers ask AI instead of Google. Solo experts, local services, consultancies, professional practices, founder-led B2B. Especially valuable if your category has clear local or niche positioning that should be a moat — but AI doesn't yet know it.",
+    "Small business owners with a website who suspect they are being skipped, misunderstood, or flattened when customers ask AI instead of Google. Solo experts, local services, consultancies, professional practices, and founder-led B2B businesses.",
   notForYouHeadline: "Who it isn't for",
   notForYou:
-    "Businesses without a public website yet. Anyone hoping for a magic-bullet ranking score with no work attached — the report is the diagnosis, not the cure. Anyone who wants to argue the methodology before seeing the data.",
+    "Businesses without a public website yet. Anyone hoping for a guaranteed AI ranking. Anyone who wants implementation work before the diagnosis is clear.",
 
-  /** Trust block — Marty's credibility in this specific work. */
+  /** Trust block - Marty's credibility in this specific work. */
   aboutMartyEyebrow: "Who built this",
   aboutMartyHeadline: "Built by an enterprise informaticist who needed it for her own consultancy.",
   aboutMartyBody: [
     "I'm Marty Koepke. Twenty years in enterprise informatics, fifteen-plus driving digital transformation across multi-state systems. System Clinical Informaticist at CommonSpirit Health. Author of Between the Clicks: The Hidden Work of Healthcare Informatics.",
-    "I built the AI Visibility Index because I ran the analysis on my own consultancy and was startled by what AI didn't know about me — even though I have a book, an enterprise career, and a documented public history. If it was hard for me, it's harder for the small and mid-sized businesses I serve.",
-    "The methodology in this report is the same one I use on my own work — and the same one we validated against 62 real subjects across 11 industries. Same rubric, same queries, same prioritization formula.",
+    "I built this because I ran the analysis on my own consultancy and was startled by what AI did not know about me - even though I have a book, an enterprise career, and a documented public history.",
+    "The methodology is designed to be auditable: readiness drivers, measured AI outcomes, source support, and plain-English recommendations.",
   ],
 
-  /** FAQ — answers the real objections. */
+  /** FAQ - answers the real objections. */
   faq: [
     {
-      q: "What's the research behind your methodology?",
-      a: "The AI Visibility Index rubric (version 2.0) was validated against 62 real businesses across 11 industries — healthcare systems, consulting firms, CRM platforms, B2B SaaS, marketing agencies, insurance carriers, clinical research organizations, AI agency coaches, AI visibility consultants, ambient AI medical scribes, and California wineries. The findings shape every audit we run. The dimensions, weights, and scoring approach are documented and reproducible.",
+      q: "Is this AI Visibility, GEO, or AEO?",
+      a: "AI Visibility, GEO, and AEO are the doorway. AI Business Accuracy is the framework behind this service. We measure whether AI can find your business, understand it, support what it says, and recommend it in right-fit situations.",
     },
     {
       q: "How long does the free Readiness Check take?",
-      a: "About 30 seconds once it launches. The Check fetches your homepage and runs an automated read on the readiness signals: structured data, llms.txt, robots.txt, entity basics, schema markup. You get a preliminary score, the tier you fall into, and the top 2–3 most obvious findings on the spot.",
+      a: "About 30 seconds. The free check reads your website and looks for readiness signals: business clarity, source support, AI readability, distinctive point of view, and recommendation fit. It does not claim that live AI systems recommend you unless live prompts are actually run.",
     },
     {
-      q: "What's in the $697 Report that's not in the free Check?",
-      a: "The live AI test — real queries run against ChatGPT, Claude, and Perplexity, with the answers and citations captured in your report. Scored Visibility (what AI actually does) AND Readiness (what your site looks like). A side-by-side comparison with up to 3 named competitors. All 7 dimensions scored with judge justifications. A prioritized remediation roadmap. And a 45-minute walkthrough call.",
+      q: "What is in the $495 AI Visibility Snapshot?",
+      a: "The Snapshot is a focused paid review. It gives you a practical first look at whether AI can find, understand, and describe your business, plus obvious source gaps, misrepresentation risks, and a short prioritized fix list.",
     },
     {
-      q: "Why $697? What am I actually paying for?",
-      a: "Two things you can't get cheaply elsewhere: the live cross-engine AI queries (each audit costs real money in API fees across four AI providers) and the judgment that ranks the fixes by what will actually move your score. A typical SEO audit is $2,500–$5,000 and doesn't include any of this. The Report fee is also 100% credited toward a Sprint within 30 days, so if you intend to remediate, it functions like a refundable deposit.",
+      q: "What is different about the $1,950 AI Business Accuracy Audit?",
+      a: "The Core Audit is the full protocol. It measures readiness drivers and live AI outcomes: visibility, representation accuracy, claim support, context preservation, recommendation quality, and stability where enough runs exist. It is the right choice when you need a defensible baseline and a serious remediation roadmap.",
     },
     {
-      q: "What's the Sprint, and how is it different from the Report?",
-      a: "The Report is the diagnosis — what's wrong, why it matters, what to do about it. The Sprint is the cure — every fix in your report, implemented with you. Foundations ($2,997) is for solo operators with a single location and a focused service set. Expanded ($4,997) is for businesses with 2–5 locations, multiple service offerings, or a larger competitive field. Both include a 60-day re-measure that proves the number moved.",
+      q: "Why not sell an implementation sprint immediately?",
+      a: "Because we should not quote implementation before we know what needs fixing. Some businesses need copy cleanup. Some need schema. Some need source support, directories, reviews, citations, or sharper positioning. The audit defines the work before a sprint is scoped.",
     },
     {
-      q: "What happens after the Sprint?",
-      a: "Optional Visibility Partner tier ($597/month) for ongoing maintenance: monthly monitoring, quarterly re-measure with delta report, ongoing entity/content/distribution guidance, and a monthly check-in. Month-to-month or quarterly — cancel anytime. Only offered after a Sprint.",
+      q: "What does Monthly Monitoring include?",
+      a: "Monthly Monitoring is a lighter recurring check for $500/month after a Snapshot or Audit. It reruns a focused prompt set, watches for visibility or accuracy drift, notes citation/source changes, flags competitor movement, and gives you a short monthly action note.",
     },
     {
-      q: "What if AI engines are blocked from my site?",
-      a: "We test for that explicitly. Of the 62 subjects in our validation study, 6 actively blocked AI bot crawlers (GPTBot, ClaudeBot, PerplexityBot, CCBot). The block is sometimes deliberate (a real signal about your AI policy), sometimes accidental (a WAF default no one decided). Your report tells you which — and what to do about it either way.",
+      q: "How is monthly monitoring different from quarterly re-measure?",
+      a: "Monthly monitoring is a lightweight pulse check. A quarterly re-measure is a deeper audit-style rerun using the fuller protocol to compare progress against the original baseline. For now, the clean offer is $500/month monitoring, with a quarterly deep re-measure treated as an optional add-on when a client needs it.",
     },
     {
-      q: "Will you make decisions for me, or with me?",
-      a: "With you. Our role is complementary, not substitutive. You remain the expert in your business. We bring AI, software, and process design — and we leave the substantive professional judgment, licensed decision-making, and final implementation choices where they belong: with you.",
-    },
-    {
-      q: "Do you do refunds?",
-      a: "Yes. If you read the report and feel it doesn't deliver what I promised, tell me. I'll refund part or all of the fee. I'd rather have a refunded client who tells the truth than a frustrated one who never says anything.",
-    },
-    {
-      q: "Does this work for my industry?",
-      a: "Yes, if AI is being asked about your industry at all. The rubric was validated across 11 different industries and continues to expand. The dimensions and weights adjust by archetype, so a brand-new solo practice and a 10-year multi-location firm are graded on the right curve for each.",
+      q: "Will this guarantee AI recommends my business?",
+      a: "No. No one can honestly guarantee that. The goal is to improve the evidence AI systems can use, reduce misrepresentation risk, and measure whether visibility and accuracy improve over time.",
     },
     {
       q: "Is this just SEO with a new name?",
-      a: "No. Traditional SEO is about ranking in Google's results. The AI Visibility Index is about being correctly understood and recommended when customers use AI assistants — ChatGPT, Claude, Perplexity — instead of Google. They draw on different signals: live queries, structured data, citation graphs, agent permissions. Some overlap with classical SEO; much does not.",
+      a: "No. Traditional SEO focuses on ranking in search results. This work focuses on how AI systems represent your business in answers: whether they find you, describe you accurately, support claims, preserve context, and recommend you in appropriate situations. Some SEO foundations still matter, but the measurement is different.",
     },
     {
       q: "Do you keep my data private?",
-      a: "Yes. Your submission stores your email and URL. We never sell, share, or train on your data. The AI queries we run are public-style questions (“tell me about [your business]”) — the same kind anyone could run. See our privacy policy for the full picture.",
+      a: "Yes. We do not sell, share, or train on your submission data. The AI queries we run are public-style business questions, and your report is treated as client work.",
     },
     {
-      q: "I'd rather just talk to you first.",
-      a: "Sure. Book a free 20-minute conversation — link below. We can talk about your business and whether the Report or the Sprint is the right next step. No pitch, no pressure.",
+      q: "I would rather just talk to you first.",
+      a: "That is fine. Book a free 20-minute conversation. We can talk about your business and whether the free check, Snapshot, Core Audit, monitoring, or future implementation work is the right next step.",
     },
   ],
 
   /** Secondary CTA at the bottom of the page, for talk-first folks. */
   secondaryCta: {
     headline: "Prefer to talk first?",
-    body: "Book a free 20-minute conversation. We'll talk about your business and what the AVI might surface for you.",
+    body: "Book a free 20-minute conversation. We'll talk about your business and what AI Visibility and Business Accuracy might surface for you.",
   },
 } as const;
 

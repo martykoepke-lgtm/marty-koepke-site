@@ -1,7 +1,7 @@
 # Agent role — Cross-Judge
 
 **Status:** Stub. Contract scaffolded; not yet built. Will be wired in once the Driver Judge is calibrated.
-**Code home:** `lib/avi/cross_judge.ts` (to be created)
+**Code home:** `packages/avi/src/cross-judge-v2.ts` (to be created)
 **Canon authority:** `AVI_OPERATING_STANDARD.md`. When this file disagrees with the operating standard, the operating standard wins.
 
 ---

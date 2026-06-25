@@ -1,7 +1,7 @@
 # Agent role — Recommender
 
 **Status:** v1.0 — ready for implementation
-**Code home:** `lib/avi/recommender.ts`
+**Code home:** `packages/avi/src/recommender-v2.ts`
 **Canon authority:** `AVI_OPERATING_STANDARD.md` + `public/AI-Visibility-Index-Rubric-and-Protocol.md`. When this file disagrees with either, the canon wins.
 
 ---
@@ -22,6 +22,13 @@ PARAMETERS:     temperature 0, JSON mode on, max_tokens 2000
 ## One-sentence job description
 
 Produce the top 2 or 3 fixes the subject should make, ranked by impact-per-hour, each grounded in the subject's specific scored gaps and rank-aware to the subject's current visibility.
+
+## When NOT to invoke this role
+
+- The Driver Judge has not yet produced scores for D1–D4 + D6 on this audit. Recommendations are derivative of scored evidence; no scores means no recommendations.
+- The subject's `tier_band` is `"Agent-Ready"` (composite ≥ 0.8). At that tier the Recommender returns monitoring guidance only — no page-level tactics. The orchestrator should branch before calling, not ask for fixes and discard them.
+- The caller wants generic marketing or SEO advice. The Recommender only proposes tactics traceable to the rubric, the patent (US20200349181A1), or the Aggarwal 2024 paper.
+- The free-tier flow is running. Free Readiness Check uses a fixed two-fix template, not this LLM role. The Recommender runs only for the paid AVI Index Report.
 
 ## The patent-derived framing (the question every recommendation answers)
 
@@ -116,7 +123,7 @@ interface RecommenderInput {
     share_of_voice: number;
     prominence: number;
   };
-  tier_band: "Invisible" | "Hidden" | "Faintly Visible" | "Discoverable" | "Agent-Ready";
+  tier_band: "Invisible" | "Overlooked" | "Emerging" | "Discoverable" | "Agent-Ready";
   n_fixes: 2 | 3;            // 2 for free tier, 3 for paid
   rubric_version: string;
 }
@@ -177,7 +184,7 @@ These are priors, not rules. Specific evidence in the subject's package override
 
 ## Golden example
 
-### Subject: Faintly Visible AI visibility consultancy
+### Subject: Emerging AI visibility consultancy
 
 **Input (excerpt):**
 ```
@@ -190,7 +197,7 @@ driver_scores: [
   { dimension_id: "D6", band: 1, justification: "Subject is on LinkedIn but not on Reddit, YouTube, Wikipedia, G2, or Gartner", ... }
 ]
 visibility_outcome: { composite: 0.42, ... }
-tier_band: "Faintly Visible"
+tier_band: "Emerging"
 n_fixes: 3
 ```
 
@@ -206,7 +213,7 @@ n_fixes: 3
     {
       "rank": 1,
       "dimension_id": "D6",
-      "gap": "Subject is absent from Wikipedia, Reddit, YouTube, Gartner, and G2 — the platforms that feed ChatGPT, Claude, and Perplexity citation patterns.",
+      "gap": "Subject is absent from Wikipedia, Reddit, YouTube, Gartner, and G2 — the platforms that feed ChatGPT, Claude, Perplexity, and Gemini citation patterns.",
       "evidence_pointer": "D6 score: 1 / 5; corroboration.platform_filtered showed no presence on 5 of 6 engine-favored platforms",
       "tactic": "Publish the AVI rubric and its citations as a public-facing methodology page; submit a structured profile to Gartner Peer Insights; request a Wikipedia draft.",
       "framed_as": "Make the work findable on the platforms the engines actually cite.",

@@ -2,7 +2,7 @@
 
 This folder holds the **contracts** for every LLM role inside the AVI pipeline. One file per role. Each file is the source of truth for what that role is permitted to do.
 
-**Code lives in `lib/avi/`.** Specs live here. The two must stay in sync — if you change a system prompt in code, update the spec; if you change a spec, update the code.
+**Code lives in `packages/avi/src/` (`*-v2.ts` files).** Specs live here. The two must stay in sync — if you change a system prompt in code, update the spec; if you change a spec, update the code.
 
 When this folder and `AVI_OPERATING_STANDARD.md` disagree, the operating standard wins.
 
@@ -33,10 +33,13 @@ Below the header, every file has:
 
 | File | Role | Status | What it does |
 |---|---|---|---|
-| `EXTRACTOR.md` | Extractor | Stub | Parses one raw engine response into structured fields |
-| `DRIVER_JUDGE.md` | Driver Judge | Stub | Scores one driver dimension on the anchored 0–5 scale |
-| `RECOMMENDER.md` | Recommender | Stub | Produces top three fixes ranked by impact-per-hour |
+| `EXTRACTOR.md` | Extractor | v1.0 | Parses one raw engine response into structured fields |
+| `DRIVER_JUDGE.md` | Driver Judge | v1.0 | Scores one driver dimension on the anchored 0–5 scale |
+| `RECOMMENDER.md` | Recommender | v1.0 | Produces top 2–3 fixes ranked by impact-per-hour |
+| `SYNTHESIZER.md` | Synthesizer | v1.0 | Aggregates the scored audit into a plain-English narrative |
 | `CROSS_JUDGE.md` | Cross-Judge | Stub (not yet built) | Independent second-vendor scoring for QA |
+| `V3_READINESS_JUDGE.md` | V3 Readiness Judge | v3.0 spec | Scores one V3 readiness driver |
+| `V3_CLAIM_VERIFIER.md` | V3 Claim Verifier | v3.0 spec | Classifies support for one AI-generated claim |
 
 Only LLM-bearing services have role files. The pure-code services in the pipeline (Crawler, Corroborator, Query Runner, Aggregator, Composite + Tier computation) do not get role files because they make no LLM judgments — they fetch, compute, and persist.
 

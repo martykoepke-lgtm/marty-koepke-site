@@ -205,8 +205,8 @@ The 60/40 weighting reflects that drivers are leading indicators; the outcome is
 | Composite (0–100) | Tier |
 |---|---|
 | `< 20` | Invisible |
-| `20 – 40` | Hidden |
-| `40 – 60` | Faintly Visible |
+| `20 – 40` | Overlooked |
+| `40 – 60` | Emerging |
 | `60 – 80` | Discoverable |
 | `≥ 80` | Agent-Ready |
 
@@ -218,13 +218,13 @@ The 60/40 weighting reflects that drivers are leading indicators; the outcome is
 
 | Parameter | Value | Source |
 |---|---|---|
-| Number of queries | 4 | Operational sizing for ~$1,000 audit |
-| Engines | ChatGPT, Claude (Anthropic), Perplexity | Google/Gemini excluded — rate-limit issues |
+| Number of queries | 8 | Company-centered business accuracy and buying questions |
+| Engines | ChatGPT, Claude (Anthropic), Perplexity, Gemini | Four measured systems for paid V3 audits |
 | Reps per query/engine | 1 | Acknowledged as a snapshot, not a stable measurement |
-| Total query calls | **12** | 4 × 3 × 1 |
+| Total query calls | **32** | 8 × 4 × 1 |
 | Query category mix | 80% informational / 10% transactional / 10% navigational | Aggarwal 2024 GEO-bench distribution [6] |
 
-For 4 queries, the rounding rule reads: **3 informational + 1 entity-specific** (transactional or navigational, picked deterministically by the Query Runner).
+For V3 paid audits, the query set asks what the company does, what services it offers, how much it costs, how it works, how it compares, what makes it different, what problems it solves, and whether it can deliver the outcome it promises.
 
 ### C.2 The four Visibility sub-metrics
 
@@ -270,7 +270,7 @@ Every report includes a one-page methodology section that declares:
 8. US Patent Application US20200349181A1, Google, *Determining Information Gain Subsequent to Identifying a User Interest.* Engines filter for non-redundancy and may exclude redundant sources entirely (paragraph 0059). Cross-mapped in Article 3.
 9. Dias (2026), engine divergence (~11% domain overlap); Tow Center (2025), 1,600-query audit.
 10. Industry analyses of Claude's sourcing pattern: Stridec, Erlin.ai, Oltre.ai, Stackmatix. Cross-mapped in Article 4 §4.7. Triangulated, not peer-reviewed.
-11. arxiv 2605.06635, *Cited but Not Verified.* Citation hallucination rates 11–57% in deployed models.
+11. Onweller, H., Lumer, E., Huber, A., Ramchandani, P., Subbiah, V. K., & Feld, C. (2026). *Cited but Not Verified: Parsing and Evaluating Source Attribution in LLM Deep Research Agents.* arxiv:2605.06635. Tested 14 LLMs across three citation dimensions. Strongest frontier models: link validity >94%, topical relevance >80%, but factual accuracy only 39–77%. Scaling tool calls from 2 to 150 drops factual accuracy by ~42%.
 12. Pirolli, P., & Card, S. K. (1999). *Information Foraging.* Psychological Review, 106(4), 643–675. Users abandon results when snippet/metadata doesn't signal relevance.
 13. Alexander, D., Kusa, W., & de Vries, A. P. (2022). *ORCAS-I: Queries Annotated with Intent using Weak Supervision.* SIGIR '22. Identifies factual/instrumental/exploratory subcategories of informational intent; 36% of informational queries are exploratory and require session context not captured in cold-query measurement.
 14. Broder, A. (2002). *A Taxonomy of Web Search.* SIGIR Forum, 36(2). Foundational nav/trans/info macro-intents.

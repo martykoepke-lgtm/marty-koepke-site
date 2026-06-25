@@ -1,7 +1,7 @@
 # Agent role — Driver Judge
 
 **Status:** v1.0 — ready for implementation
-**Code home:** `lib/avi/judge.ts`
+**Code home:** `packages/avi/src/judge-v2.ts`
 **Canon authority:** `AVI_OPERATING_STANDARD.md` + `public/AI-Visibility-Index-Rubric-and-Protocol.md`. When this file disagrees with either, the canon wins.
 
 ---

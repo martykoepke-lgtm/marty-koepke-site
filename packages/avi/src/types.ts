@@ -7,8 +7,8 @@
 
 export const AVI_RUBRIC_VERSION = 'v0.2';
 
-export type Engine = 'chatgpt' | 'claude' | 'perplexity';
-export const ENGINES: Engine[] = ['chatgpt', 'claude', 'perplexity'];
+export type Engine = 'chatgpt' | 'claude' | 'perplexity' | 'gemini';
+export const ENGINES: Engine[] = ['chatgpt', 'claude', 'perplexity', 'gemini'];
 
 export type DimensionId = 'D1' | 'D2' | 'D3' | 'D4' | 'D6';
 export const DRIVERS: DimensionId[] = ['D1', 'D2', 'D3', 'D4', 'D6'];
@@ -23,8 +23,8 @@ export const DIMENSION_WEIGHTS: Record<DimensionId, number> = {
 
 export type Tier =
   | 'Invisible'
-  | 'Hidden'
-  | 'Faintly Visible'
+  | 'Overlooked'
+  | 'Emerging'
   | 'Discoverable'
   | 'Agent-Ready';
 
@@ -66,6 +66,20 @@ export interface Subject {
    * scent field defaults to false.
    */
   known_differentiation_terms?: string[];
+  /**
+   * V3 AI Business Accuracy intake.
+   *
+   * These fields define the business accuracy boundary: when AI should
+   * recommend the subject, when it should not, what claims are approved or
+   * prohibited, and which sources should be treated as high-priority evidence.
+   */
+  right_fit_situations?: string[];
+  wrong_fit_situations?: string[];
+  approved_claims?: string[];
+  prohibited_claims?: string[];
+  trusted_source_urls?: string[];
+  distinctive_point_of_view?: string;
+  proof_points?: string[];
 }
 
 /** Query template loaded from /queries/*.md */
@@ -239,6 +253,15 @@ export interface CompositeResult {
   tier: Tier;
 }
 
+/** Synthesis — plain-English narrative summary written after scoring. */
+export interface Synthesis {
+  headline: string;
+  body: string;
+  rubric_version: string;
+  generated_at: string;
+  synthesizer_model: string;
+}
+
 /** Full audit record — persisted as JSON, rendered as HTML. */
 export interface Audit {
   audit_id: string;
@@ -259,6 +282,7 @@ export interface Audit {
   visibility_outcome?: VisibilityOutcome;      // paid only
   driver_scores: DriverScore[];
   recommendations: RecommenderOutput;
+  synthesis?: Synthesis;
   composite: CompositeResult;
   api_calls_log: ApiCallLog[];
   errors: AuditError[];
@@ -285,8 +309,8 @@ export interface AuditError {
 /** Tier band cutoffs (composite is 0–100). */
 export function tierFromComposite(composite: number): Tier {
   if (composite < 20) return 'Invisible';
-  if (composite < 40) return 'Hidden';
-  if (composite < 60) return 'Faintly Visible';
+  if (composite < 40) return 'Overlooked';
+  if (composite < 60) return 'Emerging';
   if (composite < 80) return 'Discoverable';
   return 'Agent-Ready';
 }

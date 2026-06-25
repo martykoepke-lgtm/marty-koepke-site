@@ -10,10 +10,18 @@ export { runAudit } from './orchestrator-v2';
 export type { RunAuditOptions } from './orchestrator-v2';
 export { loadSubject } from './subject-loader';
 export { renderReport, renderComparison } from './render-v2';
+export { persistAudit } from './persist-audit';
+export type { PersistResult } from './persist-audit';
+export { synthesize, synthesizeAudit } from './synthesize-v2';
+export type { Synthesis } from './synthesize-v2';
 
-// V1 free-scan (live, used by /scan route)
-export { runFreeScan, tierFor } from './free-scan';
-export type { Tier } from './free-scan';
+// V3 free-scan (live, used by /scan route; legacy persistence underneath until V3 DB lands)
+export { runFreeScan, tierFor } from './v3/free-scan';
+export type { Tier } from './v3/free-scan';
+export { runAuditV3 } from './v3/orchestrator';
+export type { RunAuditV3Options } from './v3/orchestrator';
+export { persistAuditV3 } from './v3/persist';
+export type { PersistV3Result } from './v3/persist';
 
 // V1 crawler (legacy, used by /api/submissions and /ai-visibility/results)
 export { runCrawler, normalizeUrl } from './v1/crawler';
@@ -38,6 +46,24 @@ export {
   DIMENSION_WEIGHTS,
   tierFromComposite,
 } from './types';
+export {
+  AVI_V3_RUBRIC_VERSION,
+  V3_READINESS_DRIVER_DEFINITIONS,
+  V3_OUTCOME_DEFINITIONS,
+  v3TierFromIndex,
+} from './v3/rubric';
+export {
+  v3ReadinessScore,
+  v3VisibilityScore,
+  v3BusinessAccuracyScore,
+  v3PublicScores,
+} from './v3/composite';
+export {
+  v3VisibilityOutcome,
+  v3ClaimSupportScore,
+  v3MeasuredOutcomes,
+} from './v3/outcomes';
+export { classifyClaimSupport, sourceSupportsClaim } from './v3/claim-verifier';
 export type {
   Engine,
   DimensionId,
@@ -64,3 +90,22 @@ export type {
   ApiCallLog,
   AuditError,
 } from './types';
+export type {
+  V3ReadinessDriverId,
+  V3OutcomeId,
+  V3Tier,
+  V3ClaimSupportLabel,
+  V3SourceType,
+  V3Band,
+  V3EvidencePointer,
+  V3ReadinessScore,
+  V3VisibilityOutcome,
+  V3Claim,
+  V3SourceEvidence,
+  V3ClaimVerification,
+  V3MeasuredOutcomes,
+  V3PublicScores,
+  V3CompositeInput,
+  V3FreeScanResult,
+  V3Audit,
+} from './v3/types';

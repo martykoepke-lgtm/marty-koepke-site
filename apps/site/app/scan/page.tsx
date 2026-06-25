@@ -7,7 +7,7 @@ import { SITE } from "@/lib/content";
 /**
  * /scan — the free AI Readiness Check.
  *
- * URL-only form, ~30s synchronous scan, on-screen tier + 7-dim bars +
+ * URL-only form, ~30s synchronous scan, on-screen tier + readiness-driver bars +
  * 2–3 plain-English findings, email gate for the full PDF.
  *
  * Replaces /ai-visibility/order per D006. The page itself is a thin
@@ -41,11 +41,7 @@ export default function ScanPage() {
             Are you built to be found by AI?
           </h1>
           <p className="mt-6 text-lg leading-relaxed text-charcoal">
-            Paste your website URL. In about 30 seconds we&apos;ll read your
-            site, cross-check what the web says about you, and score you on
-            the seven things that determine whether AI tools recommend you
-            when buyers ask. You&apos;ll see your tier and the top fixes on
-            screen — no email required to start.
+            Paste your website URL. In about 30 seconds we'll read your site and score the readiness signals that help AI understand your business. You'll see your tier and the top fixes on screen - no email required to start.
           </p>
         </Reveal>
 
@@ -60,11 +56,11 @@ export default function ScanPage() {
               href="/ai-visibility"
               className="underline underline-offset-4 hover:text-forest"
             >
-              AI Visibility Index Report
+              AI Visibility Snapshot
             </a>{" "}
-            ($697) adds cross-engine measurement against ChatGPT, Claude,
-            Gemini, and Perplexity, plus a 45-minute walkthrough call.
-            Fee credits 100% toward a Sprint within 30 days.
+            ($495) adds a focused live-AI review and walkthrough. The $1,950 AI
+            Business Accuracy Audit goes deeper on accuracy, claim support,
+            context preservation, and recommendation fit.
           </p>
         </Reveal>
       </Section>

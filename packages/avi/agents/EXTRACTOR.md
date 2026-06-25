@@ -1,7 +1,7 @@
 # Agent role — Extractor
 
 **Status:** v1.0 — ready for implementation
-**Code home:** `lib/avi/extractor.ts`
+**Code home:** `packages/avi/src/extractor-v2.ts`
 **Canon authority:** `AVI_OPERATING_STANDARD.md`. When this file disagrees with the operating standard, the operating standard wins.
 
 ---
@@ -21,7 +21,14 @@ PARAMETERS:     temperature 0, JSON mode on, max_tokens 1200
 
 ## One-sentence job description
 
-Parse one raw engine response (the text an AI engine — ChatGPT, Claude, or Perplexity — returned for one query) into a structured record of what it actually said about the subject.
+Parse one raw engine response (the text an AI engine — ChatGPT, Claude, Perplexity, or Gemini — returned for one query) into a structured record of what it actually said about the subject.
+
+## When NOT to invoke this role
+
+- The response has not yet been retrieved from the engine. Extraction runs *after* the Query Runner returns text — never as a substitute for it.
+- The text being parsed is from a web crawl or a third-party platform. The Extractor reads engine outputs only; page content goes to the Crawler/Corroborator path.
+- Any judgment or scoring is needed. The Extractor describes; it does not evaluate. Send observations to the Driver Judge for evaluation against the rubric.
+- The caller wants summaries, paraphrases, or rewrites. The Extractor returns only verbatim-grounded structured fields.
 
 ## System prompt (verbatim)
 
@@ -64,7 +71,7 @@ a stricter instruction. Two failures and the field is recorded as null.
 ```typescript
 interface ExtractorInput {
   query: string;              // the query that was sent to the engine
-  engine: "chatgpt" | "claude" | "perplexity";
+  engine: "chatgpt" | "claude" | "perplexity" | "gemini";
   raw_response: string;       // the engine's response text, verbatim
   subject: {
     canonical_name: string;
@@ -219,11 +226,11 @@ After the Extractor returns, a verification step runs:
 3. If the URL resolves but the page does not mention the subject → flag as hallucinated, exclude.
 4. URLs that pass both checks → count toward the Citation sub-metric.
 
-This is justified by `arxiv 2605.06635` "Cited but Not Verified" — citation hallucination rates 11–57% in deployed models.
+This is justified by Onweller et al. (2026), "Cited but Not Verified" (arxiv 2605.06635). Tested 14 LLMs. Even strongest frontier models keep link validity above 94% and topical relevance above 80%, but **factual accuracy — whether the source actually supports the claim — is only 39–77%**. URL working and being topically relevant is not the same as supporting the claim. Verification must close the loop on the claim, not just the link.
 
 ## Cost estimate
 
 - ~500 input tokens (system prompt + subject metadata + response text averaged)
 - ~300 output tokens (JSON output)
 - Per call cost: ~$0.0001 (Haiku) to ~$0.0003 (Mini)
-- Per audit: 12 calls = ~$0.001 to ~$0.004
+- Per audit: 16 calls = ~$0.001 to ~$0.006

@@ -19,7 +19,7 @@ type SearchParams = { token?: string };
 
 /**
  * Teaser results page — shows the preliminary score and 2–3 findings,
- * with a CTA to upgrade to the full $497 audit.
+ * with a CTA to upgrade to the paid V3 offers.
  *
  * Token-gated: the URL must include `?token=...` matching the row's
  * access_token. This prevents anyone from enumerating submission IDs.
@@ -61,7 +61,7 @@ export default async function ResultsPage({
       <Section tone="forest" width="narrow" className="text-center">
         <Reveal>
           <p className="font-serif text-xs uppercase tracking-[0.18em] text-cream/60">
-            Preliminary AI Visibility Index
+            Preliminary AI Readiness Check
           </p>
           <p className="mt-2 text-sm uppercase tracking-[0.14em] text-cream/80">
             Prepared for {submission.company_name}
@@ -124,17 +124,16 @@ export default async function ResultsPage({
             What&apos;s NOT in this teaser.
           </h2>
           <p className="mt-4 text-lg leading-relaxed text-charcoal">
-            The full $697 AI Visibility Report includes:
+            The $495 AI Visibility Snapshot adds:
           </p>
         </Reveal>
         <ul className="mt-7 space-y-3">
           {[
-            "Live queries against ChatGPT, Claude, and Perplexity — with the actual responses quoted",
-            "Side-by-side comparison with two competitors AI is recommending instead of you",
-            "Seven-dimension scorecard with explanations",
-            "Top 10 prioritized fixes ranked by impact vs. effort",
-            "Your projected 60-day score if you implement the recommendations",
-            "A 30-minute walk-through call with Marty",
+            "Focused live-AI review",
+            "A check for obvious misrepresentation or missing context",
+            "Light competitor and source gap review",
+            "Short prioritized fix list",
+            "Walkthrough call with Marty",
           ].map((item, i) => (
             <li
               key={i}
@@ -147,19 +146,19 @@ export default async function ResultsPage({
         </ul>
       </Section>
 
-      {/* Primary CTA — pay $497 */}
+      {/* Primary CTA — pay $495 */}
       <Section tone="forest" width="narrow" className="text-center">
         <Reveal>
           <h2 className="text-3xl text-cream sm:text-4xl">
-            Get the full report and 30-min walk-through.
+            Get the $495 Snapshot.
           </h2>
           <p className="mx-auto mt-5 max-w-xl text-lg text-cream/80">
-            Delivered within 24 hours. One flat price, no surprises.
+            A focused first look at whether AI can find, understand, and describe your business.
           </p>
-          <p className="mt-7 font-serif text-5xl text-gold">$497</p>
+          <p className="mt-7 font-serif text-5xl text-gold">$495</p>
           <div className="mt-7">
             <Button href={AVI_CHECKOUT.report} variant="onForest">
-              Pay and get my full report
+              Get my Snapshot
               <ArrowRightIcon className="h-4 w-4" />
             </Button>
           </div>
@@ -198,9 +197,9 @@ function tierLabel(tier: string): string {
     case "discoverable":
       return "Discoverable";
     case "faintly-visible":
-      return "Faintly Visible";
+      return "Emerging";
     case "hidden":
-      return "Hidden";
+      return "Overlooked";
     default:
       return "Invisible";
   }
@@ -209,14 +208,14 @@ function tierLabel(tier: string): string {
 function tierLine(tier: string): string {
   switch (tier) {
     case "agent-ready":
-      return "AI agents surface and recommend you accurately for the queries that matter.";
+      return "Your site has strong readiness signals. A paid live-AI review can test actual AI answers.";
     case "discoverable":
       return "AI agents know you exist. They don't yet know what you do today.";
     case "faintly-visible":
-      return "Sometimes mentioned, often missed. The full audit shows where.";
+      return "Some signals are present, but the paid review shows what AI actually says.";
     case "hidden":
-      return "AI rarely surfaces you. The full audit identifies what's holding you back.";
+      return "Important readiness signals are weak. The paid review can identify what is holding you back.";
     default:
-      return "AI doesn't know you exist yet. The full audit will show exactly why — and what fixes the gap.";
+      return "AI may not have enough clear evidence to understand you yet. The paid review shows what to fix first.";
   }
 }

@@ -14,5 +14,12 @@
   "buyer_descriptor": "small business owner",
   "pain_point": "showing up in ChatGPT, Claude, and Perplexity recommendations",
   "scenario": "wants their brand to be cited when buyers ask AI search engines for help",
-  "distinctive_term": "AI visibility audit"
+  "distinctive_term": "AI visibility audit",
+  "canonical_name": "Peec AI",
+  "aliases": [],
+  "buyer_type": "small business owner",
+  "problem": "showing up in ChatGPT, Claude, and Perplexity recommendations",
+  "known_differentiation_terms": [
+    "AI visibility audit"
+  ]
 }

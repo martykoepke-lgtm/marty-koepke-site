@@ -30,6 +30,7 @@ import { aggregate } from './aggregator-v2';
 import { judge } from './judge-v2';
 import { compositeScore } from './composite-v2';
 import { recommend } from './recommender-v2';
+import { synthesize } from './synthesize-v2';
 
 import {
   AVI_RUBRIC_VERSION,
@@ -110,6 +111,16 @@ export async function runAudit(
     nFixes
   );
 
+  // 10. Synthesizer — plain-English narrative summary of the audit.
+  // One LLM call, structured output. Aggregator-only (no new facts).
+  const synthesis = await synthesize(
+    subject,
+    driver_scores,
+    visibility_outcome,
+    composite,
+    recommendations
+  );
+
   const audit: Audit = {
     audit_id,
     rubric_version: AVI_RUBRIC_VERSION,
@@ -129,6 +140,7 @@ export async function runAudit(
     visibility_outcome,
     driver_scores,
     recommendations,
+    synthesis: synthesis ?? undefined,
     composite,
     api_calls_log: [], // Logging is handled inside llm.ts via Supabase. CLI path: see logging.ts.
     errors,

@@ -58,6 +58,6 @@ When this template set runs against Profound, Conductor, BrightEdge, Otterly, At
 
 - The 80/10/10 sampling picks 3 informational + 1 entity-specific per subject.
 - The Query Runner determines whether the entity-specific slot goes to a TRANS or NAV template based on subject metadata.
-- Each subject gets 4 queries × 3 engines = 12 query calls.
-- 7 subjects × 12 = **84 total query calls** for the comparison test.
+- Each subject gets 4 queries × 4 engines = 16 query calls.
+- 7 subjects × 16 = **112 total query calls** for the comparison test.
 - Estimated cost: ~$0.50–$2.00 in LLM API calls + Tavily search ~$0.10 per subject for corroboration = under $20 for the whole comparison.

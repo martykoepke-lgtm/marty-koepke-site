@@ -160,7 +160,7 @@ create table if not exists public.audit_engine_responses (
   query text not null,
   intent text not null check (intent in ('informational','transactional','navigational')),
   intent_subtype text check (intent_subtype in ('factual','instrumental','exploratory')),
-  engine text not null check (engine in ('chatgpt','claude','perplexity')),
+  engine text not null check (engine in ('chatgpt','claude','perplexity','gemini')),
   raw_response text not null,
   captured_at timestamptz not null,
   error text
@@ -326,7 +326,7 @@ comment on table public.audit_crawler_evidence is
 comment on table public.audit_corroboration is
   'Tavily search results — general + platform-filtered (Reddit, LinkedIn, Wikipedia, YouTube, G2, Gartner).';
 comment on table public.audit_engine_responses is
-  'Raw engine responses, one per query x engine combo. 12 rows per paid audit.';
+  'Raw engine responses, one per query x engine combo. 16 rows per V2 paid audit or 32 rows per V3 paid audit.';
 comment on table public.audit_extracted is
   'Extractor output per engine response. Scent fields are nullable when mentioned=false.';
 comment on table public.audit_visibility_outcomes is

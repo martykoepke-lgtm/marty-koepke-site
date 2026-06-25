@@ -1,0 +1,25 @@
+{
+  "canonical_name": "Practical Informatics",
+  "aliases": [
+    "Practical Informatics LLC"
+  ],
+  "industry": "AI visibility consultant",
+  "subject_type": "company",
+  "url": "https://www.practicalinformatics.com",
+  "location": "the United States",
+  "buyer_type": "small business owner",
+  "problem": "We offer AI visibility and accuracy assessments to small businesses",
+  "competitors": [
+    {
+      "canonical_name": "Profound AI",
+      "aliases": []
+    },
+    {
+      "canonical_name": "Gauge",
+      "aliases": []
+    }
+  ],
+  "known_differentiation_terms": [
+    "offers an assessment on how accurately AI represents the company, not just is it visible."
+  ]
+}

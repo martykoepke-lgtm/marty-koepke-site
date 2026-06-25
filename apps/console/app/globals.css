@@ -1,0 +1,157 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-forest: #1E3B2A;
+  --color-forest-dark: #0D2117;
+  --color-gold: #D4A84E;
+  --color-gold-dark: #A97824;
+  --color-charcoal: #1A1A1A;
+
+  --color-paper: #FFFFFF;
+  --color-bg: #0F2419;
+  --color-sidebar: #07150F;
+  --color-cream: #FFFFFF;
+  --color-cream-dim: #EDF3EA;
+  --color-paper-dim: #F7FAF5;
+
+  --color-rule: #E1E8DC;
+  --color-rule-strong: #C6D2BF;
+  --color-tan: #C6D2BF;
+  --color-muted: #667064;
+  --color-moss: #536C55;
+
+  --font-sans: var(--font-inter);
+}
+
+html {
+  background: #0F2419;
+}
+
+body {
+  background:
+    linear-gradient(90deg, rgba(10, 28, 18, 0.76), rgba(32, 52, 34, 0.5), rgba(246, 229, 183, 0.16)),
+    url("/large-tree-background.png") center / cover fixed;
+  color: #F6F8F5;
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+::selection {
+  background: rgba(201, 169, 97, 0.4);
+  color: #1F3A2E;
+}
+
+:focus-visible {
+  outline: 2px solid #C9A961;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(201, 169, 97, 0.48);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(201, 169, 97, 0.72);
+}
+
+.console-workspace {
+  background:
+    linear-gradient(90deg, rgba(9, 25, 17, 0.78) 0%, rgba(29, 58, 37, 0.56) 42%, rgba(230, 205, 144, 0.2) 100%),
+    radial-gradient(circle at 80% 12%, rgba(244, 200, 96, 0.38), transparent 24rem),
+    url("/large-tree-background.png") center / cover fixed;
+  color: #F6F8F5;
+  min-height: 100vh;
+}
+
+.console-workspace h2.text-forest-dark,
+.console-workspace h3.text-forest-dark,
+.console-workspace .text-muted {
+  color: rgba(246, 248, 245, 0.68);
+}
+
+.console-workspace h2.text-forest-dark,
+.console-workspace h3.text-forest-dark {
+  color: #F6F8F5;
+}
+
+.console-workspace .bg-paper h1,
+.console-workspace .bg-paper h2,
+.console-workspace .bg-paper h3,
+.console-workspace .bg-paper .text-forest-dark,
+.console-workspace .bg-paper-dim .text-forest-dark,
+.console-workspace .bg-cream-dim .text-forest-dark {
+  color: #16291F;
+}
+
+.console-workspace .bg-paper .text-charcoal,
+.console-workspace .bg-paper-dim .text-charcoal,
+.console-workspace .bg-cream-dim .text-charcoal {
+  color: #1A1A1A;
+}
+
+.console-workspace .bg-paper .text-muted,
+.console-workspace .bg-paper-dim .text-muted,
+.console-workspace .bg-cream-dim .text-muted {
+  color: #667064;
+}
+
+.console-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.console-table thead th {
+  text-align: left;
+  font-weight: 500;
+  color: #667064;
+  padding: 0.5rem 0.875rem;
+  border-bottom: 1px solid #C9D4C4;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.console-table tbody td {
+  padding: 0.75rem 0.875rem;
+  border-bottom: 1px solid #E0E7DE;
+  vertical-align: top;
+}
+
+.console-table tbody tr:hover {
+  background: #F1F6EF;
+}
+
+.console-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.gold-accent {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(212, 168, 78, 0.9) 30%,
+    rgba(212, 168, 78, 0.9) 70%,
+    transparent 100%
+  );
+}

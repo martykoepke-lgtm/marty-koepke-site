@@ -144,8 +144,8 @@ The 60/40 weighting reflects D002's stance: drivers are leading indicators; the 
 | Composite | Tier |
 |---|---|
 | `< 0.20` | Invisible |
-| `0.20 – 0.40` | Hidden |
-| `0.40 – 0.60` | Faintly Visible |
+| `0.20 – 0.40` | Overlooked |
+| `0.40 – 0.60` | Emerging |
 | `0.60 – 0.80` | Discoverable |
 | `≥ 0.80` | Agent-Ready |
 

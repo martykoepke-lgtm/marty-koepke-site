@@ -245,7 +245,7 @@ Reason this is one entry instead of many: no single peer-reviewed paper says "he
 | Vidgen et al., "Generative AI Search Engines as Arbiters of Public Knowledge" (arxiv 2405.14034) | Academic audit framing AI search engines as gatekeepers of which sources count as authoritative. |
 | Shah & Bender, "Search Engines Post-ChatGPT" (arxiv 2402.11707) | Theoretical and empirical concerns about reliability of AI search as a knowledge surface. |
 | "Wikipedia in the Era of LLMs: Evolution and Risks" (arxiv 2503.02879) | Wikipedia's outsized role in LLM behavior; engines depend disproportionately on Wikipedia's structure. |
-| "Cited but Not Verified" (arxiv 2605.06635) | Citation hallucination rates 11–57% across deployed models. Directly relevant to Extractor URL verification. |
+| Onweller et al., "Cited but Not Verified" (arxiv 2605.06635, 2026) | Tested 14 LLMs. Even strongest frontier models achieve only 39–77% factual accuracy in citations, despite link validity >94% and topical relevance >80%. Scaling tool calls from 2 to 150 drops factual accuracy by ~42%. Directly relevant to Extractor URL verification — the URL working and being topically relevant is not the same as it supporting the claim. |
 | "Source Coverage and Citation Bias in LLM-based vs Traditional Search" (arxiv 2512.09483) | Comparison of citation distributions across LLM search and traditional engines. |
 
 **Industry research (rigorous but not peer-reviewed):**
@@ -309,7 +309,7 @@ Three changes worth making.
 - **Rubric D2 anchored scale** — Semrush distribution (Reddit 40.1%, Wikipedia 26.3%, YouTube 23.5%) as the strongest empirical citation for D2's weight.
 - **Rubric D6 anchored scale** — Profound's per-engine breakdown (ChatGPT vs GAIO vs Perplexity citation patterns) as evidence for engine-specific platform mapping. **For Claude (Anthropic), cite the secondary industry analyses listed in §4.7** since Profound did not measure Claude directly.
 - **Rubric D3 anchored scale** — ALM Corp's 44% / first third finding as evidence for the above-the-fold sub-criterion.
-- **Extractor role refusal block** — "Cited but Not Verified" (arxiv 2605.06635) 11–57% hallucination rates as the justification for URL verification.
+- **Extractor role refusal block** — Onweller et al. (2026), "Cited but Not Verified" (arxiv 2605.06635). Frontier LLMs achieve only 39–77% factual accuracy in their citations even though links work and topical relevance is high. Justification for URL verification AND content-supports-claim verification — URL working alone is insufficient.
 - **Operating standard §5.3 cross-judge** — Liu et al. (arxiv 2304.09848) 51.5% recall / 74.5% precision as justification for a second-vendor check.
 
 **The honest limit:** no peer-reviewed paper isolates exactly how each commercial LLM weights each platform. That paper would have to come from inside the AI companies or from very expensive black-box auditing. Until it exists, the evidence is necessarily triangulated from industry audits + licensing deals + behavioral measurements.

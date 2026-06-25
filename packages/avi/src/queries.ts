@@ -10,19 +10,50 @@
  * is automatically discovered.
  */
 
-import { readFile, readdir } from 'node:fs/promises';
+import { readFile, readdir, access } from 'node:fs/promises';
 import { join } from 'node:path';
 import type { PreparedQuery, QueryTemplate, Subject, QueryIntent, IntentSubtype } from './types';
 
-const QUERY_DIR = join(process.cwd(), 'queries');
+/**
+ * The queries/ dir lives at packages/avi/queries/. Different callers
+ * invoke the pipeline from different cwds (CLI from packages/avi/,
+ * console from apps/console/, site from apps/site/) so we resolve the
+ * path defensively against a short list of candidates and cache the
+ * first one that exists.
+ */
+let cachedQueryDir: string | null = null;
+
+async function getQueryDir(): Promise<string> {
+  if (cachedQueryDir) return cachedQueryDir;
+  const cwd = process.cwd();
+  const candidates = [
+    join(cwd, 'queries'),
+    join(cwd, 'packages', 'avi', 'queries'),
+    join(cwd, '..', '..', 'packages', 'avi', 'queries'),
+    join(cwd, '..', 'packages', 'avi', 'queries'),
+  ];
+  for (const dir of candidates) {
+    try {
+      await access(dir);
+      cachedQueryDir = dir;
+      return dir;
+    } catch {
+      /* try next */
+    }
+  }
+  throw new Error(
+    `Cannot locate packages/avi/queries directory. Tried: ${candidates.join(', ')}`
+  );
+}
 
 export async function loadTemplates(): Promise<QueryTemplate[]> {
-  const files = await readdir(QUERY_DIR);
+  const dir = await getQueryDir();
+  const files = await readdir(dir);
   const templates: QueryTemplate[] = [];
   for (const file of files) {
     if (!file.endsWith('.md') || file === 'README.md') continue;
     const scope = file === 'UNIVERSAL.md' ? 'universal' : file.replace('.md', '').toLowerCase();
-    const content = await readFile(join(QUERY_DIR, file), 'utf-8');
+    const content = await readFile(join(dir, file), 'utf-8');
     templates.push(...parseTemplates(content, scope));
   }
   return templates;

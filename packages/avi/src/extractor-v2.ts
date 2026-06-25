@@ -180,7 +180,9 @@ Return JSON only.`;
  * Citation verification — fetches each cited URL, checks (a) it resolves,
  * (b) the page mentions the subject. Hallucinated citations excluded.
  *
- * Per arxiv 2605.06635 — citation hallucination 11–57% in deployed models.
+ * Per Onweller et al. (2026), arxiv 2605.06635 — even strongest frontier LLMs achieve only
+ * 39–77% factual accuracy in their citations, despite link validity >94% and topical
+ * relevance >80%. URL working is not the same as content supporting the claim.
  */
 export async function verifyCitations(
   extraction: ExtractorOutput,

@@ -1,116 +1,174 @@
-# Practical Informatics — Pricing Structure
+# Practical Informatics Pricing Structure
 
-*Working pricing document. Numbers below are illustrative starting points anchored to the current market (where sub-$1,000 work reads as "thin/automated" and agency engagements run $1,000–$10,000/mo). Set your finals based on your costs, your capacity as a solo founder, and your local market — then revisit after your first 3–5 clients.*
+Working V3 pricing reference.
 
----
+## Positioning
 
-## The four pricing principles
+AI Visibility is the front door. AI Business Accuracy is the framework.
 
-1. **Published, not hidden.** Every price is visible (a flat fee or an honest "from $X"). In a category where agencies hide behind "contact us for a quote," transparency is your differentiator — so live it.
-2. **Productized.** Fixed scope → fixed price. You sell defined packages, not open-ended hours.
-3. **Scaled by footprint, not headcount or task-count.** Price rises with the *size of the job* (locations, services, competitors, platforms) — never by the client's employee count, and never by counting individual tasks.
-4. **Three tiers.** Good / Better / Best. The middle tier anchors the decision and is what most people choose; more than three creates paralysis.
+Core promise:
 
----
+We help AI get your business right.
 
-## The ladder at a glance
+Safer offer language:
 
-| Tier | Price (illustrative) | For | What they walk away with |
-|---|---|---|---|
-| **AI-Readiness Check** | Free | The merely curious | A quick score + plain-English read on whether their site is *built* to be found |
-| **AI Visibility Index Report** | ~$1,000 | Ready to know where they stand | The real cross-engine measurement, scored and explained, with a roadmap |
-| **Done-With-You Remediation Sprint** | From $3,000 (Foundations) / $5,000 (Expanded) | Ready to fix it | The priority fixes done *with* them, plus proof the number moved |
-| **Ongoing Visibility Partner** *(optional)* | From $600/mo | Want to maintain & grow | Monitoring, quarterly re-measures, continued guidance |
+We test whether AI systems can find, understand, cite, and recommend your business in right-fit situations.
 
----
+## Offer Ladder
 
-## Tier details
+| Offer | Price | For | What they walk away with |
+| --- | --- | --- | --- |
+| Free AI Readiness Check | $0 | Curious prospects | A fast readiness-only scan of whether the website gives AI enough clear signals |
+| AI Visibility Snapshot | $495 | Buyers who want a focused first look | A focused live-AI review, obvious misrepresentation risks, source gaps, and a short fix list |
+| AI Business Accuracy Audit | $1,950 | Buyers who need the full protocol | A defensible baseline across readiness, visibility, accuracy, claim support, context, recommendation fit, and stability where measurable |
+| Implementation Planning | Scoped after audit | Buyers ready to fix what the audit found | A defined work plan that separates copy, schema, source support, positioning, citation, review, and authority work |
+| Monthly Monitoring | $500/month | Clients who want ongoing visibility and accuracy checks | Monthly pulse checks for drift, competitor movement, source changes, and next actions |
 
-### Free — AI-Readiness Check
-**Price:** $0
-**For:** Anyone curious whether their website is even built to be found by AI.
-**Includes:** An automated check of the readiness signals (structure, schema, entity basics), a simple score, and a plain-English summary of what it means.
-**Not included:** The actual cross-engine visibility measurement (that's the Index Report) and any remediation.
-**Format:** Instant/online; the result is the thing that earns the email.
-**Job it does:** Top of funnel. It demonstrates the problem and qualifies interest.
+## Free AI Readiness Check
 
-### Tier 1 — AI Visibility Index Report
-**Price:** ~$1,000 *(range $750–$1,500)* — **100% credited toward a Sprint** if booked within 30 days.
-**For:** Businesses ready to know exactly where they actually stand.
-**Includes:**
-- The full rubric run across ChatGPT, Claude, Gemini, Perplexity, and Google AI.
-- Scored Visibility (the outcome) **and** Readiness (the drivers).
-- Benchmark against up to 3 named competitors.
-- A prioritized remediation roadmap — what to fix, in what order, and why.
-- A 45-minute walkthrough call, in plain English.
-**Not included:** Doing the remediation; ongoing monitoring.
-**Timeline:** Delivered within 7–10 business days.
-**Format:** Written report + walkthrough call.
+Price: $0
 
-### Tier 2 — Done-With-You Remediation Sprint
-This is the core offer, and where complexity scaling lives — two scope levels, not employee tiers:
+Purpose:
 
-- **Foundations** — from **$3,000.** Solo operator, single location, focused service set.
-- **Expanded** — from **$5,000.** Multiple locations / services, or a larger competitive field.
+Top-of-funnel readiness preview.
 
-**For:** Businesses ready to fix it, not just measure it.
-**Includes:**
-- Everything in the Index Report (or its fee credited in).
-- Priority remediation done *with* you: entity cleanup & consistency, on-site structure/schema, the 1–2 highest-leverage platform presences, and original-data/content guidance.
-- Defined working sessions (e.g., 3–4) so you're never alone in it.
-- A **60-day re-measure** that proves the number moved.
-**Not included:** Unlimited content production; paid media/ads; building a new website from scratch; ongoing management past the sprint. (Any of these can be scoped separately or referred.)
-**Timeline:** 30–60 days with defined milestones.
-**Revisions:** Up to 2 rounds on each deliverable.
-**Format:** Kickoff → working sessions → re-measure report.
+Includes:
 
-### Tier 3 — Ongoing Visibility Partner *(optional)*
-**Price:** From **$600/mo** *(range $500–$1,000)*.
-**For:** Clients who want to maintain and keep growing after a Sprint.
-**Includes:** Monthly monitoring, a quarterly re-measure & report, ongoing entity/content guidance, and a monthly check-in.
-**Not included:** Net-new large projects (scoped separately).
-**Term:** Month-to-month or quarterly — cancel anytime. (Easy exit *is* a trust signal; lean into it.)
-**Note:** Offered only after a Sprint, never as a standalone retainer.
+- Website-readiness scan
+- Business clarity check
+- Source-support check
+- AI-readability check
+- Distinctive point-of-view check
+- Recommendation-fit check
+- Top 2-3 obvious gaps
 
----
+Does not include:
 
-## The conversion mechanic
+- A claim that live AI systems mention or recommend the business
+- Full live AI testing
+- Claim-level verification
+- Hallucination-risk assessment
 
-The Index Report fee is **credited 100% toward a Sprint** booked within 30 days. This lowers the risk of the first "yes," and turns the Report into a natural on-ramp rather than a dead end. Most of your revenue should come from Report → Sprint conversions.
+## AI Visibility Snapshot
 
----
+Price: $495
 
-## What changes the price (the transparent variables)
+Purpose:
 
-This is how you keep "from $X" honest — publish it so buyers can self-estimate:
-- Number of physical locations
-- Number of distinct services / key pages
-- Size of the competitive set to benchmark
-- Number of platforms that need work
-- Rush timeline
+Focused paid review for small businesses that want to know whether AI can find, understand, and describe them.
 
-A scope change is always a new, named line item — never quietly absorbed.
+Includes:
 
----
+- Focused live-AI review
+- Obvious misrepresentation checks
+- Light competitor and source-gap review
+- Short fix list
+- Walkthrough call
 
-## Solo-founder guardrails (internal discipline)
+Best for:
 
-These protect your margin, which as a solo founder *is* your business:
-- Every engagement has written deliverables, timeline, revision rounds, and an explicit "what's not included."
-- Cap the number of working sessions; extra sessions are an add-on.
-- Scope creep is the #1 killer of solo-service profit — boundaries are not unfriendly, they're what let you deliver well.
-- Don't discount your expertise to win a price-shopper. Direct access to *you* is the premium; the price-shopper isn't your buyer.
+Businesses that want a practical first answer before committing to the full audit.
 
----
+## AI Business Accuracy Audit
 
-## How to present this on the website
+Price: $1,950
 
-- Show all four tiers with prices (flat or "from $X"). No "contact us for pricing."
-- Visually emphasize the **middle paid tier** (the Sprint) — that's your anchor and your target sale.
-- Make the **free Readiness Check** the primary entry CTA.
-- Under each tier, a short plain-language "what's included / what's not."
-- Add one trust line near the pricing, e.g.: *"We publish our prices because you shouldn't have to book a call to find out what something costs."* That single sentence turns transparency into a stated value.
+Purpose:
 
----
+The core offer and full measurement protocol.
 
-*Illustrative v1. Recalibrate the numbers once you've delivered a few engagements and know your real time-per-tier — that lived data should set your final prices, not a guess.*
+Includes:
+
+- V3 readiness drivers
+- Live AI outcome testing
+- Visibility measurement
+- Representation accuracy review
+- Claim-support review
+- Context-preservation review
+- Recommendation-quality review
+- Stability review where enough runs exist
+- Prioritized remediation roadmap
+
+Best for:
+
+Businesses that need a defensible baseline and a serious plan for improving how AI represents them.
+
+## Implementation Planning
+
+Price:
+
+Scoped after audit.
+
+Reason:
+
+Do not sell an implementation sprint before knowing what needs fixing.
+
+The audit may reveal different types of work:
+
+- Site copy cleanup
+- Schema or structured data
+- Source/citation support
+- Google Business Profile or directory consistency
+- Review strategy
+- Proof-point development
+- Distinctive point-of-view refinement
+- Service-page or FAQ changes
+- Broader content or authority work
+
+Implementation planning turns the audit into a scoped work plan. A sprint should be quoted only after that plan exists.
+
+## Monthly Monitoring
+
+Price: $500/month
+
+Purpose:
+
+A lightweight recurring pulse check after a Snapshot or Audit.
+
+Includes:
+
+- Monthly rerun of a focused prompt set
+- Visibility drift notes
+- Accuracy drift notes
+- Citation/source changes worth watching
+- Competitor movement highlights
+- Short monthly action note
+
+Does not include:
+
+- Full claim-by-claim audit every month
+- Unlimited implementation work
+- Full quarterly audit unless separately scoped
+
+## Monthly Monitoring Vs Quarterly Re-measure
+
+Monthly monitoring is a light pulse check.
+
+It answers:
+
+Are things drifting, improving, or getting worse this month?
+
+Quarterly re-measure is a deeper audit-style rerun.
+
+It answers:
+
+Did the work create measurable improvement against the original baseline?
+
+Recommended V3 packaging:
+
+- Keep $500/month monitoring as the recurring offer.
+- Treat a quarterly deep re-measure as an optional add-on or scheduled audit milestone.
+- Do not bundle a heavy quarterly re-measure into $500/month unless the scope is tightly limited.
+
+## Presentation Recommendation
+
+On the website, emphasize:
+
+1. Free readiness check
+2. $495 AI Visibility Snapshot
+3. $1,950 AI Business Accuracy Audit
+4. Implementation planning after diagnosis
+5. $500/month monitoring after a Snapshot or Audit
+
+Do not lead with implementation sprint pricing until the process for implementation is defined.
+

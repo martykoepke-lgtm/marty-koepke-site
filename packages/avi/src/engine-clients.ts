@@ -1,6 +1,6 @@
 /**
  * Engine clients — thin wrappers around llm.ts for querying the audited engines
- * (ChatGPT, Claude, Perplexity) as SUBJECTS of measurement, not as workers.
+ * (ChatGPT, Claude, Perplexity, Gemini) as SUBJECTS of measurement, not as workers.
  *
  * Each call sends a buyer-style query to the engine and captures the raw response.
  * The Extractor parses what comes back.
@@ -9,10 +9,11 @@
 import { llmCall } from './llm';
 import type { Engine, EngineResponse, PreparedQuery } from './types';
 
-const PROVIDER_BY_ENGINE: Record<Engine, 'openai' | 'anthropic' | 'perplexity'> = {
+const PROVIDER_BY_ENGINE: Record<Engine, 'openai' | 'anthropic' | 'perplexity' | 'gemini'> = {
   chatgpt: 'openai',
   claude: 'anthropic',
   perplexity: 'perplexity',
+  gemini: 'gemini',
 };
 
 export async function queryEngine(query: PreparedQuery, engine: Engine): Promise<EngineResponse> {
@@ -52,10 +53,8 @@ export async function runQueryGrid(
 ): Promise<EngineResponse[]> {
   const out: EngineResponse[] = [];
   for (const q of queries) {
-    for (const e of engines) {
-      const r = await queryEngine(q, e);
-      out.push(r);
-    }
+    const responses = await Promise.all(engines.map((e) => queryEngine(q, e)));
+    out.push(...responses);
   }
   return out;
 }

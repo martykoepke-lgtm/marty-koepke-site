@@ -255,7 +255,7 @@ What stood out:
 
 ${findingsText}
 
-Want the full cross-engine measurement? The paid AI Visibility Index Report ($697) runs your URL against ChatGPT, Claude, Gemini, and Perplexity and includes a 45-minute walkthrough call. Fee credits 100% toward a Sprint within 30 days.
+Want the paid review? The AI Visibility Snapshot ($495) adds a focused live-AI review and walkthrough. The AI Business Accuracy Audit ($1,950) goes deeper on accuracy, claim support, context preservation, and recommendation fit.
 
 Read more: https://www.practicalinformatics.com/ai-visibility
 Book a free 20-minute conversation: https://tally.so/r/xXVPgo

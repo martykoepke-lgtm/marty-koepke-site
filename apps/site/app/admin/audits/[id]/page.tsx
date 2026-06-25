@@ -398,7 +398,7 @@ function DimensionsSection({ dimensions }: { dimensions: DimensionScore[] }) {
       </h2>
       <p className="text-sm text-moss mb-6">
         How well the subject is built to be found. Scored 0–5 against the
-        Option 2 rubric (seven dimensions, subject-adaptive).
+        Legacy rubric view. V3 reports should display readiness drivers and measured outcomes separately.
       </p>
 
       <div className="space-y-6">

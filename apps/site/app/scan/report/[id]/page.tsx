@@ -277,7 +277,7 @@ function DimensionsSection({ dimensions }: { dimensions: DimensionRow[] }) {
   return (
     <section className="mb-12 break-inside-avoid">
       <h2 className="font-serif text-2xl text-forest mb-6">
-        The seven dimensions
+        The readiness drivers
       </h2>
       <ul className="space-y-5">
         {dimensions.map((d) => (
@@ -495,10 +495,10 @@ function UpsellSection() {
         </h2>
         <p className="text-base leading-relaxed text-cream/95">
           This report scored what&apos;s on your site. The paid{" "}
-          <strong className="text-gold">AI Visibility Index Report</strong>{" "}
-          ($697) measures what ChatGPT, Claude, Gemini, and Perplexity actually
-          say when buyers ask about your category, with a 45-minute walkthrough
-          call. Fee credits 100% toward a Sprint within 30 days.
+          <strong className="text-gold">AI Visibility Snapshot</strong>{" "}
+          ($495) adds a focused live-AI review and walkthrough. The $1,950 AI
+          Business Accuracy Audit goes deeper on accuracy, claim support,
+          context preservation, and recommendation fit.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
           <a

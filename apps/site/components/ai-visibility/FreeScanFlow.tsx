@@ -9,7 +9,7 @@ import { ArrowRightIcon } from "@/components/ui/Icons";
  * Three phases on one page:
  *   1. URL form
  *   2. Loading state (progress labels track the pipeline)
- *   3. Result (tier + 7-dim bars + findings + email gate)
+ *   3. Result (tier + readiness-driver bars + findings + email gate)
  *
  * No page navigation between phases — the scanId + access token stay
  * in component state and the email gate posts back with them.
@@ -57,31 +57,31 @@ const TIER_COPY: Record<
   invisible: {
     label: "Invisible",
     sentence:
-      "AI tools don't currently surface your business when buyers ask. Strong signals are missing, but the fixes are mostly cheap.",
+      "Your site is missing major readiness signals that help AI understand the business. The fixes are usually practical and specific.",
     color: "bg-red-200 text-red-900",
   },
   hidden: {
     label: "Hidden",
     sentence:
-      "AI tools can find you if pressed but won't recommend you on their own yet. A handful of structured fixes change that.",
+      "Some basic signals are present, but AI systems may still struggle to understand what you do and when you are a good fit.",
     color: "bg-orange-200 text-orange-900",
   },
   "faintly-visible": {
     label: "Faintly Visible",
     sentence:
-      "AI tools mention you sometimes, but inconsistently. You're in the conversation — not yet at the top of it.",
+      "Your business has some readable signals, but important clarity, source, or positioning gaps still need attention.",
     color: "bg-yellow-200 text-yellow-900",
   },
   discoverable: {
     label: "Discoverable",
     sentence:
-      "AI tools recognize you as a credible answer. Closing the remaining gaps moves you to a default recommendation.",
+      "Your business is reasonably readable to AI systems. Closing the remaining gaps should make your positioning easier to preserve.",
     color: "bg-emerald-200 text-emerald-900",
   },
   "agent-ready": {
     label: "Agent-Ready",
     sentence:
-      "AI tools surface you confidently across the queries that matter. You're set up to compound visibility, not chase it.",
+      "Your website has strong readiness signals. A paid live-AI review can test whether those signals are showing up in actual AI answers.",
     color: "bg-forest text-cream",
   },
 };
@@ -242,7 +242,7 @@ function Scanning() {
           <Dot /> Cross-checking entity signals (LinkedIn, Wikidata, press)
         </li>
         <li className="flex items-start gap-2 text-moss">
-          <Dot /> Scoring against the 7-dimension rubric
+          <Dot /> Scoring the five V3 readiness drivers
         </li>
       </ul>
       <p className="text-xs text-moss">
@@ -312,10 +312,10 @@ function ScanResult({
         )}
       </div>
 
-      {/* Seven dimensions as bars */}
+      {/* Readiness drivers as bars */}
       <div className="space-y-4">
         <h2 className="font-serif text-xl text-forest">
-          The seven dimensions
+          The readiness drivers
         </h2>
         <ul className="space-y-3">
           {scan.dimensions.map((d) => (

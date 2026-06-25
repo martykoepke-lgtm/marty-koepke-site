@@ -30,6 +30,14 @@ export function normalizeSubject(raw: any): Subject {
       buyer_type: raw.buyer_type,
       problem: raw.problem,
       competitors: raw.competitors ?? [],
+      known_differentiation_terms: raw.known_differentiation_terms ?? [],
+      right_fit_situations: raw.right_fit_situations ?? [],
+      wrong_fit_situations: raw.wrong_fit_situations ?? [],
+      approved_claims: raw.approved_claims ?? [],
+      prohibited_claims: raw.prohibited_claims ?? [],
+      trusted_source_urls: raw.trusted_source_urls ?? [],
+      distinctive_point_of_view: raw.distinctive_point_of_view,
+      proof_points: raw.proof_points ?? [],
     };
   }
 
@@ -53,6 +61,16 @@ export function normalizeSubject(raw: any): Subject {
     buyer_type: raw.buyer_descriptor ?? raw.buyer_type,
     problem: raw.scenario ?? raw.pain_point ?? raw.problem,
     competitors,
+    known_differentiation_terms:
+      raw.known_differentiation_terms ??
+      (raw.distinctive_term ? [raw.distinctive_term] : []),
+    right_fit_situations: raw.right_fit_situations ?? [],
+    wrong_fit_situations: raw.wrong_fit_situations ?? [],
+    approved_claims: raw.approved_claims ?? [],
+    prohibited_claims: raw.prohibited_claims ?? [],
+    trusted_source_urls: raw.trusted_source_urls ?? [],
+    distinctive_point_of_view: raw.distinctive_point_of_view,
+    proof_points: raw.proof_points ?? [],
   };
 }
 

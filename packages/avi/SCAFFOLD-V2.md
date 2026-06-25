@@ -17,7 +17,7 @@
 | `crawler-v2.ts` | Fetches subject URL, extracts schema + structure + stuffing detection | no |
 | `corroboration-v2.ts` | Tavily general + platform-filtered (Reddit, LinkedIn, Wikipedia, YouTube, G2, Gartner) | no |
 | `queries.ts` | Loads templates from `/queries/*.md`, applies 80/10/10 sampling, substitutes placeholders | no |
-| `engine-clients.ts` | Sends prompts to ChatGPT, Claude, Perplexity | yes (audited as subjects) |
+| `engine-clients.ts` | Sends prompts to ChatGPT, Claude, Perplexity, Gemini | yes (audited as subjects) |
 | `extractor-v2.ts` | Parses each engine response into ExtractorOutput; verifies cited URLs | yes (LLM role) |
 | `aggregator-v2.ts` | Computes Presence, Citation, Share-of-Voice, Prominence | no |
 | `judge-v2.ts` | 5 LLM calls — one per driver dimension (D1, D2, D3, D4, D6) | yes (LLM role) |
@@ -55,6 +55,7 @@ Add to `.env.local` (do NOT commit):
 ANTHROPIC_API_KEY=sk-ant-...      # Claude (judge, recommender, queries to Claude)
 OPENAI_API_KEY=sk-...              # GPT-4o-mini (extractor), GPT-4o (queries to ChatGPT)
 PERPLEXITY_API_KEY=pplx-...        # Perplexity Sonar (queries to Perplexity)
+GOOGLE_API_KEY=...                 # Gemini 2.5 Flash (queries to Gemini)
 TAVILY_API_KEY=tvly-...            # Corroboration searches
 ```
 
@@ -96,7 +97,7 @@ npx tsx scripts/compare.mts subjects/competitors
 # Open audits/comparison-<timestamp>.html in your browser
 ```
 
-Estimated total cost for 9 subjects × 12 query calls + 5 judge calls + 1 recommender = ~$0.20–$0.50 per subject in LLM costs, plus Tavily ~$0.05 per subject. Whole comparison test: under $5.
+Estimated total cost for 9 subjects × 16 query calls + 5 judge calls + 1 recommender = ~$0.20–$0.60 per subject in LLM costs, plus Tavily ~$0.05 per subject. Whole comparison test: under $5.
 
 ## What's known NOT to be production-ready
 

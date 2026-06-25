@@ -27,7 +27,7 @@ Ten new tables. None collide with v1 names.
 | `audits_v2` | Audit run record with computed scores | 1 per audit |
 | `audit_crawler_evidence` | Crawler output incl. scent fields | 1 per audit |
 | `audit_corroboration` | Tavily search results, one row per result | 30–50 per audit |
-| `audit_engine_responses` | Raw engine response per query × engine | 12 per paid audit |
+| `audit_engine_responses` | Raw engine response per query × engine | 16 per V2 paid audit; 32 per V3 paid audit |
 | `audit_extracted` | Extractor output per engine response | 12 per paid audit |
 | `audit_visibility_outcomes` | Aggregated sub-metrics | 1 per paid audit |
 | `audit_driver_scores` | 5 dimension scores | 5 per audit |
@@ -89,7 +89,7 @@ Audit run record. The denormalized composite/readiness/visibility scores live he
 | `engine_count` | int NOT NULL | |
 | `reps_per_pair` | int NOT NULL | |
 | `query_mix` | jsonb NOT NULL | `{informational, transactional, navigational}` |
-| `engines_used` | text[] NOT NULL | `['chatgpt','claude','perplexity']` |
+| `engines_used` | text[] NOT NULL | `['chatgpt','claude','perplexity','gemini']` |
 | `total_cost_usd` | numeric(8,4) | aggregated from api_calls |
 | `errors` | jsonb NOT NULL DEFAULT '[]' | |
 
@@ -141,7 +141,7 @@ Tavily search results, one row per result returned. Many rows per audit.
 
 ### `audit_engine_responses`
 
-Raw engine response per query × engine combo. 12 rows per paid audit (4 queries × 3 engines).
+Raw engine response per query × engine combo. 16 rows per V2 paid audit (4 queries × 4 engines) or 32 rows per V3 paid audit (8 queries × 4 engines).
 
 | Column | Type | Notes |
 |---|---|---|
@@ -151,7 +151,7 @@ Raw engine response per query × engine combo. 12 rows per paid audit (4 queries
 | `query` | text NOT NULL | after placeholder substitution |
 | `intent` | text NOT NULL | 'informational' / 'transactional' / 'navigational' |
 | `intent_subtype` | text | NULL unless informational; 'factual' / 'instrumental' / 'exploratory' |
-| `engine` | text NOT NULL | 'chatgpt' / 'claude' / 'perplexity' |
+| `engine` | text NOT NULL | 'chatgpt' / 'claude' / 'perplexity' / 'gemini' |
 | `raw_response` | text NOT NULL | engine response verbatim |
 | `captured_at` | timestamptz NOT NULL | |
 | `error` | text | populated if engine call failed |
