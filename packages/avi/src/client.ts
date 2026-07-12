@@ -12,4 +12,5 @@
 
 export { getStartHereNudge } from './v3/start-here-nudges';
 export type { StartHereCrawlerSignals } from './v3/start-here-nudges';
+export { V3_READINESS_DRIVER_DEFINITIONS } from './v3/rubric';
 export type { V3ReadinessDriverId } from './v3/types';

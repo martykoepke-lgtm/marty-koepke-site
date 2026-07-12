@@ -7,6 +7,13 @@ import {
   type StartHereCrawlerSignals,
   type V3ReadinessDriverId,
 } from "@practical-informatics/avi/client";
+import {
+  TierHeatmap,
+  MasterKeysCard,
+  DriverHeatmapTiles,
+  OpportunityCards,
+  PaidTeaserCard,
+} from "./ReportSurface";
 
 /**
  * The free /scan interactive flow.
@@ -476,14 +483,96 @@ function ScanResult({
   onEmailSent: () => void;
   emailSent: boolean;
 }) {
-  const tierCopy = TIER_COPY[scan.tier];
-  const pct = Math.round(scan.readinessScore * 100);
-  const [activeTab, setActiveTab] = useState<"report" | "evidence" | "methodology">("report");
-  const previewFindings = scan.findings.slice(0, 2);
-  const findingByDimensionId = new Map(
-    previewFindings.map((finding) => [finding.dimensionId, finding])
-  );
+  const [activeTab, setActiveTab] = useState<
+    "report" | "evidence" | "methodology"
+  >("report");
 
+  const crawlerSignals: StartHereCrawlerSignals | null = scan.crawler
+    ? {
+        organizationSchemaPresent: scan.crawler.organizationSchemaPresent,
+        personSchemaPresent: scan.crawler.personSchemaPresent,
+        faqSchemaPresent: scan.crawler.faqSchemaPresent,
+        serviceSchemaPresent: scan.crawler.serviceSchemaPresent,
+        llmsTxtPresent: scan.crawler.llmsTxtPresent,
+        robotsTxtPresent: scan.crawler.robotsTxtPresent,
+      }
+    : null;
+
+  // Pre-email: gate the entire report body behind the email form. Nothing
+  // of substance is shown until the visitor gives their email.
+  if (!emailSent) {
+    return (
+      <div className="daizie-scan-result">
+        <section className="daizie-scan-card">
+          <p className="card-eyebrow">Free Daizie Readiness Check</p>
+          <h2>Your scan is ready.</h2>
+          <p className="muted" style={{ marginTop: 6 }}>
+            {scan.subjectName} · {friendlyDomain(scan.url)}
+          </p>
+          <p style={{ marginTop: 14, maxWidth: 620 }}>
+            We looked at your public website signals and pulled the readiness
+            picture AI systems can see today. Enter your email below and
+            we&rsquo;ll show you your report right here — and send you a
+            permanent link so you can revisit it any time in the next 30
+            days.
+          </p>
+          <ul
+            style={{
+              listStyle: "none",
+              padding: 0,
+              margin: "18px 0 0",
+              display: "grid",
+              gap: 10,
+              maxWidth: 620,
+            }}
+          >
+            {[
+              "Your AI Readiness Score plotted on the 5-tier heatmap",
+              "A quick check on the profiles AI reads for your business type",
+              "What each of the 5 drivers is, and how you scored on each",
+              "Your two biggest opportunities to improve, in plain English",
+              "A clear next step — fix your site, or book the Assessment",
+            ].map((line) => (
+              <li
+                key={line}
+                style={{
+                  paddingLeft: 22,
+                  position: "relative",
+                  fontSize: "0.94rem",
+                  lineHeight: 1.55,
+                  color: "var(--dz-charcoal, #2C2A26)",
+                }}
+              >
+                <span
+                  aria-hidden="true"
+                  style={{
+                    position: "absolute",
+                    left: 0,
+                    top: "0.55em",
+                    width: 10,
+                    height: 10,
+                    borderRadius: "50%",
+                    background: "var(--dz-gold)",
+                  }}
+                />
+                {line}
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <EmailGate
+          scan={scan}
+          onEmailSent={onEmailSent}
+          emailSent={emailSent}
+        />
+      </div>
+    );
+  }
+
+  // Post-email: full report surface (same components render on the
+  // tokenized /scan/report/[id] page so the two surfaces stay in lock
+  // step).
   return (
     <div className="daizie-scan-result">
       <nav className="result-nav" aria-label="Report sections">
@@ -506,110 +595,37 @@ function ScanResult({
         <p className="card-eyebrow">Free Daizie Readiness Check</p>
         <h2>{scan.subjectName}</h2>
         <p className="muted" style={{ marginTop: 6 }}>
-          Preview result for {friendlyDomain(scan.url)}
+          {friendlyDomain(scan.url)}
         </p>
+        {!scan.crawlerReachable && (
+          <p
+            className="muted"
+            style={{
+              marginTop: 10,
+              fontSize: ".85rem",
+              fontStyle: "italic",
+            }}
+          >
+            We couldn&rsquo;t fully read your site directly, so this result
+            is based on the signals we could observe.
+          </p>
+        )}
       </section>
 
       {activeTab === "report" && (
         <>
-          <section className="daizie-scan-card">
-            <div className="daizie-score-row">
-              <div>
-                <p className="card-eyebrow">Your AI readiness</p>
-                <div className="score-value">
-                  <span className="num">{pct}</span>
-                  <span className="of">/ 100</span>
-                  <span className="tier">{tierCopy.label}</span>
-                </div>
-                <p style={{ marginTop: 6, maxWidth: 460 }}>
-                  {tierCopy.sentence}
-                </p>
-              </div>
-              <div>
-                <p>
-                  Readiness is the work AI can see on your public site — the
-                  foundation that determines whether AI can find, understand,
-                  and correctly describe your business.
-                </p>
-                <p className="muted" style={{ marginTop: 8, fontSize: ".9rem" }}>
-                  This free check scores readiness only. The paid Daizie
-                  Assessment measures live AI answers across four engines.
-                </p>
-              </div>
-            </div>
-            {!scan.crawlerReachable && (
-              <p
-                className="muted"
-                style={{
-                  marginTop: 14,
-                  fontSize: ".85rem",
-                  fontStyle: "italic",
-                }}
-              >
-                We couldn&rsquo;t fully read your site directly, so this
-                result is based on the signals we could observe.
-              </p>
-            )}
-          </section>
-
-          {scan.masterKeys && <MasterKeysSection report={scan.masterKeys} />}
-
-          <section className="daizie-scan-card">
-            <h3>The five things that make up your readiness</h3>
-            <p className="muted" style={{ marginTop: 6, fontSize: ".9rem" }}>
-              Each driver is scored 0–5 against observable public evidence.
-            </p>
-            <div className="daizie-driver-list">
-              {scan.dimensions.map((d) => (
-                <DaizieDriverRow
-                  key={d.id}
-                  dim={d}
-                  finding={findingByDimensionId.get(d.id)}
-                  crawler={
-                    scan.crawler
-                      ? {
-                          organizationSchemaPresent:
-                            scan.crawler.organizationSchemaPresent,
-                          personSchemaPresent: scan.crawler.personSchemaPresent,
-                          faqSchemaPresent: scan.crawler.faqSchemaPresent,
-                          serviceSchemaPresent:
-                            scan.crawler.serviceSchemaPresent,
-                          llmsTxtPresent: scan.crawler.llmsTxtPresent,
-                          robotsTxtPresent: scan.crawler.robotsTxtPresent,
-                        }
-                      : null
-                  }
-                />
-              ))}
-            </div>
-            <p
-              className="muted"
-              style={{ marginTop: 14, fontSize: ".85rem", fontStyle: "italic" }}
-            >
-              Full report includes the complete driver breakdown and action plan.
-            </p>
-          </section>
-
-          {previewFindings.length > 0 && (
-            <section className="daizie-scan-card">
-              <h3>What stood out</h3>
-              <div className="daizie-findings">
-                {previewFindings.map((f) => (
-                  <div key={f.dimensionId} className="finding-card">
-                    <p className="title">
-                      {f.dimensionName}
-                      {typeof f.score === "number" && (
-                        <span className="score">
-                          ({f.score.toFixed(1)} / 5)
-                        </span>
-                      )}
-                    </p>
-                    <p className="body">{f.summary}</p>
-                  </div>
-                ))}
-              </div>
-            </section>
-          )}
+          <TierHeatmap
+            readinessScore={scan.readinessScore}
+            tier={scan.tier}
+          />
+          {scan.masterKeys && <MasterKeysCard report={scan.masterKeys} />}
+          <DriverHeatmapTiles dimensions={scan.dimensions} />
+          <OpportunityCards
+            dimensions={scan.dimensions}
+            findings={scan.findings}
+            crawler={crawlerSignals}
+          />
+          <PaidTeaserCard />
         </>
       )}
 
@@ -618,108 +634,6 @@ function ScanResult({
 
       <EmailGate scan={scan} onEmailSent={onEmailSent} emailSent={emailSent} />
     </div>
-  );
-
-  return (
-    <div className="space-y-10">
-      {/* Headline tier card */}
-      <div className="rounded-lg border border-tan bg-cream-dim p-6 sm:p-8">
-        <p className="font-serif text-sm uppercase tracking-[0.18em] text-gold-dark">
-          {scan.subjectName}
-        </p>
-        <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-baseline sm:gap-6">
-          <span
-            className={`inline-block rounded-md px-3 py-1.5 font-serif text-2xl font-semibold ${tierCopy.color}`}
-          >
-            {tierCopy.label}
-          </span>
-          <span className="font-serif text-3xl text-forest">{pct}/100</span>
-        </div>
-        <p className="mt-4 text-base leading-relaxed text-charcoal">
-          {tierCopy.sentence}
-        </p>
-        {!scan.crawlerReachable && (
-          <p className="mt-3 text-sm text-moss">
-            We couldn&apos;t fully read your site directly — this tier is
-            based on what we found through cross-source signals only.
-          </p>
-        )}
-      </div>
-
-      {/* Readiness drivers as bars */}
-      <div className="space-y-4">
-        <h2 className="font-serif text-xl text-forest">
-          The readiness drivers
-        </h2>
-        <ul className="space-y-3">
-          {scan.dimensions.map((d) => (
-            <DimensionBar key={d.id} dim={d} />
-          ))}
-        </ul>
-      </div>
-
-      {/* Findings */}
-      {scan.findings.length > 0 && (
-        <div className="space-y-4">
-          <h2 className="font-serif text-xl text-forest">
-            What stood out
-          </h2>
-          <ul className="space-y-4">
-            {scan.findings.map((f) => (
-              <li
-                key={f.dimensionId}
-                className="rounded-lg border border-tan bg-cream-dim p-5"
-              >
-                <p className="font-serif text-sm font-semibold text-forest">
-                  {f.dimensionName}
-                  {typeof f.score === "number" && (
-                    <span className="ml-2 text-gold-dark">
-                      ({f.score.toFixed(1)} / 5)
-                    </span>
-                  )}
-                </p>
-                <p className="mt-2 text-sm leading-relaxed text-charcoal">
-                  {f.summary}
-                </p>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-
-      {/* Email gate */}
-      <EmailGate scan={scan} onEmailSent={onEmailSent} emailSent={emailSent} />
-    </div>
-  );
-}
-
-function DimensionBar({ dim }: { dim: Dimension }) {
-  const score = typeof dim.score === "number" ? dim.score : 0;
-  const pct = (score / 5) * 100;
-  return (
-    <li>
-      <div className="flex items-baseline justify-between">
-        <span className="text-sm font-semibold text-forest">
-          <span className="text-gold-dark">{dim.id}</span> — {dim.name}
-        </span>
-        <span className="text-sm text-moss">
-          {typeof dim.score === "number" ? dim.score.toFixed(1) : "—"} / 5
-        </span>
-      </div>
-      <div
-        className="mt-1.5 h-2 w-full overflow-hidden rounded-full bg-tan/40"
-        role="progressbar"
-        aria-valuenow={score}
-        aria-valuemin={0}
-        aria-valuemax={5}
-        aria-label={`${dim.name} score`}
-      >
-        <div
-          className="h-full rounded-full bg-forest motion-safe:transition-[width] motion-safe:duration-700"
-          style={{ width: `${pct}%` }}
-        />
-      </div>
-    </li>
   );
 }
 

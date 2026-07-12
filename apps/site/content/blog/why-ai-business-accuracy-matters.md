@@ -126,24 +126,18 @@ The work is not just "AI SEO."
 
 It is accuracy infrastructure for AI-mediated buying decisions.
 
-## The Marty Koepke point of view
+## Welcome to Daizie AI visibility!
 
-AI visibility asks:
+Every small business owner I know wants the same thing. To bloom. To be seen, to be understood, to be recommended when the right customer asks the right question.
 
-> Does AI mention us?
+And the world I've just described — different engines, different sources, different playbooks, live partnership deals reshuffling the map every quarter — can leave a person a little dazed. Overwhelmed. Not sure where to plant the first seed.
 
-AI Business Accuracy asks:
+That is the space Daizie lives in. The name is a small play on words: part daisy, the flower that turns toward the light, and part dazed, the way most business owners feel when they first look at all of this. And all of this in the new crazy era of AI. Daizie is built for businesses who want to grow, and hold confidence that their online strategy will thrive in the AI era.
 
-> Does AI get us right?
+Daizie is an AI visibility assessment for small businesses. Same research-backed rubric for every business, with recommendations calibrated to whether you're local, services, or product. It shows you exactly what AI already says about you, what it gets wrong, and the specific moves that help you bloom in the answers that matter — without having to become an SEO expert to get there.
 
-The difference matters.
+If any of this hit close to home, that is where I would start.
 
-Showing up is useful only if AI describes the business accurately, supports its claims with real evidence, preserves the context that makes those claims true, and recommends the business in situations where it is actually a good fit.
+[See how Daizie works →](/ai-visibility)
 
-That is the work Marty Koepke is built to do.
-
-We measure whether AI can find, understand, support, and appropriately recommend a business. Then we identify what needs to be clearer, better supported, easier to parse, or more visible in the source ecosystems AI actually uses.
-
-The goal is not to chase every AI platform with more content.
-
-The goal is to make the business easier for AI to represent truthfully.
+— Marty
