@@ -5,8 +5,8 @@ import { ArrowRightIcon } from "@/components/ui/Icons";
 import {
   getStartHereNudge,
   type StartHereCrawlerSignals,
-} from "@practical-informatics/avi";
-import type { V3ReadinessDriverId } from "@practical-informatics/avi";
+  type V3ReadinessDriverId,
+} from "@practical-informatics/avi/client";
 
 /**
  * The free /scan interactive flow.
