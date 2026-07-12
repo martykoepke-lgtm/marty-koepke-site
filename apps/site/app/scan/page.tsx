@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import DaizieHeader from "@/components/daizie/DaizieHeader";
 import Reveal from "@/components/motion/Reveal";
 import FreeScanFlow from "@/components/ai-visibility/FreeScanFlow";
@@ -35,6 +36,19 @@ export default function ScanPage() {
 
         <Reveal>
           <article className="daizie-pane daizie-hero-pane">
+            <div className="daizie-product-lockup">
+              <Image
+                src="/images/brand-2026/daizie-mark.png"
+                alt=""
+                width={420}
+                height={420}
+                priority
+              />
+              <span className="lockup-text">
+                <span className="lockup-name">Daizie</span>
+                <span className="lockup-tag">AI visibility, made clear</span>
+              </span>
+            </div>
             <p className="daizie-eyebrow">Free Daizie Readiness Check</p>
             <h1>Are you built to be found by AI?</h1>
             <p className="daizie-lede">
