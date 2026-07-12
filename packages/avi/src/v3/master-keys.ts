@@ -161,10 +161,12 @@ async function runOnlineB2BChecks(
       label: `${year} "best of" listicle`,
       lane: 'online_b2b',
       query: `"best ${industry}" ${year} "${name}"`,
-      // Listicles can live anywhere — no domain filter; matched by title
-      // language and body containing the subject name instead.
+      // Listicles can live anywhere — no domain filter. Match requires the
+      // subject NAME to appear in the returned title or body, not just
+      // that a listicle in the category exists.
       expectDomains: [],
       matchBy: 'body',
+      subjectName: name,
       opts,
     }),
   ]);
@@ -182,8 +184,12 @@ interface CheckArgs {
   expectDomains: string[];
   /** How to decide a match:
    *   'domain' — top result URL must contain one of expectDomains (default)
-   *   'body'   — top result body must contain the subject name (listicles) */
+   *   'body'   — top result title or body must contain the subject name */
   matchBy?: 'domain' | 'body';
+  /** Passed through for 'body' matches so we can require the name to
+   *  actually appear in the returned page — not just that a listicle
+   *  exists in the general category. */
+  subjectName?: string;
   opts: CheckMasterKeysOptions;
 }
 
@@ -209,18 +215,26 @@ async function checkPresence(args: CheckArgs): Promise<MasterKeyCheck> {
     };
   }
 
-  let match =
-    matchBy === 'body'
-      ? response.results.find((r) => {
-          const subjectFragment = args.query.match(/"([^"]+)"/)?.[1] ?? '';
-          return (
-            (r.title || '').toLowerCase().includes('best') ||
-            (r.content || '').toLowerCase().includes(subjectFragment.toLowerCase())
-          );
-        })
-      : response.results.find((r) =>
-          args.expectDomains.some((d) => (r.url || '').toLowerCase().includes(d))
-        );
+  let match: (typeof response.results)[number] | undefined;
+  if (matchBy === 'body') {
+    // For listicles: only count as "present" if the result actually names
+    // the subject. Previously this matched any listicle in the category,
+    // which produced false positives for new businesses that had never
+    // appeared in any 2026 listicle. Now the subject name must appear in
+    // the title or body of the returned page.
+    const nameLower = args.subjectName?.toLowerCase();
+    match = nameLower
+      ? response.results.find(
+          (r) =>
+            (r.title || '').toLowerCase().includes(nameLower) ||
+            (r.content || '').toLowerCase().includes(nameLower)
+        )
+      : undefined;
+  } else {
+    match = response.results.find((r) =>
+      args.expectDomains.some((d) => (r.url || '').toLowerCase().includes(d))
+    );
+  }
 
   if (!match) {
     return {

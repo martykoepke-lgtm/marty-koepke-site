@@ -153,37 +153,63 @@ async function loadScanData(
   audit: AuditRow;
   dimensions: DimensionRow[];
 } | null> {
-  const supabase = supabaseAdmin();
-  const { data: submission, error: subErr } = await supabase
-    .from("submissions")
-    .select(
-      "id, url, company_name, access_token, subject_type, created_at"
-    )
-    .eq("id", submissionId)
-    .maybeSingle<SubmissionRow>();
-  if (subErr || !submission) return null;
-  if (submission.access_token !== token) return null;
-  if (isExpired(submission.created_at)) return null;
+  try {
+    const supabase = supabaseAdmin();
+    const { data: submission, error: subErr } = await supabase
+      .from("submissions")
+      .select(
+        "id, url, company_name, access_token, subject_type, created_at"
+      )
+      .eq("id", submissionId)
+      .maybeSingle<SubmissionRow>();
+    if (subErr || !submission) return null;
+    if (submission.access_token !== token) return null;
+    if (isExpired(submission.created_at)) return null;
 
-  const { data: audit, error: audErr } = await supabase
-    .from("audits")
-    .select(
-      "id, submission_id, rubric_version, subject_type, readiness_score, tier, crawler_output, scoring_output, created_at"
-    )
-    .eq("submission_id", submissionId)
-    .order("created_at", { ascending: false })
-    .limit(1)
-    .maybeSingle<AuditRow>();
-  if (audErr || !audit) return null;
+    const { data: audit, error: audErr } = await supabase
+      .from("audits")
+      .select(
+        "id, submission_id, rubric_version, subject_type, readiness_score, tier, crawler_output, scoring_output, created_at"
+      )
+      .eq("submission_id", submissionId)
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .maybeSingle<AuditRow>();
+    if (audErr || !audit) return null;
 
-  const { data: dimRows } = await supabase
-    .from("audit_dimension_scores")
-    .select("dimension_id, dimension_name, score, justification")
-    .eq("audit_id", audit.id)
-    .order("dimension_id", { ascending: true })
-    .returns<DimensionRow[]>();
+    // Some legacy rows persisted these columns as text instead of jsonb,
+    // so tolerate a stringified payload without crashing the whole render.
+    const crawlerOutput = parseIfString<CrawlerSnapshot>(audit.crawler_output);
+    const scoringOutput = parseIfString<ScoringSnapshot>(audit.scoring_output);
 
-  return { submission, audit, dimensions: dimRows ?? [] };
+    const { data: dimRows } = await supabase
+      .from("audit_dimension_scores")
+      .select("dimension_id, dimension_name, score, justification")
+      .eq("audit_id", audit.id)
+      .order("dimension_id", { ascending: true })
+      .returns<DimensionRow[]>();
+
+    return {
+      submission,
+      audit: { ...audit, crawler_output: crawlerOutput, scoring_output: scoringOutput },
+      dimensions: dimRows ?? [],
+    };
+  } catch (e) {
+    console.error("[scan/report] loadScanData failed:", e);
+    return null;
+  }
+}
+
+function parseIfString<T>(v: unknown): T | null {
+  if (v == null) return null;
+  if (typeof v === "string") {
+    try {
+      return JSON.parse(v) as T;
+    } catch {
+      return null;
+    }
+  }
+  return v as T;
 }
 
 // ============================================================================
