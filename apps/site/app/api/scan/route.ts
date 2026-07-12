@@ -126,12 +126,30 @@ export async function POST(req: NextRequest) {
     });
   } catch (e) {
     console.error("[/api/scan] unhandled error:", e);
+    // TEMPORARY: expose the real error message + stack so we can diagnose
+    // the persistent 500 on Vercel. Revert to a generic message once the
+    // root cause is fixed.
+    const message =
+      e instanceof Error ? e.message : String(e);
+    const stack = e instanceof Error && e.stack ? e.stack.split("\n").slice(0, 6).join("\n") : null;
     return NextResponse.json(
       {
         ok: false,
-        error:
-          "Something went wrong on our end. Please try again in a minute.",
-      },
+        error: `[debug] ${message}`,
+        stack,
+        env: {
+          hasOpenAI: !!process.env.OPENAI_API_KEY,
+          hasAnthropic: !!process.env.ANTHROPIC_API_KEY,
+          hasGoogle: !!process.env.GOOGLE_API_KEY,
+          hasPerplexity: !!process.env.PERPLEXITY_API_KEY,
+          hasTavily: !!process.env.TAVILY_API_KEY,
+          hasResend: !!process.env.RESEND_API_KEY,
+          hasSupabase: !!process.env.SUPABASE_SERVICE_ROLE_KEY,
+          hasSupabaseUrl: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
+          hasUpstash: !!process.env.UPSTASH_REDIS_REST_URL,
+          hasTurnstile: !!process.env.TURNSTILE_SECRET_KEY,
+        },
+      } as Record<string, unknown>,
       { status: 500 }
     );
   }

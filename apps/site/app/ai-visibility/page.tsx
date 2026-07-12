@@ -32,32 +32,70 @@ const serviceJsonLd = {
   "@context": "https://schema.org",
   "@type": "Service",
   name: "Daizie AI Visibility Assessment",
+  serviceType: "AI visibility measurement and remediation for small businesses",
   provider: { "@id": `${SITE.url}/#org` },
+  areaServed: { "@type": "Country", name: "United States" },
   description: META.aiVisibility.description,
+  brand: { "@type": "Brand", name: "Daizie" },
+  audience: {
+    "@type": "Audience",
+    audienceType:
+      "Small business owners, solopreneurs, and founder-led service businesses",
+  },
   offers: [
     {
       "@type": "Offer",
       name: "Free Daizie Readiness Check",
-      price: "0",
-      priceCurrency: "USD",
       description:
         "Readiness-only website scan with a master-key presence check and top 2-3 findings.",
+      priceSpecification: {
+        "@type": "PriceSpecification",
+        price: "0",
+        priceCurrency: "USD",
+      },
+      price: "0",
+      priceCurrency: "USD",
+      availability: "https://schema.org/InStock",
+      url: `${SITE.url}/scan`,
     },
     {
       "@type": "Offer",
       name: "Daizie AI Visibility Assessment",
-      price: "895",
-      priceCurrency: "USD",
       description:
         "Full measurement protocol: four engines, every claim verified, plotted against two named competitors. Includes a 30-minute review call.",
+      priceSpecification: {
+        "@type": "PriceSpecification",
+        price: "895",
+        priceCurrency: "USD",
+        valueAddedTaxIncluded: false,
+      },
+      price: "895",
+      priceCurrency: "USD",
+      availability: "https://schema.org/InStock",
+      url: `${SITE.url}/ai-visibility`,
     },
     {
       "@type": "Offer",
       name: "Daizie Monthly Monitoring",
-      price: "149",
-      priceCurrency: "USD",
       description:
         "Full Assessment re-run every month, dashboard, trends across all 11 measurements. Available after the Assessment.",
+      priceSpecification: {
+        "@type": "UnitPriceSpecification",
+        price: "149",
+        priceCurrency: "USD",
+        billingIncrement: 1,
+        unitCode: "MON",
+        referenceQuantity: {
+          "@type": "QuantitativeValue",
+          value: 1,
+          unitCode: "MON",
+        },
+      },
+      price: "149",
+      priceCurrency: "USD",
+      eligibleCustomerType: "Existing Assessment customers",
+      availability: "https://schema.org/InStock",
+      url: `${SITE.url}/ai-visibility`,
     },
   ],
 };

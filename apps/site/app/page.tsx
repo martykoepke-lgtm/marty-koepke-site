@@ -17,9 +17,58 @@ export const metadata: Metadata = {
   },
 };
 
+/**
+ * Homepage FAQPage schema — the four most load-bearing questions any
+ * arriving AI agent should be able to extract without clicking through
+ * to /ai-visibility. Kept short (4 items) so it doesn't compete with
+ * the deeper FAQPage schema on /ai-visibility.
+ */
+const homeFaqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "What does Daizie do?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Daizie is a service that tests whether AI systems (ChatGPT, Claude, Perplexity, Gemini) can find, understand, cite, and recommend a small business accurately. It starts with a free readiness check and offers a paid Daizie AI Visibility Assessment for $895.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What does Craizie do?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Craizie helps small businesses set up practical AI governance — an inventory of what they've built with AI, clear ownership, sensible boundaries, and a plan for when something goes wrong. It's right-sized for solopreneurs and small teams, not enterprise compliance theater.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Who is Marty Koepke?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Marty Koepke is a System Clinical Informaticist with 20 years in enterprise informatics and the founder of Practical Informatics LLC. She built Daizie and Craizie to give small businesses access to the same discipline she's used across healthcare enterprise systems. She is the author of Between the Clicks: The Hidden Work of Healthcare Informatics.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How much does the paid Daizie Assessment cost?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "The Daizie AI Visibility Assessment is $895 as a one-time purchase and includes testing across four AI engines, 32 live AI responses captured, every factual claim verified against your real sources, a competitor comparison, and a 30-minute review call with Marty. Monthly Monitoring is available afterward for $149/month.",
+      },
+    },
+  ],
+};
+
 export default function HomePage() {
   return (
     <div className="daizie-shell">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(homeFaqJsonLd) }}
+      />
       <DaizieHeader />
       <main className="daizie-main">
         <div className="daizie-hero-spacer" aria-hidden="true" />
@@ -139,6 +188,17 @@ export default function HomePage() {
               <p className="plain-note">
                 The goal stays human: help the right people find the good work
                 you&rsquo;re already doing.
+              </p>
+              <p
+                style={{
+                  margin: "12px 0 0",
+                  fontFamily: "var(--font-serif), Georgia, serif",
+                  color: "var(--dz-forest)",
+                  fontSize: "1.05rem",
+                  fontWeight: 500,
+                }}
+              >
+                Free readiness check · <strong>$895</strong> full Assessment
               </p>
               <Link className="text-link" href="/ai-visibility">
                 Explore AI visibility <span>→</span>

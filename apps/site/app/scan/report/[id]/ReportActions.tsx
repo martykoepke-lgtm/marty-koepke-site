@@ -2,13 +2,13 @@
 
 export function ReportActions() {
   return (
-    <div className="mb-4 flex justify-end print:hidden">
+    <div className="daizie-actions print:hidden" style={{ justifyContent: "flex-end", marginBottom: 4 }}>
       <button
         type="button"
         onClick={() => window.print()}
-        className="inline-flex items-center rounded-md bg-forest px-4 py-2 text-sm font-semibold text-cream transition-colors hover:bg-forest-dark"
+        className="daizie-btn ghost"
       >
-        Download report
+        Download report (Save as PDF)
       </button>
     </div>
   );

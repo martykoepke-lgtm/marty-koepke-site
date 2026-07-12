@@ -56,9 +56,9 @@ export const META = {
       "Marty Koepke (she/her). Twenty years in enterprise informatics, author of Between the Clicks. Applied AI consulting and custom software development for businesses adopting AI thoughtfully.",
   },
   aiVisibility: {
-    title: "Daizie — AI visibility",
+    title: "Daizie — AI visibility (AEO / GEO) for small business",
     description:
-      "Does AI get your business right? Marty Koepke measures whether AI systems can find, understand, cite, and recommend your business in right-fit situations.",
+      "Daizie is an AI visibility service by informaticist Marty Koepke that helps founder-led service businesses show up accurately when ChatGPT, Claude, Perplexity, and Gemini describe, cite, and recommend them. Also known as AEO (answer engine optimization) or GEO (generative engine optimization).",
   },
   blog: {
     title: "Notes | Marty Koepke",
@@ -304,7 +304,7 @@ export const AVI = {
   /** Italic gold sub-tagline between H1 and subhead. */
   subTagline: "AI is your new introduction. Make sure it gets you right.",
   heroSubhead:
-    "Your prospects ask ChatGPT, Claude, Perplexity, and Gemini questions about your industry every day. Daizie tests what those systems say about your business — whether they find you, describe you accurately, and recommend you when you're a right fit — then hands you the fixes that matter most.",
+    "Daizie is an AI visibility service by informaticist Marty Koepke that helps founder-led service businesses show up accurately when ChatGPT, Claude, Perplexity, and Gemini describe, cite, and recommend them. Also called AEO or GEO — same discipline, different name.",
   /** Primary CTA and the anchor for the secondary "see the paid offer" link. */
   heroPrimaryCta: {
     label: "Get your free readiness check",
@@ -680,6 +680,18 @@ export const AVI = {
 
   /** FAQ - answers the real objections. */
   faq: [
+    {
+      q: "What is AI visibility (also called AEO or GEO)?",
+      a: "AI visibility is how well your business shows up when someone asks an AI system a question. It's the same discipline whether you call it AI visibility, AEO (answer engine optimization), or GEO (generative engine optimization) — different names for the same work. Daizie is an AI visibility service by informaticist Marty Koepke that helps founder-led service businesses show up accurately when ChatGPT, Claude, Perplexity, and Gemini describe, cite, and recommend them.",
+    },
+    {
+      q: "Is Daizie the same as SEO?",
+      a: "No. SEO optimizes for how Google ranks pages in a list of blue links. AI visibility (AEO/GEO) optimizes for how AI systems describe, cite, and recommend your business inside a generated answer — where there is no list, and often no click. Some SEO fundamentals still help, but the measurement is different. Daizie tests what AI actually says about you across four engines, not what page it ranks on.",
+    },
+    {
+      q: "Which AI systems does Daizie test?",
+      a: "The four consumer-scale AI systems your prospects are most likely to ask: ChatGPT (OpenAI), Claude (Anthropic), Perplexity, and Gemini (Google). Every paid Assessment runs eight buyer-question queries against each engine — 32 live responses in total — and every factual claim any engine makes about your business is verified against your real sources.",
+    },
     {
       q: "How long does the free Readiness Check take?",
       a: "About 30 seconds. The free check reads your website and does a quick presence check on the profiles AI reads for your business type (Google Business Profile / Bing Places / Yelp for local; LinkedIn / one vertical directory / listicles for online B2B). It reports readiness only. It does not claim that live AI systems mention or recommend you — those are live-outcome claims that require the paid Assessment.",

@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { supabaseAdmin } from "@practical-informatics/avi";
+import DaizieHeader from "@/components/daizie/DaizieHeader";
 import { TokenReportNav } from "../TokenReportNav";
 
 export const runtime = "nodejs";
@@ -31,18 +32,33 @@ const DRIVERS = [
   {
     name: "Recommendation fit",
     question: "Does AI know when this is an appropriate recommendation?",
-    signals: ["Best-fit buyers", "use cases", "problems solved", "budget or fit signals", "not-fit language"],
+    signals: [
+      "Best-fit buyers",
+      "use cases",
+      "problems solved",
+      "budget or fit signals",
+      "not-fit language",
+    ],
   },
 ];
 
 async function validateToken(submissionId: string, token: string) {
-  const { data } = await supabaseAdmin()
-    .from("submissions")
-    .select("id, access_token, created_at")
-    .eq("id", submissionId)
-    .maybeSingle<{ id: string; access_token: string | null; created_at: string }>();
-  if (!data || data.access_token !== token) return false;
-  return !isExpired(data.created_at);
+  try {
+    const { data } = await supabaseAdmin()
+      .from("submissions")
+      .select("id, access_token, created_at")
+      .eq("id", submissionId)
+      .maybeSingle<{
+        id: string;
+        access_token: string | null;
+        created_at: string;
+      }>();
+    if (!data || data.access_token !== token) return false;
+    return !isExpired(data.created_at);
+  } catch (e) {
+    console.error("[scan/report/methodology] validateToken failed:", e);
+    return false;
+  }
 }
 
 export default async function MethodologyPage({
@@ -57,84 +73,166 @@ export default async function MethodologyPage({
   if (!t || !(await validateToken(id, t))) notFound();
 
   return (
-    <main className="report-workspace min-h-screen pb-24">
-      <article className="mx-auto max-w-5xl px-5 pt-10 pb-12 sm:px-8 lg:pt-14">
-        <TokenReportNav reportId={id} token={t} active="methodology" />
-        <header className="rounded-lg bg-forest-dark p-5">
-          <div className="text-[11px] uppercase tracking-widest text-gold">
-            Methodology
-          </div>
-          <h1 className="mt-2 text-3xl font-semibold text-cream sm:text-4xl">
-            How this free readiness check is scored
-          </h1>
-          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-tan">
-            This report scores public signals that help AI systems understand a
-            business. It does not measure whether AI currently recommends the
-            business in live answers.
-          </p>
-        </header>
+    <div className="daizie-shell">
+      <DaizieHeader />
+      <main className="daizie-main">
+        <div className="daizie-hero-spacer" aria-hidden="true" />
+        <article className="daizie-pane daizie-hero-pane">
+          <TokenReportNav reportId={id} token={t} active="methodology" />
 
-        <section className="mt-8 rounded-lg bg-forest-dark p-6">
-          <h2 className="text-2xl font-semibold text-cream">The scoring model</h2>
-          <div className="mt-5 grid gap-4 lg:grid-cols-3">
-            <div className="rounded border border-tan/35 bg-forest/60 p-4">
-              <p className="text-[11px] uppercase tracking-widest text-gold">Inputs</p>
-              <p className="mt-2 text-sm leading-relaxed text-tan">
-                Homepage content, metadata, structured data, robots.txt,
-                llms.txt, sameAs links, LinkedIn/Wikidata signals, and public
-                corroborating mentions.
-              </p>
-            </div>
-            <div className="rounded border border-tan/35 bg-forest/60 p-4">
-              <p className="text-[11px] uppercase tracking-widest text-gold">Outputs</p>
-              <p className="mt-2 text-sm leading-relaxed text-tan">
-                A 0-100 readiness score, a tier, five driver scores, key
-                findings, and recommended next moves.
-              </p>
-            </div>
-            <div className="rounded border border-tan/35 bg-forest/60 p-4">
-              <p className="text-[11px] uppercase tracking-widest text-gold">Limit</p>
-              <p className="mt-2 text-sm leading-relaxed text-tan">
-                The free check does not query ChatGPT, Claude, Perplexity, or
-                Gemini. That live-answer testing belongs to the paid audit.
-              </p>
-            </div>
-          </div>
-        </section>
+          <section className="daizie-scan-card" style={{ marginTop: 20 }}>
+            <p className="card-eyebrow">Methodology</p>
+            <h2>How this free Daizie Readiness Check is scored</h2>
+            <p style={{ marginTop: 8, maxWidth: 720 }}>
+              This report scores public signals that help AI systems
+              understand a business. It does not measure whether AI
+              currently mentions or recommends the business in live
+              answers — that&rsquo;s what the paid Daizie AI Visibility
+              Assessment does.
+            </p>
+          </section>
 
-        <section className="mt-8 rounded-lg bg-forest-dark p-6">
-          <h2 className="text-2xl font-semibold text-cream">Five readiness drivers</h2>
-          <p className="mt-2 text-sm leading-relaxed text-tan">
-            Each driver is scored from public evidence. Strong scores mean the
-            business is easier for AI systems to classify, trust, and preserve
-            accurately when buyers ask.
-          </p>
-          <div className="mt-5 grid gap-4 lg:grid-cols-2">
-            {DRIVERS.map((driver) => (
-              <div key={driver.name} className="rounded border border-tan/35 bg-forest/60 p-4">
-                <h3 className="font-serif text-lg font-semibold text-cream">
-                  {driver.name}
-                </h3>
-                <p className="mt-1 text-sm text-gold">{driver.question}</p>
-                <p className="mt-3 text-sm leading-relaxed text-tan">
-                  Signals: {driver.signals.join(", ")}.
-                </p>
-              </div>
-            ))}
-          </div>
-        </section>
+          <section className="daizie-scan-card">
+            <h3>The scoring model</h3>
+            <div
+              style={{
+                display: "grid",
+                gap: 14,
+                gridTemplateColumns: "1fr",
+                marginTop: 18,
+              }}
+              className="method-grid"
+            >
+              <MethodCard
+                eyebrow="Inputs"
+                body="Homepage content, metadata, structured data, robots.txt, llms.txt, sameAs links, LinkedIn / Wikidata signals, and public corroborating mentions."
+              />
+              <MethodCard
+                eyebrow="Outputs"
+                body="A 0–100 readiness score, a tier, five driver scores, key findings, and recommended next moves."
+              />
+              <MethodCard
+                eyebrow="Limit"
+                body="The free check does not query ChatGPT, Claude, Perplexity, or Gemini. Live-answer testing belongs to the paid Assessment."
+              />
+            </div>
+          </section>
 
-        <section className="mt-8 rounded-lg bg-forest-dark p-6">
-          <h2 className="text-2xl font-semibold text-cream">What the paid audit adds</h2>
-          <p className="mt-3 max-w-3xl text-sm leading-relaxed text-tan">
-            The paid AI Business Accuracy Audit tests live answers across major
-            AI engines, verifies factual claims against source evidence, checks
-            whether context and recommendation fit are preserved, and compares
-            the business against two named competitors.
-          </p>
-        </section>
-      </article>
-    </main>
+          <section className="daizie-scan-card">
+            <h3>Five readiness drivers</h3>
+            <p className="muted" style={{ marginTop: 6, fontSize: "0.92rem" }}>
+              Each driver is scored from public evidence. Strong scores mean
+              the business is easier for AI systems to classify, trust, and
+              preserve accurately when buyers ask.
+            </p>
+            <div
+              style={{
+                display: "grid",
+                gap: 14,
+                gridTemplateColumns: "1fr",
+                marginTop: 18,
+              }}
+              className="driver-grid"
+            >
+              {DRIVERS.map((driver) => (
+                <div
+                  key={driver.name}
+                  style={{
+                    padding: "18px 20px",
+                    borderRadius: 14,
+                    background: "rgba(23, 62, 44, .04)",
+                    border: "1px solid rgba(23, 62, 44, .12)",
+                  }}
+                >
+                  <h3
+                    style={{
+                      fontSize: "1.1rem",
+                      color: "var(--dz-forest)",
+                      fontFamily: "var(--font-serif), Georgia, serif",
+                      fontWeight: 500,
+                      margin: 0,
+                    }}
+                  >
+                    {driver.name}
+                  </h3>
+                  <p
+                    style={{
+                      marginTop: 6,
+                      color: "var(--dz-forest)",
+                      fontSize: "0.9rem",
+                      fontStyle: "italic",
+                    }}
+                  >
+                    {driver.question}
+                  </p>
+                  <p
+                    style={{
+                      marginTop: 10,
+                      fontSize: "0.85rem",
+                      color: "#4a5b52",
+                      lineHeight: 1.55,
+                    }}
+                  >
+                    <strong style={{ color: "var(--dz-forest)" }}>
+                      Signals:{" "}
+                    </strong>
+                    {driver.signals.join(", ")}.
+                  </p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section className="daizie-scan-card">
+            <h3>What the paid Assessment adds</h3>
+            <p style={{ marginTop: 8 }}>
+              The paid Daizie AI Visibility Assessment tests live answers
+              across ChatGPT, Claude, Perplexity, and Gemini; captures 32
+              live AI responses; verifies factual claims against source
+              evidence; checks whether context and recommendation fit are
+              preserved; and compares the business against two named
+              competitors on the same eight queries.
+            </p>
+          </section>
+        </article>
+      </main>
+    </div>
+  );
+}
+
+function MethodCard({ eyebrow, body }: { eyebrow: string; body: string }) {
+  return (
+    <div
+      style={{
+        padding: "18px 20px",
+        borderRadius: 14,
+        background: "rgba(23, 62, 44, .04)",
+        border: "1px solid rgba(23, 62, 44, .12)",
+      }}
+    >
+      <p
+        style={{
+          margin: 0,
+          fontSize: "0.68rem",
+          letterSpacing: "0.18em",
+          textTransform: "uppercase",
+          fontWeight: 700,
+          color: "var(--dz-forest)",
+        }}
+      >
+        {eyebrow}
+      </p>
+      <p
+        style={{
+          margin: "10px 0 0",
+          fontSize: "0.9rem",
+          lineHeight: 1.6,
+          color: "#4a5b52",
+        }}
+      >
+        {body}
+      </p>
+    </div>
   );
 }
 
