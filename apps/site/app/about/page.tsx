@@ -3,7 +3,7 @@ import Image from "next/image";
 import DaizieHeader from "@/components/daizie/DaizieHeader";
 import Reveal from "@/components/motion/Reveal";
 import { META, SITE } from "@/lib/content";
-import { BOOK_CALL_HREF } from "@/lib/links";
+import { BOOK_CALL_HREF, SUBSTACK_URL } from "@/lib/links";
 
 export const metadata: Metadata = {
   title: META.about.title,
@@ -43,6 +43,31 @@ export default function AboutPage() {
                 founder-led service businesses show up accurately when
                 ChatGPT, Claude, Perplexity, and Gemini describe, cite, and
                 recommend them — also known as AEO or GEO.
+              </p>
+              <p
+                style={{
+                  marginTop: 16,
+                  fontSize: "0.95rem",
+                  color: "#54655a",
+                }}
+              >
+                Where I write:{" "}
+                <a
+                  href={SUBSTACK_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    color: "var(--dz-forest)",
+                    fontWeight: 600,
+                    textDecoration: "underline",
+                    textDecorationColor: "var(--dz-gold)",
+                    textUnderlineOffset: 3,
+                  }}
+                >
+                  martykoepke.substack.com
+                </a>{" "}
+                — ongoing notes on applied AI, informatics, and adopting
+                AI thoughtfully as a small business.
               </p>
             </div>
           </article>

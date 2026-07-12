@@ -123,9 +123,9 @@ const localBusinessJsonLd = {
     jobTitle: "Applied AI Consultant · Founder, Practical Informatics LLC",
     description:
       "Applied AI consultant with twenty years in enterprise informatics. Founder of Practical Informatics LLC. Author of Between the Clicks. Led enterprise informatics strategy for Abridge and Notable across multiple states and EHR platforms.",
-    sameAs: [SOCIAL.linkedin, SOCIAL.facebook, MARTYKOEPKE_URL],
+    sameAs: [SOCIAL.linkedin, SOCIAL.facebook, SOCIAL.substack, MARTYKOEPKE_URL],
   },
-  sameAs: [SOCIAL.linkedin, SOCIAL.facebook, MARTYKOEPKE_URL],
+  sameAs: [SOCIAL.linkedin, SOCIAL.facebook, SOCIAL.substack, MARTYKOEPKE_URL],
   contactPoint: {
     "@type": "ContactPoint",
     contactType: "sales",

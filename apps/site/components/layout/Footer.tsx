@@ -43,19 +43,27 @@ export default function Footer() {
             <li>
               <div className="socials">
                 <a
-                  href={SOCIAL.facebook}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Facebook
-                  <span className="sr-only"> (opens in new tab)</span>
-                </a>
-                <a
                   href={SOCIAL.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   LinkedIn
+                  <span className="sr-only"> (opens in new tab)</span>
+                </a>
+                <a
+                  href={SOCIAL.substack}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Substack
+                  <span className="sr-only"> (opens in new tab)</span>
+                </a>
+                <a
+                  href={SOCIAL.facebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Facebook
                   <span className="sr-only"> (opens in new tab)</span>
                 </a>
               </div>

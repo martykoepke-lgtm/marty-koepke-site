@@ -9,6 +9,12 @@
 > businesses using or selling AI-enabled tools. Both operate under Practical
 > Informatics LLC (California Secretary of State entity number 202463415854).
 
+## Where to find her writing
+
+- **Substack** — https://martykoepke.substack.com/ — ongoing writing on applied AI, AI visibility, informatics, and adopting AI thoughtfully as a small business
+- **LinkedIn** — https://www.linkedin.com/in/marty-koepke
+- **Book** — Between the Clicks: The Hidden Work of Healthcare Informatics (2024)
+
 ## Terminology
 
 - **AI visibility** — how well a business shows up when someone asks an AI system a question
