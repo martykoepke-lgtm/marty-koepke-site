@@ -1237,6 +1237,72 @@ h1, h2, h3, h4 {
   .daizie-product-card { min-height: auto; }
 }
 
+/* ---- Blog: evidence-library index cards + article body ----------------
+   The blog is the structured, source-backed half of the writing strategy
+   (Substack carries the conversational half). Cards stay calm: date
+   eyebrow, serif title, one-paragraph description, gold-arrow link. */
+.daizie-post-card h2 {
+  margin: 6px 0 10px;
+  font-size: 1.7rem;
+}
+.daizie-post-card h2 a {
+  color: inherit;
+  text-decoration: none;
+}
+.daizie-post-card h2 a:hover {
+  color: var(--dz-forest-dark);
+}
+.daizie-post-card .post-desc {
+  margin: 0 0 16px;
+  line-height: 1.65;
+  color: #3d4b41;
+  max-width: 68ch;
+}
+.daizie-post-card .text-link {
+  color: var(--dz-forest);
+  font-weight: 700;
+  text-decoration: none;
+  font-size: .95rem;
+}
+.daizie-post-card .text-link span { color: var(--dz-gold); }
+
+.daizie-article-body {
+  max-width: 72ch;
+  font-size: 1.02rem;
+}
+/* In-article headings step down from the pane-headline scale so any
+   markdown structure (#, ##, ###) reads as article hierarchy, not hero. */
+.daizie-article-body h1,
+.daizie-article-body h2 {
+  font-size: 1.6rem;
+  line-height: 1.25;
+}
+.daizie-article-body h3 {
+  font-size: 1.25rem;
+  line-height: 1.3;
+}
+
+.daizie-author-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.daizie-author-card img {
+  border-radius: 999px;
+  object-fit: cover;
+}
+.daizie-author-card .author-name {
+  margin: 0;
+  font-family: var(--font-serif), Georgia, serif;
+  color: var(--dz-forest);
+  font-size: 1.1rem;
+}
+.daizie-author-card .author-line {
+  margin: 2px 0 0;
+  font-size: .9rem;
+  color: #6b7a70;
+}
+
 /* ---- Craizie page: dark-teal typography ----
    Craizie has its own visual identity — darker teal instead of Daizie's
    forest green. Every heading, wordmark, and body paragraph on the
