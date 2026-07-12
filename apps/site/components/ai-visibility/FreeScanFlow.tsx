@@ -172,9 +172,19 @@ export default function FreeScanFlow() {
         | { ok: false; error: string };
 
       if (!res.ok || !data.ok) {
+        // TEMPORARY: dump the full error payload to console + UI so we can
+        // see what Vercel is actually returning.
+        console.error("[/scan] server returned error payload:", data);
+        const debugSuffix =
+          "stack" in data && data.stack
+            ? `\n\nStack:\n${String(data.stack)}`
+            : "";
+        const envSuffix =
+          "env" in data && data.env
+            ? `\n\nEnv:\n${JSON.stringify(data.env, null, 2)}`
+            : "";
         setErrorMsg(
-          ("error" in data && data.error) ||
-            "Something went wrong. Please try again."
+          `${("error" in data && data.error) || "Something went wrong."}${debugSuffix}${envSuffix}`
         );
         setPhase("form");
         return;
