@@ -1394,24 +1394,35 @@ h1, h2, h3, h4 {
 .daizie-footer {
   /* Local scope for footer palette so it works with or without
      the .daizie-shell wrapper. */
-  --dz-clay: #a67c52;           /* warm clay for body text */
-  --dz-clay-soft: #c39774;       /* lighter clay for muted lines */
-  --dz-teal: #2c6674;            /* blue-green for interactive links */
-  --dz-forest: #143522;          /* deep forest for headings + SVG */
-  --dz-gold: #bd8f24;
+  --dz-clay: #cfa26a;            /* warm clay for body text on dark */
+  --dz-clay-soft: #b58555;       /* deeper clay for muted lines */
+  --dz-teal: #6fb3c0;            /* blue-green links pop on dark */
+  --dz-forest: #143522;          /* deep forest for headings on light */
+  --dz-gold: #f0c65a;             /* readable gold on dark */
 
   position: relative;
-  margin: 60px auto 0;
-  width: min(1180px, calc(100% - 24px));
-  padding: 52px clamp(28px, 5vw, 62px) 24px;
-  border: 1px solid rgba(255, 255, 255, .72);
-  border-radius: 32px 32px 0 0;
-  background: rgba(250, 246, 238, .93);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  box-shadow: 0 -8px 30px rgba(16, 43, 32, .08);
+  margin: 60px 0 0;
+  padding: 0;
+  background: transparent;
   color: var(--dz-clay);
   font-family: var(--font-sans), Inter, system-ui, sans-serif;
+}
+.daizie-footer .footer-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  object-position: center bottom;
+}
+.daizie-footer .footer-content {
+  background: linear-gradient(180deg, rgba(10, 26, 20, 1), rgba(6, 18, 14, 1));
+  color: #d8d8d8;
+  padding: 32px 0 20px;
+  margin-top: -1px;
+}
+.daizie-footer .footer-content-inner {
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
 }
 .daizie-footer .cols {
   display: grid;
@@ -1420,25 +1431,29 @@ h1, h2, h3, h4 {
 }
 .daizie-footer .brand-logo {
   display: block;
-  width: min(280px, 90%);
+  width: min(220px, 90%);
   height: auto;
-  margin: 0 0 18px;
+  margin: 0 0 12px;
+  /* SVG logo is dark forest — invert to a warm cream so it reads on the
+     dark strip beneath the image. */
+  filter: brightness(0) invert(1);
+  opacity: 0.92;
 }
 .daizie-footer .tagline {
   color: var(--dz-clay);
-  font-size: 0.98rem;
-  line-height: 1.6;
+  font-size: 0.9rem;
+  line-height: 1.55;
   max-width: 320px;
   margin: 0;
 }
 .daizie-footer h2 {
-  margin: 0 0 16px;
+  margin: 0 0 12px;
   font-family: var(--font-sans), Inter, sans-serif;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--dz-forest);
+  color: var(--dz-gold);
 }
 .daizie-footer ul {
   list-style: none;
@@ -1453,11 +1468,11 @@ h1, h2, h3, h4 {
   text-decoration: none;
   border-bottom: 1px solid transparent;
   transition: color .15s, border-color .15s;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
 }
 .daizie-footer a:hover,
 .daizie-footer a:focus-visible {
-  color: var(--dz-forest);
+  color: var(--dz-gold);
   border-bottom-color: var(--dz-gold);
 }
 .daizie-footer .socials {
@@ -1471,26 +1486,25 @@ h1, h2, h3, h4 {
   line-height: 1.5;
 }
 .daizie-footer .disclaimer {
-  margin: 44px 0 0;
-  padding-top: 20px;
-  border-top: 1px solid rgba(166, 124, 82, .25);
-  color: var(--dz-clay);
-  opacity: 0.85;
-  font-size: 0.82rem;
-  line-height: 1.65;
+  margin: 28px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid rgba(207, 162, 106, .18);
+  color: rgba(207, 162, 106, .78);
+  font-size: 0.76rem;
+  line-height: 1.55;
   max-width: 900px;
 }
 .daizie-footer .bottom-row {
-  margin-top: 20px;
-  padding-top: 18px;
-  border-top: 1px solid rgba(166, 124, 82, .25);
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(207, 162, 106, .18);
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
+  gap: 14px;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.85rem;
-  color: var(--dz-clay);
+  font-size: 0.78rem;
+  color: rgba(207, 162, 106, .78);
 }
 .daizie-footer .bottom-row ul {
   flex-direction: row;
@@ -1498,9 +1512,9 @@ h1, h2, h3, h4 {
   gap: 18px;
 }
 @media (max-width: 800px) {
-  .daizie-footer { border-radius: 24px 24px 0 0; padding: 40px 22px 20px; }
-  .daizie-footer .cols { grid-template-columns: 1fr; gap: 32px; }
-  .daizie-footer .brand-logo { width: min(240px, 80%); }
+  .daizie-footer .footer-content { padding: 24px 0 16px; }
+  .daizie-footer .cols { grid-template-columns: 1fr; gap: 24px; }
+  .daizie-footer .brand-logo { width: min(180px, 70%); }
 }
 
 /* ===== SOFT DIVIDER (oak-tan hairline) ===== */

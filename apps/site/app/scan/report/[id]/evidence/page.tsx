@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { supabaseAdmin } from "@practical-informatics/avi";
+import DaizieHeader from "@/components/daizie/DaizieHeader";
 import { TokenReportNav } from "../TokenReportNav";
 
 export const runtime = "nodejs";
@@ -56,25 +57,54 @@ type ScoringSnapshot = {
 };
 
 async function loadEvidence(submissionId: string, token: string) {
-  const supabase = supabaseAdmin();
-  const { data: submission } = await supabase
-    .from("submissions")
-    .select("id, url, company_name, access_token, created_at")
-    .eq("id", submissionId)
-    .maybeSingle<SubmissionRow>();
-  if (!submission || submission.access_token !== token || isExpired(submission.created_at)) {
+  try {
+    const supabase = supabaseAdmin();
+    const { data: submission } = await supabase
+      .from("submissions")
+      .select("id, url, company_name, access_token, created_at")
+      .eq("id", submissionId)
+      .maybeSingle<SubmissionRow>();
+    if (
+      !submission ||
+      submission.access_token !== token ||
+      isExpired(submission.created_at)
+    ) {
+      return null;
+    }
+
+    const { data: audit } = await supabase
+      .from("audits")
+      .select("id, crawler_output, scoring_output, created_at")
+      .eq("submission_id", submissionId)
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .maybeSingle<AuditRow>();
+    if (!audit) return null;
+
+    return {
+      submission,
+      audit: {
+        ...audit,
+        crawler_output: parseIfString<CrawlerSnapshot>(audit.crawler_output),
+        scoring_output: parseIfString<ScoringSnapshot>(audit.scoring_output),
+      },
+    };
+  } catch (e) {
+    console.error("[scan/report/evidence] loadEvidence failed:", e);
     return null;
   }
+}
 
-  const { data: audit } = await supabase
-    .from("audits")
-    .select("id, crawler_output, scoring_output, created_at")
-    .eq("submission_id", submissionId)
-    .order("created_at", { ascending: false })
-    .limit(1)
-    .maybeSingle<AuditRow>();
-  if (!audit) return null;
-  return { submission, audit };
+function parseIfString<T>(v: unknown): T | null {
+  if (v == null) return null;
+  if (typeof v === "string") {
+    try {
+      return JSON.parse(v) as T;
+    } catch {
+      return null;
+    }
+  }
+  return v as T;
 }
 
 export default async function EvidencePage({
@@ -105,101 +135,251 @@ export default async function EvidencePage({
   ] as const;
 
   return (
-    <main className="report-workspace min-h-screen pb-24">
-      <article className="mx-auto max-w-5xl px-5 pt-10 pb-12 sm:px-8 lg:pt-14">
-        <TokenReportNav reportId={id} token={t} active="evidence" />
-        <header className="rounded-lg bg-forest-dark p-5">
-          <div className="text-[11px] uppercase tracking-widest text-gold">
-            Evidence
-          </div>
-          <h1 className="mt-2 text-3xl font-semibold text-cream sm:text-4xl">
-            Site and source signals
-          </h1>
-          <p className="mt-2 text-sm text-tan">
-            Evidence used by this free readiness check for {friendlyDomain(data.submission.url)}.
-          </p>
-        </header>
+    <div className="daizie-shell">
+      <DaizieHeader />
+      <main className="daizie-main">
+        <div className="daizie-hero-spacer" aria-hidden="true" />
+        <article className="daizie-pane daizie-hero-pane">
+          <TokenReportNav reportId={id} token={t} active="evidence" />
 
-        <section className="mt-8 rounded-lg bg-forest-dark p-6">
-          <h2 className="text-2xl font-semibold text-cream">What we read on the site</h2>
-          <p className="mt-2 text-sm leading-relaxed text-tan">
-            These are public crawlability, structure, and entity signals visible
-            during the free scan.
-          </p>
-          <ul className="mt-5 grid gap-3 sm:grid-cols-2">
-            {signals.map(([label, present]) => (
-              <li
-                key={label}
-                className="flex items-center justify-between gap-3 rounded border border-tan/35 bg-forest/60 px-4 py-3 text-sm"
-              >
-                <span className="text-cream">{label}</span>
-                <span className={present ? "text-gold" : "text-tan"}>
-                  {present ? "yes" : "no"}
-                </span>
-              </li>
-            ))}
-          </ul>
-          {crawler?.title && (
-            <p className="mt-5 text-sm text-tan">
-              <span className="font-semibold text-cream">Page title: </span>
-              {crawler.title}
+          <section className="daizie-scan-card" style={{ marginTop: 20 }}>
+            <p className="card-eyebrow">Evidence</p>
+            <h2>Site and source signals</h2>
+            <p style={{ marginTop: 8 }}>
+              Evidence used by this free Daizie Readiness Check for{" "}
+              <strong>{friendlyDomain(data.submission.url)}</strong>.
             </p>
-          )}
-          {crawler?.metaDescription && (
-            <p className="mt-2 text-sm text-tan">
-              <span className="font-semibold text-cream">Meta description: </span>
-              {crawler.metaDescription}
-            </p>
-          )}
-          {crawler?.schemaTypes && crawler.schemaTypes.length > 0 && (
-            <p className="mt-2 text-sm text-tan">
-              <span className="font-semibold text-cream">JSON-LD types: </span>
-              {crawler.schemaTypes.join(", ")}
-            </p>
-          )}
-        </section>
+          </section>
 
-        <section className="mt-8 rounded-lg bg-forest-dark p-6">
-          <h2 className="text-2xl font-semibold text-cream">What corroborated the entity</h2>
-          <p className="mt-2 text-sm leading-relaxed text-tan">
-            We found {corroboration?.totalCorroboratingDomains ?? 0} corroborating
-            domain{corroboration?.totalCorroboratingDomains === 1 ? "" : "s"}.
-          </p>
-          <div className="mt-5 grid gap-3 sm:grid-cols-2">
-            <EvidenceLink label="LinkedIn" found={corroboration?.linkedinPresent} url={corroboration?.linkedinUrl} />
-            <EvidenceLink label="Wikidata" found={corroboration?.wikidataPresent} url={corroboration?.wikidataUrl} />
-          </div>
-          {corroboration?.mentions && corroboration.mentions.length > 0 && (
-            <ul className="mt-6 space-y-4">
-              {corroboration.mentions.slice(0, 6).map((mention) => (
-                <li key={mention.url} className="rounded border border-tan/35 bg-forest/60 p-4">
-                  <a href={mention.url} className="font-semibold text-cream underline decoration-gold underline-offset-4 hover:text-gold">
-                    {mention.title || mention.domain}
-                  </a>
-                  <span className="ml-2 text-xs text-tan">({mention.domain})</span>
-                  {mention.snippet && (
-                    <p className="mt-2 text-sm leading-relaxed text-tan">{mention.snippet}</p>
-                  )}
+          <section className="daizie-scan-card">
+            <h3>What we read on the site</h3>
+            <p className="muted" style={{ marginTop: 6, fontSize: "0.92rem" }}>
+              These are public crawlability, structure, and entity signals
+              visible during the free scan.
+            </p>
+            <ul
+              style={{
+                listStyle: "none",
+                padding: 0,
+                margin: "18px 0 0",
+                display: "grid",
+                gap: 10,
+                gridTemplateColumns: "1fr",
+              }}
+              className="site-signals"
+            >
+              {signals.map(([label, present]) => (
+                <li
+                  key={label as string}
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    padding: "10px 14px",
+                    borderRadius: 10,
+                    background: "rgba(23, 62, 44, .04)",
+                    border: "1px solid rgba(23, 62, 44, .1)",
+                  }}
+                >
+                  <span style={{ color: "var(--dz-forest)" }}>
+                    {label as string}
+                  </span>
+                  <span
+                    style={{
+                      fontSize: "0.72rem",
+                      letterSpacing: "0.16em",
+                      textTransform: "uppercase",
+                      fontWeight: 700,
+                      color: present ? "#0e7a4a" : "#a83232",
+                    }}
+                  >
+                    {present ? "yes" : "no"}
+                  </span>
                 </li>
               ))}
             </ul>
-          )}
-        </section>
-      </article>
-    </main>
+            {crawler?.title && (
+              <p
+                className="muted"
+                style={{ marginTop: 18, fontSize: "0.9rem" }}
+              >
+                <strong style={{ color: "var(--dz-forest)" }}>
+                  Page title:{" "}
+                </strong>
+                {crawler.title}
+              </p>
+            )}
+            {crawler?.metaDescription && (
+              <p
+                className="muted"
+                style={{ marginTop: 6, fontSize: "0.9rem" }}
+              >
+                <strong style={{ color: "var(--dz-forest)" }}>
+                  Meta description:{" "}
+                </strong>
+                {crawler.metaDescription}
+              </p>
+            )}
+            {crawler?.schemaTypes && crawler.schemaTypes.length > 0 && (
+              <p
+                className="muted"
+                style={{ marginTop: 6, fontSize: "0.9rem" }}
+              >
+                <strong style={{ color: "var(--dz-forest)" }}>
+                  JSON-LD types:{" "}
+                </strong>
+                {crawler.schemaTypes.join(", ")}
+              </p>
+            )}
+          </section>
+
+          <section className="daizie-scan-card">
+            <h3>What corroborated the entity</h3>
+            <p className="muted" style={{ marginTop: 6, fontSize: "0.92rem" }}>
+              We found {corroboration?.totalCorroboratingDomains ?? 0}{" "}
+              corroborating domain
+              {corroboration?.totalCorroboratingDomains === 1 ? "" : "s"}.
+            </p>
+            <div
+              style={{
+                display: "grid",
+                gap: 12,
+                gridTemplateColumns: "1fr 1fr",
+                marginTop: 18,
+              }}
+            >
+              <EvidenceLink
+                label="LinkedIn"
+                found={corroboration?.linkedinPresent}
+                url={corroboration?.linkedinUrl}
+              />
+              <EvidenceLink
+                label="Wikidata"
+                found={corroboration?.wikidataPresent}
+                url={corroboration?.wikidataUrl}
+              />
+            </div>
+            {corroboration?.mentions && corroboration.mentions.length > 0 && (
+              <ul
+                style={{
+                  listStyle: "none",
+                  padding: 0,
+                  margin: "20px 0 0",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 12,
+                }}
+              >
+                {corroboration.mentions.slice(0, 6).map((mention) => (
+                  <li
+                    key={mention.url}
+                    style={{
+                      padding: "14px 16px",
+                      borderRadius: 12,
+                      background: "rgba(23, 62, 44, .04)",
+                      border: "1px solid rgba(23, 62, 44, .1)",
+                    }}
+                  >
+                    <a
+                      href={mention.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        fontFamily: "var(--font-serif), Georgia, serif",
+                        fontWeight: 500,
+                        color: "var(--dz-forest)",
+                        textDecoration: "underline",
+                        textDecorationColor: "var(--dz-gold)",
+                        textUnderlineOffset: 3,
+                      }}
+                    >
+                      {mention.title || mention.domain}
+                    </a>
+                    <span
+                      style={{
+                        marginLeft: 8,
+                        fontSize: "0.78rem",
+                        color: "#56675c",
+                      }}
+                    >
+                      ({mention.domain})
+                    </span>
+                    {mention.snippet && (
+                      <p
+                        style={{
+                          marginTop: 8,
+                          fontSize: "0.88rem",
+                          lineHeight: 1.55,
+                          color: "#4a5b52",
+                        }}
+                      >
+                        {mention.snippet}
+                      </p>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </section>
+        </article>
+      </main>
+    </div>
   );
 }
 
-function EvidenceLink({ label, found, url }: { label: string; found?: boolean; url?: string }) {
+function EvidenceLink({
+  label,
+  found,
+  url,
+}: {
+  label: string;
+  found?: boolean;
+  url?: string;
+}) {
   return (
-    <div className="rounded border border-tan/35 bg-forest/60 p-4 text-sm">
-      <p className="font-semibold text-cream">{label}</p>
+    <div
+      style={{
+        padding: "14px 16px",
+        borderRadius: 12,
+        background: found ? "rgba(16, 122, 78, .05)" : "rgba(23, 62, 44, .04)",
+        border: found
+          ? "1px solid rgba(16, 122, 78, .25)"
+          : "1px solid rgba(23, 62, 44, .1)",
+        fontSize: "0.9rem",
+      }}
+    >
+      <p
+        style={{
+          margin: 0,
+          fontFamily: "var(--font-serif), Georgia, serif",
+          fontWeight: 500,
+          color: "var(--dz-forest)",
+        }}
+      >
+        {label}
+      </p>
       {found && url ? (
-        <a href={url} className="mt-2 block break-all text-tan underline decoration-gold underline-offset-4 hover:text-gold">
+        <a
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            display: "block",
+            marginTop: 6,
+            wordBreak: "break-all",
+            fontSize: "0.82rem",
+            color: "var(--dz-forest)",
+            textDecoration: "underline",
+            textDecorationColor: "var(--dz-gold)",
+            textUnderlineOffset: 2,
+          }}
+        >
           {url}
         </a>
       ) : (
-        <p className="mt-2 text-tan">not found</p>
+        <p style={{ margin: "6px 0 0", color: "#a83232", fontSize: "0.82rem" }}>
+          not found
+        </p>
       )}
     </div>
   );

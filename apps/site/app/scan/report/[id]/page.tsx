@@ -1,21 +1,17 @@
 /**
  * /scan/report/[id]?t=<access_token>
  *
- * Public token-gated free-scan report. Same data as the on-screen result
- * in /scan, plus a couple of extra signal sections from the crawler +
- * corroboration runs. Print-friendly hosted report; customers can save it
- * as PDF from the browser.
+ * Public token-gated Daizie readiness report. Full Daizie chrome —
+ * white cards, forest text, minimal gold accents on eyebrows only.
  *
  * Gate: `?t=` must match submissions.access_token and the scan must be
  * within the 30-day report access window.
- *
- * Per D006 / AVI_FREE_FLOW.md. Rendering brand: white report surface,
- * restrained forest and gold accents, Lora serif + Inter sans.
  */
 
 import { notFound } from "next/navigation";
 import { supabaseAdmin } from "@practical-informatics/avi";
 import { tierFor, type Tier } from "@practical-informatics/avi";
+import DaizieHeader from "@/components/daizie/DaizieHeader";
 import { ReportActions } from "./ReportActions";
 import { TokenReportNav } from "./TokenReportNav";
 
@@ -25,7 +21,7 @@ const REPORT_TOKEN_TTL_DAYS = 30;
 const REPORT_TOKEN_TTL_MS = REPORT_TOKEN_TTL_DAYS * 24 * 60 * 60 * 1000;
 
 // ============================================================================
-// Types — narrow rows for what this page consumes
+// Types
 // ============================================================================
 
 type SubmissionRow = {
@@ -105,39 +101,31 @@ type ImprovementGuidance = {
   example: string;
 };
 
-const TIER_COPY: Record<
-  Tier,
-  { label: string; sentence: string; tone: string }
-> = {
+const TIER_COPY: Record<Tier, { label: string; sentence: string }> = {
   invisible: {
     label: "Invisible",
     sentence:
       "AI tools don't currently surface this business when buyers ask. Strong signals are missing, but the fixes are mostly cheap.",
-    tone: "bg-red-100 text-red-900 border-red-300",
   },
   hidden: {
     label: "Hidden",
     sentence:
       "AI tools can find this business if pressed but won't recommend it on their own yet. A handful of structured fixes change that.",
-    tone: "bg-orange-100 text-orange-900 border-orange-300",
   },
   "faintly-visible": {
     label: "Faintly Visible",
     sentence:
       "AI tools mention this business sometimes, but inconsistently. You're in the conversation — not yet at the top of it.",
-    tone: "bg-yellow-100 text-yellow-900 border-yellow-300",
   },
   discoverable: {
     label: "Discoverable",
     sentence:
       "AI tools recognize this business as a credible answer. Closing the remaining gaps moves you to a default recommendation.",
-    tone: "bg-emerald-100 text-emerald-900 border-emerald-300",
   },
   "agent-ready": {
     label: "Agent-Ready",
     sentence:
       "AI tools surface this business confidently across the queries that matter. You're set up to compound visibility, not chase it.",
-    tone: "bg-forest text-cream border-forest",
   },
 };
 
@@ -155,18 +143,16 @@ async function loadScanData(
 } | null> {
   try {
     const supabase = supabaseAdmin();
-    const { data: submission, error: subErr } = await supabase
+    const { data: submission } = await supabase
       .from("submissions")
-      .select(
-        "id, url, company_name, access_token, subject_type, created_at"
-      )
+      .select("id, url, company_name, access_token, subject_type, created_at")
       .eq("id", submissionId)
       .maybeSingle<SubmissionRow>();
-    if (subErr || !submission) return null;
+    if (!submission) return null;
     if (submission.access_token !== token) return null;
     if (isExpired(submission.created_at)) return null;
 
-    const { data: audit, error: audErr } = await supabase
+    const { data: audit } = await supabase
       .from("audits")
       .select(
         "id, submission_id, rubric_version, subject_type, readiness_score, tier, crawler_output, scoring_output, created_at"
@@ -175,10 +161,8 @@ async function loadScanData(
       .order("created_at", { ascending: false })
       .limit(1)
       .maybeSingle<AuditRow>();
-    if (audErr || !audit) return null;
+    if (!audit) return null;
 
-    // Some legacy rows persisted these columns as text instead of jsonb,
-    // so tolerate a stringified payload without crashing the whole render.
     const crawlerOutput = parseIfString<CrawlerSnapshot>(audit.crawler_output);
     const scoringOutput = parseIfString<ScoringSnapshot>(audit.scoring_output);
 
@@ -191,7 +175,11 @@ async function loadScanData(
 
     return {
       submission,
-      audit: { ...audit, crawler_output: crawlerOutput, scoring_output: scoringOutput },
+      audit: {
+        ...audit,
+        crawler_output: crawlerOutput,
+        scoring_output: scoringOutput,
+      },
       dimensions: dimRows ?? [],
     };
   } catch (e) {
@@ -232,31 +220,36 @@ export default async function ScanReportPage({
   if (!data) notFound();
 
   const { submission, audit, dimensions } = data;
+  const findings = audit.scoring_output?.findings ?? [];
+  const improvements = pickImprovements(dimensions);
 
   return (
-    <main className="free-report tokenized-report report-workspace min-h-screen pb-24 text-charcoal print:bg-white print:pb-0">
-      <article className="mx-auto max-w-5xl px-5 pt-10 pb-12 sm:px-8 lg:pt-14 print:max-w-none print:px-10 print:pt-10">
-        <TokenReportNav reportId={id} token={t} active="report" />
-        <ReportActions />
-        <ReportHeader submission={submission} audit={audit} />
-        <FindingsSection findings={audit.scoring_output?.findings ?? []} />
-        <ImprovementSection dimensions={dimensions} />
-        <TierHeadline audit={audit} />
-        <div className="grid gap-6 lg:grid-cols-[minmax(0,1.25fr)_minmax(280px,0.75fr)] print:block">
-          <div>
+    <div className="daizie-shell">
+      <DaizieHeader />
+      <main className="daizie-main">
+        <div className="daizie-hero-spacer" aria-hidden="true" />
+
+        <article className="daizie-pane daizie-hero-pane">
+          <TokenReportNav reportId={id} token={t} active="report" />
+          <ReportActions />
+          <ReportHeader submission={submission} audit={audit} />
+          <TierHeadline audit={audit} />
+          {findings.length > 0 && <FindingsSection findings={findings} />}
+          {dimensions.length > 0 && (
             <DimensionsSection dimensions={dimensions} />
-          </div>
-          <div>
-            <CrawlerSection crawler={audit.crawler_output} />
-            <CorroborationSection
-              corroboration={audit.scoring_output?.corroboration ?? null}
-            />
-          </div>
-        </div>
-        <UpsellSection />
-        <ReportFooter audit={audit} />
-      </article>
-    </main>
+          )}
+          {improvements.length > 0 && (
+            <ImprovementsSection improvements={improvements} />
+          )}
+          <CrawlerSection crawler={audit.crawler_output} />
+          <CorroborationSection
+            corroboration={audit.scoring_output?.corroboration ?? null}
+          />
+          <UpsellSection />
+          <ReportFooter audit={audit} />
+        </article>
+      </main>
+    </div>
   );
 }
 
@@ -273,68 +266,58 @@ function ReportHeader({
 }) {
   const domain = friendlyDomain(submission.url);
   return (
-    <header className="mb-6 overflow-hidden rounded-lg border border-tan/80 bg-white p-6 shadow-sm print:shadow-none">
-      <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <p className="text-xs uppercase tracking-[0.2em] text-gold-dark mb-3">
-            Free AI Readiness Check
-          </p>
-          <h1 className="font-serif text-4xl text-forest leading-tight sm:text-5xl">
-            {submission.company_name ?? domain}
-          </h1>
-          <p className="mt-3 text-sm text-moss">
-            {domain}
-            {audit.subject_type ? ` · ${humanizeSubjectType(audit.subject_type)}` : ""}
-          </p>
-        </div>
-        <div className="rounded-md border border-tan bg-cream px-4 py-3 text-left text-xs text-moss sm:text-right">
-          <p>Generated {formatDate(audit.created_at)}</p>
-          <p className="mt-1">Private report link expires after 30 days</p>
-        </div>
-      </div>
-    </header>
+    <section className="daizie-scan-card" style={{ marginTop: 20 }}>
+      <p className="card-eyebrow">Free Daizie Readiness Check</p>
+      <h2>{submission.company_name ?? domain}</h2>
+      <p className="muted" style={{ marginTop: 6, fontSize: "0.92rem" }}>
+        {domain}
+        {audit.subject_type
+          ? ` · ${humanizeSubjectType(audit.subject_type)}`
+          : ""}
+        {" · Generated "}
+        {formatDate(audit.created_at)}
+      </p>
+      <p
+        className="muted"
+        style={{
+          marginTop: 8,
+          fontSize: "0.78rem",
+          fontStyle: "italic",
+        }}
+      >
+        Private report link expires 30 days after scan date.
+      </p>
+    </section>
   );
 }
 
 function TierHeadline({ audit }: { audit: AuditRow }) {
-  // The free-flow tier is derived from readiness only (no Visibility
-  // outcome). The DB's audits.tier column may have been set by the paid
-  // pipeline against the composite score, so we recompute here to keep
-  // the free-flow report consistent with its own scale.
   const score = audit.readiness_score ?? 0;
   const tierKey: Tier = tierFor(score);
   const t = TIER_COPY[tierKey];
   const pct = Math.round(score * 100);
 
   return (
-    <section className="mb-6 break-inside-avoid">
-      <div className="rounded-lg border border-tan/80 bg-white p-6 text-forest shadow-sm print:shadow-none">
-        <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_220px] lg:items-center">
-          <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-gold-darker mb-3">
-              Your tier
-            </p>
-            <div className="flex flex-wrap items-baseline gap-x-5 gap-y-2">
-              <span className="font-serif text-4xl font-semibold sm:text-5xl">
-                {t.label}
-              </span>
-              <span className="rounded-full border border-forest/15 bg-white/70 px-3 py-1 font-serif text-2xl text-forest">
-                {pct}/100
-              </span>
-            </div>
-            <p className="mt-5 max-w-2xl text-base leading-relaxed text-charcoal">
-              {t.sentence}
-            </p>
+    <section className="daizie-scan-card">
+      <div className="daizie-score-row">
+        <div>
+          <p className="card-eyebrow">Your tier</p>
+          <div className="score-value">
+            <span className="num">{pct}</span>
+            <span className="of">/ 100</span>
+            <span className="tier" style={{ color: "var(--dz-forest)" }}>
+              {t.label}
+            </span>
           </div>
-          <div className="rounded-lg border border-forest/15 bg-forest p-5 text-cream">
-            <p className="text-xs uppercase tracking-[0.18em] text-gold">
-              Report scope
-            </p>
-            <p className="mt-3 text-sm leading-relaxed text-cream/90">
-              This free check reads public site signals and scores readiness.
-              The paid audit measures live AI answers across major engines.
-            </p>
-          </div>
+          <p style={{ marginTop: 10, maxWidth: 520 }}>{t.sentence}</p>
+        </div>
+        <div>
+          <p className="card-eyebrow">Report scope</p>
+          <p style={{ marginTop: 8 }}>
+            This free check reads public site signals and scores readiness.
+            The paid Daizie AI Visibility Assessment measures live AI
+            answers across ChatGPT, Claude, Perplexity, and Gemini.
+          </p>
         </div>
       </div>
     </section>
@@ -342,60 +325,41 @@ function TierHeadline({ audit }: { audit: AuditRow }) {
 }
 
 function DimensionsSection({ dimensions }: { dimensions: DimensionRow[] }) {
-  if (dimensions.length === 0) return null;
   return (
-    <section className="mb-6 rounded-lg border border-tan/80 bg-white p-6 text-charcoal shadow-sm break-inside-avoid print:shadow-none">
-      <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <p className="text-xs uppercase tracking-[0.18em] text-gold-dark">
-            Score breakdown
-          </p>
-          <h2 className="mt-2 font-serif text-2xl text-forest">
-            The readiness drivers
-          </h2>
-        </div>
-        <p className="text-sm text-moss">0-5, based on observable site evidence</p>
+    <section className="daizie-scan-card">
+      <p className="card-eyebrow">Score breakdown</p>
+      <h3>The five readiness drivers</h3>
+      <p className="muted" style={{ marginTop: 6, fontSize: "0.9rem" }}>
+        0–5, based on observable site evidence.
+      </p>
+      <div className="daizie-driver-list" style={{ marginTop: 16 }}>
+        {dimensions.map((d) => {
+          const score = typeof d.score === "number" ? d.score : 0;
+          const pct = (score / 5) * 100;
+          return (
+            <div key={d.dimension_id} className="daizie-driver-row">
+              <div className="row-head">
+                <span className="name">{d.dimension_name}</span>
+                <span className="value">
+                  {typeof d.score === "number" ? d.score.toFixed(1) : "—"} / 5
+                </span>
+              </div>
+              <div
+                className="bar"
+                role="progressbar"
+                aria-valuemin={0}
+                aria-valuemax={5}
+                aria-valuenow={score}
+                aria-label={`${d.dimension_name} score`}
+              >
+                <div className="fill" style={{ width: `${pct}%` }} />
+              </div>
+              {d.justification && <p className="finding">{d.justification}</p>}
+            </div>
+          );
+        })}
       </div>
-      <ul className="grid gap-4 lg:grid-cols-2">
-        {dimensions.map((d) => (
-          <DimensionRowItem key={d.dimension_id} row={d} />
-        ))}
-      </ul>
     </section>
-  );
-}
-
-function DimensionRowItem({ row }: { row: DimensionRow }) {
-  const score = typeof row.score === "number" ? row.score : 0;
-  const pct = (score / 5) * 100;
-  return (
-    <li className="rounded-lg border border-tan/70 bg-cream/45 p-4">
-      <div className="flex items-baseline justify-between gap-4">
-        <p className="font-serif text-base font-semibold text-forest">
-          {row.dimension_name}
-        </p>
-        <p className="font-mono text-sm font-semibold text-forest">
-          {typeof row.score === "number" ? row.score.toFixed(1) : "-"} / 5
-        </p>
-      </div>
-      <div
-        className="mt-3 h-2.5 w-full overflow-hidden rounded-full bg-tan/45"
-        role="progressbar"
-        aria-valuemin={0}
-        aria-valuemax={5}
-        aria-valuenow={score}
-      >
-        <div
-          className="h-full rounded-full bg-gradient-to-r from-gold to-forest"
-          style={{ width: `${pct}%` }}
-        />
-      </div>
-      {row.justification && (
-        <p className="mt-3 text-sm leading-relaxed text-charcoal">
-          {row.justification}
-        </p>
-      )}
-    </li>
   );
 }
 
@@ -404,99 +368,164 @@ function FindingsSection({
 }: {
   findings: NonNullable<ScoringSnapshot["findings"]>;
 }) {
-  if (!findings || findings.length === 0) return null;
   return (
-    <section className="free-report-section mb-6 rounded-lg border border-tan/80 bg-white p-6 text-charcoal shadow-sm break-inside-avoid print:shadow-none">
-      <p className="text-xs uppercase tracking-[0.18em] text-gold-dark">
-        Key findings
-      </p>
-      <h2 className="mt-2 font-serif text-2xl text-forest mb-6">What stood out</h2>
-      <ul className="grid gap-4 lg:grid-cols-2">
-        {findings.map((f) => (
-          <li
-            key={f.dimensionId}
-            className="free-report-card rounded-lg border-l-4 border-gold bg-cream/55 p-5 print:break-inside-avoid"
-          >
-            <p className="font-serif text-base font-semibold text-forest">
+    <section className="daizie-scan-card">
+      <p className="card-eyebrow">Key findings</p>
+      <h3>What stood out</h3>
+      <div className="daizie-findings">
+        {findings.slice(0, 4).map((f) => (
+          <div key={f.dimensionId} className="finding-card">
+            <p className="title">
               {f.dimensionName}
               {typeof f.score === "number" && (
-                <span className="ml-2 text-gold-dark text-sm font-normal">
-                  ({f.score.toFixed(1)} / 5)
-                </span>
+                <span className="score">({f.score.toFixed(1)} / 5)</span>
               )}
             </p>
-            <p className="mt-2 text-sm leading-relaxed text-charcoal">
-              {f.summary}
-            </p>
-          </li>
+            <p className="body">{f.summary}</p>
+          </div>
         ))}
-      </ul>
+      </div>
     </section>
   );
 }
 
-function ImprovementSection({ dimensions }: { dimensions: DimensionRow[] }) {
-  const improvements = pickImprovements(dimensions);
-  if (improvements.length === 0) return null;
-
+function ImprovementsSection({
+  improvements,
+}: {
+  improvements: ImprovementGuidance[];
+}) {
   return (
-    <section className="free-report-section mb-6 rounded-lg border border-tan/80 bg-white p-6 text-charcoal shadow-sm break-inside-avoid print:shadow-none">
-      <p className="text-xs uppercase tracking-[0.18em] text-gold-dark">
-        Priority improvements
+    <section className="daizie-scan-card">
+      <p className="card-eyebrow">Priority improvements</p>
+      <h3>Three ways to improve your AI visibility</h3>
+      <p className="muted" style={{ marginTop: 6, fontSize: "0.9rem" }}>
+        Practical next moves based on the weakest readiness signals we could
+        observe from your public site.
       </p>
-      <h2 className="mt-2 font-serif text-2xl text-forest">
-        3 ways to improve your AI visibility
-      </h2>
-      <p className="mt-2 max-w-2xl text-sm leading-relaxed text-moss">
-        These are practical next moves based on the weakest readiness signals we
-        could observe from your public site. Each one names where to make the
-        change, how to implement it, and what success should look like.
-      </p>
-      <ol className="mt-5 grid gap-5">
+      <ol
+        style={{
+          listStyle: "none",
+          padding: 0,
+          margin: "20px 0 0",
+          display: "flex",
+          flexDirection: "column",
+          gap: 16,
+        }}
+      >
         {improvements.map((item, index) => (
           <li
             key={`${item.title}-${index}`}
-            className="free-report-card rounded-lg border border-tan/70 bg-cream/45 p-5 print:break-inside-avoid"
+            style={{
+              padding: "20px 22px",
+              borderRadius: 16,
+              background: "rgba(23, 62, 44, .04)",
+              border: "1px solid rgba(23, 62, 44, .12)",
+              display: "grid",
+              gridTemplateColumns: "40px 1fr",
+              gap: 18,
+            }}
           >
-            <div className="flex gap-4">
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-forest text-sm font-semibold text-cream">
-                {index + 1}
-              </span>
-              <div className="min-w-0">
-                <h3 className="font-serif text-lg font-semibold text-forest">
-                  {item.title}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-moss">
-                  {item.why}
-                </p>
-                <div className="mt-4 grid gap-3 lg:grid-cols-3">
-                  <p className="border-l-2 border-gold pl-3 text-sm leading-relaxed text-charcoal">
-                    <strong className="text-forest">Where: </strong>
-                    {item.where}
-                  </p>
-                  <p className="border-l-2 border-gold pl-3 text-sm leading-relaxed text-charcoal">
-                    <strong className="text-forest">How: </strong>
-                    {item.how}
-                  </p>
-                  <p className="border-l-2 border-gold pl-3 text-sm leading-relaxed text-charcoal">
-                    <strong className="text-forest">Success: </strong>
-                    {item.success}
-                  </p>
-                </div>
-                <p className="mt-4 text-sm leading-relaxed text-charcoal">
-                  <strong className="text-forest">Do this: </strong>
-                  {item.action}
-                </p>
-                <p className="mt-2 border-l-2 border-gold pl-3 text-sm leading-relaxed text-charcoal">
-                  <strong className="text-forest">Example: </strong>
-                  {item.example}
-                </p>
+            <span
+              style={{
+                width: 36,
+                height: 36,
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: "50%",
+                background: "var(--dz-forest)",
+                color: "var(--dz-cream)",
+                fontFamily: "var(--font-serif), Georgia, serif",
+                fontSize: "1.1rem",
+                fontWeight: 500,
+              }}
+            >
+              {index + 1}
+            </span>
+            <div>
+              <h3
+                style={{
+                  margin: 0,
+                  fontFamily: "var(--font-serif), Georgia, serif",
+                  fontSize: "1.2rem",
+                  color: "var(--dz-forest)",
+                  fontWeight: 500,
+                }}
+              >
+                {item.title}
+              </h3>
+              <p
+                style={{
+                  marginTop: 10,
+                  fontSize: "0.92rem",
+                  lineHeight: 1.6,
+                  color: "#4a5b52",
+                }}
+              >
+                {item.why}
+              </p>
+              <div
+                style={{
+                  display: "grid",
+                  gap: 10,
+                  gridTemplateColumns: "1fr",
+                  marginTop: 14,
+                }}
+              >
+                <ImprovementRow label="Where" text={item.where} />
+                <ImprovementRow label="How" text={item.how} />
+                <ImprovementRow label="Success" text={item.success} />
               </div>
+              <p
+                style={{
+                  marginTop: 14,
+                  fontSize: "0.92rem",
+                  lineHeight: 1.6,
+                  color: "var(--dz-charcoal)",
+                }}
+              >
+                <strong style={{ color: "var(--dz-forest)" }}>Do this: </strong>
+                {item.action}
+              </p>
+              <p
+                style={{
+                  marginTop: 8,
+                  fontSize: "0.9rem",
+                  lineHeight: 1.55,
+                  color: "#4a5b52",
+                  fontStyle: "italic",
+                  borderLeft: "2px solid var(--dz-forest)",
+                  paddingLeft: 10,
+                }}
+              >
+                <strong style={{ color: "var(--dz-forest)", fontStyle: "normal" }}>
+                  Example:{" "}
+                </strong>
+                {item.example}
+              </p>
             </div>
           </li>
         ))}
       </ol>
     </section>
+  );
+}
+
+function ImprovementRow({ label, text }: { label: string; text: string }) {
+  return (
+    <p
+      style={{
+        margin: 0,
+        fontSize: "0.88rem",
+        lineHeight: 1.55,
+        color: "var(--dz-charcoal)",
+        borderLeft: "2px solid var(--dz-forest)",
+        paddingLeft: 10,
+      }}
+    >
+      <strong style={{ color: "var(--dz-forest)" }}>{label}: </strong>
+      {text}
+    </p>
   );
 }
 
@@ -513,45 +542,68 @@ function CrawlerSection({ crawler }: { crawler: CrawlerSnapshot | null }) {
     { label: "Pricing visible", present: crawler.pricingLikelyVisible },
   ];
   return (
-    <section className="mb-6 rounded-lg border border-tan/80 bg-white p-6 text-charcoal shadow-sm break-inside-avoid print:shadow-none">
-      <p className="text-xs uppercase tracking-[0.18em] text-gold-dark">
-        Site signals
-      </p>
-      <h2 className="mt-2 font-serif text-2xl text-forest mb-5">
-        What we read
-      </h2>
-      <div>
-        {!crawler.reachable && (
-          <p className="mb-4 text-sm text-moss">
-            We couldn&apos;t fully read your site directly — this section is
-            partial.
-          </p>
-        )}
-        <ul className="grid gap-2">
-          {signals.map((s) => (
-            <li
-              key={s.label}
-              className="flex items-center justify-between gap-3 rounded-md bg-cream/50 px-3 py-2 text-sm"
+    <section className="daizie-scan-card">
+      <p className="card-eyebrow">Site signals</p>
+      <h3>What we read</h3>
+      {!crawler.reachable && (
+        <p
+          className="muted"
+          style={{ marginTop: 8, fontSize: "0.9rem", fontStyle: "italic" }}
+        >
+          We couldn&rsquo;t fully read your site directly — this section is
+          partial.
+        </p>
+      )}
+      <ul
+        style={{
+          listStyle: "none",
+          padding: 0,
+          margin: "16px 0 0",
+          display: "grid",
+          gap: 10,
+          gridTemplateColumns: "1fr",
+        }}
+      >
+        {signals.map((s) => (
+          <li
+            key={s.label}
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              padding: "10px 14px",
+              borderRadius: 10,
+              background: "rgba(23, 62, 44, .04)",
+              border: "1px solid rgba(23, 62, 44, .1)",
+              fontSize: "0.9rem",
+            }}
+          >
+            <span style={{ color: "var(--dz-forest)" }}>{s.label}</span>
+            <span
+              style={{
+                fontSize: "0.72rem",
+                letterSpacing: "0.16em",
+                textTransform: "uppercase",
+                fontWeight: 700,
+                color: s.present ? "#0e7a4a" : "#a83232",
+              }}
             >
-              <span className="text-charcoal">{s.label}</span>
-              <span
-                className={
-                  s.present
-                    ? "rounded-full bg-forest px-2 py-0.5 text-xs font-semibold text-cream"
-                    : "rounded-full bg-tan/60 px-2 py-0.5 text-xs font-semibold text-moss"
-                }
-              >
-                {s.present ? "yes" : "no"}
-              </span>
-            </li>
-          ))}
-        </ul>
-        {Array.isArray(crawler.schemaTypes) && crawler.schemaTypes.length > 0 && (
-          <p className="mt-4 text-xs text-moss">
-            JSON-LD types detected: {crawler.schemaTypes.join(", ")}
-          </p>
-        )}
-      </div>
+              {s.present ? "yes" : "no"}
+            </span>
+          </li>
+        ))}
+      </ul>
+      {Array.isArray(crawler.schemaTypes) && crawler.schemaTypes.length > 0 && (
+        <p
+          className="muted"
+          style={{ marginTop: 14, fontSize: "0.85rem" }}
+        >
+          <strong style={{ color: "var(--dz-forest)" }}>
+            JSON-LD types detected:{" "}
+          </strong>
+          {crawler.schemaTypes.join(", ")}
+        </p>
+      )}
     </section>
   );
 }
@@ -564,108 +616,192 @@ function CorroborationSection({
   if (!corroboration) return null;
   const mentions = corroboration.mentions ?? [];
   return (
-    <section className="mb-6 rounded-lg border border-tan/80 bg-white p-6 text-charcoal shadow-sm break-inside-avoid print:shadow-none">
-      <p className="text-xs uppercase tracking-[0.18em] text-gold-dark">
-        Corroboration
+    <section className="daizie-scan-card">
+      <p className="card-eyebrow">Corroboration</p>
+      <h3>What the web says</h3>
+      <p style={{ marginTop: 8 }}>
+        We found {corroboration.totalCorroboratingDomains ?? 0} corroborating
+        domain
+        {corroboration.totalCorroboratingDomains === 1 ? "" : "s"} that name
+        this business.
       </p>
-      <h2 className="mt-2 font-serif text-2xl text-forest mb-5">
-        What the web says
-      </h2>
-      <div>
-        <p className="text-sm text-charcoal">
-          We found {corroboration.totalCorroboratingDomains ?? 0} corroborating
-          domain{corroboration.totalCorroboratingDomains === 1 ? "" : "s"} that
-          name this business.
-        </p>
-        <ul className="mt-4 grid gap-3 text-sm">
-          <li className="rounded-md bg-cream/50 p-3">
-            <span className="font-semibold text-forest">LinkedIn: </span>
-            {corroboration.linkedinPresent ? (
-              <a
-                href={corroboration.linkedinUrl}
-                className="underline hover:text-forest break-all"
-              >
-                {corroboration.linkedinUrl}
-              </a>
-            ) : (
-              <span className="text-moss">not found</span>
-            )}
-          </li>
-          <li className="rounded-md bg-cream/50 p-3">
-            <span className="font-semibold text-forest">Wikidata: </span>
-            {corroboration.wikidataPresent ? (
-              <a
-                href={corroboration.wikidataUrl}
-                className="underline hover:text-forest break-all"
-              >
-                {corroboration.wikidataUrl}
-              </a>
-            ) : (
-              <span className="text-moss">not found</span>
-            )}
-          </li>
-        </ul>
-        {mentions.length > 0 && (
-          <div className="mt-4">
-            <p className="text-xs uppercase tracking-widest text-gold-dark mb-2">
-              Top mentions
-            </p>
-            <ul className="space-y-3">
-              {mentions.slice(0, 5).map((m, i) => (
-                <li key={i} className="text-sm">
-                  <a
-                    href={m.url}
-                    className="font-semibold text-forest underline hover:text-forest-dark"
-                  >
-                    {m.title || m.domain}
-                  </a>
-                  <span className="ml-2 text-xs text-moss">({m.domain})</span>
-                  {m.snippet && (
-                    <p className="mt-1 text-charcoal text-sm leading-relaxed">
-                      {m.snippet}
-                    </p>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+      <div
+        style={{
+          display: "grid",
+          gap: 12,
+          gridTemplateColumns: "1fr 1fr",
+          marginTop: 16,
+        }}
+      >
+        <CorroborationCard
+          label="LinkedIn"
+          found={corroboration.linkedinPresent}
+          url={corroboration.linkedinUrl}
+        />
+        <CorroborationCard
+          label="Wikidata"
+          found={corroboration.wikidataPresent}
+          url={corroboration.wikidataUrl}
+        />
       </div>
+      {mentions.length > 0 && (
+        <div style={{ marginTop: 20 }}>
+          <p className="card-eyebrow">Top mentions</p>
+          <ul
+            style={{
+              listStyle: "none",
+              padding: 0,
+              margin: 0,
+              display: "flex",
+              flexDirection: "column",
+              gap: 12,
+            }}
+          >
+            {mentions.slice(0, 5).map((m, i) => (
+              <li
+                key={i}
+                style={{
+                  padding: "12px 14px",
+                  borderRadius: 12,
+                  background: "rgba(23, 62, 44, .04)",
+                  border: "1px solid rgba(23, 62, 44, .1)",
+                  fontSize: "0.9rem",
+                }}
+              >
+                <a
+                  href={m.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    fontFamily: "var(--font-serif), Georgia, serif",
+                    fontWeight: 500,
+                    color: "var(--dz-forest)",
+                    textDecoration: "underline",
+                    textDecorationColor: "var(--dz-gold)",
+                    textUnderlineOffset: 3,
+                  }}
+                >
+                  {m.title || m.domain}
+                </a>
+                <span
+                  style={{
+                    marginLeft: 8,
+                    fontSize: "0.78rem",
+                    color: "#56675c",
+                  }}
+                >
+                  ({m.domain})
+                </span>
+                {m.snippet && (
+                  <p
+                    style={{
+                      marginTop: 6,
+                      fontSize: "0.85rem",
+                      lineHeight: 1.55,
+                      color: "#4a5b52",
+                    }}
+                  >
+                    {m.snippet}
+                  </p>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </section>
+  );
+}
+
+function CorroborationCard({
+  label,
+  found,
+  url,
+}: {
+  label: string;
+  found?: boolean;
+  url?: string;
+}) {
+  return (
+    <div
+      style={{
+        padding: "14px 16px",
+        borderRadius: 12,
+        background: found ? "rgba(16, 122, 78, .05)" : "rgba(23, 62, 44, .04)",
+        border: found
+          ? "1px solid rgba(16, 122, 78, .25)"
+          : "1px solid rgba(23, 62, 44, .1)",
+      }}
+    >
+      <p
+        style={{
+          margin: 0,
+          fontFamily: "var(--font-serif), Georgia, serif",
+          fontWeight: 500,
+          color: "var(--dz-forest)",
+          fontSize: "0.95rem",
+        }}
+      >
+        {label}
+      </p>
+      {found && url ? (
+        <a
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            display: "block",
+            marginTop: 6,
+            wordBreak: "break-all",
+            fontSize: "0.82rem",
+            color: "var(--dz-forest)",
+            textDecoration: "underline",
+            textDecorationColor: "var(--dz-gold)",
+            textUnderlineOffset: 2,
+          }}
+        >
+          {url}
+        </a>
+      ) : (
+        <p style={{ margin: "6px 0 0", color: "#a83232", fontSize: "0.82rem" }}>
+          not found
+        </p>
+      )}
+    </div>
   );
 }
 
 function UpsellSection() {
   return (
-    <section className="mb-8 print:break-before-page">
-      <div className="rounded-lg border border-forest bg-forest text-cream p-8 shadow-sm print:break-inside-avoid print:shadow-none">
-        <p className="text-xs uppercase tracking-[0.18em] text-gold mb-3">
-          The next step
-        </p>
-        <h2 className="font-serif text-2xl mb-4">
-          Want to know if AI is actually finding you?
-        </h2>
-        <p className="text-base leading-relaxed text-cream/95">
-          This report scored what&apos;s on your site. The paid{" "}
-          <strong className="text-gold">AI Business Accuracy Audit</strong>{" "}
-          ($895) goes further — four engines tested, every factual claim AI
-          makes about you verified against your real sources, and you plotted
-          against two competitors you name. Includes a 30-minute review call.
-        </p>
-        <div className="mt-6 flex flex-wrap gap-3">
-          <a
-            href="https://www.martykoepke.com/ai-visibility"
-            className="inline-block rounded-md bg-gold px-6 py-3 text-base font-semibold text-forest hover:bg-gold-dark transition-colors"
-          >
-            See the paid Audit →
-          </a>
-          <a
-            href="https://tally.so/r/xXVPgo"
-            className="inline-block rounded-md border border-gold px-6 py-3 text-base font-semibold text-gold hover:bg-forest-dark transition-colors"
-          >
-            Book a 20-minute call
-          </a>
-        </div>
+    <section className="daizie-pane forest" style={{ marginTop: 20 }}>
+      <p
+        className="daizie-eyebrow"
+        style={{ color: "var(--dz-gold-soft)" }}
+      >
+        The next step
+      </p>
+      <h2>Want to know what AI is actually saying about you?</h2>
+      <p
+        className="daizie-lede"
+        style={{ color: "rgba(250, 246, 238, .9)" }}
+      >
+        This report scored what&rsquo;s on your site. The paid{" "}
+        <strong>Daizie AI Visibility Assessment</strong> ($895) tests
+        ChatGPT, Claude, Perplexity, and Gemini, captures 32 live AI
+        responses, verifies every factual claim against your real sources,
+        and plots you against two competitors you name. Includes a 30-minute
+        review call.
+      </p>
+      <div className="daizie-actions">
+        <a
+          className="daizie-btn light"
+          href="https://www.martykoepke.com/ai-visibility"
+        >
+          See the Assessment →
+        </a>
+        <a className="plain-link" href="https://tally.so/r/xXVPgo" style={{ color: "var(--dz-cream)", borderBottomColor: "var(--dz-gold-soft)" }}>
+          Book a 20-minute call
+        </a>
       </div>
     </section>
   );
@@ -673,19 +809,34 @@ function UpsellSection() {
 
 function ReportFooter({ audit }: { audit: AuditRow }) {
   return (
-    <footer className="mt-12 border-t border-tan pt-8 text-sm text-moss">
-      <p>
+    <footer
+      style={{
+        marginTop: 32,
+        paddingTop: 20,
+        borderTop: "1px solid rgba(23, 62, 44, .18)",
+        fontSize: "0.82rem",
+        color: "#56675c",
+      }}
+    >
+      <p style={{ margin: 0 }}>
         Practical Informatics LLC · Mokelumne Hill, California ·{" "}
         <a
           href="https://www.martykoepke.com"
-          className="underline decoration-gold underline-offset-4 hover:text-forest"
+          style={{
+            color: "var(--dz-forest)",
+            textDecoration: "underline",
+            textDecorationColor: "var(--dz-gold)",
+            textUnderlineOffset: 3,
+          }}
         >
           martykoepke.com
         </a>
       </p>
-      <p className="mt-2 text-xs">
-        Free Readiness Check · Report
-        ID <code className="font-mono">{audit.id.slice(0, 8)}</code>
+      <p style={{ margin: "6px 0 0", fontSize: "0.75rem" }}>
+        Daizie Readiness Check · Report ID{" "}
+        <code style={{ fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace" }}>
+          {audit.id.slice(0, 8)}
+        </code>
       </p>
     </footer>
   );
@@ -756,12 +907,23 @@ function pickImprovements(dimensions: DimensionRow[]): ImprovementGuidance[] {
   return selected.slice(0, 3);
 }
 
-function guidanceKey(dimension: DimensionRow): keyof typeof IMPROVEMENT_GUIDANCE | null {
-  const raw = `${dimension.dimension_id} ${dimension.dimension_name}`.toLowerCase();
-  if (raw.includes("business_clarity") || raw.includes("d1") || raw.includes("clarity")) {
+function guidanceKey(
+  dimension: DimensionRow
+): keyof typeof IMPROVEMENT_GUIDANCE | null {
+  const raw =
+    `${dimension.dimension_id} ${dimension.dimension_name}`.toLowerCase();
+  if (
+    raw.includes("business_clarity") ||
+    raw.includes("d1") ||
+    raw.includes("clarity")
+  ) {
     return "business_clarity";
   }
-  if (raw.includes("source_support") || raw.includes("d2") || raw.includes("source")) {
+  if (
+    raw.includes("source_support") ||
+    raw.includes("d2") ||
+    raw.includes("source")
+  ) {
     return "source_support";
   }
   if (
@@ -793,54 +955,6 @@ function guidanceKey(dimension: DimensionRow): keyof typeof IMPROVEMENT_GUIDANCE
   return null;
 }
 
-const LEGACY_IMPROVEMENT_GUIDANCE = {
-  business_clarity: {
-    title: "Make the business easier for AI to classify",
-    action:
-      "Put a plain-English positioning sentence near the top of the homepage that names what you do, who you serve, and the situation where you are the right fit.",
-    why:
-      "AI systems extract identity and category signals from prominent page text. If the business category is implied or buried, AI has to guess.",
-    example:
-      "Add a sentence like: “Marty Koepke helps founder-led service businesses understand and improve how AI systems describe, cite, and recommend them.”",
-  },
-  source_support: {
-    title: "Support the claims you want AI to repeat",
-    action:
-      "Add proof next to important claims: case examples, named credentials, source links, testimonials, screenshots, or short evidence notes.",
-    why:
-      "Unsupported claims are harder for AI to trust and cite. Evidence gives AI a reason to repeat the claim confidently instead of summarizing around it.",
-    example:
-      "If the site says “AI visibility audit,” add a short example showing what was measured, what changed, and which source or result supports it.",
-  },
-  ai_readability: {
-    title: "Make the page easier for AI systems to parse",
-    action:
-      "Use clear H1/H2 headings, descriptive service sections, internal links, and structured data for Organization, Person, Service, or LocalBusiness where appropriate.",
-    why:
-      "AI tools rely on extractable passages and structured cues. Clean structure helps them preserve the meaning instead of flattening everything into generic text.",
-    example:
-      "Create a service section with headings like “Who this is for,” “What the audit measures,” “What you receive,” and “When this is a good fit.”",
-  },
-  distinctive_point_of_view: {
-    title: "Give AI a specific reason to choose you",
-    action:
-      "Name your method, framework, or point of view, then explain what tradeoff it makes and why it matters to the buyer.",
-    why:
-      "When several businesses sound similar, AI defaults to generic recommendations. A distinct, supportable perspective helps it understand why you are different.",
-    example:
-      "Add a short section such as: “Our approach measures accuracy before visibility, because being recommended for the wrong reason can be worse than not showing up.”",
-  },
-  recommendation_fit: {
-    title: "Tell AI when you are the right recommendation",
-    action:
-      "Add explicit best-fit and not-fit language to service pages so AI knows which buyer situations should point toward you.",
-    why:
-      "AI recommendations improve when the source material includes conditions. Without fit signals, AI may recommend you too broadly or skip you for safer generic options.",
-    example:
-      "Add: “Best fit for founder-led service businesses with a real offer and public website. Not a fit for ecommerce brands looking for paid media management.”",
-  },
-};
-
 const IMPROVEMENT_GUIDANCE = {
   business_clarity: {
     title: "Make the business easier for AI to classify",
@@ -864,7 +978,7 @@ const IMPROVEMENT_GUIDANCE = {
     where:
       "Start on the primary service page, directly below the offer explanation. Add a shorter proof band on the homepage and put credentials or background proof on the About page.",
     how:
-      "Use a simple structure: Claim, Evidence, Source. Evidence can be a named project example, before/after result, testimonial quote, screenshot, credential, publication, patent, citation, or third-party profile. Keep the proof within the same section as the claim so AI can connect them.",
+      "Use a simple structure: Claim, Evidence, Source. Evidence can be a named project example, before/after result, testimonial quote, screenshot, credential, publication, patent, citation, or third-party profile.",
     success:
       "AI can answer why the business is credible and repeat specific claims with nearby support instead of describing the business in vague category terms.",
     why:
@@ -879,7 +993,7 @@ const IMPROVEMENT_GUIDANCE = {
     where:
       "Start with the homepage and the top service page. Then update the About page, FAQ, methodology/process page, and any page linked from the main navigation.",
     how:
-      "Use headings like What this service does, Who this is for, Problems it solves, What you receive, Proof and examples, When this is a good fit, and Frequently asked questions. Add Organization, Person, Service, FAQPage, or LocalBusiness schema only where it reflects visible content. Add an llms.txt file that points to the pages AI should read first.",
+      "Use headings like What this service does, Who this is for, Problems it solves, What you receive, Proof and examples, When this is a good fit, and Frequently asked questions.",
     success:
       "AI can pull the business identity, service scope, proof, and buyer fit from named sections instead of stitching meaning together from scattered copy.",
     why:
@@ -909,7 +1023,7 @@ const IMPROVEMENT_GUIDANCE = {
     where:
       "Place a full use-case section on the primary service page. Add a shorter version near the homepage CTA, on the pricing or offer page, in the FAQ, and on the consultation booking page.",
     how:
-      "Create four mini-sections: Best for, Common triggers, Not a fit for, and Choose this when. Write them in buyer language, not internal positioning language. Include industry, company stage, budget/readiness signals, urgency, and alternative situations where another provider is better.",
+      "Create four mini-sections: Best for, Common triggers, Not a fit for, and Choose this when.",
     success:
       "AI can recommend the business for specific buyer prompts and avoid recommending it for wrong-fit situations.",
     why:

@@ -15,30 +15,26 @@ export function TokenReportNav({
     { key: "report", label: "Report", href: base },
     { key: "evidence", label: "Evidence", href: `${base}/evidence` },
     { key: "methodology", label: "Methodology", href: `${base}/methodology` },
-  ];
+  ] as const;
 
   return (
-    <nav className="mb-6 flex items-center justify-between rounded bg-forest-dark px-4 py-3">
-      <div className="flex items-center gap-5 text-sm">
-        {tabs.map((tab) => {
-          const isActive = active === tab.key;
-          return (
-            <Link
-              key={tab.href}
-              href={`${tab.href}${suffix}`}
-              className={
-                isActive
-                  ? "rounded bg-cream px-3 py-1.5 font-semibold text-forest"
-                  : "rounded px-3 py-1.5 text-cream transition-colors hover:text-gold"
-              }
-            >
-              {tab.label}
-            </Link>
-          );
-        })}
-      </div>
-      <div className="hidden text-[11px] uppercase tracking-widest text-gold sm:block">
-        Marty Koepke
+    <nav className="daizie-scan-result">
+      <div className="result-nav">
+        <div className="tabs">
+          {tabs.map((tab) => {
+            const isActive = active === tab.key;
+            return (
+              <Link
+                key={tab.href}
+                href={`${tab.href}${suffix}`}
+                className={isActive ? "active" : undefined}
+              >
+                {tab.label}
+              </Link>
+            );
+          })}
+        </div>
+        <span className="brand-tag">Daizie</span>
       </div>
     </nav>
   );
