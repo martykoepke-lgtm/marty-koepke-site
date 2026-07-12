@@ -280,7 +280,7 @@ What stood out:
 
 ${findingsText}
 
-Want the full picture? The $895 AI Business Accuracy Audit tests four AI engines, captures 32 live AI responses, verifies every factual claim AI makes about you, and plots you against two competitors you name. Includes a 30-minute review call with Marty.
+Want the full picture? The $895 Daizie AI Visibility Assessment tests four AI engines, captures 32 live AI responses, verifies every factual claim AI makes about you, and plots you against two competitors you name. Includes a 30-minute review call with Marty.
 
 Read more: https://www.martykoepke.com/ai-visibility
 Book a free 20-minute conversation: https://tally.so/r/xXVPgo

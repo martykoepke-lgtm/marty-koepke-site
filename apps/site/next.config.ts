@@ -31,8 +31,11 @@ const nextConfig: NextConfig = {
       { source: '/returns.html', destination: '/returns', permanent: true },
       // The old PULSE route is gone.
       { source: '/pulse', destination: '/', permanent: true },
-      // Framework page renamed; why-page moved to the blog.
-      { source: '/ai-business-accuracy-framework', destination: '/our-framework', permanent: true },
+      // Framework page retired 2026-07-12; replaced by /methodology.
+      // Both the old ai-business-accuracy-framework slug and the
+      // our-framework slug now land on /methodology.
+      { source: '/ai-business-accuracy-framework', destination: '/methodology', permanent: true },
+      { source: '/our-framework', destination: '/methodology', permanent: true },
       { source: '/why-ai-business-accuracy-matters', destination: '/blog/why-ai-business-accuracy-matters', permanent: true },
     ];
   },

@@ -58,7 +58,7 @@ export default async function RunAuditPage({
       <div className="mb-6 grid grid-cols-3 gap-4">
         <Stat
           label="Mode"
-          value={mode === "paid" ? "V3 AI Business Accuracy Audit" : "Free Readiness Check"}
+          value={mode === "paid" ? "Daizie AI Visibility Assessment" : "Free Readiness Check"}
         />
         <Stat label="Estimated runtime" value={timeEstimate} />
         <Stat label="Estimated cost" value={costEstimate} />

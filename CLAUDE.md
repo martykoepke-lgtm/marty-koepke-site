@@ -105,9 +105,24 @@ The site `/ai-visibility` page presents:
    verified against real sources, two named competitors plotted on a
    Readiness × Visibility quadrant. Three readiness fixes + three accuracy
    fixes, separated. Includes 30-minute review call with Marty.
-3. **Monthly Monitoring** — $149/month, available only after the
+3. **Optimizations + Remeasure** — $4,100 add-on to the Assessment
+   ($4,995 all-in). Marty implements or coordinates the priority fixes
+   from the Assessment across the customer's site, profiles, and
+   third-party sources; re-runs the full 32-response measurement; and
+   delivers a delta report. 4–6 week engagement. Only available as an
+   add-on to the Daizie AI Visibility Assessment.
+4. **Monthly Monitoring** — $197/month, available only after the
    Assessment. Full Assessment re-run monthly with trends dashboard across
    all 11 measurements.
+
+**Product naming rule (2026-07-12 canon):**
+- **Customer-facing product name — the ONE name:** "Daizie AI Visibility
+  Assessment." Never call the product "AI Business Accuracy Audit" or
+  "AI Business Accuracy Assessment." Those are retired.
+- **Internal mechanism names — keep as-is:** "AI Business Accuracy
+  Score," "AI Business Accuracy Index," "AI Business Accuracy" (as the
+  scoring framework/rubric name). These describe *what happens inside*
+  the Assessment, not the product itself.
 
 **Pricing source of truth:** `apps/site/public/Marty-Koepke-Pricing-Structure.md`.
 On-page copy in `apps/site/lib/content.ts` must match. Any pricing question
@@ -119,9 +134,12 @@ $1,950. Both retired. Do not reintroduce.
 
 ## V3 scoring model (summary)
 
-V3 has **two scoring layers** and **three public scores plus one composite**.
-Do not collapse readiness and outcomes into a single generic visibility
-score. The full rubric is in `AI_BUSINESS_ACCURACY_V3_RUBRIC.md`.
+V3 has **two scoring layers** and **one headline Index built from three
+underlying scores**. Do not collapse readiness and outcomes into a
+single generic visibility score. The full rubric is in
+`AI_BUSINESS_ACCURACY_V3_RUBRIC.md` (internal only — the public rubric
+doc has been removed from `apps/site/public/` per the 2026-07-12
+methodology decision).
 
 **Readiness drivers** (used by free + paid):
 1. Business Clarity
