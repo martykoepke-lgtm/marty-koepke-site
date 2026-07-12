@@ -15,8 +15,13 @@ const lora = Lora({
 });
 
 export const metadata: Metadata = {
-  title: "Marty Koepke — Console",
-  description: "Internal operator console for the AI Visibility Index.",
+  title: "Daizie — Operator Console",
+  description: "Internal operator console for the Daizie AI Visibility Assessment.",
+  icons: {
+    icon: "/daizie-favicon.png",
+    shortcut: "/daizie-favicon.png",
+    apple: "/daizie-favicon.png",
+  },
   robots: {
     index: false,
     follow: false,
