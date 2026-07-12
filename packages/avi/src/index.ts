@@ -19,6 +19,8 @@ export type { Synthesis } from './synthesize-v2';
 export { runFreeScan, tierFor } from './v3/free-scan';
 export type { Tier } from './v3/free-scan';
 export { checkMasterKeys } from './v3/master-keys';
+export { getStartHereNudge } from './v3/start-here-nudges';
+export type { StartHereCrawlerSignals } from './v3/start-here-nudges';
 export type {
   MasterKeyReport,
   MasterKeyCheck,

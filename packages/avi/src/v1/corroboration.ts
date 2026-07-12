@@ -24,6 +24,14 @@ export type CorroborationInput = {
   name: string;
   /** Subject's industry / category for the broad search. */
   industry: string;
+  /** Subject's own website host (e.g. "martykoepke.com"). Used to filter
+   *  broad mentions and to detect the site's own sameAs LinkedIn. */
+  urlHost?: string;
+  /** sameAs URLs declared on the subject's own site. If a LinkedIn URL
+   *  is in this list, we prefer it over what Tavily indexes — sites
+   *  usually declare their canonical vanity slug, while search indexes
+   *  often carry the older LinkedIn-assigned slug. */
+  sameAsLinks?: string[];
 };
 
 export type CorroborationMention = {
@@ -74,7 +82,8 @@ export async function runCorroboration(
   input: CorroborationInput,
   context: CorroborationContext
 ): Promise<CorroborationOutput> {
-  const { name, industry } = input;
+  const { name, industry, urlHost, sameAsLinks } = input;
+  const nameLower = name.toLowerCase();
 
   const [broad, linkedin, wikidata] = await Promise.all([
     tavilySearch(
@@ -129,19 +138,29 @@ export async function runCorroboration(
     isWikidataEntityUrl(r.url)
   );
 
-  // LinkedIn
-  const linkedinHit = findMatching(linkedin.results, (r) =>
+  // LinkedIn — prefer the URL the site declares in sameAs (usually the
+  // vanity slug like /in/marty-koepke); fall back to the URL Tavily
+  // indexed (often the older /in/name-mha-<hash> slug).
+  const declaredLinkedinUrl = (sameAsLinks ?? []).find((u) =>
+    /linkedin\.com\/(in|company)\//i.test(u)
+  );
+  const tavilyLinkedinHit = findMatching(linkedin.results, (r) =>
     isLinkedinProfileUrl(r.url)
   );
+  const effectiveLinkedinUrl = declaredLinkedinUrl ?? tavilyLinkedinHit?.url;
 
-  // Mentions (dedup by domain, exclude wikidata + linkedin to avoid double-count)
-  const broadRows = broad.results.filter(
-    (r) =>
-      !isWikidataEntityUrl(r.url) &&
-      !isLinkedinProfileUrl(r.url) &&
-      // Exclude the subject's own site if it shows up
-      domainOf(r.url) !== ""
-  );
+  // Mentions — require the subject's name OR their URL host to actually
+  // appear in the title, snippet, or URL. Without this, generic AI /
+  // business articles that share a category keyword pass through and
+  // dilute the report.
+  const broadRows = broad.results.filter((r) => {
+    if (isWikidataEntityUrl(r.url) || isLinkedinProfileUrl(r.url)) return false;
+    if (domainOf(r.url) === "") return false;
+    const hay = `${r.title ?? ""} ${r.content ?? ""} ${r.url}`.toLowerCase();
+    const hasName = nameLower.length >= 3 && hay.includes(nameLower);
+    const hasHost = urlHost ? hay.includes(urlHost.toLowerCase()) : false;
+    return hasName || hasHost;
+  });
   const dedupedByDomain = dedupByDomain(broadRows);
 
   const mentions: CorroborationMention[] = dedupedByDomain.map((r) => ({
@@ -155,14 +174,14 @@ export async function runCorroboration(
   // Domain count for D2
   const domainSet = new Set<string>();
   for (const m of mentions) domainSet.add(m.domain);
-  if (linkedinHit) domainSet.add("linkedin.com");
+  if (declaredLinkedinUrl || tavilyLinkedinHit) domainSet.add("linkedin.com");
   if (wikidataHit) domainSet.add("wikidata.org");
 
   return {
     wikidataPresent: !!wikidataHit,
     wikidataUrl: wikidataHit?.url,
-    linkedinPresent: !!linkedinHit,
-    linkedinUrl: linkedinHit?.url,
+    linkedinPresent: !!(declaredLinkedinUrl || tavilyLinkedinHit),
+    linkedinUrl: effectiveLinkedinUrl,
     mentions,
     totalCorroboratingDomains: domainSet.size,
     degraded: errors.length > 0,

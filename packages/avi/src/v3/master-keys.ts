@@ -40,6 +40,9 @@ export interface MasterKeyCheck {
   evidenceUrl?: string;
   evidenceTitle?: string;
   notes?: string;
+  /** Populated on Missing results — 3-5 specific how-to-fix options
+   *  tailored to the master key. Empty when found: true. */
+  remediationOptions?: string[];
 }
 
 export interface MasterKeyReport {
@@ -212,6 +215,7 @@ async function checkPresence(args: CheckArgs): Promise<MasterKeyCheck> {
       found: false,
       confidence: 'none',
       notes: response.error,
+      remediationOptions: REMEDIATION[args.id],
     };
   }
 
@@ -243,6 +247,7 @@ async function checkPresence(args: CheckArgs): Promise<MasterKeyCheck> {
       lane: args.lane,
       found: false,
       confidence: 'none',
+      remediationOptions: REMEDIATION[args.id],
     };
   }
 
@@ -261,6 +266,51 @@ async function checkPresence(args: CheckArgs): Promise<MasterKeyCheck> {
 }
 
 /* ---------------------------------------------------------------------- */
+
+/* ---- Remediation options per master key ----------------------------- */
+
+const REMEDIATION: Record<MasterKeyId, string[]> = {
+  google_business_profile: [
+    "Go to google.com/business and claim your listing (or create one if it doesn't exist). Verification takes 5-14 days via postcard, phone, or video call.",
+    "Fill every field: hours, service area, phone, website, primary + secondary categories, photos, services, and attributes.",
+    "Add 10+ photos — exterior, interior, staff, products/services, and behind-the-scenes shots. Real photos beat stock ones for AI ranking.",
+    "Ask 5 recent customers to leave a Google review. Respond to each one within a week.",
+    "Post an update weekly for the first 90 days — offers, events, or announcements. Google prioritizes active profiles.",
+  ],
+  bing_places: [
+    "Go to bingplaces.com and claim your listing (or create one). If you already have Google Business Profile set up, Bing accepts an import — start there.",
+    "Verify by mail, phone, or bulk verification (if you have multiple locations).",
+    "Add photos, hours, service area, categories, and payment methods.",
+    "This feeds Copilot and ChatGPT (via a Bing licensing deal), so it's worth 30 minutes even if you barely use Bing yourself.",
+  ],
+  yelp: [
+    "Go to biz.yelp.com and claim your business (or create one for free).",
+    "Fill in categories, hours, photos, service area, and menu/services.",
+    "Never buy fake reviews — Yelp aggressively filters them and can suspend your listing. Instead, add a 'Find us on Yelp' link on your website.",
+    "Respond to every review — good or bad — within 48 hours. Yelp weights responsiveness.",
+    "Post 5+ high-quality photos of your product, service, or workspace.",
+  ],
+  linkedin_company: [
+    "Go to linkedin.com/company/setup/new and create your company page (10 minutes).",
+    "Fill in tagline, About section, industry, size, website, and location. Add a logo and cover image.",
+    "Post 2-3 times per week for the first 90 days — insights, case studies, updates. LinkedIn's algorithm rewards active pages.",
+    "Have you and your team link personal profiles to the company page. That's how AI systems verify the company is real.",
+    "Consider LinkedIn Pulse (long-form articles) — one of the most-cited sources for AI B2B recommendations, especially on Copilot.",
+  ],
+  vertical_directory: [
+    "Identify the ONE directory your specific vertical uses (guessing wrong wastes hours): SaaS → G2 / Capterra · Agencies → Clutch / GoodFirms · Consultants → Clutch / TopTal · Law → Avvo / Justia / Super Lawyers · Coaches → BetterHelp / Life Coach Directory · Fractional exec → Chief Outsiders / TechExecs.",
+    "Create a free profile. Paid tiers give you more visibility but aren't required for AI citations.",
+    "Collect 3-5 verified reviews from real clients. Ask within a week of finishing a project — while your work is fresh in their mind.",
+    "Keep your profile current. Recent activity signals to AI (and the directory's own ranking) that you're active.",
+  ],
+  current_year_listicle: [
+    "Sign up for HARO (helpareporter.com) or Qwoted. Reply to 2-3 relevant queries per week — typical placement time is 2-6 weeks.",
+    "Search `\"best [your category]\" 2026` on Google. For each result, find the author's contact and pitch: 'I noticed you compared X and Y in your 2026 roundup — worth considering me for the next update?' Response rate ~15%.",
+    "Write your own listicle: 'Best [category] for [audience], 2026.' Include yourself honestly. If you rank in Google for the listicle query, you become the citation.",
+    "Apply for niche industry awards — even small ones ('Small Business Innovation Award' type) get aggregated by listicle authors.",
+    "Build one citation-worthy resource on your site — a research report, a comparison guide, an authoritative post — that listicle writers naturally want to link to.",
+  ],
+};
 
 function buildHeadline(lane: AudienceLane, checks: MasterKeyCheck[]): string {
   const present = checks.filter((c) => c.found);

@@ -149,7 +149,12 @@ export async function runFreeScan(
   //    meta where possible; falls back to "business" if nothing useful.
   const industry = inferIndustry(crawler);
   const corroboration = await runCorroboration(
-    { name: subjectName, industry },
+    {
+      name: subjectName,
+      industry,
+      urlHost: extractHost(url),
+      sameAsLinks: crawler.sameAsLinks ?? [],
+    },
     { submissionId, ip: input.ip ?? null }
   );
 
@@ -284,15 +289,25 @@ function composeFindings(
     dimensionId: d.id,
     dimensionName: d.name,
     score: d.score,
-    // The judge's justification is one paragraph; we trim to ~280 chars
-    // for the on-screen finding card.
-    summary: trim(d.justification ?? "", 280),
+    // Preserve the judge's full paragraph so nothing ends mid-sentence
+    // in the customer's report. Cap at 900 chars only as a safety valve
+    // for pathological outputs.
+    summary: trim(d.justification ?? "", 900),
   }));
 }
 
 function trim(s: string, n: number): string {
   if (s.length <= n) return s;
   return s.slice(0, n - 1).trimEnd() + "…";
+}
+
+function extractHost(url: string | undefined): string {
+  if (!url) return "";
+  try {
+    return new URL(url).hostname.replace(/^www\./, "");
+  } catch {
+    return "";
+  }
 }
 
 // ============================================================================
