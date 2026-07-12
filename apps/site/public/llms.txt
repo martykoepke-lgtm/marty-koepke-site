@@ -1,12 +1,21 @@
-# Marty Koepke
+# Marty Koepke — home of Daizie and Craizie
 
-> Marty Koepke is an applied AI consultant helping organizations and
-> professionals adopt AI thoughtfully. She partners with people who are the
-> recognized experts in their own fields, providing tools, assessments, and
-> infrastructure that improve operational efficiency and AI visibility. Her
-> role is complementary, not substitutive. The consultancy operates as
-> Practical Informatics LLC (California Secretary of State entity number
-> 202463415854).
+> Daizie is an AI visibility service by informaticist Marty Koepke that helps
+> founder-led service businesses show up accurately when ChatGPT, Claude,
+> Perplexity, and Gemini describe, cite, and recommend them. AI visibility
+> is the same discipline as AEO (answer engine optimization) and GEO
+> (generative engine optimization) — different names for the same work.
+> Craizie is the sibling product: practical AI governance for small
+> businesses using or selling AI-enabled tools. Both operate under Practical
+> Informatics LLC (California Secretary of State entity number 202463415854).
+
+## Terminology
+
+- **AI visibility** — how well a business shows up when someone asks an AI system a question
+- **AEO** (answer engine optimization) — synonym for AI visibility
+- **GEO** (generative engine optimization) — synonym for AI visibility
+- **AI Business Accuracy** — the internal framework Daizie uses to score readiness AND live AI outcomes across five readiness drivers and six measured outcomes
+- **Master keys** — the structured databases AI systems actually read for local recommendations (Google Business Profile, Bing Places, Yelp) and for online B2B recommendations (LinkedIn, vertical directories like Clutch/G2/Avvo, current-year "best of" listicles)
 
 ## What this is
 

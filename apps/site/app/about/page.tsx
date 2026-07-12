@@ -38,7 +38,11 @@ export default function AboutPage() {
               <p className="daizie-lede">
                 I&rsquo;ve spent my career standing between people and
                 complicated technology — translating what the system can do
-                into what people actually need.
+                into what people actually need. Today I run{" "}
+                <strong>Daizie</strong>, an AI visibility service that helps
+                founder-led service businesses show up accurately when
+                ChatGPT, Claude, Perplexity, and Gemini describe, cite, and
+                recommend them — also known as AEO or GEO.
               </p>
             </div>
           </article>
