@@ -1,13 +1,15 @@
 "use server";
 
-import { readFile, writeFile, access } from "node:fs/promises";
-import { join, resolve } from "node:path";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
-import { runAudit, persistAudit } from "@practical-informatics/avi";
+import {
+  runAudit,
+  persistAudit,
+  supabaseAdmin,
+} from "@practical-informatics/avi";
 
 /**
- * Update a subject's JSON file with values from the edit form.
+ * Update a subject's row in the Supabase `subjects` table.
  *
  * Submit button "name=action" decides what happens after save:
  *   - "save"               → redirect back to the subject detail page
@@ -29,7 +31,9 @@ export async function updateSubjectAction(formData: FormData) {
   const url = String(formData.get("url") ?? "").trim();
   const industry = String(formData.get("industry") ?? "").trim();
   const subject_type =
-    formData.get("subject_type") === "personal_brand" ? "personal_brand" : "company";
+    formData.get("subject_type") === "personal_brand"
+      ? "personal_brand"
+      : "company";
 
   if (!canonical_name || !url || !industry) {
     redirect(
@@ -48,56 +52,32 @@ export async function updateSubjectAction(formData: FormData) {
   );
   const competitors = parseCompetitors(formData.get("competitors"));
 
-  const dir = await findSubjectsDir();
-  const path = join(dir, `${subjectId}.json`);
+  const supabase = supabaseAdmin();
+  const { error } = await supabase
+    .from("subjects")
+    .update({
+      canonical_name,
+      aliases,
+      industry,
+      subject_type,
+      url,
+      location: location ?? null,
+      buyer_type: buyer_type ?? null,
+      problem: problem ?? null,
+      competitors,
+      known_differentiation_terms,
+      updated_at: new Date().toISOString(),
+    })
+    .eq("id", subjectId);
 
-  // Sanity check — the source file must exist.
-  try {
-    await access(path);
-  } catch {
+  if (error) {
+    console.error("[console/subjects/edit] update failed:", error);
     redirect(
       `/subjects/${subjectId}/edit?error=${encodeURIComponent(
-        `Source file ${subjectId}.json not found at ${dir}.`
+        `Could not save the business: ${error.message}`
       )}`
     );
   }
-
-  // Preserve any keys we don't model (e.g., legacy field shapes we want
-  // to keep around). Start with the raw parsed JSON, then overlay the
-  // canonical fields.
-  let existing: Record<string, unknown> = {};
-  try {
-    existing = JSON.parse(await readFile(path, "utf-8"));
-  } catch {
-    /* if existing is corrupt, start fresh */
-  }
-
-  const updated: Record<string, unknown> = {
-    ...existing,
-    canonical_name,
-    aliases,
-    industry,
-    subject_type,
-    url,
-  };
-
-  if (location) updated.location = location;
-  else delete updated.location;
-
-  if (buyer_type) updated.buyer_type = buyer_type;
-  else delete updated.buyer_type;
-
-  if (problem) updated.problem = problem;
-  else delete updated.problem;
-
-  if (competitors.length) updated.competitors = competitors;
-  else delete updated.competitors;
-
-  if (known_differentiation_terms.length)
-    updated.known_differentiation_terms = known_differentiation_terms;
-  else delete updated.known_differentiation_terms;
-
-  await writeFile(path, JSON.stringify(updated, null, 2) + "\n", "utf-8");
 
   revalidatePath(`/subjects/${subjectId}`);
   revalidatePath("/subjects");
@@ -116,7 +96,9 @@ export async function updateSubjectAction(formData: FormData) {
       competitors,
       known_differentiation_terms,
     };
-    console.log(`[console] updateSubjectAction: saved + running free scan for ${canonical_name}`);
+    console.log(
+      `[console] updateSubjectAction: saved + running free scan for ${canonical_name}`
+    );
     const audit = await runAudit(subject, { mode: "free" });
     const persist = await persistAudit(audit);
     console.log(
@@ -128,24 +110,6 @@ export async function updateSubjectAction(formData: FormData) {
   }
 
   redirect(`/subjects/${subjectId}/edit?saved=1`);
-}
-
-async function findSubjectsDir(): Promise<string> {
-  const cwd = process.cwd();
-  const candidates = [
-    resolve(cwd, "..", "..", "packages", "avi", "subjects", "v1"),
-    resolve(cwd, "packages", "avi", "subjects", "v1"),
-    resolve(cwd, "..", "packages", "avi", "subjects", "v1"),
-  ];
-  for (const d of candidates) {
-    try {
-      await access(d);
-      return d;
-    } catch {
-      /* try next */
-    }
-  }
-  return candidates[0];
 }
 
 function strOrUndef(v: FormDataEntryValue | null): string | undefined {
