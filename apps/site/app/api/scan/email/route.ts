@@ -209,11 +209,18 @@ export async function POST(req: NextRequest) {
       .from("submissions")
       .update({ status: "pdf_failed" })
       .eq("id", scanId);
+    // TEMPORARY: expose Resend's actual error to the client so we can
+    // diagnose the 502. Revert to the generic message once the send is
+    // working consistently on Vercel.
+    console.error("[/api/scan/email] Resend send failed:", sendRes.error);
     return NextResponse.json(
       {
         ok: false,
-        error:
-          "We couldn't send your report. Please reply to your confirmation email or contact hello@martykoepke.com.",
+        error: `[debug] Resend rejected the send: ${sendRes.error ?? "unknown"}`,
+        env: {
+          hasResendKey: !!process.env.RESEND_API_KEY,
+          fromAddress: process.env.RESEND_FROM_ADDRESS ?? null,
+        },
       },
       { status: 502 }
     );
