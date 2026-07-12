@@ -750,6 +750,111 @@ h1, h2, h3, h4 {
   color: var(--dz-forest-dark);
 }
 
+/* ---- Free scan form: audience lanes, URL input, submit --------------- */
+.daizie-scan-form {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+.daizie-scan-label {
+  display: block;
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 1.02rem;
+  font-weight: 500;
+  color: var(--dz-forest);
+  letter-spacing: -0.005em;
+}
+.daizie-scan-hint {
+  margin: 6px 0 0;
+  color: #56675c;
+  font-size: 0.85rem;
+  font-style: italic;
+}
+.daizie-scan-lanes {
+  display: grid;
+  gap: 14px;
+  margin-top: 14px;
+}
+@media (min-width: 640px) {
+  .daizie-scan-lanes { grid-template-columns: 1fr 1fr; }
+}
+.daizie-scan-lane {
+  cursor: pointer;
+  padding: 18px 22px;
+  border: 1px solid var(--dz-line);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, .55);
+  color: var(--dz-charcoal);
+  transition: border-color .15s, background-color .15s, transform .12s;
+}
+.daizie-scan-lane:hover { border-color: rgba(23, 62, 44, .5); transform: translateY(-1px); }
+.daizie-scan-lane.active {
+  background: var(--dz-forest);
+  border-color: var(--dz-forest);
+  color: var(--dz-cream);
+  box-shadow: 0 12px 28px rgba(16, 43, 32, .18);
+}
+.daizie-scan-lane .lane-title {
+  display: block;
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.daizie-scan-lane .lane-sub {
+  display: block;
+  margin-top: 5px;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #4a5b52;
+}
+.daizie-scan-lane.active .lane-sub { color: rgba(250, 246, 238, .82); }
+.daizie-scan-input {
+  width: 100%;
+  margin-top: 10px;
+  padding: 14px 18px;
+  border: 1px solid var(--dz-line);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, .78);
+  color: var(--dz-charcoal);
+  font-family: var(--font-sans), Inter, system-ui, sans-serif;
+  font-size: 1rem;
+  transition: border-color .15s, box-shadow .15s;
+}
+.daizie-scan-input::placeholder { color: #7a8a80; }
+.daizie-scan-input:focus {
+  outline: none;
+  border-color: var(--dz-forest);
+  box-shadow: 0 0 0 3px rgba(23, 62, 44, .12);
+}
+.daizie-scan-error {
+  padding: 14px 18px;
+  border: 1px solid rgba(178, 51, 51, .35);
+  border-radius: 14px;
+  background: rgba(178, 51, 51, .08);
+  color: #7a2020;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+.daizie-scan-submit {
+  align-self: flex-start;
+}
+.daizie-scan-footnote {
+  margin: 0;
+  font-size: 0.82rem;
+  color: #56675c;
+  font-style: italic;
+}
+.daizie-scan-loading {
+  padding: clamp(22px, 3vw, 32px);
+  border: 1px solid var(--dz-line);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, .55);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
 /* ---- Home page: compact hook hero ------------------------------------ */
 .daizie-home-hero {
   display: grid;

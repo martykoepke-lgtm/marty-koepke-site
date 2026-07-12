@@ -244,15 +244,15 @@ function UrlForm({
   errorMsg: string | null;
 }) {
   return (
-    <form onSubmit={onSubmit} className="space-y-5" noValidate>
+    <form onSubmit={onSubmit} className="daizie-scan-form" noValidate>
       <fieldset>
-        <legend className="block font-serif text-sm font-semibold text-forest">
+        <legend className="daizie-scan-label">
           How do most customers find and hire you?
         </legend>
-        <p className="mt-1 text-xs text-moss">
+        <p className="daizie-scan-hint">
           We check the profiles AI actually reads for your kind of business.
         </p>
-        <div className="mt-3 grid gap-3 sm:grid-cols-2">
+        <div className="daizie-scan-lanes">
           {(
             [
               {
@@ -271,11 +271,7 @@ function UrlForm({
             return (
               <label
                 key={opt.value}
-                className={`cursor-pointer rounded-md border px-4 py-3 transition-colors ${
-                  active
-                    ? "border-forest bg-forest text-cream"
-                    : "border-tan bg-cream text-charcoal hover:border-forest/60"
-                }`}
+                className={`daizie-scan-lane${active ? " active" : ""}`}
               >
                 <input
                   type="radio"
@@ -285,16 +281,8 @@ function UrlForm({
                   onChange={() => setAudienceLane(opt.value)}
                   className="sr-only"
                 />
-                <span className="block font-serif text-base font-semibold">
-                  {opt.title}
-                </span>
-                <span
-                  className={`mt-1 block text-xs leading-relaxed ${
-                    active ? "text-cream/85" : "text-moss"
-                  }`}
-                >
-                  {opt.sub}
-                </span>
+                <span className="lane-title">{opt.title}</span>
+                <span className="lane-sub">{opt.sub}</span>
               </label>
             );
           })}
@@ -302,10 +290,7 @@ function UrlForm({
       </fieldset>
 
       <div>
-        <label
-          htmlFor="scan-url"
-          className="block font-serif text-sm font-semibold text-forest"
-        >
+        <label htmlFor="scan-url" className="daizie-scan-label">
           Your website URL
         </label>
         <input
@@ -317,27 +302,20 @@ function UrlForm({
           placeholder="https://yourbusiness.com"
           value={urlInput}
           onChange={(e) => setUrlInput(e.target.value)}
-          className="mt-3 w-full rounded-md border border-tan bg-cream px-4 py-3 text-charcoal placeholder:text-moss/60 focus:border-forest focus:outline-none focus:ring-1 focus:ring-forest"
+          className="daizie-scan-input"
         />
       </div>
 
       {errorMsg && (
-        <div
-          role="alert"
-          className="rounded-md border border-red-400 bg-red-50 px-4 py-3 text-sm text-red-900"
-        >
+        <div role="alert" className="daizie-scan-error">
           {errorMsg}
         </div>
       )}
 
-      <button
-        type="submit"
-        className="inline-flex items-center justify-center gap-2 rounded-md bg-forest px-7 py-3.5 text-base font-semibold text-cream transition-colors duration-300 hover:bg-forest-dark motion-safe:transition-transform motion-safe:hover:-translate-y-0.5"
-      >
-        Scan in 30 seconds
-        <ArrowRightIcon className="h-4 w-4" />
+      <button type="submit" className="daizie-btn primary daizie-scan-submit">
+        Scan in 30 seconds →
       </button>
-      <p className="text-xs text-moss">
+      <p className="daizie-scan-footnote">
         No email required to see your tier. Enter your email only if you want
         the hosted report link sent to you.
       </p>
@@ -351,7 +329,7 @@ function UrlForm({
 
 function Scanning() {
   return (
-    <div className="space-y-6 rounded-lg border border-tan bg-cream-dim p-6 sm:p-8">
+    <div className="daizie-scan-loading">
       <p className="font-serif text-lg text-forest">
         Scanning your site…
       </p>
