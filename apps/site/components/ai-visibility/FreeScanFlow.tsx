@@ -367,60 +367,42 @@ function MasterKeysSection({ report }: { report: MasterKeyReport }) {
       ? "Local & brick-and-mortar"
       : "Online consultants, coaches, and agencies";
   return (
-    <section className="rounded-lg bg-forest-dark p-6">
-      <div className="text-[11px] uppercase tracking-widest text-gold">
-        Master-key presence · {laneLabel}
-      </div>
-      <h3 className="mt-2 font-sans text-2xl font-semibold text-cream sm:text-3xl">
-        The profiles AI reads for your kind of business
-      </h3>
-      <p className="mt-3 max-w-2xl text-sm leading-relaxed text-cream/90">
-        {report.headline}
-      </p>
-      <ul className="mt-5 grid gap-3 sm:grid-cols-3">
+    <section className="daizie-scan-card">
+      <p className="card-eyebrow">Master-key presence · {laneLabel}</p>
+      <h3>The profiles AI reads for your kind of business</h3>
+      <p style={{ marginTop: 10, maxWidth: 720 }}>{report.headline}</p>
+      <div className="daizie-masterkeys">
         {report.checks.map((c) => (
-          <li
+          <div
             key={c.id}
-            className={
-              c.found
-                ? "rounded-md border border-emerald-500/40 bg-emerald-950/40 p-4"
-                : "rounded-md border border-red-500/40 bg-red-950/40 p-4"
-            }
+            className={`mk-card ${c.found ? "present" : "missing"}`}
           >
-            <div className="flex items-baseline justify-between gap-2">
-              <span className="font-serif text-base font-semibold text-cream">
-                {c.label}
-              </span>
-              <span
-                className={
-                  c.found
-                    ? "text-xs font-semibold uppercase tracking-wide text-emerald-300"
-                    : "text-xs font-semibold uppercase tracking-wide text-red-300"
-                }
-              >
+            <div className="mk-head">
+              <span className="mk-label">{c.label}</span>
+              <span className={`mk-badge ${c.found ? "ok" : "no"}`}>
                 {c.found ? "Present" : "Missing"}
               </span>
             </div>
-            {c.found && c.evidenceUrl && (
-              <a
-                href={c.evidenceUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-2 block break-all text-xs text-tan underline decoration-gold/60 underline-offset-2 hover:text-gold"
-              >
-                {c.evidenceTitle || c.evidenceUrl}
-              </a>
-            )}
-            {!c.found && (
-              <p className="mt-2 text-xs leading-relaxed text-tan">
-                {c.notes ??
-                  "No obvious result. Claim or update the profile so AI can find you."}
-              </p>
-            )}
-          </li>
+            <div className="mk-body">
+              {c.found && c.evidenceUrl ? (
+                <a
+                  href={c.evidenceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {c.evidenceTitle || c.evidenceUrl}
+                </a>
+              ) : (
+                <p style={{ margin: 0 }}>
+                  {c.notes ??
+                    "No obvious result. Claim or update the profile so AI can find you."}
+                </p>
+              )}
+            </div>
+          </div>
         ))}
-      </ul>
-      <p className="mt-4 text-xs text-tan">
+      </div>
+      <p style={{ marginTop: 16, fontSize: ".82rem", color: "#56675c", fontStyle: "italic" }}>
         Presence only — this doesn&rsquo;t claim AI recommends you. The paid
         Assessment tests what AI actually says.
       </p>
@@ -468,140 +450,124 @@ function ScanResult({
   );
 
   return (
-    <div className="scan-result-workspace overflow-hidden rounded-lg border border-cream/10 p-4 shadow-2xl sm:p-6">
-      <nav className="mb-6 flex items-center justify-between rounded bg-forest-dark px-4 py-3">
-        <div className="flex items-center gap-2 text-sm sm:gap-5">
+    <div className="daizie-scan-result">
+      <nav className="result-nav" aria-label="Report sections">
+        <div className="tabs">
           {(["report", "evidence", "methodology"] as const).map((tab) => (
             <button
               key={tab}
               type="button"
               onClick={() => setActiveTab(tab)}
-              className={
-                activeTab === tab
-                  ? "rounded bg-cream px-3 py-1.5 font-semibold capitalize text-forest"
-                  : "rounded px-3 py-1.5 capitalize text-cream transition-colors hover:text-gold"
-              }
+              className={activeTab === tab ? "active" : undefined}
             >
               {tab}
             </button>
           ))}
         </div>
-        <div className="hidden text-[11px] uppercase tracking-widest text-gold sm:block">
-          Marty Koepke
-        </div>
+        <span className="brand-tag">Daizie</span>
       </nav>
 
-      <div className="space-y-6">
-        <header className="rounded-lg bg-forest-dark p-5">
-          <div className="text-[11px] uppercase tracking-widest text-gold">
-            Free AI readiness check
-          </div>
-          <h2 className="mt-2 font-sans text-3xl font-semibold text-cream sm:text-4xl">
-            {scan.subjectName}
-          </h2>
-          <p className="mt-2 text-sm text-tan">
-            Preview result for {friendlyDomain(scan.url)}
-          </p>
-        </header>
+      <section className="daizie-scan-card">
+        <p className="card-eyebrow">Free Daizie Readiness Check</p>
+        <h2>{scan.subjectName}</h2>
+        <p className="muted" style={{ marginTop: 6 }}>
+          Preview result for {friendlyDomain(scan.url)}
+        </p>
+      </section>
 
-        {activeTab === "report" && (
-          <>
-            <section className="rounded-lg bg-forest-dark p-6">
-              <div className="grid grid-cols-1 items-center gap-6 lg:grid-cols-2">
-                <div>
-                  <div className="text-[11px] uppercase tracking-widest text-gold">
-                    Your AI readiness
-                  </div>
-                  <div className="mt-2 flex items-baseline gap-3">
-                    <span className="font-serif text-5xl text-cream">{pct}</span>
-                    <span className="text-xl text-tan">/ 100</span>
-                    <span className="ml-2 text-xl text-gold">{tierCopy.label}</span>
-                  </div>
-                  <p className="mt-3 max-w-md text-sm leading-relaxed text-cream">
-                    {tierCopy.sentence}
-                  </p>
+      {activeTab === "report" && (
+        <>
+          <section className="daizie-scan-card">
+            <div className="daizie-score-row">
+              <div>
+                <p className="card-eyebrow">Your AI readiness</p>
+                <div className="score-value">
+                  <span className="num">{pct}</span>
+                  <span className="of">/ 100</span>
+                  <span className="tier">{tierCopy.label}</span>
                 </div>
-                <div className="text-sm leading-relaxed text-cream">
-                  <p>
-                    Readiness is the work AI can see on your public site. It is
-                    the foundation that determines whether AI can find,
-                    understand, and correctly describe your business.
-                  </p>
-                  <p className="mt-2 text-tan">
-                    This free check scores readiness only. The paid audit
-                    measures live AI answers across major engines.
-                  </p>
-                </div>
-              </div>
-              {!scan.crawlerReachable && (
-                <p className="mt-4 text-sm text-tan">
-                  We could not fully read your site directly, so this result is
-                  based on the signals we could observe.
+                <p style={{ marginTop: 6, maxWidth: 460 }}>
+                  {tierCopy.sentence}
                 </p>
-              )}
-            </section>
-
-            {scan.masterKeys && (
-              <MasterKeysSection report={scan.masterKeys} />
-            )}
-
-            <section className="rounded-lg bg-forest-dark p-6">
-              <h3 className="font-sans text-2xl font-semibold text-cream sm:text-3xl">
-                The five things that make up your readiness
-              </h3>
-              <p className="mt-1 text-sm text-tan">
-                Each driver is scored 0-5 against observable public evidence.
+              </div>
+              <div>
+                <p>
+                  Readiness is the work AI can see on your public site — the
+                  foundation that determines whether AI can find, understand,
+                  and correctly describe your business.
+                </p>
+                <p className="muted" style={{ marginTop: 8, fontSize: ".9rem" }}>
+                  This free check scores readiness only. The paid Daizie
+                  Assessment measures live AI answers across four engines.
+                </p>
+              </div>
+            </div>
+            {!scan.crawlerReachable && (
+              <p
+                className="muted"
+                style={{
+                  marginTop: 14,
+                  fontSize: ".85rem",
+                  fontStyle: "italic",
+                }}
+              >
+                We couldn&rsquo;t fully read your site directly, so this
+                result is based on the signals we could observe.
               </p>
-              <ul className="mt-5 space-y-3">
-                {scan.dimensions.map((d) => (
-                  <DarkDimensionBar
-                    key={d.id}
-                    dim={d}
-                    finding={findingByDimensionId.get(d.id)}
-                  />
+            )}
+          </section>
+
+          {scan.masterKeys && <MasterKeysSection report={scan.masterKeys} />}
+
+          <section className="daizie-scan-card">
+            <h3>The five things that make up your readiness</h3>
+            <p className="muted" style={{ marginTop: 6, fontSize: ".9rem" }}>
+              Each driver is scored 0–5 against observable public evidence.
+            </p>
+            <div className="daizie-driver-list">
+              {scan.dimensions.map((d) => (
+                <DaizieDriverRow
+                  key={d.id}
+                  dim={d}
+                  finding={findingByDimensionId.get(d.id)}
+                />
+              ))}
+            </div>
+            <p
+              className="muted"
+              style={{ marginTop: 14, fontSize: ".85rem", fontStyle: "italic" }}
+            >
+              Full report includes the complete driver breakdown and action plan.
+            </p>
+          </section>
+
+          {previewFindings.length > 0 && (
+            <section className="daizie-scan-card">
+              <h3>What stood out</h3>
+              <div className="daizie-findings">
+                {previewFindings.map((f) => (
+                  <div key={f.dimensionId} className="finding-card">
+                    <p className="title">
+                      {f.dimensionName}
+                      {typeof f.score === "number" && (
+                        <span className="score">
+                          ({f.score.toFixed(1)} / 5)
+                        </span>
+                      )}
+                    </p>
+                    <p className="body">{f.summary}</p>
+                  </div>
                 ))}
-              </ul>
-              <p className="mt-4 text-sm text-tan">
-                Full report includes the complete driver breakdown and action
-                plan.
-              </p>
+              </div>
             </section>
+          )}
+        </>
+      )}
 
-            {previewFindings.length > 0 && (
-              <section className="rounded-lg bg-forest-dark p-6">
-                <h3 className="font-sans text-2xl font-semibold text-cream">
-                  What stood out
-                </h3>
-                <ul className="mt-4 grid gap-3 lg:grid-cols-2">
-                  {previewFindings.map((f) => (
-                    <li
-                      key={f.dimensionId}
-                      className="rounded border border-tan/40 bg-forest/60 p-4"
-                    >
-                      <p className="font-serif text-base font-semibold text-cream">
-                        {f.dimensionName}
-                        {typeof f.score === "number" && (
-                          <span className="ml-2 text-sm font-normal text-gold">
-                            ({f.score.toFixed(1)} / 5)
-                          </span>
-                        )}
-                      </p>
-                      <p className="mt-2 text-sm leading-relaxed text-tan">
-                        {f.summary}
-                      </p>
-                    </li>
-                  ))}
-                </ul>
-              </section>
-            )}
-          </>
-        )}
+      {activeTab === "evidence" && <PreviewEvidence scan={scan} />}
+      {activeTab === "methodology" && <PreviewMethodology />}
 
-        {activeTab === "evidence" && <PreviewEvidence scan={scan} />}
-        {activeTab === "methodology" && <PreviewMethodology />}
-
-        <EmailGate scan={scan} onEmailSent={onEmailSent} emailSent={emailSent} />
-      </div>
+      <EmailGate scan={scan} onEmailSent={onEmailSent} emailSent={emailSent} />
     </div>
   );
 
@@ -708,7 +674,7 @@ function DimensionBar({ dim }: { dim: Dimension }) {
   );
 }
 
-function DarkDimensionBar({
+function DaizieDriverRow({
   dim,
   finding,
 }: {
@@ -718,32 +684,25 @@ function DarkDimensionBar({
   const score = typeof dim.score === "number" ? dim.score : 0;
   const pct = (score / 5) * 100;
   return (
-    <li className="rounded border border-tan/40 bg-forest/60 p-4">
-      <div className="flex items-baseline justify-between gap-4">
-        <span className="text-sm font-semibold text-cream">{dim.name}</span>
-        <span className="text-sm text-tan">
-          {typeof dim.score === "number" ? dim.score.toFixed(1) : "-"} / 5
+    <div className="daizie-driver-row">
+      <div className="row-head">
+        <span className="name">{dim.name}</span>
+        <span className="value">
+          {typeof dim.score === "number" ? dim.score.toFixed(1) : "—"} / 5
         </span>
       </div>
       <div
-        className="mt-2 h-2 w-full overflow-hidden rounded-full bg-charcoal"
+        className="bar"
         role="progressbar"
         aria-valuenow={score}
         aria-valuemin={0}
         aria-valuemax={5}
         aria-label={`${dim.name} score`}
       >
-        <div
-          className="h-full rounded-full bg-gradient-to-r from-gold to-cream motion-safe:transition-[width] motion-safe:duration-700"
-          style={{ width: `${pct}%` }}
-        />
+        <div className="fill" style={{ width: `${pct}%` }} />
       </div>
-      {finding && (
-        <p className="mt-3 text-sm leading-relaxed text-tan">
-          {finding.summary}
-        </p>
-      )}
-    </li>
+      {finding && <p className="finding">{finding.summary}</p>}
+    </div>
   );
 }
 
@@ -905,16 +864,20 @@ function EmailGate({
 
   if (emailSent) {
     return (
-      <div className="rounded-lg border border-gold/50 bg-forest-dark p-6">
-        <p className="font-serif text-lg text-cream">
-          Thanks — your report is on its way.
-        </p>
-        <p className="mt-2 text-sm text-tan">
-          Check your inbox in the next 30 seconds. If it doesn&apos;t arrive
-          within 5 minutes, email{" "}
+      <div className="daizie-scan-card">
+        <p className="card-eyebrow">Report on its way</p>
+        <h3>Thanks — check your inbox.</h3>
+        <p style={{ marginTop: 8 }}>
+          The token-enabled report link will arrive in the next 30 seconds.
+          If it doesn&rsquo;t arrive within 5 minutes, email{" "}
           <a
             href="mailto:hello@martykoepke.com"
-            className="text-cream underline decoration-gold underline-offset-4 hover:text-gold"
+            style={{
+              color: "var(--dz-forest)",
+              textDecoration: "underline",
+              textDecorationColor: "var(--dz-gold)",
+              textUnderlineOffset: 3,
+            }}
           >
             hello@martykoepke.com
           </a>
@@ -956,27 +919,16 @@ function EmailGate({
   }
 
   return (
-    <form
-      onSubmit={onSubmitEmail}
-      className="space-y-4 rounded-lg border border-gold/50 bg-forest-dark p-6 sm:p-8"
-      noValidate
-    >
-      <p className="text-[11px] uppercase tracking-widest text-gold">
-        Private report link
+    <form onSubmit={onSubmitEmail} className="daizie-scan-card" noValidate>
+      <p className="card-eyebrow">Private report link</p>
+      <h3 style={{ marginTop: 4 }}>Send the full report to your inbox</h3>
+      <p style={{ marginTop: 10 }}>
+        This preview stays on screen. Enter your email and we&rsquo;ll send
+        the token-enabled hosted report link, available for 30 days, with
+        the full score breakdown and recommended next moves.
       </p>
-      <h2 className="font-serif text-2xl text-cream">
-        Send the full report to your inbox
-      </h2>
-      <p className="text-sm leading-relaxed text-tan">
-        This preview stays on screen. Enter your email and we&apos;ll send the
-        token-enabled hosted report link, available for 30 days, with the full
-        score breakdown and recommended next moves.
-      </p>
-      <div>
-        <label
-          htmlFor="scan-email"
-          className="block text-sm font-semibold text-cream"
-        >
+      <div style={{ marginTop: 16 }}>
+        <label htmlFor="scan-email" className="daizie-scan-label">
           Your email
         </label>
         <input
@@ -988,14 +940,15 @@ function EmailGate({
           placeholder="you@yourbusiness.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="mt-2 w-full rounded-md border border-tan/50 bg-cream px-4 py-3 text-charcoal placeholder:text-moss/60 focus:border-gold focus:outline-none focus:ring-1 focus:ring-gold"
+          className="daizie-scan-input"
         />
       </div>
 
       {errorMsg && (
         <div
           role="alert"
-          className="rounded-md border border-red-400 bg-red-50 px-4 py-3 text-sm text-red-900"
+          className="daizie-scan-error"
+          style={{ marginTop: 14 }}
         >
           {errorMsg}
         </div>
@@ -1004,14 +957,29 @@ function EmailGate({
       <button
         type="submit"
         disabled={submitting}
-        className="inline-flex items-center justify-center gap-2 rounded-md bg-gold px-7 py-3 text-base font-semibold text-forest transition-colors duration-300 hover:bg-cream disabled:cursor-not-allowed disabled:opacity-60"
+        className="daizie-btn primary"
+        style={{ marginTop: 18, opacity: submitting ? 0.6 : 1 }}
       >
-        {submitting ? "Sending…" : "Send me the full report"}
-        {!submitting && <ArrowRightIcon className="h-4 w-4" />}
+        {submitting ? "Sending…" : "Send me the full report →"}
       </button>
-      <p className="text-xs text-tan">
+      <p
+        style={{
+          marginTop: 12,
+          fontSize: ".82rem",
+          color: "#56675c",
+          fontStyle: "italic",
+        }}
+      >
         No spam. Private link expires after 30 days. See our{" "}
-        <a href="/privacy" className="text-cream underline decoration-gold underline-offset-4 hover:text-gold">
+        <a
+          href="/privacy"
+          style={{
+            color: "var(--dz-forest)",
+            textDecoration: "underline",
+            textDecorationColor: "var(--dz-gold)",
+            textUnderlineOffset: 3,
+          }}
+        >
           privacy policy
         </a>
         .

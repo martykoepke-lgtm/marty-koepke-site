@@ -849,10 +849,251 @@ h1, h2, h3, h4 {
   padding: clamp(22px, 3vw, 32px);
   border: 1px solid rgba(23, 62, 44, .22);
   border-radius: 18px;
-  background: #ffffff;
+  background: #ffffff !important;
   display: flex;
   flex-direction: column;
   gap: 18px;
+}
+
+/* ---- Free scan RESULT surfaces (Daizie chrome) ----------------------- */
+.daizie-scan-result {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 26px;
+}
+.daizie-scan-result .result-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px;
+  border-radius: 999px;
+  background: rgba(23, 62, 44, .08);
+  border: 1px solid rgba(23, 62, 44, .18);
+}
+.daizie-scan-result .result-nav .tabs {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+}
+.daizie-scan-result .result-nav button {
+  padding: 8px 16px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--dz-forest);
+  font: 600 .84rem var(--font-sans), Inter, sans-serif;
+  letter-spacing: .06em;
+  text-transform: capitalize;
+  cursor: pointer;
+  transition: background-color .15s;
+}
+.daizie-scan-result .result-nav button:hover { background: rgba(23, 62, 44, .1); }
+.daizie-scan-result .result-nav button.active {
+  background: var(--dz-forest);
+  color: var(--dz-cream);
+}
+.daizie-scan-result .result-nav .brand-tag {
+  padding-right: 10px;
+  font: 700 .68rem var(--font-sans);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--dz-gold);
+}
+.daizie-scan-card {
+  padding: clamp(20px, 3vw, 32px);
+  border: 1px solid rgba(23, 62, 44, .18);
+  border-radius: 20px;
+  background: #ffffff !important;
+  color: var(--dz-charcoal);
+}
+.daizie-scan-card .card-eyebrow {
+  font: 700 .68rem var(--font-sans), Inter, sans-serif;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--dz-gold);
+  margin: 0 0 8px;
+}
+.daizie-scan-card h2,
+.daizie-scan-card h3 {
+  margin: 0;
+  color: var(--dz-forest);
+  font-family: var(--font-serif), Georgia, serif;
+  font-weight: 500;
+}
+.daizie-scan-card h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); }
+.daizie-scan-card h3 { font-size: 1.2rem; }
+.daizie-scan-card p {
+  color: var(--dz-charcoal);
+  line-height: 1.6;
+}
+.daizie-scan-card p.muted { color: #56675c; }
+.daizie-score-row {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: 1fr;
+  align-items: center;
+}
+@media (min-width: 900px) { .daizie-score-row { grid-template-columns: 1fr 1fr; } }
+.daizie-score-row .score-value {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 6px 0 10px;
+}
+.daizie-score-row .score-value .num {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: clamp(3rem, 6vw, 4.4rem);
+  color: var(--dz-forest);
+  line-height: 1;
+}
+.daizie-score-row .score-value .of {
+  color: #56675c;
+  font-size: 1.05rem;
+}
+.daizie-score-row .score-value .tier {
+  margin-left: 6px;
+  color: var(--dz-gold);
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 1.35rem;
+}
+
+/* Master-key section (Daizie palette) */
+.daizie-masterkeys {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 1fr;
+  margin-top: 18px;
+}
+@media (min-width: 720px) { .daizie-masterkeys { grid-template-columns: repeat(3, 1fr); } }
+.daizie-masterkeys .mk-card {
+  padding: 16px 18px;
+  border-radius: 14px;
+  border: 1px solid transparent;
+  background: #ffffff;
+}
+.daizie-masterkeys .mk-card.present {
+  background: rgba(16, 122, 78, .06);
+  border-color: rgba(16, 122, 78, .28);
+}
+.daizie-masterkeys .mk-card.missing {
+  background: rgba(178, 51, 51, .05);
+  border-color: rgba(178, 51, 51, .26);
+}
+.daizie-masterkeys .mk-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+.daizie-masterkeys .mk-label {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--dz-forest);
+}
+.daizie-masterkeys .mk-badge {
+  font: 700 .66rem var(--font-sans), Inter;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+.daizie-masterkeys .mk-badge.ok { color: #0e7a4a; }
+.daizie-masterkeys .mk-badge.no { color: #a83232; }
+.daizie-masterkeys .mk-body {
+  margin-top: 6px;
+  font-size: .84rem;
+  line-height: 1.5;
+  color: #4a5b52;
+}
+.daizie-masterkeys .mk-body a {
+  color: var(--dz-forest);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-color: var(--dz-gold);
+  word-break: break-all;
+}
+.daizie-masterkeys .mk-body a:hover { color: #0e7a4a; }
+
+/* Driver bar rows */
+.daizie-driver-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 18px;
+}
+.daizie-driver-row {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(23, 62, 44, .04);
+}
+.daizie-driver-row .row-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  font-size: .92rem;
+}
+.daizie-driver-row .row-head .name {
+  font-family: var(--font-serif), Georgia, serif;
+  color: var(--dz-forest);
+  font-weight: 500;
+}
+.daizie-driver-row .row-head .value {
+  color: var(--dz-gold);
+  font-weight: 700;
+  font-size: .84rem;
+}
+.daizie-driver-row .bar {
+  margin-top: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(23, 62, 44, .12);
+  overflow: hidden;
+}
+.daizie-driver-row .bar .fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--dz-forest), var(--dz-gold));
+  transition: width .4s;
+}
+.daizie-driver-row .finding {
+  margin-top: 8px;
+  font-size: .84rem;
+  line-height: 1.55;
+  color: #4a5b52;
+}
+
+/* Findings cards ("What stood out") */
+.daizie-findings {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 1fr;
+  margin-top: 18px;
+}
+@media (min-width: 900px) { .daizie-findings { grid-template-columns: 1fr 1fr; } }
+.daizie-findings .finding-card {
+  padding: 16px 18px;
+  border-radius: 14px;
+  background: rgba(23, 62, 44, .04);
+  border: 1px solid rgba(23, 62, 44, .12);
+}
+.daizie-findings .finding-card .title {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 1.02rem;
+  font-weight: 500;
+  color: var(--dz-forest);
+}
+.daizie-findings .finding-card .title .score {
+  margin-left: 6px;
+  color: var(--dz-gold);
+  font-size: .84rem;
+  font-weight: 700;
+}
+.daizie-findings .finding-card .body {
+  margin-top: 8px;
+  font-size: .88rem;
+  line-height: 1.55;
+  color: #4a5b52;
 }
 
 /* ---- Home page: compact hook hero ------------------------------------ */
