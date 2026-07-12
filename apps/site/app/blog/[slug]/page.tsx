@@ -98,7 +98,7 @@ export default async function BlogPostPage({
         href="/ai-visibility"
         className="mt-8 inline-flex items-center gap-2 font-serif text-lg text-forest hover:text-forest-dark"
       >
-        See how AI visibility and business accuracy are measured
+        See how Daizie measures AI visibility and business accuracy
         <ArrowRightIcon className="h-4 w-4" />
       </Link>
     </Section>

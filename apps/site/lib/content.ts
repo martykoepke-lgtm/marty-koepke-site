@@ -25,7 +25,7 @@ export type NavItem = {
 
 export const NAV: NavItem[] = [
   { label: "Home", href: "/" },
-  { label: "AI visibility", href: "/ai-visibility", emphasized: true },
+  { label: "Daizie AI visibility", href: "/ai-visibility", emphasized: true },
   { label: "AI governance", href: "/craizie" },
   { label: "About", href: "/about" },
   // Blog is intentionally hidden from nav until the first posts ship.
