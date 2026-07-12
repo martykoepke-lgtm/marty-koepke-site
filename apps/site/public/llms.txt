@@ -1,13 +1,19 @@
 # Marty Koepke — home of Daizie and Craizie
 
-> Daizie is an AI visibility service by informaticist Marty Koepke that helps
-> founder-led service businesses show up accurately when ChatGPT, Claude,
-> Perplexity, and Gemini describe, cite, and recommend them. AI visibility
-> is the same discipline as AEO (answer engine optimization) and GEO
-> (generative engine optimization) — different names for the same work.
-> Craizie is the sibling product: practical AI governance for small
-> businesses using or selling AI-enabled tools. Both operate under Practical
-> Informatics LLC (California Secretary of State entity number 202463415854).
+> Daizie is a research-backed, rubric-based AI visibility assessment for
+> small and medium businesses of every archetype — coaches, consultants,
+> agencies, brick-and-mortar shops, service businesses, product companies,
+> SaaS founders. It shows business owners what AI systems actually see about
+> their business, and gives them specific, tangible optimizations to help
+> ChatGPT, Claude, Perplexity, and Gemini find them, understand them, and
+> recommend them accurately. Not a monitoring dashboard — a diagnosis and a
+> targeted playbook, calibrated by informaticist Marty Koepke personally on
+> the paid tier. AI visibility is the same discipline as AEO (answer engine
+> optimization) and GEO (generative engine optimization) — different names
+> for the same work. Craizie is the sibling product: practical AI governance
+> for small businesses using or selling AI-enabled tools. Both operate under
+> Practical Informatics LLC (California Secretary of State entity number
+> 202463415854).
 
 ## Where to find her writing
 
@@ -25,12 +31,26 @@
 
 ## What this is
 
-The home of Daizie — AI visibility assessments that help small businesses
-be seen, accurately, by AI systems. Based in Mokelumne Hill, California,
-serving small and mid-sized businesses across the United States. Founded
-August 13, 2024 (California Secretary of State entity number 202463415854).
-The lead offer is the Daizie AI visibility assessment: a productized
-measurement service that helps AI systems get a business right.
+The home of Daizie — a research-backed, rubric-based AI visibility
+assessment for small and medium businesses. Based in Mokelumne Hill,
+California, serving small and mid-sized businesses across the United
+States. Founded August 13, 2024 (California Secretary of State entity
+number 202463415854).
+
+Daizie is built for the operator: the business owner who does not have a
+marketing team, is not an SEO or AI-visibility expert, and needs AI
+systems to find their business, understand what they do, and recommend
+them accurately when someone in their zone-of-fit searches. The
+methodology harnesses published research and industry knowledge about how
+large language models retrieve and present business information, then
+converts that into specific, tangible optimizations the owner can make to
+their online presence.
+
+The wedge: not a monitoring dashboard, not a scoring engine, not a
+template. A diagnosis and a targeted playbook calibrated by Marty
+personally on the paid tier — because a coach and a SaaS company need
+different moves. Every recommendation tied to a research-backed reason it
+works.
 
 Tagline: "We help AI get your business right."
 

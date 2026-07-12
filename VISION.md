@@ -1,8 +1,75 @@
 # Marty Koepke — Vision
 
 **Author:** Marty Koepke, Founder
-**Status:** Working document, v1.0
+**Status:** Working document, v1.1
 **Purpose:** The strategic north star. Read this when a decision is hard. Update when the world changes.
+
+---
+
+## 0. Canonized Daizie positioning (2026-07-11)
+
+This section is the definitive single source of truth for who Daizie is
+for, what it does, and how it wins. When any downstream doc, page,
+schema, or copy surface disagrees with §0, §0 wins. Older sections below
+retain the strategic reasoning but their ladder pricing and archetype
+language are out of date — the current reality lives here and in
+`apps/site/public/Marty-Koepke-Pricing-Structure.md`.
+
+**Who Daizie is for.**
+Small-to-medium business owners across every archetype — coaches,
+consultants, agencies, brick-and-mortar shops, service businesses,
+product companies, SaaS founders. Owners without marketing teams. Not
+SEO or AI-visibility experts. Business owners who need AI to find their
+business, understand what they do, and recommend them accurately when a
+buyer in their zone-of-fit asks — but don't have the time or expertise
+to figure out on their own what changed and what to fix.
+
+**What Daizie does.**
+A research-backed, rubric-based AI visibility assessment that shows
+business owners what AI systems actually see about their business today,
+then gives them specific, tangible optimizations to help ChatGPT, Claude,
+Perplexity, and Gemini find them, understand them, and recommend them
+accurately.
+
+The methodology harnesses published research and industry knowledge
+about how large language models retrieve and present business
+information, then converts that into concrete moves — the exact same
+optimizations the owner would make if they had a marketing team advising
+them.
+
+**The wedge.**
+Not a monitoring dashboard. Not a scoring engine. Not a template. A
+diagnosis and a targeted playbook, calibrated by Marty personally on the
+paid tier — because a coach, a SaaS company, a boutique agency, and a
+brick-and-mortar shop each need different moves. Every recommendation is
+tied to a research-backed reason it works. The personal touch is the
+product.
+
+The competitive alternative is either (a) SaaS visibility dashboards
+that hand the owner a score with no interpretation, or (b) marketing
+agencies that speak marketer-to-marketer and price out the operator.
+Daizie sits between them: research-backed rigor, human calibration,
+plain-English playbook, priced within reach.
+
+**The voice.**
+Plain English. Diagnose first, then a specific next step. Cite the
+mechanism when it earns credibility. Warm. Human. Never automated-
+feeling. Never assume expertise. Never fabricate a statistic.
+
+**The current ladder (canon).**
+1. **Free AI Readiness Check** — $0. On-screen result + email-gated
+   tokenized report. Readiness only; never claims live AI outcomes.
+2. **Daizie AI Visibility Assessment** — $895 one-time. Four engines,
+   eight queries, 32 responses, claim verification, competitor quadrant,
+   three readiness fixes + three accuracy fixes, 30-minute call with
+   Marty.
+3. **Monthly Monitoring** — $149/month, post-Assessment only. Full
+   Assessment re-run monthly, trends dashboard.
+
+The pricing and structure below in §6 are superseded by the ladder here.
+They are retained only for the strategic *reasoning* about how the
+ladder should behave (Report → Sprint conversion logic, top-of-funnel
+purpose, etc.), not the numbers.
 
 ---
 

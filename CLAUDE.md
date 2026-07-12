@@ -31,7 +31,9 @@ from): `AVI_AGENT_DESIGN.md`, `AVI_CUSTOMER_FLOW.md`, `AVI_BUILD_PLAN.md`,
 `AVI_FREE_FLOW.md` (old), `AVI_INDEX_REPORT.md`, `AGENTS.md`. See
 `archive/README.md` for why each was retired.
 
-## Voice rules (from VISION.md §10)
+## Voice rules
+
+Baseline rules (from VISION.md §10):
 
 - Plain English; no jargon, no buzzwords
 - Sentence case headings, not Title Case
@@ -40,38 +42,80 @@ from): `AVI_AGENT_DESIGN.md`, `AVI_CUSTOMER_FLOW.md`, `AVI_BUILD_PLAN.md`,
 - Specific over vague — cite the number and the study
 - Generous to the reader — footnote sources, link to rubric, show the work
 
+Daizie-specific voice rules (2026-07-11 canon):
+
+- **Written for the operator.** The reader is a small-to-medium business
+  owner without a marketing team. They are not an SEO or AI-visibility
+  expert. They should never need to become one to act on Daizie's output.
+- **Diagnose first, then a specific next step.** Every nudge, every
+  recommendation follows the pattern: "here's what's happening → here's
+  the concrete move." Never just a score.
+- **Cite the mechanism when it earns credibility.** One clause of "why
+  this works" earns trust without becoming a research paper. Never
+  fabricate a statistic.
+- **Warm and human, not automated.** The whole point is that a person —
+  Marty — reads the paid report herself. The voice should feel like a
+  human wrote it, even in the free scan.
+- **Business-type aware.** Coaches, consultants, agencies, retail, service
+  businesses, product companies, and SaaS founders all need different
+  moves. Never pretend they're all the same.
+
 ## What This Is
 
-Practical Informatics LLC offers two distinct services:
+Practical Informatics LLC's public-facing product is **Daizie** — a
+research-backed, rubric-based AI visibility assessment for small and
+medium businesses. The canonized positioning (as of 2026-07-11):
 
-1. **AI Visibility + AI Business Accuracy** — a productized national service
-   that tests whether AI systems (ChatGPT, Claude, Perplexity, Gemini) can
-   find, understand, cite, and recommend a business in right-fit situations.
-   This is the lead offer on the site.
+**Who Daizie is for.** Small-to-medium business owners — coaches,
+consultants, agencies, brick-and-mortar shops, service businesses,
+product companies, SaaS founders. Owners without marketing teams. Not
+SEO or AI-visibility experts. Any business type, any archetype.
+
+**What Daizie does.** Shows business owners what AI systems actually see
+about their business today, then gives them specific, tangible
+optimizations to help ChatGPT, Claude, Perplexity, and Gemini find them,
+understand them, and recommend them accurately when someone in their
+zone-of-fit searches.
+
+**The wedge.** Not a monitoring dashboard. Not a scoring engine. Not a
+template. A diagnosis and a targeted playbook — calibrated by Marty
+personally on the paid tier because a coach and a SaaS company need
+different moves. Every recommendation tied to a research-backed reason
+it works. Personal touch, not a SaaS layer.
+
+**The sibling product.** Craizie — practical AI governance for small
+businesses using or selling AI-enabled tools. Marketing page exists;
+product not yet built.
 
 Marty's broader healthcare-informatics, speaking, and writing work lives at a
 separate site, **martykoepke.com** — cross-linked here, not featured.
 
 **Live URL:** https://www.martykoepke.com
 
-> The two-offer narrative is still in tension (VISION.md positions AVI as the
-> primary practice; legacy framing still describes the local consulting
-> practice). Flag in copy or nav changes that depend on the answer.
-
-### The AI Visibility offer ladder
+### The AI Visibility offer ladder (current reality — 2026-07-11)
 
 The site `/ai-visibility` page presents:
 
-1. **Free AI Readiness Check** — $0. URL-only, ~30s, public lead magnet.
-2. **AI Visibility Snapshot** — $495. Focused paid review.
-3. **AI Business Accuracy Audit** — $1,950. The core paid offer. Measures
-   readiness drivers + live AI outcomes.
-4. **Implementation Planning** — scoped after diagnosis.
-5. **Monthly Monitoring** — $500/month post-Snapshot/Audit.
+1. **Free AI Readiness Check** — $0. URL-only, ~30s. On-screen result +
+   email-gated tokenized report. Reports readiness only; must never claim
+   live AI mentions or recommendations.
+2. **Daizie AI Visibility Assessment** — $895 one-time. The paid product.
+   Four engines tested (ChatGPT, Claude, Perplexity, Gemini), eight
+   buyer-question queries, 32 live AI responses captured, every claim
+   verified against real sources, two named competitors plotted on a
+   Readiness × Visibility quadrant. Three readiness fixes + three accuracy
+   fixes, separated. Includes 30-minute review call with Marty.
+3. **Monthly Monitoring** — $149/month, available only after the
+   Assessment. Full Assessment re-run monthly with trends dashboard across
+   all 11 measurements.
 
 **Pricing source of truth:** `apps/site/public/Marty-Koepke-Pricing-Structure.md`.
-On-page copy in `apps/site/lib/content.ts` must match it. State may drift —
-verify before quoting numbers.
+On-page copy in `apps/site/lib/content.ts` must match. Any pricing question
+in a live conversation: verify before quoting.
+
+**Superseded ladder (do not restore):** Earlier drafts named an
+"AI Visibility Snapshot" at $495 and an "AI Business Accuracy Audit" at
+$1,950. Both retired. Do not reintroduce.
 
 ## V3 scoring model (summary)
 

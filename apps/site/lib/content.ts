@@ -48,7 +48,7 @@ export const META = {
     title:
       "Daizie by Marty Koepke | AI visibility assessments for small business",
     description:
-      "Daizie helps small businesses be seen — accurately — by AI. Informaticist Marty Koepke tests what ChatGPT, Claude, Perplexity, and Gemini actually say about your business, then hands you the specific fixes. Free readiness check; full assessment $895.",
+      "Daizie is a research-backed, rubric-based AI visibility assessment for small and medium businesses — coaches, consultants, agencies, retail, service, SaaS. See what AI actually says about your business across ChatGPT, Claude, Perplexity, and Gemini, then get specific, tangible fixes calibrated to your business type. Free readiness check; full assessment $895.",
   },
   about: {
     title: "About Marty Koepke | Marty Koepke",
@@ -58,7 +58,7 @@ export const META = {
   aiVisibility: {
     title: "Daizie — AI visibility (AEO / GEO) for small business",
     description:
-      "Daizie is an AI visibility service by informaticist Marty Koepke that helps founder-led service businesses show up accurately when ChatGPT, Claude, Perplexity, and Gemini describe, cite, and recommend them. Also known as AEO (answer engine optimization) or GEO (generative engine optimization).",
+      "Daizie is a research-backed, rubric-based AI visibility assessment for small and medium businesses. A diagnosis and a targeted playbook — calibrated by informaticist Marty Koepke to your business type — so ChatGPT, Claude, Perplexity, and Gemini can find, understand, and recommend your business accurately. Also known as AEO or GEO.",
   },
   blog: {
     title: "Notes | Marty Koepke",
@@ -95,7 +95,7 @@ export const HOME = {
     eyebrow: "Lead offer",
     headline: "Does AI get your business right?",
     intro:
-      "AI Visibility is the front door. AI Business Accuracy is the deeper work: checking whether AI can find, understand, cite, and recommend your business in right-fit situations.",
+      "A research-backed, rubric-based AI visibility assessment for small and medium businesses. Not a monitoring dashboard — a real diagnosis and a targeted playbook, calibrated to your business type, so AI can find, understand, and recommend your business accurately.",
     tiers: [
       {
         name: "Free AI Readiness Check",
@@ -304,7 +304,7 @@ export const AVI = {
   /** Italic gold sub-tagline between H1 and subhead. */
   subTagline: "AI is your new introduction. Make sure it gets you right.",
   heroSubhead:
-    "Daizie is an AI visibility service by informaticist Marty Koepke that helps founder-led service businesses show up accurately when ChatGPT, Claude, Perplexity, and Gemini describe, cite, and recommend them. Also called AEO or GEO — same discipline, different name.",
+    "Daizie is a research-backed, rubric-based AI visibility assessment for small and medium businesses — coaches, consultants, agencies, retail, service, SaaS. Not a dashboard. A real diagnosis and a targeted playbook, calibrated by Marty personally, so ChatGPT, Claude, Perplexity, and Gemini can find your business, understand it, and recommend it accurately. Also called AEO or GEO — same discipline, different name.",
   /** Primary CTA and the anchor for the secondary "see the paid offer" link. */
   heroPrimaryCta: {
     label: "Get your free readiness check",
@@ -682,7 +682,7 @@ export const AVI = {
   faq: [
     {
       q: "What is AI visibility (also called AEO or GEO)?",
-      a: "AI visibility is how well your business shows up when someone asks an AI system a question. It's the same discipline whether you call it AI visibility, AEO (answer engine optimization), or GEO (generative engine optimization) — different names for the same work. Daizie is an AI visibility service by informaticist Marty Koepke that helps founder-led service businesses show up accurately when ChatGPT, Claude, Perplexity, and Gemini describe, cite, and recommend them.",
+      a: "AI visibility is how well your business shows up — accurately — when someone asks an AI system a question. It's the same discipline whether you call it AI visibility, AEO (answer engine optimization), or GEO (generative engine optimization) — different names for the same work. Daizie is a research-backed, rubric-based assessment for small and medium businesses of every stripe: coaches, consultants, agencies, retail, service, SaaS. Not a dashboard. A diagnosis and a targeted playbook, calibrated by Marty Koepke personally, so ChatGPT, Claude, Perplexity, and Gemini can find, understand, and recommend your business accurately.",
     },
     {
       q: "Is Daizie the same as SEO?",
