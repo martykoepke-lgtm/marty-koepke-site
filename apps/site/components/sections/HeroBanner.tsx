@@ -31,7 +31,7 @@ export default function HeroBanner() {
   return (
     <section
       ref={ref}
-      aria-label="Practical Informatics — applied AI consultancy"
+      aria-label="Marty Koepke — applied AI consultancy"
       className="relative w-full overflow-hidden bg-forest"
       style={{ height: "min(90vh, 820px)", minHeight: "560px" }}
     >

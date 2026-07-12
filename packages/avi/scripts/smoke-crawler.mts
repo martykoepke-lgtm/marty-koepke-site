@@ -1,6 +1,6 @@
 import { crawl } from '../src/crawler-v2';
 
-const url = process.argv[2] || 'https://www.practicalinformatics.com';
+const url = process.argv[2] || 'https://www.martykoepke.com';
 const c = await crawl(url);
 console.log('CRAWL OK');
 console.log('  url:', c.url);

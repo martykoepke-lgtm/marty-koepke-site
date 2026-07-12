@@ -12,7 +12,7 @@ import type { ReactNode } from "react";
  *
  * Reliability wins. These now render their children plainly, fully
  * visible from first paint. The site still has plenty of motion —
- * HeroBanner parallax, ThePath's drawing line + morph, modal entries,
+ * HeroBanner parallax, modal entries,
  * accordion expand — but it's no longer load-bearing for content
  * visibility. Nothing in here hides anything.
  *

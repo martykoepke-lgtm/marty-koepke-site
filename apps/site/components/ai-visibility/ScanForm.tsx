@@ -72,7 +72,7 @@ export default function ScanForm() {
         type="text"
         required
         autoComplete="organization"
-        placeholder="Practical Informatics LLC"
+        placeholder="Acme Consulting LLC"
       />
 
       <Field

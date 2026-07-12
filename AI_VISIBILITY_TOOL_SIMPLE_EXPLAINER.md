@@ -323,13 +323,13 @@ The tool should break AI answers into small claims.
 
 Example AI answer:
 
-"Practical Informatics is an applied AI consultancy led by Marty Koepke. It offers an AI Visibility Index report for $697."
+"Marty Koepke is an applied AI consultancy led by Marty Koepke. It offers an AI Visibility Index report for $697."
 
 Small claims:
 
-1. Practical Informatics is an applied AI consultancy.
-2. Practical Informatics is led by Marty Koepke.
-3. Practical Informatics offers an AI Visibility Index report.
+1. Marty Koepke is an applied AI consultancy.
+2. Marty Koepke is led by Marty Koepke.
+3. Marty Koepke offers an AI Visibility Index report.
 4. The report costs $697.
 
 Each claim is checked against sources.

@@ -131,7 +131,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(
       {
         ok: false,
-        error: "We couldn't save your submission. Please try again, or email marty.koepke@practicalinformatics.com.",
+        error: "We couldn't save your submission. Please try again, or email hello@martykoepke.com.",
       },
       { status: 500 }
     );

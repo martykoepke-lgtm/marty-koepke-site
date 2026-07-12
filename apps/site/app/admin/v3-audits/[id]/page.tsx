@@ -171,14 +171,13 @@ export default async function V3AdminAuditPage({
       <article className="mx-auto max-w-4xl px-8 py-14">
         <header className="border-b border-tan pb-8">
           <p className="text-xs uppercase tracking-[0.18em] text-gold-dark">
-            V3 AI Business Accuracy Audit
+            AI Business Accuracy Audit
           </p>
           <h1 className="mt-3 font-serif text-4xl text-forest">{subject.canonical_name}</h1>
           <dl className="mt-6 grid gap-2 text-sm sm:grid-cols-2">
             <Row label="URL">{subject.url}</Row>
             <Row label="Industry">{subject.industry}</Row>
             <Row label="Mode">{audit.mode}</Row>
-            <Row label="Rubric">{audit.rubric_version}</Row>
             <Row label="Generated">{formatDate(audit.started_at)}</Row>
             <Row label="Audit ID">
               <code>{audit.id}</code>

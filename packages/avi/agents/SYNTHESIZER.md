@@ -164,7 +164,7 @@ These belong to every brand-facing output. Listed here because the Synthesizer i
 
 **Input (excerpt):**
 ```
-subject: { canonical_name: "Practical Informatics", industry: "AI visibility consulting", subject_type: "personal_brand" }
+subject: { canonical_name: "Marty Koepke", industry: "AI visibility consulting", subject_type: "personal_brand" }
 composite: { composite: 52.0, tier: "Emerging", readiness: 68.0, visibility: 42.0 }
 driver_scores: [
   { dimension_id: "D1", band: 4, weight: 0.15, ... },
@@ -179,7 +179,7 @@ recommendations.fixes[0]: { dimension_id: "D6", tactic: "Publish AVI rubric and 
 **Expected output:**
 ```json
 {
-  "headline": "Practical Informatics has substantive, differentiated content (D4 band 4) but lives almost entirely on its own site, so the engines can't find it.",
+  "headline": "Marty Koepke has substantive, differentiated content (D4 band 4) but lives almost entirely on its own site, so the engines can't find it.",
   "body": "The strengths are real. Entity Clarity (D1 band 4) and Machine-Readability (D3 band 4) are both solid, and Differentiation (D4 band 4 on a 0.25 weight) is the highest single contributor — the signature AVI rubric, the US patent and Aggarwal citations, and the clinical-informatics translator framing are exactly the kind of original material engines reward when they can see it.\n\nThe drag is Platform-Native Fit (D6 band 1 on a 0.25 weight) compounded by Third-Party Corroboration (D2 band 2 on a 0.20 weight). The subject has a LinkedIn presence and nothing on Reddit, YouTube, Wikipedia, G2, or Gartner — the platforms that feed ChatGPT, Claude, Perplexity, and Gemini citation patterns. Differentiated content that the engines can't reach scores Emerging, not Discoverable.\n\nThe shortest path to Discoverable is to publish the AVI rubric and its citations as a public methodology page and seed it on the platforms the engines actually cite. The top recommendation targets D6 directly, and a gain there compounds the existing D4 strength."
 }
 ```

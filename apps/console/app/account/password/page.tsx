@@ -91,7 +91,7 @@ export default function PasswordPage() {
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
           <div className="text-xl font-semibold text-paper tracking-tight">
-            Practical Informatics
+            Marty Koepke
           </div>
           <div className="text-sm text-paper/65 mt-1">Change password</div>
         </div>

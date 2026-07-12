@@ -34,7 +34,7 @@ function getClient(): Resend {
 
 const FROM_ADDRESS =
   process.env.RESEND_FROM_ADDRESS ??
-  "Practical Informatics <no-reply@practicalinformatics.com>";
+  "Marty Koepke <hello@martykoepke.com>";
 
 /**
  * Per-email cost in USD. Currently $0 because Resend's free tier covers

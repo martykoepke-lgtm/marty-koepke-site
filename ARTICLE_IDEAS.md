@@ -147,7 +147,7 @@ Each idea can become:
 - A newsletter section
 - A talk or video script
 
-The order matters too. Idea 5 ("AI agrees too much") is the most surprising. It might be the best one to lead with. Idea 4 ("Small business advantage") is the most hopeful. It ties to the work of Practical Informatics directly.
+The order matters too. Idea 5 ("AI agrees too much") is the most surprising. It might be the best one to lead with. Idea 4 ("Small business advantage") is the most hopeful. It ties to the work of Marty Koepke directly.
 
 All five ideas are honest. None of them say "buy this." They share a true thing and let the reader decide what to do.
 

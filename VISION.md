@@ -1,4 +1,4 @@
-# Practical Informatics — Vision
+# Marty Koepke — Vision
 
 **Author:** Marty Koepke, Founder
 **Status:** Working document, v1.0
@@ -8,7 +8,7 @@
 
 ## In one paragraph
 
-Practical Informatics is a small, focused consulting practice that helps established small businesses, solo founders, and small practices become visible to the AI agents their buyers now ask. We do that as a translator and a partner — not as a dashboard or a retainer — by measuring what AI is actually saying, explaining it in plain English, doing the remediation alongside the client, and proving the number moved. Built on twenty years of healthcare informatics — the discipline of translating between technology, leadership, and the people who use the tools — applied to the discovery layer that just moved out from under everyone.
+Marty Koepke is a small, focused consulting practice that helps established small businesses, solo founders, and small practices become visible to the AI agents their buyers now ask. We do that as a translator and a partner — not as a dashboard or a retainer — by measuring what AI is actually saying, explaining it in plain English, doing the remediation alongside the client, and proving the number moved. Built on twenty years of healthcare informatics — the discipline of translating between technology, leadership, and the people who use the tools — applied to the discovery layer that just moved out from under everyone.
 
 ---
 
@@ -18,7 +18,7 @@ Something quietly changed in the last 18 months. A meaningful share of buyers st
 
 This is the most important sentence in the strategy: **when your buyer asks an AI agent for a recommendation in your category, you are either named — or you're not. If you're not, you've lost a lead you never knew existed.**
 
-That single fact is what Practical Informatics exists to address.
+That single fact is what Marty Koepke exists to address.
 
 ---
 

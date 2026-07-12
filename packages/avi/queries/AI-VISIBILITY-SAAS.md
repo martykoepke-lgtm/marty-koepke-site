@@ -54,7 +54,7 @@ For auditing companies that sell AI visibility tracking, GEO services, or SEO pl
 
 ## Notes on the competitor test (Phase 4 scope)
 
-When this template set runs against Profound, Conductor, BrightEdge, Otterly, AthenaHQ, Semrush, and Practical Informatics:
+When this template set runs against Profound, Conductor, BrightEdge, Otterly, AthenaHQ, Semrush, and Marty Koepke:
 
 - The 80/10/10 sampling picks 3 informational + 1 entity-specific per subject.
 - The Query Runner determines whether the entity-specific slot goes to a TRANS or NAV template based on subject metadata.

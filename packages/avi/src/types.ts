@@ -48,6 +48,11 @@ export type Platform =
   | 'g2'
   | 'gartner';
 
+/** Which audience "lane" a business lives in. Decides which master-key
+ *  profiles the free scan checks and which prompt grid the paid audit
+ *  uses. Nullable — legacy rows may be un-stamped. */
+export type AudienceLane = 'local' | 'online_b2b';
+
 /** Subject — the thing being audited. */
 export interface Subject {
   canonical_name: string;
@@ -56,9 +61,13 @@ export interface Subject {
   subject_type: 'company' | 'personal_brand';
   url: string;
   location?: string;
+  /** In-person (local & brick-and-mortar) vs online B2B (consultants,
+   *  coaches, agencies delivered remotely). Set at intake; controls which
+   *  master-key profiles matter and which query grid the audit runs. */
+  audience_lane?: AudienceLane;
   buyer_type?: string;
   problem?: string;
-  competitors?: { canonical_name: string; aliases: string[] }[];
+  competitors?: { canonical_name: string; aliases: string[]; url?: string }[];
   /**
    * Known differentiation terms supplied with the subject — proprietary methodology names,
    * signature framework names, distinctive vocabulary. Used ONLY for the Extractor's

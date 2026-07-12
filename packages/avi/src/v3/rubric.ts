@@ -171,9 +171,9 @@ export const V3_AI_VISIBILITY_WEIGHTS = {
 } as const;
 
 export const V3_INDEX_WEIGHTS = {
-  ai_business_accuracy_score: 0.45,
-  ai_visibility_score: 0.3,
-  ai_readiness_score: 0.25,
+  ai_business_accuracy_score: 0.2,
+  ai_visibility_score: 0.4,
+  ai_readiness_score: 0.4,
 } as const;
 
 export function v3TierFromIndex(index: number): V3Tier {

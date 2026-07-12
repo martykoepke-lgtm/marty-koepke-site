@@ -77,7 +77,18 @@ export async function persistAuditV3(audit: V3Audit): Promise<PersistV3Result> {
       query_mix: {},
       engines_used: audit.protocol.engines,
       errors: audit.errors,
-      synthesis: null,
+      synthesis:
+        audit.verdict ||
+        audit.accuracy_recommendations ||
+        audit.competitor_visibility ||
+        (audit.representative_quotes && audit.representative_quotes.length > 0)
+          ? {
+              verdict: audit.verdict ?? null,
+              accuracy_recommendations: audit.accuracy_recommendations ?? null,
+              representative_quotes: audit.representative_quotes ?? [],
+              competitor_visibility: audit.competitor_visibility ?? null,
+            }
+          : null,
     });
     if (error) throw error;
   });
@@ -105,8 +116,30 @@ export async function persistAuditV3(audit: V3Audit): Promise<PersistV3Result> {
   await persistClaims(audit, result);
   await persistReadinessScores(audit, result);
   await persistOutcomeScores(audit, result);
+  await persistCompetitorReadiness(audit, result);
 
   return result;
+}
+
+async function persistCompetitorReadiness(audit: V3Audit, result: PersistV3Result) {
+  await safeStep(result, 'audit_competitor_readiness', async () => {
+    const rows = audit.competitor_readiness ?? [];
+    if (rows.length === 0) return;
+    const { error } = await supabaseAdmin()
+      .from('audit_competitor_readiness')
+      .insert(
+        rows.map((row) => ({
+          audit_id: audit.audit_id,
+          competitor_canonical_name: row.canonical_name,
+          competitor_url: row.url,
+          readiness_score: row.readiness_score,
+          driver_scores: row.driver_scores,
+          errors: row.errors,
+          crawled_at: row.crawled_at,
+        }))
+      );
+    if (error) throw error;
+  });
 }
 
 async function persistSourceEvidence(audit: V3Audit, result: PersistV3Result) {

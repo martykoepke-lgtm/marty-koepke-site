@@ -3,14 +3,14 @@ import PolicyPage from "@/components/layout/PolicyPage";
 import { SITE } from "@/lib/content";
 
 export const metadata: Metadata = {
-  title: "Cookie Policy | Practical Informatics",
+  title: "Cookie Policy | Marty Koepke",
   description:
-    "How Practical Informatics LLC uses cookies and similar technologies on practicalinformatics.com.",
+    "How Practical Informatics LLC uses cookies and similar technologies on martykoepke.com.",
   alternates: { canonical: "/cookies" },
   openGraph: {
-    title: "Cookie Policy | Practical Informatics",
+    title: "Cookie Policy | Marty Koepke",
     description:
-      "How Practical Informatics LLC uses cookies and similar technologies on practicalinformatics.com.",
+      "How Practical Informatics LLC uses cookies and similar technologies on martykoepke.com.",
     url: `${SITE.url}/cookies`,
   },
 };

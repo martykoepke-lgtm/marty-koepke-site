@@ -3,7 +3,7 @@ import { signIn } from "./actions";
 type SearchParams = Promise<{ error?: string; next?: string; notice?: string }>;
 
 export const metadata = {
-  title: "Sign in — Practical Informatics Console",
+  title: "Sign in — Marty Koepke Console",
 };
 
 export default async function LoginPage({
@@ -25,7 +25,7 @@ export default async function LoginPage({
       <div className="w-full max-w-sm">
         <div className="text-center mb-10">
           <div className="text-xl font-semibold text-paper tracking-tight">
-            Practical Informatics
+            Marty Koepke
           </div>
           <div className="text-sm text-paper/65 mt-1">Operator console</div>
         </div>

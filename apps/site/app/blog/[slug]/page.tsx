@@ -4,9 +4,12 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Section from "@/components/ui/Section";
 import Reveal from "@/components/motion/Reveal";
+import FrameworkSubNav from "@/components/sections/FrameworkSubNav";
 import { ArrowRightIcon } from "@/components/ui/Icons";
 import { SITE } from "@/lib/content";
 import { getAllSlugs, getPost, formatDate } from "@/lib/blog";
+
+const SUB_NAV_SLUGS = new Set(["why-ai-business-accuracy-matters"]);
 
 export function generateStaticParams() {
   return getAllSlugs().map((slug) => ({ slug }));
@@ -21,7 +24,7 @@ export async function generateMetadata({
   const post = getPost(slug);
   if (!post) return { title: "Not found" };
   return {
-    title: `${post.title} | Practical Informatics`,
+    title: `${post.title} | Marty Koepke`,
     description: post.description,
     alternates: { canonical: `/blog/${slug}` },
     openGraph: {
@@ -54,7 +57,9 @@ export default async function BlogPostPage({
   };
 
   return (
-    <Section width="narrow">
+    <>
+      {SUB_NAV_SLUGS.has(slug) && <FrameworkSubNav />}
+      <Section width="narrow">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -83,19 +88,19 @@ export default async function BlogPostPage({
         <div>
           <p className="font-serif text-forest">Marty Koepke</p>
           <p className="text-sm text-moss">
-            Practical Informatics — helping foothills businesses buy back their
-            time.
+            Applied AI consulting grounded in twenty years of informatics.
           </p>
         </div>
       </div>
 
       <Link
-        href="/time-back-assessment"
+        href="/ai-visibility"
         className="mt-8 inline-flex items-center gap-2 font-serif text-lg text-forest hover:text-forest-dark"
       >
-        If this resonated, here&apos;s what I do
+        See how AI visibility and business accuracy are measured
         <ArrowRightIcon className="h-4 w-4" />
       </Link>
     </Section>
+    </>
   );
 }

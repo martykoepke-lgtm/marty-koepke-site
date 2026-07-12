@@ -18,7 +18,7 @@ export default async function AuthedLayout({
   }
 
   return (
-    <div className="flex min-h-screen bg-bg">
+    <div className="flex min-h-screen">
       <Sidebar userEmail={userEmail} />
       <main className="console-workspace flex-1 overflow-x-hidden">
         <div className="max-w-6xl mx-auto px-8 py-8">{children}</div>

@@ -30,8 +30,9 @@ export default async function RunAuditPage({
 
   const competitorsText = (subject.competitors ?? [])
     .map((c) => {
+      const url = c.url ? ` | ${c.url}` : "";
       const aliases = c.aliases?.length ? ` | ${c.aliases.join(", ")}` : "";
-      return `${c.canonical_name}${aliases}`;
+      return `${c.canonical_name}${url}${aliases}`;
     })
     .join("\n");
 
@@ -186,13 +187,13 @@ export default async function RunAuditPage({
               <Field
                 label="Competitors"
                 full
-                hint={'Optional. One per line or comma-separated. Use "Name | other name" only when adding aliases.'}
+                hint={'One per line. Format: "Name | website.com | alias1, alias2". URL is required for paid audits if you want the competitor plotted on the Readiness × Visibility quadrant.'}
               >
                 <textarea
                   name="competitors"
                   defaultValue={competitorsText}
-                  rows={4}
-                  placeholder={"e.g.\nCompetitor One\nCompetitor Two | alt-name"}
+                  rows={5}
+                  placeholder={"e.g.\nHighland Dental | highland-dental.com\nMokelumne Smile Studio | mokesmile.com | MSS"}
                   className="form-input font-mono text-xs"
                 />
               </Field>

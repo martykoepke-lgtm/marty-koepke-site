@@ -233,8 +233,8 @@ export default async function AuditDetail({
   const audit = await getAudit(id);
   if (!audit) notFound();
 
-  const isFullRun = ["paid", "snapshot", "audit", "monitoring"].includes(audit.mode);
-  const isV3 = audit.rubric_version === "v3.0";
+  const isFullRun = ["paid", "audit", "monitoring"].includes(audit.mode);
+  const isV3 = audit.rubric_version?.startsWith("v3") ?? false;
 
   const [
     snapshot,

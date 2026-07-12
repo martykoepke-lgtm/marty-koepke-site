@@ -21,15 +21,19 @@ import { checkScanRateLimit } from "@practical-informatics/avi";
  *
  * The submission row + audit row are persisted by the orchestrator. The
  * returned `accessToken` gates the follow-up email handler that triggers
- * Kit + Resend PDF delivery.
+ * Kit + Resend report delivery.
  */
 
 export const runtime = "nodejs";
-export const maxDuration = 60; // seconds — covers the full crawler + Tavily + 7-dim scoring window
+export const maxDuration = 60; // seconds — covers the full crawler + Tavily + five-driver readiness scoring window
 
 type ScanBody = {
   url?: string;
   turnstileToken?: string;
+  /** "How do most customers find and hire you?" answer from the intake
+   *  form. Optional — legacy calls without it still work; master-key
+   *  check is skipped in that case. */
+  audienceLane?: "local" | "online_b2b";
 };
 
 export async function POST(req: NextRequest) {
@@ -73,7 +77,7 @@ export async function POST(req: NextRequest) {
       {
         ok: false,
         error:
-          "You've reached today's free scan limit. Email marty.koepke@practicalinformatics.com if you need another.",
+          "You've reached today's free scan limit. Email hello@martykoepke.com if you need another.",
       },
       { status: 429 }
     );
@@ -88,9 +92,14 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  const audienceLane =
+    body.audienceLane === "local" || body.audienceLane === "online_b2b"
+      ? body.audienceLane
+      : undefined;
+
   // ---- Run the scan ----
   try {
-    const result = await runFreeScan({ rawUrl, ip });
+    const result = await runFreeScan({ rawUrl, ip, audienceLane });
     if (!result.ok) {
       return NextResponse.json(
         { ok: false, error: result.error },
@@ -109,8 +118,11 @@ export async function POST(req: NextRequest) {
       tier: result.tier,
       dimensions: result.dimensions,
       findings: result.findings,
+      crawler: result.crawler,
+      corroboration: result.corroboration,
       crawlerReachable: result.crawlerReachable,
       durationMs: result.durationMs,
+      masterKeys: result.masterKeys,
     });
   } catch (e) {
     console.error("[/api/scan] unhandled error:", e);

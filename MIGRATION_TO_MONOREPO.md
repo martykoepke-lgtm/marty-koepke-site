@@ -14,7 +14,7 @@ When this doc and `AVI_OPERATING_STANDARD.md` disagree about anything inside the
 
 Today everything lives at the root of one Next.js app:
 
-- The marketing site (homepage, about, time-back-assessment, contact, blog, policies)
+- The marketing site (homepage, about, contact, blog, policies)
 - The customer-facing `/scan` flow (v1 AVI free check)
 - The AVI v2 pipeline (`lib/avi/*-v2.ts`, agents, queries, subjects, scripts)
 - The Supabase schema designs
@@ -64,7 +64,6 @@ practical-informatics/                                  (repo root)
 │   │   │   │   ├── page.tsx
 │   │   │   │   └── [slug]/page.tsx
 │   │   │   ├── contact/page.tsx
-│   │   │   ├── time-back-assessment/page.tsx
 │   │   │   ├── scan/page.tsx
 │   │   │   ├── privacy/, terms/, cookies/, acceptable-use/, returns/
 │   │   │   ├── globals.css
@@ -82,7 +81,7 @@ practical-informatics/                                  (repo root)
 │   │   │   ├── layout/{Footer,Navbar,PolicyPage}.tsx
 │   │   │   ├── modals/WorkModal.tsx
 │   │   │   ├── motion/{Reveal,RouteTransition}.tsx
-│   │   │   ├── sections/{BuiltThings,Faq,FinalCta,HeroBanner,ThePath}.tsx
+│   │   │   ├── sections/{BuiltThings,Faq,FinalCta,HeroBanner}.tsx
 │   │   │   └── ui/{Button,Icons,Section}.tsx
 │   │   ├── content/
 │   │   │   └── blog/                                   ← markdown posts (empty at launch)
@@ -93,8 +92,8 @@ practical-informatics/                                  (repo root)
 │   │   ├── public/
 │   │   │   ├── AI-Visibility-Index-Rubric-and-Protocol.md
 │   │   │   ├── AI-Visibility-Learning-and-Citation-Reference.md
-│   │   │   ├── Practical-Informatics-Positioning-and-Comparison.md
-│   │   │   ├── Practical-Informatics-Pricing-Structure.md
+│   │   │   ├── Marty-Koepke-Positioning-and-Comparison.md
+│   │   │   ├── Marty-Koepke-Pricing-Structure.md
 │   │   │   ├── favicon.ico
 │   │   │   ├── googleefff2183f67c65a4.html             ← Search Console verification
 │   │   │   ├── llms.txt
@@ -368,7 +367,7 @@ Each phase is one PR. Each phase ends with a verification step that must pass be
 **Verification.**
 
 - `pnpm site:dev` starts the marketing site on `http://localhost:3000`.
-- Manual smoke test: home, about, time-back-assessment, contact, blog (empty state), `/scan` form submits and returns a result.
+- Manual smoke test: home, about, contact, blog (empty state), `/scan` form submits and returns a result.
 - `pnpm --filter site build` produces a successful production build.
 - Lighthouse score on home is within ±5 of pre-migration baseline (catch accidental asset path breaks).
 

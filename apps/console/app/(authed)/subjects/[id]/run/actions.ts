@@ -44,7 +44,10 @@ export async function runAuditWithParamsAction(formData: FormData) {
   );
   const competitors = parseCompetitors(formData.get("competitors"));
 
-  const queryCount = Number(formData.get("queryCount") ?? 8) === 8 ? 8 : 8;
+  const parsedQueryCount = Number(formData.get("queryCount") ?? 8);
+  const queryCount = Number.isFinite(parsedQueryCount) && parsedQueryCount > 0
+    ? Math.floor(parsedQueryCount)
+    : 8;
 
   const subject = {
     canonical_name,
@@ -152,7 +155,7 @@ export async function runAuditWithParamsAction(formData: FormData) {
     revalidatePath("/compare");
     revalidatePath("/");
     revalidatePath(`/subjects/${subjectId}`);
-    redirect(`/audits/${audit.audit_id}`);
+    redirect(`/audits/${audit.audit_id}/v31`);
   }
 
   const audit = await runAudit(subject, {
@@ -222,7 +225,7 @@ function splitLines(v: FormDataEntryValue | null): string[] {
 
 function parseCompetitors(
   v: FormDataEntryValue | null
-): { canonical_name: string; aliases: string[] }[] {
+): { canonical_name: string; aliases: string[]; url?: string }[] {
   const lines = splitLines(v).flatMap((line) =>
     line.includes("|")
       ? [line]
@@ -232,13 +235,33 @@ function parseCompetitors(
           .filter(Boolean)
   );
   return lines.map((line) => {
-    const [name, aliasPart] = line.split("|").map((s) => s.trim());
-    const aliases = aliasPart
-      ? aliasPart
-          .split(",")
-          .map((s) => s.trim())
-          .filter((s) => s.length > 0)
-      : [];
-    return { canonical_name: name, aliases };
+    const parts = line.split("|").map((s) => s.trim()).filter(Boolean);
+    const name = parts[0] ?? "";
+    let url: string | undefined;
+    let aliasParts: string[] = [];
+    for (let i = 1; i < parts.length; i++) {
+      const part = parts[i];
+      if (!url && isUrlish(part)) {
+        url = part.startsWith("http") ? part : `https://${part}`;
+      } else {
+        aliasParts.push(part);
+      }
+    }
+    const aliases = aliasParts
+      .join(",")
+      .split(",")
+      .map((s) => s.trim())
+      .filter((s) => s.length > 0);
+    return url
+      ? { canonical_name: name, aliases, url }
+      : { canonical_name: name, aliases };
   });
+}
+
+function isUrlish(s: string): boolean {
+  return (
+    /^https?:\/\//i.test(s) ||
+    /^www\./i.test(s) ||
+    /\.[a-z]{2,}(\/|$)/i.test(s)
+  );
 }

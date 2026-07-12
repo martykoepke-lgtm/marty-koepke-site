@@ -12,9 +12,13 @@ import { crawl } from '../crawler-v2';
 import { corroborate } from '../corroboration-v2';
 import { runQueryGrid } from '../engine-clients';
 import type { AuditError, ExtractorOutput, Subject } from '../types';
+import { accuracyRecommendV3 } from './accuracy-recommender';
 import { classifyClaimSupport } from './claim-verifier';
 import { v3PublicScores } from './composite';
+import { runCompetitorReadinessPass } from './competitor-readiness';
+import { aggregateCompetitorVisibility } from './competitor-visibility';
 import { extractV3 } from './extractor';
+import { selectV3Quotes } from './quote-selector';
 import { recommendV3 } from './recommender';
 import { AVI_V3_RUBRIC_VERSION } from './rubric';
 import { scoreReadinessV3 } from './readiness';
@@ -25,7 +29,7 @@ import { v3MeasuredOutcomes } from './outcomes';
 import { buildV3QueryGrid } from './queries';
 
 export interface RunAuditV3Options {
-  mode?: 'snapshot' | 'audit' | 'monitoring';
+  mode?: 'audit' | 'monitoring';
   queryCount?: number;
 }
 
@@ -41,11 +45,9 @@ export async function runAuditV3(
   const crawler = await crawl(subject.url, subject.industry, subject.canonical_name);
   const corroboration = await corroborate(subject);
 
-  const queryCount = options.queryCount ?? 4;
+  const queryCount = options.queryCount ?? 8;
   const query_grid = buildV3QueryGrid(subject, queryCount);
-  const engines = mode === 'snapshot'
-    ? (['chatgpt', 'perplexity'] as const)
-    : (['chatgpt', 'claude', 'perplexity', 'gemini'] as const);
+  const engines = ['chatgpt', 'claude', 'perplexity', 'gemini'] as const;
   const engine_responses = await runQueryGrid(query_grid, [...engines]);
 
   const extracted: ExtractorOutput[] = [];
@@ -92,7 +94,33 @@ export async function runAuditV3(
 
   const public_scores = v3PublicScores({ readiness_scores, outcomes });
   const recommendations = recommendV3({ readinessScores: readiness_scores, outcomes, publicScores: public_scores });
-  const synthesis = synthesizeV3(subject, public_scores);
+  const accuracy_recommendations = accuracyRecommendV3({
+    claims: materialClaims,
+    claimVerifications: claim_verifications,
+  });
+  const representative_quotes = selectV3Quotes({
+    engineResponses: engine_responses,
+    extracted,
+  });
+  const competitor_visibility = aggregateCompetitorVisibility({
+    extracted,
+    namedCompetitors: (subject.competitors ?? []).flatMap((c) => [
+      c.canonical_name,
+      ...c.aliases,
+    ]),
+  });
+  const competitor_readiness = await runCompetitorReadinessPass({
+    subjectIndustry: subject.industry,
+    competitors: subject.competitors ?? [],
+  });
+  const verdict = synthesizeV3({
+    subject,
+    publicScores: public_scores,
+    readinessScores: readiness_scores,
+    outcomes,
+    recommendations,
+    accuracyRecommendations: accuracy_recommendations,
+  });
 
   return {
     audit_id,
@@ -124,6 +152,11 @@ export async function runAuditV3(
     claim_verifications,
     outcomes,
     public_scores,
+    verdict,
+    accuracy_recommendations,
+    representative_quotes,
+    competitor_visibility,
+    competitor_readiness,
     errors,
   };
 }

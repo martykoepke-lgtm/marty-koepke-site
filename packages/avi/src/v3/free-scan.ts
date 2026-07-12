@@ -17,6 +17,8 @@ import {
   type Tier,
 } from '../free-scan';
 import { supabaseAdmin } from '../supabase-client';
+import type { Subject } from '../types';
+import { checkMasterKeys, type MasterKeyReport } from './master-keys';
 import { AVI_V3_RUBRIC_VERSION } from './rubric';
 import { V3_READINESS_DRIVER_DEFINITIONS } from './rubric';
 import type { V3FreeScanResult, V3ReadinessDriverId } from './types';
@@ -39,12 +41,78 @@ export async function runFreeScan(input: FreeScanInput): Promise<FreeScanResult>
 
   const v3 = translateLegacyFreeScanToV3(legacy);
   await persistV3FreeScanResult(v3);
+
+  // Audience-aware master-key presence check — only runs when the visitor
+  // told us which lane they're in. Runs in the background of the response
+  // path; failures degrade gracefully (masterKeys omitted).
+  let masterKeys: MasterKeyReport | undefined = undefined;
+  if (input.audienceLane) {
+    try {
+      await persistAudienceLane(legacy.submissionId, input.audienceLane);
+      const subject = buildSubjectForMasterKeys(legacy, input.audienceLane);
+      masterKeys = await checkMasterKeys(subject, {
+        submissionId: legacy.submissionId,
+        ip: input.ip,
+      });
+    } catch (err) {
+      console.error('[v3/free-scan] master-keys check failed:', err);
+    }
+  }
+
   return {
     ...legacy,
     readinessScore: v3.readinessScore,
     tier: v3.tier,
     dimensions: v3.dimensions,
     findings: v3.findings,
+    masterKeys,
+  };
+}
+
+/* -------------------------- helpers ---------------------------------- */
+
+async function persistAudienceLane(
+  submissionId: string,
+  lane: 'local' | 'online_b2b'
+): Promise<void> {
+  const supabase = supabaseAdmin();
+  const { error } = await supabase
+    .from('submissions')
+    .update({ audience_lane: lane })
+    .eq('id', submissionId);
+  if (error) {
+    console.error('[v3/free-scan] failed to persist audience_lane:', error);
+  }
+}
+
+/** Build a minimal Subject from what the free scan can infer from the
+ *  crawler. Enough for master-key search queries. Location is pulled from
+ *  organization schema if present; industry falls back to a generic term
+ *  when meta description doesn't name a category. */
+function buildSubjectForMasterKeys(
+  legacy: Extract<FreeScanResult, { ok: true }>,
+  audienceLane: 'local' | 'online_b2b'
+): Subject {
+  const crawler: any = legacy.crawler || {};
+  const location =
+    crawler.organization_schema?.address?.addressLocality ||
+    crawler.organization_schema?.address?.region ||
+    undefined;
+  const industry =
+    crawler.meta_description_names_category && crawler.meta_description
+      ? crawler.meta_description
+      : legacy.subjectType === 'personal_brand'
+        ? 'consultant'
+        : 'company';
+
+  return {
+    canonical_name: legacy.subjectName,
+    aliases: [],
+    industry,
+    subject_type: legacy.subjectType,
+    url: legacy.url,
+    location,
+    audience_lane: audienceLane,
   };
 }
 
@@ -137,6 +205,7 @@ async function persistV3FreeScanResult(result: V3FreeScanResult): Promise<void> 
       readiness_score: result.readinessScore,
       tier: result.tier,
       scoring_output: {
+        corroboration: result.corroboration,
         findings: result.findings,
         v3: true,
         legacy_free_scan_version: LEGACY_FREE_SCAN_RUBRIC_VERSION,

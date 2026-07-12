@@ -9,8 +9,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const primary = [
     "",
     "/about",
-    "/time-back-assessment",
     "/ai-visibility",
+    "/our-framework",
     ...blogRoutes,
     "/contact",
   ];
@@ -25,9 +25,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority:
         path === ""
           ? 1
-          : path === "/time-back-assessment" || path === "/ai-visibility"
+          : path === "/ai-visibility"
             ? 0.9
-            : 0.7,
+            : path === "/our-framework"
+              ? 0.8
+              : 0.7,
     })),
     ...policy.map((path) => ({
       url: `${SITE.url}${path}`,

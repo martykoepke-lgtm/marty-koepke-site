@@ -11,7 +11,7 @@ import { AVI_CHECKOUT, BOOK_CALL_HREF } from "@/lib/links";
 // Don't index per-customer report URLs
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
-  title: "Your AI Visibility Scan | Practical Informatics",
+  title: "Your AI Visibility Scan | Marty Koepke",
 };
 
 type Params = { id: string };
@@ -19,7 +19,7 @@ type SearchParams = { token?: string };
 
 /**
  * Teaser results page — shows the preliminary score and 2–3 findings,
- * with a CTA to upgrade to the paid V3 offers.
+ * with a CTA to upgrade to the paid offers.
  *
  * Token-gated: the URL must include `?token=...` matching the row's
  * access_token. This prevents anyone from enumerating submission IDs.
@@ -124,16 +124,17 @@ export default async function ResultsPage({
             What&apos;s NOT in this teaser.
           </h2>
           <p className="mt-4 text-lg leading-relaxed text-charcoal">
-            The $495 AI Visibility Snapshot adds:
+            The $895 AI Business Accuracy Audit adds:
           </p>
         </Reveal>
         <ul className="mt-7 space-y-3">
           {[
-            "Focused live-AI review",
-            "A check for obvious misrepresentation or missing context",
-            "Light competitor and source gap review",
-            "Short prioritized fix list",
-            "Walkthrough call with Marty",
+            "Four engines tested: ChatGPT, Claude, Perplexity, Gemini",
+            "Eight buyer-question queries, 32 live AI responses captured",
+            "Every factual claim AI makes about you verified against your real sources",
+            "You plotted on a Readiness × Visibility chart against two competitors you name",
+            "Three readiness fixes and three accuracy fixes, separated",
+            "30-minute review call with Marty to walk through what matters most",
           ].map((item, i) => (
             <li
               key={i}
@@ -146,19 +147,19 @@ export default async function ResultsPage({
         </ul>
       </Section>
 
-      {/* Primary CTA — pay $495 */}
+      {/* Primary CTA — pay $895 */}
       <Section tone="forest" width="narrow" className="text-center">
         <Reveal>
           <h2 className="text-3xl text-cream sm:text-4xl">
-            Get the $495 Snapshot.
+            Get the $895 Audit.
           </h2>
           <p className="mx-auto mt-5 max-w-xl text-lg text-cream/80">
-            A focused first look at whether AI can find, understand, and describe your business.
+            The full measurement protocol: four engines, every claim verified, you plotted against two named competitors.
           </p>
-          <p className="mt-7 font-serif text-5xl text-gold">$495</p>
+          <p className="mt-7 font-serif text-5xl text-gold">$895</p>
           <div className="mt-7">
-            <Button href={AVI_CHECKOUT.report} variant="onForest">
-              Get my Snapshot
+            <Button href={AVI_CHECKOUT.audit} variant="onForest">
+              Book the Assessment
               <ArrowRightIcon className="h-4 w-4" />
             </Button>
           </div>

@@ -40,7 +40,7 @@ export const metadata: Metadata = {
         url: "/images/hero-bg.jpg",
         width: 1914,
         height: 822,
-        alt: "A great oak at golden hour — the Practical Informatics brand image.",
+        alt: "A great oak at golden hour — the Marty Koepke brand image.",
         type: "image/jpeg",
       },
     ],
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
     images: [
       {
         url: "/images/hero-bg.jpg",
-        alt: "A great oak at golden hour — the Practical Informatics brand image.",
+        alt: "A great oak at golden hour — the Marty Koepke brand image.",
       },
     ],
   },
@@ -67,10 +67,10 @@ const localBusinessJsonLd = {
   "@id": `${SITE.url}/#org`,
   name: SITE.name,
   legalName: SITE.legalName,
-  alternateName: "Practical Informatics — Applied AI Consultancy",
+  alternateName: "Marty Koepke — Applied AI Consultancy",
   description: META.home.description,
   disambiguatingDescription:
-    "Practical Informatics LLC at practicalinformatics.com (no hyphen). Applied AI consultancy founded August 13, 2024 by Marty Koepke (CA Secretary of State entity number 202463415854). Provides tools, assessments, and infrastructure that help organizations adopt AI thoughtfully and improve operational efficiency and AI visibility. Not affiliated with practical-informatics.com (a different, unrelated entity), nor with the terminated entities 'Practical Informatics, LLC' (2017) or 'Practical Solution in Medical Informatics Consulting, LLC' (2005).",
+    "Practical Informatics LLC at martykoepke.com (no hyphen). Applied AI consultancy founded August 13, 2024 by Marty Koepke (CA Secretary of State entity number 202463415854). Provides tools, assessments, and infrastructure that help organizations adopt AI thoughtfully and improve operational efficiency and AI visibility. Not affiliated with practical-informatics.com (a different, unrelated entity), nor with the terminated entities 'Marty Koepke, LLC' (2017) or 'Practical Solution in Medical Informatics Consulting, LLC' (2005).",
   slogan: SITE.tagline,
   url: SITE.url,
   email: CONTACT_EMAIL,
@@ -113,9 +113,9 @@ const localBusinessJsonLd = {
     alternateName: "Marty Koepke, MHA",
     gender: "Female",
     pronouns: "she/her",
-    jobTitle: "Founder, Practical Informatics LLC",
+    jobTitle: "Applied AI Consultant · Founder, Practical Informatics LLC",
     description:
-      "Twenty years in enterprise informatics. Founder of Practical Informatics LLC, an applied AI consultancy. Author of Between the Clicks. Led enterprise informatics strategy for Abridge and Notable across multiple states and EHR platforms.",
+      "Applied AI consultant with twenty years in enterprise informatics. Founder of Practical Informatics LLC. Author of Between the Clicks. Led enterprise informatics strategy for Abridge and Notable across multiple states and EHR platforms.",
     sameAs: [SOCIAL.linkedin, SOCIAL.facebook, MARTYKOEPKE_URL],
   },
   sameAs: [SOCIAL.linkedin, SOCIAL.facebook, MARTYKOEPKE_URL],

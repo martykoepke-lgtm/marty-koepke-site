@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { NAV } from "@/lib/content";
@@ -19,26 +18,41 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // The Daizie surfaces render their own pill-nav header, so suppress the
+  // shared Marty Koepke chrome on those routes.
+  const isDaizieRoute =
+    pathname === "/" ||
+    pathname === "/about" ||
+    pathname === "/contact" ||
+    pathname === "/craizie" ||
+    pathname.startsWith("/craizie/") ||
+    pathname === "/ai-visibility" ||
+    pathname.startsWith("/ai-visibility/");
+  if (isDaizieRoute) return null;
+
   return (
     <header
       className={`sticky top-0 z-50 transition-colors duration-300 ${
         scrolled
-          ? "border-b border-tan/60 bg-cream/90 backdrop-blur-md"
-          : "border-b border-transparent bg-cream"
+          ? "border-b border-sage-light/60 bg-white/92 backdrop-blur-md"
+          : "border-b border-transparent bg-white/85 backdrop-blur-sm"
       }`}
     >
       <nav
         aria-label="Primary"
-        className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3"
+        className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4"
       >
-        <Link href="/" aria-label="Practical Informatics — home" className="shrink-0">
-          <Image
-            src="/images/logo-horizontal.png"
-            alt="Practical Informatics LLC"
-            width={1500}
-            height={400}
-            priority
-            className="h-[108px] w-auto"
+        <Link
+          href="/"
+          aria-label="Marty Koepke — home"
+          className="shrink-0 flex flex-col items-start leading-tight"
+        >
+          <span className="font-serif text-xl md:text-2xl font-semibold tracking-[0.14em] uppercase text-forest-dark">
+            Marty Koepke
+          </span>
+          <span
+            aria-hidden
+            className="mt-1 h-[2px] w-8 rounded-full bg-gold"
           />
         </Link>
 

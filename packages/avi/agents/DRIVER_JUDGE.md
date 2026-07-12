@@ -189,7 +189,7 @@ interface DriverJudgeOutput {
 **Input (excerpt):**
 ```
 dimension_id: "D4"
-subject: { canonical_name: "Practical Informatics", industry: "AI visibility consulting" }
+subject: { canonical_name: "Marty Koepke", industry: "AI visibility consulting" }
 crawler.raw_text_sample: "Practical Informatics LLC, founded by Marty Koepke, applies
 20 years of clinical informatics methodology to AI visibility measurement. Our
 proprietary AVI rubric scores businesses on six anchored dimensions backed by

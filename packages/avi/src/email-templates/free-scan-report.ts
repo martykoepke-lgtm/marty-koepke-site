@@ -1,9 +1,8 @@
 /**
  * Free scan report email template.
  *
- * Renders the readiness check as an HTML email — tier headline, 7-dim
- * scorecard, 2–3 findings, upsell to the $697 paid Index Report, book-a-
- * call link, footer.
+ * Renders the readiness check as an HTML email: tier headline, five-driver
+ * scorecard, 2-3 findings, upsell to the paid Audit, book-a-call link, footer.
  *
  * Inline styles only — most email clients strip <style> blocks. Hex
  * colors are the brand palette from app/globals.css.
@@ -20,7 +19,7 @@ type Finding = {
 };
 
 const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.practicalinformatics.com";
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.martykoepke.com";
 
 const TIER_COPY: Record<
   Tier,
@@ -131,7 +130,7 @@ export function renderFreeScanEmail(input: FreeScanEmailInput): string {
                       </a>
                     </p>
                     <p style="margin:8px 0 0 0;color:#5A6B5A;font-size:12px;">
-                      Open the link, then File → Print → Save as PDF.
+                      This private report link is available for 30 days. Open the link, then File → Print → Save as PDF.
                     </p>
                   </td>
                 </tr>
@@ -139,11 +138,11 @@ export function renderFreeScanEmail(input: FreeScanEmailInput): string {
             </td>
           </tr>
 
-          <!-- Seven dimensions -->
+          <!-- Readiness drivers -->
           <tr>
             <td style="padding:16px 0 0 0;">
               <h2 style="margin:0 0 12px 0;font-family:Georgia,serif;color:#1F3A2E;font-size:18px;">
-                The seven dimensions
+                The five readiness drivers
               </h2>
               <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
                 ${dimensionRows}
@@ -176,16 +175,16 @@ export function renderFreeScanEmail(input: FreeScanEmailInput): string {
                     </h2>
                     <p style="margin:12px 0 0 0;color:#FAF6EE;font-size:15px;line-height:1.6;">
                       This report scored what's on your site. The paid
-                      <strong style="color:#C9A961;">AI Visibility Index Report</strong>
-                      ($697) measures what ChatGPT, Claude, Gemini, and Perplexity
-                      actually say when buyers ask about your category — with a
-                      45-minute walkthrough call. Fee credits 100% toward a Sprint
-                      within 30 days.
+                      <strong style="color:#C9A961;">AI Business Accuracy Audit</strong>
+                      ($895) tests ChatGPT, Claude, Perplexity, and Gemini,
+                      captures 32 live AI responses, verifies factual claims
+                      against your real sources, and plots you against two
+                      competitors you name. Includes a 30-minute review call.
                     </p>
                     <p style="margin:20px 0 0 0;">
-                      <a href="https://www.practicalinformatics.com/ai-visibility"
+                      <a href="https://www.martykoepke.com/ai-visibility"
                          style="display:inline-block;background:#C9A961;color:#1F3A2E;padding:12px 24px;border-radius:6px;text-decoration:none;font-weight:600;font-size:15px;">
-                        See the AI Visibility Index →
+                        See the paid Audit →
                       </a>
                     </p>
                     <p style="margin:16px 0 0 0;font-size:13px;color:#FAF6EE;">
@@ -205,11 +204,11 @@ export function renderFreeScanEmail(input: FreeScanEmailInput): string {
           <tr>
             <td style="padding:32px 0 0 0;border-top:1px solid #D8CCB4;margin-top:32px;">
               <p style="margin:24px 0 0 0;color:#5A6B5A;font-size:13px;">
-                — Marty Koepke, Practical Informatics LLC<br />
-                <a href="https://www.practicalinformatics.com" style="color:#5A6B5A;">www.practicalinformatics.com</a>
+                — Marty Koepke<br />
+                <a href="https://www.martykoepke.com" style="color:#5A6B5A;">www.martykoepke.com</a>
               </p>
               <p style="margin:16px 0 0 0;color:#5A6B5A;font-size:11px;">
-                You're getting this because you scanned ${escapeHtml(input.subjectDomain)} on practicalinformatics.com.
+                You're getting this because you scanned ${escapeHtml(input.subjectDomain)} on martykoepke.com.
               </p>
             </td>
           </tr>

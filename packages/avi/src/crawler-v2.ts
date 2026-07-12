@@ -40,7 +40,7 @@ export async function crawl(url: string, industry?: string, canonicalName?: stri
     const res = await fetch(url, {
       signal: controller.signal,
       redirect: 'follow',
-      headers: { 'User-Agent': 'PracticalInformatics-AVI/0.2' },
+      headers: { 'User-Agent': 'MartyKoepke-AVI/0.2' },
     });
     status = res.status;
     html = await res.text();
