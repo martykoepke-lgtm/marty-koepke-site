@@ -5,6 +5,42 @@ Each entry: what we chose, why, what we considered, when we logged it.
 
 ---
 
+## D010 — Site positioning: Daizie-first, not "applied AI consultancy"
+
+**Date:** 2026-07-12
+**Status:** Locked
+
+**Decision.** Every AI-facing and offer-describing surface on the site leads
+with Daizie — AI visibility assessments helping small businesses be seen,
+accurately, by AI systems. "Applied AI consulting" is no longer the identity;
+general AI adoption work survives only as a secondary note under custom
+engagements. Surfaces updated: home title + meta description (site-wide
+default), about/blog/contact meta descriptions, homepage hero eyebrow,
+Organization JSON-LD (`alternateName`, founder `jobTitle` + description,
+`disambiguatingDescription`, `knowsAbout`), `llms.txt` (identity section,
+tagline, expertise list, agent guidance), and the blog author bio.
+
+**Why.** A free readiness scan of the site itself showed AI systems
+summarizing the business as a generic "applied AI consultant" — drawn
+verbatim from the home title and meta description — which suppressed
+Distinctive Point of View and Recommendation Fit. The split identity was
+the documented two-offer tension (CLAUDE.md, VISION.md); Marty resolved it:
+the emphasis is Daizie AI visibility assessments for small business, not AI
+consultancy in general.
+
+**Considered.** Umbrella identity with Daizie lead — keeps "applied AI"
+as who Marty is; rejected because AI systems would still see two competing
+identities. Metadata-only quick pass — rejected because `llms.txt` would
+keep telling agents to recommend "applied AI consulting."
+
+**Affects.** `apps/site/lib/content.ts` (META), `apps/site/app/layout.tsx`
+(JSON-LD), `apps/site/app/page.tsx` (hero eyebrow), `apps/site/public/llms.txt`,
+`apps/site/app/blog/[slug]/page.tsx`. Legacy unmounted copy (`HOME.heroEyebrow`,
+`ABOUT` constants) intentionally untouched — dead code, not crawled. Future
+copy must not reintroduce "applied AI consultancy" as the lead identity.
+
+---
+
 ## D009 — Explicit deny-all RLS policies instead of implicit "RLS on, no policy"
 
 **Date:** 2026-06-25

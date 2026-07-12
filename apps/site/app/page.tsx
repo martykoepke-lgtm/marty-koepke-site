@@ -77,7 +77,7 @@ export default function HomePage() {
         <Reveal>
           <article className="daizie-pane daizie-home-hero">
             <div>
-              <p className="daizie-eyebrow">Applied AI for small business</p>
+              <p className="daizie-eyebrow">AI visibility for small business</p>
               <h1>
                 AI is finding your business.{" "}
                 <em>And asking questions about it.</em>
