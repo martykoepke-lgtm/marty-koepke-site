@@ -9,6 +9,7 @@ const NAV_ITEMS = [
   { label: "Daizie AI visibility", href: "/ai-visibility" },
   { label: "AI governance", href: "/craizie" },
   { label: "About", href: "/about" },
+  { label: "Blog", href: "/blog" },
   { label: "Contact", href: "/contact" },
 ];
 
