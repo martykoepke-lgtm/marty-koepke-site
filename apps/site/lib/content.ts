@@ -28,8 +28,7 @@ export const NAV: NavItem[] = [
   { label: "Daizie AI visibility", href: "/ai-visibility", emphasized: true },
   { label: "AI governance", href: "/craizie" },
   { label: "About", href: "/about" },
-  // Blog is intentionally hidden from nav until the first posts ship.
-  // To re-enable, add: { label: "Blog", href: "/blog" }
+  { label: "Blog", href: "/blog" },
   { label: "Contact", href: "/contact" },
 ];
 
