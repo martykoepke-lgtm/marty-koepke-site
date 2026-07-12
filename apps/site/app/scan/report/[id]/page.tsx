@@ -21,6 +21,15 @@ import DaizieHeader from "@/components/daizie/DaizieHeader";
 import { ReportActions } from "./ReportActions";
 import { TokenReportNav } from "./TokenReportNav";
 import type { V3ReadinessDriverId } from "@practical-informatics/avi";
+import {
+  TierHeatmap,
+  MasterKeysCard,
+  DriverHeatmapTiles,
+  OpportunityCards,
+  PaidTeaserCard,
+  type Dimension as ReportDimension,
+  type Finding as ReportFinding,
+} from "@/components/ai-visibility/ReportSurface";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -271,6 +280,25 @@ export default async function ScanReportPage({
   const { submission, audit, dimensions } = data;
   const masterKeys = audit.scoring_output?.masterKeys ?? null;
 
+  // Shape adapters — dimensions/findings live in DB-column shape but the
+  // shared render surface takes camelCase shapes. Cheap one-time convert.
+  const reportDimensions: ReportDimension[] = dimensions.map((d) => ({
+    id: d.dimension_id,
+    name: d.dimension_name,
+    score: d.score,
+  }));
+  const reportFindings: ReportFinding[] = (
+    audit.scoring_output?.findings ?? []
+  ).map((f) => ({
+    dimensionId: f.dimensionId,
+    dimensionName: f.dimensionName,
+    score: f.score,
+    summary: f.summary,
+  }));
+
+  const readinessScore = audit.readiness_score ?? 0;
+  const tierKey: Tier = tierFor(readinessScore);
+
   return (
     <div className="daizie-shell">
       <DaizieHeader />
@@ -281,17 +309,19 @@ export default async function ScanReportPage({
           <TokenReportNav reportId={id} token={t} active="report" />
           <ReportActions />
           <ReportHeader submission={submission} audit={audit} />
-          <TierHeadline audit={audit} />
-          <DimensionsSection
-            dimensions={dimensions}
+          <TierHeatmap readinessScore={readinessScore} tier={tierKey} />
+          {masterKeys && <MasterKeysCard report={masterKeys} />}
+          <DriverHeatmapTiles dimensions={reportDimensions} />
+          <OpportunityCards
+            dimensions={reportDimensions}
+            findings={reportFindings}
             crawler={audit.crawler_output}
           />
-          {masterKeys && <MasterKeysSection report={masterKeys} />}
+          <PaidTeaserCard />
           <CrawlerSection crawler={audit.crawler_output} />
           <CorroborationSection
             corroboration={audit.scoring_output?.corroboration ?? null}
           />
-          <PaidTeaserSection />
           <UpsellSection />
           <ReportFooter audit={audit} />
         </article>

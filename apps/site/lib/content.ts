@@ -332,13 +332,14 @@ export const AVI = {
       id: "free",
       name: "Free Daizie Readiness Check",
       price: "$0",
-      priceNote: "30 seconds. No email required.",
+      priceNote: "30 seconds. Email required to see your report.",
       tagline: "A fast, honest read on whether your website gives AI clear signals.",
       whatYouGet: [
-        "Your AI Readiness Score across five drivers",
+        "Your AI Readiness Score across five drivers, plotted on a heatmap so you see exactly where you land",
         "A quick check on the profiles AI reads for your business type",
-        "Your two or three biggest gaps, in plain English",
-        "A clear next step, whether that's fixing your site or booking the Assessment",
+        "What each of the five drivers is, and how you scored on each",
+        "Your two biggest opportunities to improve, in plain English",
+        "A clear next step — fixing your site, or booking the Assessment",
       ],
       cta: {
         label: "Run the free check",
