@@ -18,6 +18,63 @@ export const metadata: Metadata = {
   },
 };
 
+/**
+ * Craizie Service schema — no priced offer yet (governance work is
+ * scoped case-by-case), but the schema names the service, the audience,
+ * and the concrete deliverables so AI agents can classify it. When
+ * pricing is packaged, add an `offers` array to match Daizie's shape.
+ */
+const craizieServiceJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: "Craizie — Practical AI governance for small business",
+  serviceType:
+    "AI governance advisory: inventory, ownership, boundaries, testing, disclosure, incident plan",
+  provider: { "@id": `${SITE.url}/#org` },
+  areaServed: { "@type": "Country", name: "United States" },
+  brand: { "@type": "Brand", name: "Craizie" },
+  description:
+    "Craizie helps small businesses build sensible safeguards around the AI they use and sell — right-sized inventory of AI touchpoints, clear ownership, practical boundaries, disclosure copy, and an incident plan proportionate to the risk.",
+  audience: {
+    "@type": "Audience",
+    audienceType:
+      "Small business owners and solopreneurs using or selling AI-enabled tools",
+  },
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: "Craizie governance deliverables",
+    itemListElement: [
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: "AI inventory and ownership map",
+          description:
+            "A one-page inventory of where AI touches your business, who owns each use, and what data flows through it.",
+        },
+      },
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: "Boundaries and disclosure copy",
+          description:
+            "Written boundaries for what your AI is allowed to do plus customer-facing disclosure language you can use verbatim.",
+        },
+      },
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: "Incident plan",
+          description:
+            "A short, practical incident-response plan sized to your business — what to do when AI drifts, hallucinates, or is questioned by an insurer or customer.",
+        },
+      },
+    ],
+  },
+};
+
 const QUESTIONS = [
   "Where are we using AI?",
   "Does it interact with customers?",
@@ -30,6 +87,10 @@ const QUESTIONS = [
 export default function CraiziePage() {
   return (
     <div className="daizie-shell craizie-surface">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(craizieServiceJsonLd) }}
+      />
       <DaizieHeader />
       <main className="daizie-main">
         <div className="daizie-hero-spacer" aria-hidden="true" />
