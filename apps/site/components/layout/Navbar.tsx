@@ -27,7 +27,9 @@ export default function Navbar() {
     pathname === "/craizie" ||
     pathname.startsWith("/craizie/") ||
     pathname === "/ai-visibility" ||
-    pathname.startsWith("/ai-visibility/");
+    pathname.startsWith("/ai-visibility/") ||
+    pathname === "/scan" ||
+    pathname.startsWith("/scan/");
   if (isDaizieRoute) return null;
 
   return (
