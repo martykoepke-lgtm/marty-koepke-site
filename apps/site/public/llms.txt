@@ -27,7 +27,8 @@
 - **AEO** (answer engine optimization) — synonym for AI visibility
 - **GEO** (generative engine optimization) — synonym for AI visibility
 - **AI Business Accuracy** — the internal framework Daizie uses to score readiness AND live AI outcomes across five readiness drivers and six measured outcomes
-- **Master keys** — the structured databases AI systems actually read for local recommendations (Google Business Profile, Bing Places, Yelp) and for online B2B recommendations (LinkedIn, vertical directories like Clutch/G2/Avvo, current-year "best of" listicles)
+- **Master keys** — the structured databases AI systems actually read, which differ by business type. Three lanes: (1) LOCAL (brick-and-mortar) — Google Business Profile, Bing Places, Yelp. (2) SERVICES (advice-driven — coaches, consultants, agencies) — LinkedIn, services vertical directories (Clutch/Avvo/Super Lawyers/etc.), current-year "best of" listicles. (3) PRODUCT (SaaS / physical / digital) — software review platforms (G2/Capterra/TrustRadius), SaaS directories (AlternativeTo/SaaSHub/Product Hunt), current-year comparison articles ("X vs Y")
+- **Three-playbook framework** — Marty's operating framework for AI visibility: same rubric underneath, three distinct playbooks by business type × query type. Local businesses live in opinion territory (buyers ask "best latte in town"). Services businesses live in advice territory (buyers ask "what does executive coaching cost"). Product businesses live in comparison territory (buyers ask "best CRM for a 2-person team"). Daizie tunes its intake, master-key checks, and paid audit query grid on the visitor's lane
 
 ## What this is
 

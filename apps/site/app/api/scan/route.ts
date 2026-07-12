@@ -33,7 +33,7 @@ type ScanBody = {
   /** "How do most customers find and hire you?" answer from the intake
    *  form. Optional — legacy calls without it still work; master-key
    *  check is skipped in that case. */
-  audienceLane?: "local" | "online_b2b";
+  audienceLane?: "local" | "services" | "product";
 };
 
 export async function POST(req: NextRequest) {
@@ -93,7 +93,9 @@ export async function POST(req: NextRequest) {
   }
 
   const audienceLane =
-    body.audienceLane === "local" || body.audienceLane === "online_b2b"
+    body.audienceLane === "local" ||
+    body.audienceLane === "services" ||
+    body.audienceLane === "product"
       ? body.audienceLane
       : undefined;
 

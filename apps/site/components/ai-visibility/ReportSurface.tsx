@@ -48,6 +48,15 @@ export type Finding = {
   summary: string;
 };
 
+const MASTER_KEY_LANE_LABEL: Record<
+  MasterKeyReportShape["lane"],
+  string
+> = {
+  local: "Local & brick-and-mortar",
+  services: "Advice-driven services",
+  product: "Products & software",
+};
+
 export type MasterKeyCheck = {
   id: string;
   label: string;
@@ -59,7 +68,7 @@ export type MasterKeyCheck = {
 };
 
 export type MasterKeyReportShape = {
-  lane: "local" | "online_b2b";
+  lane: "local" | "services" | "product";
   checks: MasterKeyCheck[];
   presentCount: number;
   totalChecks: number;
@@ -238,10 +247,7 @@ export function TierHeatmap({
 // ---------------------------------------------------------------------------
 
 export function MasterKeysCard({ report }: { report: MasterKeyReportShape }) {
-  const laneLabel =
-    report.lane === "local"
-      ? "Local & brick-and-mortar"
-      : "Online consultants, coaches, and agencies";
+  const laneLabel = MASTER_KEY_LANE_LABEL[report.lane];
 
   return (
     <section className="daizie-scan-card">

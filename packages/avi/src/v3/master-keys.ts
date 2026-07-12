@@ -2,12 +2,20 @@
  * Master-key presence checker.
  *
  * Different kinds of businesses are represented in AI answers through
- * completely different structured sources:
+ * completely different structured sources. Three lanes, three playbooks:
  *
- *   local           → Google Business Profile, Bing Places, Yelp
- *   online_b2b      → LinkedIn (company page), a vertical directory
- *                     (Clutch / G2 / Capterra / Avvo / Trustpilot),
- *                     and current-year "best of" listicles
+ *   local    → Google Business Profile, Bing Places, Yelp
+ *              (AI answers OPINION queries — "best latte in town")
+ *   services → LinkedIn (company page), a services-vertical directory
+ *              (Clutch / Avvo / Super Lawyers / Chief Outsiders /
+ *              Life Coach Directory), current-year "best of" listicle
+ *              (AI answers ADVICE queries — "what does executive
+ *              coaching cost")
+ *   product  → software review platform (G2 / Capterra / TrustRadius /
+ *              GetApp), SaaS directory (AlternativeTo / SaaSHub /
+ *              Product Hunt), current-year comparison article
+ *              (AI answers COMPARISON queries — "best CRM for a
+ *              2-person team")
  *
  * This module runs targeted Tavily searches to check whether the subject
  * is present on each master key for its lane. The result is a plain-
@@ -27,7 +35,10 @@ export type MasterKeyId =
   | 'yelp'
   | 'linkedin_company'
   | 'vertical_directory'
-  | 'current_year_listicle';
+  | 'current_year_listicle'
+  | 'software_review_platform'
+  | 'saas_directory'
+  | 'comparison_article';
 
 export type MasterKeyConfidence = 'high' | 'medium' | 'low' | 'none';
 
@@ -75,10 +86,18 @@ export async function checkMasterKeys(
   opts: CheckMasterKeysOptions = {}
 ): Promise<MasterKeyReport> {
   const lane: AudienceLane = subject.audience_lane ?? 'local';
-  const checks =
-    lane === 'local'
-      ? await runLocalChecks(subject, opts)
-      : await runOnlineB2BChecks(subject, opts);
+  let checks: MasterKeyCheck[];
+  switch (lane) {
+    case 'local':
+      checks = await runLocalChecks(subject, opts);
+      break;
+    case 'services':
+      checks = await runServicesChecks(subject, opts);
+      break;
+    case 'product':
+      checks = await runProductChecks(subject, opts);
+      break;
+  }
   const presentCount = checks.filter((c) => c.found).length;
   return {
     lane,
@@ -126,7 +145,7 @@ async function runLocalChecks(
   ]);
 }
 
-async function runOnlineB2BChecks(
+async function runServicesChecks(
   subject: Subject,
   opts: CheckMasterKeysOptions
 ): Promise<MasterKeyCheck[]> {
@@ -138,35 +157,96 @@ async function runOnlineB2BChecks(
     checkPresence({
       id: 'linkedin_company',
       label: 'LinkedIn (company page)',
-      lane: 'online_b2b',
+      lane: 'services',
       query: `"${name}" site:linkedin.com/company`,
       expectDomains: ['linkedin.com/company', 'linkedin.com/in/'],
       opts,
     }),
     checkPresence({
       id: 'vertical_directory',
-      label: 'Vertical directory',
-      lane: 'online_b2b',
-      query: `"${name}" (site:clutch.co OR site:g2.com OR site:capterra.com OR site:trustpilot.com OR site:avvo.com)`,
+      label: 'Services directory',
+      lane: 'services',
+      // Services directories only — no software-review platforms. Product
+      // lane covers G2/Capterra/TrustRadius separately.
+      query: `"${name}" (site:clutch.co OR site:goodfirms.co OR site:avvo.com OR site:superlawyers.com OR site:martindale.com OR site:trustpilot.com)`,
       expectDomains: [
         'clutch.co',
-        'g2.com',
-        'capterra.com',
+        'goodfirms.co',
         'trustpilot.com',
         'avvo.com',
         'superlawyers.com',
         'martindale.com',
+        'toptal.com',
+        'chiefoutsiders.com',
       ],
       opts,
     }),
     checkPresence({
       id: 'current_year_listicle',
       label: `${year} "best of" listicle`,
-      lane: 'online_b2b',
+      lane: 'services',
       query: `"best ${industry}" ${year} "${name}"`,
       // Listicles can live anywhere — no domain filter. Match requires the
       // subject NAME to appear in the returned title or body, not just
       // that a listicle in the category exists.
+      expectDomains: [],
+      matchBy: 'body',
+      subjectName: name,
+      opts,
+    }),
+  ]);
+}
+
+async function runProductChecks(
+  subject: Subject,
+  opts: CheckMasterKeysOptions
+): Promise<MasterKeyCheck[]> {
+  const name = subject.canonical_name;
+  const industry = subject.industry || 'software';
+  const year = opts.listicleYear ?? CURRENT_YEAR;
+
+  return Promise.all([
+    checkPresence({
+      id: 'software_review_platform',
+      label: 'Software review platform',
+      lane: 'product',
+      // G2, Capterra, TrustRadius, GetApp — the review platforms AI reads
+      // for structured comparison queries.
+      query: `"${name}" (site:g2.com OR site:capterra.com OR site:trustradius.com OR site:getapp.com)`,
+      expectDomains: [
+        'g2.com',
+        'capterra.com',
+        'trustradius.com',
+        'getapp.com',
+        'softwareadvice.com',
+      ],
+      opts,
+    }),
+    checkPresence({
+      id: 'saas_directory',
+      label: 'SaaS directory',
+      lane: 'product',
+      // AlternativeTo, SaaSHub, Product Hunt, Slant, SaaSworthy — the
+      // "which tools are there" indexes AI reads for feature-comparison
+      // and alternative-product queries.
+      query: `"${name}" (site:alternativeto.net OR site:saashub.com OR site:producthunt.com OR site:slant.co OR site:saasworthy.com)`,
+      expectDomains: [
+        'alternativeto.net',
+        'saashub.com',
+        'producthunt.com',
+        'slant.co',
+        'saasworthy.com',
+      ],
+      opts,
+    }),
+    checkPresence({
+      id: 'comparison_article',
+      label: `${year} comparison article`,
+      lane: 'product',
+      // Comparison articles ("[category] vs [competitor]", "best [category]
+      // for [use case]"). Body match required — the subject name must
+      // actually appear, not just a comparison in the general category.
+      query: `"best ${industry}" ${year} "${name}"`,
       expectDomains: [],
       matchBy: 'body',
       subjectName: name,
@@ -310,6 +390,27 @@ const REMEDIATION: Record<MasterKeyId, string[]> = {
     "Apply for niche industry awards — even small ones ('Small Business Innovation Award' type) get aggregated by listicle authors.",
     "Build one citation-worthy resource on your site — a research report, a comparison guide, an authoritative post — that listicle writers naturally want to link to.",
   ],
+  software_review_platform: [
+    "Claim your G2 profile (free) at g2.com/products — verify domain ownership and fill in every field: features, pricing, integrations, use cases, screenshots.",
+    "Do the same on Capterra and TrustRadius. The three-way spread is what AI reads for comparison queries — being on one is not enough.",
+    "Collect 10-15 verified reviews on G2 within the first 90 days. Ask your happiest customers within a week of a successful outcome — G2's algorithm rewards recent volume.",
+    "Add feature and category tags carefully — buyers filter by these, and AI reads them as structured signals for 'best [category] for [use case]' queries.",
+    "Respond to every review, positive or negative. Response rate is a public metric on all three platforms and influences buyer trust.",
+  ],
+  saas_directory: [
+    "Submit to AlternativeTo (alternativeto.net) — the top AI-cited source for 'alternatives to [competitor]' queries. Free listing; include screenshots and a clear feature list.",
+    "List on SaaSHub — good for the 'discover new tools in this category' path AI follows for buyers who don't know your name yet.",
+    "Launch on Product Hunt if you haven't already. The launch itself is a spike, but the permanent page becomes a durable citation source.",
+    "Add yourself to Slant.co for 'X vs Y' style comparison queries — these get pulled directly into AI comparison answers.",
+    "Cross-link your directory listings from your own site's footer or 'trusted by' page. Directory backlinks reinforce entity recognition in AI knowledge graphs.",
+  ],
+  comparison_article: [
+    "Write your own '[Your product] vs [top competitor]' page on your site with a fair, honest table. Buyers search this exact query; if you don't rank, someone else's take wins.",
+    "Pitch author reach-outs on existing 'best [category]' 2026 articles that don't yet include you. Response rate ~15% — the ROI comes from the ones that do.",
+    "Create a 'best [category] for [specific use case]' resource on your own domain. Even if you rank #3 for the query, being ON the page as an option is what AI reads.",
+    "Sponsor or contribute to industry benchmark reports. Being a data source in a comparison piece is more durable than being a name in a listicle.",
+    "Encourage happy customers to write comparison posts on their own blogs or Reddit — genuine third-party comparison content is the most AI-trusted signal.",
+  ],
 };
 
 function buildHeadline(lane: AudienceLane, checks: MasterKeyCheck[]): string {
@@ -317,14 +418,10 @@ function buildHeadline(lane: AudienceLane, checks: MasterKeyCheck[]): string {
   const total = checks.length;
 
   if (present.length === 0) {
-    return lane === 'local'
-      ? "We couldn't find your business on any of the three profiles AI reads for local recommendations. That's the biggest fix to start with."
-      : "We couldn't find your business on any of the three sources AI reads for online B2B recommendations. That's the biggest fix to start with.";
+    return `${LANE_HEADLINE_ZERO[lane]} That's the biggest fix to start with.`;
   }
   if (present.length === total) {
-    return lane === 'local'
-      ? "You're present on all three profiles AI reads for local recommendations. The next work is making sure each one describes you accurately."
-      : "You're present on all three sources AI reads for online B2B recommendations. The next work is making sure the picture is consistent across them.";
+    return `${LANE_HEADLINE_ALL[lane]} ${LANE_NEXT_STEP[lane]}`;
   }
   const missing = checks
     .filter((c) => !c.found)
@@ -332,3 +429,30 @@ function buildHeadline(lane: AudienceLane, checks: MasterKeyCheck[]): string {
     .join(', ');
   return `You're on ${present.length} of ${total}. Missing: ${missing}.`;
 }
+
+const LANE_HEADLINE_ZERO: Record<AudienceLane, string> = {
+  local:
+    "We couldn't find your business on any of the three profiles AI reads for local recommendations.",
+  services:
+    "We couldn't find your business on any of the three sources AI reads when it answers advice-driven queries.",
+  product:
+    "We couldn't find your product on any of the three directories AI reads when it answers comparison queries.",
+};
+
+const LANE_HEADLINE_ALL: Record<AudienceLane, string> = {
+  local:
+    "You're present on all three profiles AI reads for local recommendations.",
+  services:
+    "You're present on all three sources AI reads when it answers advice-driven queries.",
+  product:
+    "You're on all three directories AI reads when it answers product comparison queries.",
+};
+
+const LANE_NEXT_STEP: Record<AudienceLane, string> = {
+  local:
+    'The next work is making sure each one describes you accurately.',
+  services:
+    'The next work is making sure the picture is consistent across them.',
+  product:
+    'The next work is making sure your feature list, pricing, and use cases match across all three.',
+};

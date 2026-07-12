@@ -444,7 +444,7 @@ export const AVI = {
   /* ---------- Audience-lane story ---------- */
   audienceLanesEyebrow: "How AI treats different businesses",
   audienceLanesHeadline:
-    "AI doesn't answer for a local plumber the way it answers for an online consultant.",
+    "Same rubric, three different playbooks. AI doesn't answer for a coffee shop the way it answers for a coach or a SaaS founder.",
   audienceLanesSubhead:
     "The Assessment tunes queries and scoring for your type. This is the research that decides which profiles matter for you — and which don't.",
   audienceLanes: [
@@ -452,7 +452,7 @@ export const AVI = {
       id: "local",
       label: "Local & brick-and-mortar",
       subLabel:
-        "Plumbers, restaurants, dentists, salons, retail, home services, medical practices.",
+        "Plumbers, restaurants, dentists, salons, retail, home services, medical practices. Buyers ask AI opinion queries — \"best latte in town,\" \"cutest brunch spot.\"",
       keys: [
         {
           name: "Google Business Profile",
@@ -464,33 +464,55 @@ export const AVI = {
         },
         {
           name: "Yelp",
-          why: "Feeds Perplexity local citations and now ChatGPT (via a 2026 licensing deal).",
+          why: "Feeds Perplexity local citations and ChatGPT directly (Feb 2026 OpenAI partnership).",
         },
       ],
       queryStyle:
         "AI answers this business type with prompts like \"recommend a [category] in [city].\" The Assessment runs those.",
     },
     {
-      id: "online_b2b",
-      label: "Online consultants, coaches, and agencies",
+      id: "services",
+      label: "Advice-driven services",
       subLabel:
-        "Fractional executives, marketing agencies, B2B consultants, coaches, professional services delivered remotely.",
+        "Coaches, consultants, agencies, fractional executives, professional services delivered remotely or on-site. Buyers ask AI advice queries — \"what does executive coaching actually cost,\" \"how do I switch careers.\"",
       keys: [
         {
           name: "LinkedIn (company + founder)",
-          why: "The #1 cited domain for professional queries across every major AI engine.",
+          why: "Consistently one of the most-cited domains for professional queries across every major AI engine.",
         },
         {
-          name: "One vertical directory",
-          why: "Clutch, G2, Capterra, Avvo, Super Lawyers — whichever one your category actually uses.",
+          name: "One services directory",
+          why: "Clutch, GoodFirms, Avvo, Super Lawyers, Chief Outsiders — whichever one your specific vertical uses.",
         },
         {
-          name: "Current-year listicles",
-          why: "88% of AI citations for B2B categories point to third-party \"best [X] 2026\" articles.",
+          name: "Current-year listicles + thought leadership",
+          why: "\"Best [category] 2026\" articles, podcast appearances, and long-form blog placements drive advice-query citations.",
         },
       ],
       queryStyle:
-        "AI answers this business type with prompts like \"best [category] for [ICP].\" The Assessment runs those.",
+        "AI answers this business type with prompts like \"best [category] for [ICP]\" or \"how do I [outcome].\" The Assessment runs those.",
+    },
+    {
+      id: "product",
+      label: "Products & software",
+      subLabel:
+        "SaaS, physical products, digital products. Buyers ask AI comparison queries — \"best CRM for a 2-person team,\" \"cheapest scheduling tool with an API.\"",
+      keys: [
+        {
+          name: "Software review platform",
+          why: "G2, Capterra, TrustRadius, GetApp — the structured review platforms AI reads for feature comparison and buyer-fit queries.",
+        },
+        {
+          name: "SaaS directory",
+          why: "AlternativeTo, SaaSHub, Product Hunt — the \"which tools are out there\" indexes AI uses for alternative-product queries.",
+        },
+        {
+          name: "Current-year comparison articles",
+          why: "\"[Category] vs [competitor]\" and \"best [category] for [use case]\" articles are the top comparison-query citation source.",
+        },
+      ],
+      queryStyle:
+        "AI answers this business type with prompts like \"best [category] for [use case]\" or \"[our product] vs [competitor].\" The Assessment runs those.",
     },
   ],
   audienceLanesFootnote:
