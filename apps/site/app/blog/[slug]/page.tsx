@@ -2,14 +2,11 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import Section from "@/components/ui/Section";
+import DaizieHeader from "@/components/daizie/DaizieHeader";
 import Reveal from "@/components/motion/Reveal";
-import FrameworkSubNav from "@/components/sections/FrameworkSubNav";
-import { ArrowRightIcon } from "@/components/ui/Icons";
-import { SITE } from "@/lib/content";
+import { SITE, BLOG } from "@/lib/content";
+import { SUBSTACK_URL } from "@/lib/links";
 import { getAllSlugs, getPost, formatDate } from "@/lib/blog";
-
-const SUB_NAV_SLUGS = new Set(["why-ai-business-accuracy-matters"]);
 
 export function generateStaticParams() {
   return getAllSlugs().map((slug) => ({ slug }));
@@ -57,51 +54,66 @@ export default async function BlogPostPage({
   };
 
   return (
-    <>
-      {SUB_NAV_SLUGS.has(slug) && <FrameworkSubNav />}
-      <Section width="narrow">
+    <div className="daizie-shell">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Reveal>
-        <article>
-          <h1 className="text-4xl text-forest sm:text-5xl">{post.title}</h1>
-          <p className="mt-3 text-sm text-moss">{formatDate(post.date)}</p>
-          <div
-            className="mt-8 text-lg text-charcoal"
-            dangerouslySetInnerHTML={{ __html: post.html }}
-          />
-        </article>
-      </Reveal>
+      <DaizieHeader />
+      <main className="daizie-main">
+        <div className="daizie-hero-spacer compact" aria-hidden="true" />
 
-      <div className="soft-divider my-12" aria-hidden="true" />
+        {/* ── The piece itself ────────────────────────────────────────── */}
+        <Reveal>
+          <article className="daizie-pane">
+            <p className="daizie-eyebrow">{formatDate(post.date)}</p>
+            <h1>{post.title}</h1>
+            <div
+              className="daizie-article-body"
+              dangerouslySetInnerHTML={{ __html: post.html }}
+            />
+          </article>
+        </Reveal>
 
-      <div className="flex items-center gap-4">
-        <Image
-          src="/images/headshot.jpg"
-          alt="Marty Koepke"
-          width={56}
-          height={56}
-          className="h-14 w-14 rounded-full object-cover"
-        />
-        <div>
-          <p className="font-serif text-forest">Marty Koepke</p>
-          <p className="text-sm text-moss">
-            AI visibility for small business, grounded in twenty years of
-            informatics.
-          </p>
-        </div>
-      </div>
-
-      <Link
-        href="/ai-visibility"
-        className="mt-8 inline-flex items-center gap-2 font-serif text-lg text-forest hover:text-forest-dark"
-      >
-        See how Daizie measures AI visibility and business accuracy
-        <ArrowRightIcon className="h-4 w-4" />
-      </Link>
-    </Section>
-    </>
+        {/* ── Author + where this leads ───────────────────────────────── */}
+        <Reveal>
+          <article className="daizie-pane daizie-post-card">
+            <div className="daizie-author-card">
+              <Image
+                src="/images/headshot.jpg"
+                alt="Marty Koepke"
+                width={56}
+                height={56}
+              />
+              <div>
+                <p className="author-name">Marty Koepke</p>
+                <p className="author-line">{BLOG.authorLine}</p>
+              </div>
+            </div>
+            <p className="post-desc" style={{ marginTop: 18 }}>
+              {BLOG.substackNote}{" "}
+              <a
+                href={SUBSTACK_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  color: "var(--dz-forest)",
+                  fontWeight: 600,
+                  textDecoration: "underline",
+                  textDecorationColor: "var(--dz-gold)",
+                  textUnderlineOffset: 3,
+                }}
+              >
+                martykoepke.substack.com
+              </a>
+            </p>
+            <Link className="text-link" href="/ai-visibility">
+              See how Daizie measures AI visibility and business accuracy{" "}
+              <span>→</span>
+            </Link>
+          </article>
+        </Reveal>
+      </main>
+    </div>
   );
 }

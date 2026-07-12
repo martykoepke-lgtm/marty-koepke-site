@@ -735,7 +735,20 @@ export const AVI = {
 
 /* ===== BLOG ===== */
 export const BLOG = {
-  heading: "Notes",
+  eyebrow: "Notes",
+  heading: "The evidence behind the advice.",
+  lede: "Research writeups, methodology notes, and plain-English explanations of how AI systems find, understand, and recommend small businesses. The structured, source-backed versions live here — the conversational takes land on Substack.",
+  substackLabel: "Read the conversational notes on Substack →",
   comingSoon:
-    "Practical writing on AI, process, and reclaiming time for small business owners — coming soon.",
+    "The first pieces are being written now. In the meantime, the conversational notes are on Substack.",
+  readMore: "Read the piece",
+  authorLine: "AI visibility for small business, grounded in twenty years of informatics.",
+  substackNote: "Prefer the conversational take? These ideas also unfold, less formally, on Substack.",
+  cta: {
+    eyebrow: "Put it to work",
+    headline: "Wondering what AI already says about your business?",
+    body: "The free readiness check takes about thirty seconds — just your URL. Plain-English results, no login, no sales call.",
+    label: "Run the free readiness check →",
+    href: "/scan",
+  },
 } as const;
