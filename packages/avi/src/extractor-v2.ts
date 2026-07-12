@@ -204,7 +204,7 @@ async function urlSupportsSubject(url: string, subject: Subject): Promise<boolea
     const res = await fetch(url, {
       signal: controller.signal,
       redirect: 'follow',
-      headers: { 'User-Agent': 'PracticalInformatics-AVI/0.2 (citation-verify)' },
+      headers: { 'User-Agent': 'MartyKoepke-AVI/0.2 (citation-verify)' },
     });
     clearTimeout(timeout);
     if (!res.ok) return false;

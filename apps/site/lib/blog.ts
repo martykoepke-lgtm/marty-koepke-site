@@ -27,7 +27,7 @@ export type PostMeta = {
 
 export type Post = PostMeta & { html: string };
 
-function parseFrontmatter(raw: string): {
+export function parseFrontmatter(raw: string): {
   data: Record<string, string>;
   body: string;
 } {
@@ -65,16 +65,18 @@ function inline(s: string): string {
 }
 
 /** Minimal, safe markdown: headings, paragraphs, lists, blockquotes. */
-function renderMarkdown(md: string): string {
+export function renderMarkdown(md: string): string {
   const blocks = md.trim().split(/\n{2,}/);
   const out: string[] = [];
   for (const block of blocks) {
     const lines = block.split("\n");
-    if (/^#{2,3}\s/.test(block)) {
-      const level = block.startsWith("### ") ? 3 : 2;
-      const text = block.replace(/^#{2,3}\s/, "");
+    if (/^#{1,3}\s/.test(block)) {
+      const level = block.startsWith("### ") ? 3 : block.startsWith("## ") ? 2 : 1;
+      const text = block.replace(/^#{1,3}\s/, "");
+      const sizeClass =
+        level === 1 ? "text-3xl sm:text-4xl" : level === 2 ? "text-2xl sm:text-3xl" : "text-xl";
       out.push(
-        `<h${level} class="mt-10 mb-3 font-serif text-2xl text-forest">${inline(
+        `<h${level} class="mt-10 mb-3 font-semibold ${sizeClass} text-forest">${inline(
           text,
         )}</h${level}>`,
       );

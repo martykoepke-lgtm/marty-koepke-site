@@ -1,11 +1,8 @@
 # The AI Visibility Index — Rubric, Scoring & Measurement Protocol
 
-*Practical Informatics measurement methodology. Version 0.2 — evidence-anchored.*
+*Marty Koepke measurement methodology — evidence-anchored.*
 
-**Rubric version:** `v0.2`
 **Effective:** 2026-06-16
-**Supersedes:** v0.1 (six-dimension draft, equal-weight assumption)
-
 ---
 
 ## 0. Design principles
@@ -219,12 +216,12 @@ The 60/40 weighting reflects that drivers are leading indicators; the outcome is
 | Parameter | Value | Source |
 |---|---|---|
 | Number of queries | 8 | Company-centered business accuracy and buying questions |
-| Engines | ChatGPT, Claude (Anthropic), Perplexity, Gemini | Four measured systems for paid V3 audits |
+| Engines | ChatGPT, Claude (Anthropic), Perplexity, Gemini | Four measured systems for paid audits |
 | Reps per query/engine | 1 | Acknowledged as a snapshot, not a stable measurement |
 | Total query calls | **32** | 8 × 4 × 1 |
 | Query category mix | 80% informational / 10% transactional / 10% navigational | Aggarwal 2024 GEO-bench distribution [6] |
 
-For V3 paid audits, the query set asks what the company does, what services it offers, how much it costs, how it works, how it compares, what makes it different, what problems it solves, and whether it can deliver the outcome it promises.
+For paid audits, the query set asks what the company does, what services it offers, how much it costs, how it works, how it compares, what makes it different, what problems it solves, and whether it can deliver the outcome it promises.
 
 ### C.2 The four Visibility sub-metrics
 
@@ -250,7 +247,6 @@ Every URL the engine cites is fetched and verified to (a) resolve and (b) contai
 
 Every report includes a one-page methodology section that declares:
 
-- Rubric version (`v0.2`)
 - Query protocol (4 × 3 × 1, 80/10/10 mix)
 - Judge model and cross-judge model
 - Cross-judge agreement rate for this audit
@@ -281,8 +277,8 @@ Every report includes a one-page methodology section that declares:
 
 Weights and band cutoffs are starting hypotheses. They remain stable until:
 
-1. **30+ subjects are scored** under v0.2.
+1. **30+ subjects are scored** under the current methodology.
 2. **Cross-judge agreement** is computed across that sample.
 3. **Inter-rater reliability** falls below threshold on any specific dimension or band cutoff.
 
-Any change to weights, anchored scales, or cutoffs bumps `AVI_RUBRIC_VERSION`. Old audits stay valid against their own version stamp.
+Any change to weights, anchored scales, or cutoffs is tracked internally. Old audits stay valid against the scoring method used at the time.

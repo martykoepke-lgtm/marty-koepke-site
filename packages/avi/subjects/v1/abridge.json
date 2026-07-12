@@ -14,5 +14,15 @@
   "buyer_descriptor": "physician practice",
   "pain_point": "spending hours on clinical documentation after patient visits",
   "scenario": "wants to reduce time spent on clinical notes after each patient",
-  "distinctive_term": "ambient AI scribe"
+  "distinctive_term": "ambient AI scribe",
+  "canonical_name": "Abridge",
+  "aliases": [
+    "Abridge",
+    "Abridge Ambient AI"
+  ],
+  "buyer_type": "physician practice",
+  "problem": "spending hours on clinical documentation after patient visits",
+  "known_differentiation_terms": [
+    "ambient AI scribe"
+  ]
 }

@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Brand and navigation prototype for Marty Koepke, Daizie, and Craizie.">
+  <title>Marty Koepke — Brand prototype</title>
+  <link rel="icon" href="assets/marty-mark.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="home-reframe.css">
+  <link rel="stylesheet" href="header-fix.css">
+</head>
+<body>
+  <div class="landscape" aria-hidden="true"></div>
+  <header class="site-header">
+    <a class="brand" href="#home" data-route="home" aria-label="Marty Koepke home">
+      <img src="assets/marty-koepke-3.png" alt="Marty Koepke">
+    </a>
+    <button class="menu-button" type="button" aria-expanded="false" aria-controls="primary-nav">Menu</button>
+    <nav id="primary-nav" aria-label="Primary navigation">
+      <a href="#home" data-route="home">Home</a>
+      <a href="#daizie" data-route="daizie">AI visibility</a>
+      <a href="#craizie" data-route="craizie">AI governance</a>
+      <a href="#about" data-route="about">About</a>
+      <a href="#contact" data-route="contact">Contact</a>
+    </nav>
+  </header>
+
+  <main id="app" tabindex="-1">
+    <section class="view active" data-view="home" aria-labelledby="home-title">
+      <div class="hero-spacer"></div>
+      <article class="pane founder-intro reveal">
+        <img src="assets/marty-headshot.jpg" alt="Marty Koepke">
+        <div>
+          <p class="eyebrow">Hi, I’m Marty</p>
+          <h1 id="home-title">A techie, a translator, and a small-business owner, too.</h1>
+          <p class="lede">I have spent twenty years helping people make sense of complicated technology. Now I am building in this new AI era alongside you—learning what is possible, asking what is responsible, and turning both into practical steps a small business can actually take.</p>
+        </div>
+      </article>
+
+      <article class="pane story-pane reveal">
+        <p class="eyebrow">Here we go</p>
+        <h2>We are building remarkable things. We also have two very specific needs.</h2>
+        <div class="needs-list">
+          <div>
+            <span>01</span>
+            <p><strong>We need to be found in this new world of AI.</strong> The way people discover businesses is changing, and the good work we are doing needs clear evidence behind it.</p>
+          </div>
+          <div>
+            <span>02</span>
+            <p><strong>We need simple safeguards.</strong> We are working at lightning speed—and AI is moving just as quickly. Because generative AI is not a clean, predictable algorithm, it brings new risks we cannot ignore.</p>
+          </div>
+        </div>
+        <p>I know I need both of these things, and I imagine you do too. But small businesses cannot afford large consulting firms, and most of us do not have marketing or cybersecurity departments. We need solutions that are practical to implement, right-sized for our businesses, and priced within reach.</p>
+        <div class="actions">
+          <a class="button primary" href="#daizie" data-route="daizie">AI visibility</a>
+          <a class="button secondary" href="#craizie" data-route="craizie">AI governance</a>
+        </div>
+      </article>
+
+      <div class="product-grid">
+        <article class="pane product-card daizie-card reveal">
+          <p class="category-label">AI visibility</p>
+          <img class="product-logo" src="assets/daizie-logo.png" alt="Daizie">
+          <h2>From dazed to discoverable.</h2>
+          <p>Starting a business can leave any owner a little dazed. Daizie is the hopeful part: helping bring that business to life and giving AI clearer evidence to find, understand, and represent it accurately.</p>
+          <p class="plain-note">AEO, GEO, and SEO are changing. The goal stays human: help the right people find the good work you are already doing.</p>
+          <a class="text-link" href="#daizie" data-route="daizie">Explore AI visibility <span>→</span></a>
+        </article>
+        <article class="pane product-card craizie-card reveal">
+          <p class="category-label">AI governance</p>
+          <img class="product-logo" src="assets/craizie-logo.png" alt="Craizie">
+          <h2>Because the questions can feel a little crazy.</h2>
+          <p>You built something useful with AI. Then an insurer, client, or partner asks about data, drift, hallucinations, accountability, traceability, and auditability. Craizie turns those unfamiliar questions into practical safeguards.</p>
+          <p class="plain-note">You do not have to become a cybersecurity expert. You can build guardrails, preserve evidence, protect client data, and know what your tools are doing.</p>
+          <a class="text-link" href="#craizie" data-route="craizie">Explore AI governance <span>→</span></a>
+        </article>
+      </div>
+
+      <article class="pane quote-pane forest reveal">
+        <p class="eyebrow">The throughline</p>
+        <blockquote>“A playful front door. Clear evidence, reasonable safeguards, and serious work underneath.”</blockquote>
+      </article>
+    </section>
+
+    <section class="view" data-view="daizie" aria-labelledby="daizie-title">
+      <div class="hero-spacer compact"></div>
+      <article class="pane product-hero reveal">
+        <img class="hero-mark" src="assets/daizie-mark.png" alt="" aria-hidden="true">
+        <div>
+          <img class="product-logo large" src="assets/daizie-logo.png" alt="Daizie">
+          <p class="eyebrow">AI visibility + AI business accuracy</p>
+          <h1 id="daizie-title">Be found. Be understood. Be represented accurately.</h1>
+          <p class="lede">Daizie gives small businesses a plain-English view of what their websites tell AI—and, in the paid audit, what live AI systems actually say.</p>
+          <a class="button primary" href="#scan">Try the free readiness check</a>
+        </div>
+      </article>
+
+      <article class="pane reveal">
+        <p class="eyebrow">Two layers, kept separate</p>
+        <div class="split">
+          <div><span class="number">01</span><h2>Readiness</h2><p>Does your public website give AI clear, supported, readable signals? The free check measures readiness only.</p></div>
+          <div><span class="number">02</span><h2>Measured outcomes</h2><p>Do live systems find you, describe you accurately, support their claims, preserve context, and recommend you appropriately?</p></div>
+        </div>
+      </article>
+
+      <article class="pane reveal">
+        <p class="eyebrow">Choose your next step</p>
+        <div class="tiers">
+          <div><span class="price">$0</span><h3>Free AI Readiness Check</h3><p>A fast URL-only review of five readiness drivers. No claims about live AI mentions.</p><a href="#scan" class="text-link">Run the check →</a></div>
+          <div class="featured"><span class="price">$895</span><h3>AI Business Accuracy Audit</h3><p>Four engines, 32 live responses, claim verification, two competitors, and a review call.</p><a href="#contact" data-route="contact" class="text-link">Book the audit →</a></div>
+          <div><span class="price">$149/mo</span><h3>Monthly Monitoring</h3><p>Your full audit rerun monthly, with trends across all eleven measurements.</p><a href="#contact" data-route="contact" class="text-link">Talk to Marty →</a></div>
+        </div>
+      </article>
+    </section>
+
+    <section class="view" data-view="craizie" aria-labelledby="craizie-title">
+      <div class="hero-spacer compact"></div>
+      <article class="pane product-hero craizie-hero reveal">
+        <img class="hero-mark" src="assets/craizie-mark.png" alt="" aria-hidden="true">
+        <div>
+          <img class="product-logo large" src="assets/craizie-logo.png" alt="Craizie">
+          <p class="eyebrow">Practical AI governance</p>
+          <h1 id="craizie-title">The questions arrive before the answers do.</h1>
+          <p class="lede">An insurer, customer, or partner asks how your customer-facing AI is governed. Craizie helps you understand the question—and build a sensible answer.</p>
+          <button class="button primary open-dialog" type="button" data-dialog="starter-dialog">See the starter questions</button>
+        </div>
+      </article>
+
+      <article class="pane reveal">
+        <p class="eyebrow">Start with what is real</p>
+        <h2>You are not behind. These are new questions.</h2>
+        <div class="question-grid">
+          <div><span>01</span><p>Where are we using AI?</p></div><div><span>02</span><p>Does it interact with customers?</p></div>
+          <div><span>03</span><p>What information does it receive?</p></div><div><span>04</span><p>What can it decide or do?</p></div>
+          <div><span>05</span><p>Where must a person remain accountable?</p></div><div><span>06</span><p>What happens when it gets something wrong?</p></div>
+        </div>
+      </article>
+
+      <article class="pane forest reveal">
+        <p class="eyebrow">Governance without the theater</p>
+        <h2>Right-sized for the way small businesses actually work.</h2>
+        <p class="lede">No pretend enterprise program. No wall of acronyms. Just an inventory, clear ownership, practical boundaries, testing, disclosure, and an incident plan proportionate to the risk.</p>
+        <div class="actions"><button class="button light open-dialog" type="button" data-dialog="roadmap-dialog">Preview the roadmap</button></div>
+      </article>
+    </section>
+
+    <section class="view" data-view="about" aria-labelledby="about-title">
+      <div class="hero-spacer compact"></div>
+      <article class="pane profile-pane reveal">
+        <img src="../apps/site/public/images/headshot.jpg" alt="Marty Koepke">
+        <div><p class="eyebrow">About Marty</p><h1 id="about-title">Twenty years of informatics behind every recommendation.</h1><p class="lede">I have spent my career standing between people and complicated technology—translating what the system can do into what people actually need.</p></div>
+      </article>
+      <article class="pane reveal"><h2>Serious inside. Playful outside.</h2><p>Daizie and Craizie make the first step feel possible. Underneath the approachable names is the same discipline I have used across enterprise healthcare: define the question, make the evidence visible, keep judgment with the right person, and build a process people can follow.</p><div class="stats"><div><strong>20+</strong><span>years in informatics</span></div><div><strong>2,500+</strong><span>ambulatory facilities</span></div><div><strong>62</strong><span>businesses studied</span></div></div></article>
+    </section>
+
+    <section class="view" data-view="contact" aria-labelledby="contact-title">
+      <div class="hero-spacer compact"></div>
+      <article class="pane contact-pane reveal"><p class="eyebrow">Start with a real conversation</p><h1 id="contact-title">What question is AI creating for your business?</h1><p class="lede">Whether you are trying to be found or trying to put sensible safeguards around what you have built, we can start with the situation in front of you.</p><div class="actions"><a class="button primary" href="https://tally.so/r/xXVPgo">Book a free 20-minute conversation</a><a class="button secondary" href="mailto:hello@martykoepke.com">Email Marty</a></div></article>
+    </section>
+  </main>
+
+  <footer><span>© 2026 Practical Informatics LLC</span><span>Applied AI guidance in plain English.</span></footer>
+
+  <dialog id="starter-dialog"><button class="dialog-close" aria-label="Close">×</button><p class="eyebrow">Craizie starter</p><h2>Begin with an AI use inventory.</h2><p>List every place AI creates, recommends, decides, communicates, or acts in your business. For each use, name the data it receives, the person accountable, and what happens if the output is wrong.</p><button class="button primary dialog-close-action">That feels manageable</button></dialog>
+  <dialog id="roadmap-dialog"><button class="dialog-close" aria-label="Close">×</button><p class="eyebrow">A sane governance roadmap</p><ol><li>Inventory AI uses</li><li>Classify customer and business impact</li><li>Name an accountable human</li><li>Set data and action boundaries</li><li>Test important behavior</li><li>Document disclosure and response</li></ol><button class="button primary dialog-close-action">Close roadmap</button></dialog>
+  <script src="app.js"></script>
+</body>
+</html>

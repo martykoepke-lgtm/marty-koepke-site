@@ -227,7 +227,6 @@ function Header({
           {submission.location ?? <em className="text-moss">not specified</em>}
         </Row>
         <Row label="Subject type">{submission.subject_type ?? "—"}</Row>
-        <Row label="Rubric">{audit.rubric_version ?? "—"}</Row>
         <Row label="Generated">{formatDate(audit.created_at)}</Row>
         <Row label="LLM spend">
           ${(audit.total_spend_usd ?? 0).toFixed(3)}
@@ -398,7 +397,7 @@ function DimensionsSection({ dimensions }: { dimensions: DimensionScore[] }) {
       </h2>
       <p className="text-sm text-moss mb-6">
         How well the subject is built to be found. Scored 0–5 against the
-        Legacy rubric view. V3 reports should display readiness drivers and measured outcomes separately.
+        Legacy scoring view. Current reports should display readiness drivers and measured outcomes separately.
       </p>
 
       <div className="space-y-6">
@@ -836,7 +835,7 @@ function ReportFooter({ audit }: { audit: AuditRow }) {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/images/logo-horizontal.png"
-              alt="Practical Informatics LLC"
+              alt="Marty Koepke"
               className="h-16 w-auto"
             />
           </span>
@@ -861,10 +860,10 @@ function ReportFooter({ audit }: { audit: AuditRow }) {
             </h2>
             <p className="mt-2 text-cream/90">
               <a
-                href="mailto:marty.koepke@practicalinformatics.com"
+                href="mailto:hello@martykoepke.com"
                 className="hover:text-gold"
               >
-                marty.koepke@practicalinformatics.com
+                hello@martykoepke.com
               </a>
             </p>
           </div>

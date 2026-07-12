@@ -40,6 +40,10 @@ export const FREE_SCAN_RUBRIC_VERSION = "v2.0";
 export type FreeScanInput = {
   rawUrl: string;
   ip?: string | null;
+  /** Which audience lane the visitor selected on the intake form.
+   *  Controls which master-key profiles (GBP/Bing/Yelp vs
+   *  LinkedIn/directory/listicles) the readiness scan checks. */
+  audienceLane?: 'local' | 'online_b2b';
 };
 
 export type FreeScanFinding = {
@@ -67,8 +71,16 @@ export type FreeScanResult =
         score: number | null;
       }>;
       findings: FreeScanFinding[];
+      crawler: CrawlerOutput;
+      corroboration: CorroborationOutput;
       crawlerReachable: boolean;
       durationMs: number;
+      /** Master-key presence report — populated only when the visitor
+       *  provided an audience_lane on the intake form. Reports whether
+       *  the business is present on the profiles AI reads for its lane
+       *  (GBP/Bing/Yelp for local; LinkedIn/directory/listicle for online
+       *  B2B). Presence only — no visibility claim. */
+      masterKeys?: import('./v3/master-keys').MasterKeyReport;
     }
   | {
       ok: false;
@@ -227,6 +239,8 @@ export async function runFreeScan(
       score: d.score,
     })),
     findings,
+    crawler,
+    corroboration,
     crawlerReachable: crawler.reachable,
     durationMs: Date.now() - start,
   };

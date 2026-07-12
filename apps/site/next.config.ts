@@ -13,7 +13,10 @@ const nextConfig: NextConfig = {
       { source: '/index.html', destination: '/', permanent: true },
       { source: '/returns.html', destination: '/returns', permanent: true },
       // The old PULSE route is gone.
-      { source: '/pulse', destination: '/time-back-assessment', permanent: true },
+      { source: '/pulse', destination: '/', permanent: true },
+      // Framework page renamed; why-page moved to the blog.
+      { source: '/ai-business-accuracy-framework', destination: '/our-framework', permanent: true },
+      { source: '/why-ai-business-accuracy-matters', destination: '/blog/why-ai-business-accuracy-matters', permanent: true },
     ];
   },
 };

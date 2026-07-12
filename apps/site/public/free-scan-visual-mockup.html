@@ -1,0 +1,658 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Free Scan Visual Mockup</title>
+  <style>
+    :root {
+      --forest: #1f3a2e;
+      --forest-dark: #10271f;
+      --cream: #faf6ee;
+      --paper: #fffaf0;
+      --tan: #d8ccb4;
+      --gold: #c9a961;
+      --gold-dark: #a8893f;
+      --moss: #5a6b5a;
+      --ink: #2c2a26;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--cream);
+      background:
+        linear-gradient(90deg, rgba(9, 25, 17, 0.82) 0%, rgba(31, 58, 46, 0.62) 46%, rgba(230, 205, 144, 0.18) 100%),
+        radial-gradient(circle at 82% 12%, rgba(244, 200, 96, 0.35), transparent 24rem),
+        url("/large-tree-background.png") center / cover fixed no-repeat;
+      min-height: 100vh;
+    }
+
+    button, input {
+      font: inherit;
+    }
+
+    .wrap {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 34px 0 80px;
+    }
+
+    .jump {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .jump a {
+      border: 1px solid rgba(216, 204, 180, 0.35);
+      border-radius: 999px;
+      padding: 9px 16px;
+      color: var(--cream);
+      background: rgba(16, 39, 31, 0.88);
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    .jump a:first-child {
+      background: var(--gold);
+      color: var(--forest-dark);
+      border-color: var(--gold);
+    }
+
+    .shell {
+      display: grid;
+      gap: 24px;
+      margin-bottom: 60px;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-radius: 5px;
+      background: rgba(16, 39, 31, 0.98);
+      padding: 14px 18px;
+      box-shadow: 0 18px 60px rgba(0, 0, 0, 0.18);
+    }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .tab {
+      border: 0;
+      border-radius: 5px;
+      background: transparent;
+      color: var(--cream);
+      padding: 8px 12px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .tab.active {
+      background: var(--cream);
+      color: var(--forest-dark);
+    }
+
+    .brand {
+      color: var(--gold);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .pane { display: none; }
+    .pane.active { display: grid; gap: 24px; }
+
+    .panel {
+      background: rgba(16, 39, 31, 0.96);
+      border: 1px solid rgba(216, 204, 180, 0.24);
+      border-radius: 8px;
+      padding: 26px;
+      box-shadow: 0 22px 70px rgba(0, 0, 0, 0.22);
+    }
+
+    .paper {
+      background: rgba(250, 246, 238, 0.97);
+      color: var(--ink);
+      border: 1px solid rgba(216, 204, 180, 0.8);
+      border-radius: 8px;
+      padding: 28px;
+    }
+
+    .paper .panel,
+    .paper .card,
+    .paper .recommendation {
+      box-shadow: none;
+    }
+
+    .eyebrow {
+      margin: 0 0 12px;
+      color: var(--gold);
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      font-weight: 900;
+    }
+
+    h1, h2, h3, h4 {
+      margin: 0;
+      line-height: 1.13;
+      letter-spacing: -0.02em;
+    }
+
+    h1 { font-size: clamp(34px, 4vw, 52px); }
+    h2 { font-size: clamp(25px, 3vw, 34px); }
+    h3 { font-size: 20px; }
+    h4 { font-size: 16px; }
+
+    p {
+      margin: 0;
+      line-height: 1.65;
+    }
+
+    .muted { color: var(--tan); }
+    .paper .muted { color: var(--moss); }
+    .paper h1, .paper h2, .paper h3, .paper h4 { color: var(--forest); }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .score-block {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 0.9fr);
+      gap: 42px;
+      align-items: center;
+    }
+
+    .score {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      margin: 12px 0;
+    }
+
+    .score .num {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 70px;
+      line-height: 0.95;
+      color: var(--cream);
+    }
+
+    .paper .score .num { color: var(--forest); }
+    .score .denom { color: var(--tan); font-size: 24px; }
+    .paper .score .denom { color: var(--moss); }
+    .score .tier { color: var(--gold); font-size: 24px; }
+
+    .card {
+      border: 1px solid rgba(216, 204, 180, 0.36);
+      border-radius: 7px;
+      background: rgba(31, 58, 46, 0.62);
+      padding: 18px;
+    }
+
+    .paper .card {
+      background: var(--paper);
+      border-color: var(--tan);
+    }
+
+    .driver {
+      border: 1px solid rgba(216, 204, 180, 0.38);
+      border-radius: 7px;
+      background: rgba(31, 58, 46, 0.62);
+      padding: 18px;
+    }
+
+    .paper .driver {
+      background: var(--paper);
+      border-color: var(--tan);
+    }
+
+    .driver-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: baseline;
+    }
+
+    .points {
+      white-space: nowrap;
+      color: var(--cream);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 26px;
+    }
+
+    .paper .points { color: var(--forest); }
+
+    .bar {
+      height: 8px;
+      border-radius: 999px;
+      background: #263329;
+      margin: 12px 0;
+      overflow: hidden;
+    }
+
+    .paper .bar { background: rgba(216, 204, 180, 0.6); }
+    .bar span {
+      display: block;
+      height: 100%;
+      background: linear-gradient(90deg, var(--gold), var(--cream));
+    }
+
+    .paper .bar span {
+      background: linear-gradient(90deg, var(--gold), var(--forest));
+    }
+
+    .recommendations {
+      display: grid;
+      gap: 18px;
+      margin-top: 16px;
+    }
+
+    .recommendation {
+      display: grid;
+      grid-template-columns: 48px minmax(0, 1fr);
+      gap: 18px;
+      border: 1px solid var(--tan);
+      border-radius: 8px;
+      background: var(--paper);
+      padding: 20px;
+    }
+
+    .rec-num {
+      display: grid;
+      place-items: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      background: var(--forest);
+      color: var(--cream);
+      font-weight: 900;
+    }
+
+    .rec-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .rec-note {
+      border-left: 3px solid var(--gold);
+      padding-left: 12px;
+    }
+
+    .example {
+      margin-top: 14px;
+      border-left: 3px solid var(--gold);
+      padding-left: 12px;
+      color: var(--moss);
+    }
+
+    .list {
+      display: grid;
+      gap: 10px;
+      margin: 14px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .list li {
+      border: 1px solid rgba(216, 204, 180, 0.34);
+      border-radius: 6px;
+      padding: 12px;
+      background: rgba(31, 58, 46, 0.58);
+      color: var(--tan);
+    }
+
+    .paper .list li {
+      background: var(--paper);
+      color: var(--moss);
+      border-color: var(--tan);
+    }
+
+    .email-gate {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: end;
+      border-color: rgba(201, 169, 97, 0.58);
+    }
+
+    .email-form {
+      display: flex;
+      gap: 10px;
+      min-width: min(480px, 100%);
+    }
+
+    input {
+      width: 100%;
+      border: 1px solid rgba(216, 204, 180, 0.65);
+      border-radius: 6px;
+      background: var(--cream);
+      color: var(--ink);
+      padding: 13px 14px;
+    }
+
+    .cta {
+      border: 0;
+      border-radius: 6px;
+      background: var(--gold);
+      color: var(--forest-dark);
+      padding: 13px 18px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .section-label {
+      margin: 48px 0 14px;
+      color: var(--gold);
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-weight: 900;
+    }
+
+    @media (max-width: 860px) {
+      .grid-2,
+      .grid-3,
+      .score-block,
+      .rec-grid,
+      .email-gate {
+        grid-template-columns: 1fr;
+      }
+
+      .recommendation {
+        grid-template-columns: 1fr;
+      }
+
+      .email-form {
+        flex-direction: column;
+      }
+
+      .nav {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="jump">
+      <a href="#preview">Pre-email preview</a>
+      <a href="#tokenized">Tokenized report</a>
+    </div>
+
+    <section id="preview" class="shell">
+      <nav class="nav">
+        <div class="tabs" data-tabs="preview">
+          <button class="tab active" data-tab="report">Report</button>
+          <button class="tab" data-tab="evidence">Evidence</button>
+          <button class="tab" data-tab="methodology">Methodology</button>
+        </div>
+        <div class="brand">Marty Koepke</div>
+      </nav>
+
+      <header class="panel">
+        <p class="eyebrow">Free AI readiness check</p>
+        <h1>Marty Koepke</h1>
+        <p class="muted" style="margin-top:10px;">Preview result for martykoepke.com</p>
+      </header>
+
+      <div class="pane active" data-pane-group="preview" data-pane="report">
+        <section class="panel score-block">
+          <div>
+            <p class="eyebrow">Your AI readiness</p>
+            <div class="score"><span class="num">68</span><span class="denom">/ 100</span><span class="tier">Discoverable</span></div>
+            <p>AI systems can identify the business and understand the general category. The next gains come from stronger proof, clearer fit language, and more durable source signals.</p>
+          </div>
+          <div>
+            <p>Readiness is the work AI can see on your public site. It is the foundation that determines whether AI can find, understand, and correctly describe your business when buyers ask.</p>
+            <p class="muted" style="margin-top:12px;">This preview shows the score and a few findings. The emailed report adds the deeper action plan and 30-day private link.</p>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2>The five things that make up your readiness</h2>
+          <p class="muted" style="margin-top:8px;">Each driver is scored 0-5 against observable public evidence.</p>
+          <div class="driver" style="margin-top:18px;">
+            <div class="driver-head"><h3>Business clarity</h3><div class="points">4.0 / 5</div></div>
+            <div class="bar"><span style="width:80%"></span></div>
+          </div>
+          <div class="driver" style="margin-top:14px;">
+            <div class="driver-head"><h3>Source support</h3><div class="points">2.5 / 5</div></div>
+            <div class="bar"><span style="width:50%"></span></div>
+            <p class="muted">The site has claims and owned-source language, but the claim-to-proof chain is not yet strong enough.</p>
+          </div>
+          <div class="driver" style="margin-top:14px;">
+            <div class="driver-head"><h3>AI readability</h3><div class="points">3.5 / 5</div></div>
+            <div class="bar"><span style="width:70%"></span></div>
+          </div>
+          <div class="driver" style="margin-top:14px;">
+            <div class="driver-head"><h3>Distinctive point of view</h3><div class="points">3.5 / 5</div></div>
+            <div class="bar"><span style="width:70%"></span></div>
+          </div>
+          <div class="driver" style="margin-top:14px;">
+            <div class="driver-head"><h3>Recommendation fit</h3><div class="points">3.0 / 5</div></div>
+            <div class="bar"><span style="width:60%"></span></div>
+            <p class="muted">AI can infer the target buyer, but stronger use-case and not-fit language would preserve context.</p>
+          </div>
+          <p class="muted" style="margin-top:14px;">Full report includes the complete driver breakdown and action plan.</p>
+        </section>
+      </div>
+
+      <div class="pane" data-pane-group="preview" data-pane="evidence">
+        <section class="panel">
+          <h2>Evidence preview</h2>
+          <p class="muted" style="margin-top:8px;">This is site and source evidence, not live AI answer testing.</p>
+          <div class="grid-2" style="margin-top:18px;">
+            <div class="card">
+              <h3>What we read on the site</h3>
+              <ul class="list">
+                <li>Organization schema: present</li>
+                <li>robots.txt: present</li>
+                <li>llms.txt: missing</li>
+                <li>Founder/person signal: present</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3>What corroborated the entity</h3>
+              <ul class="list">
+                <li>LinkedIn profile: found</li>
+                <li>Wikidata entity: not found</li>
+                <li>Third-party mentions: 3 domains</li>
+                <li>SameAs links: partial</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="pane" data-pane-group="preview" data-pane="methodology">
+        <section class="panel">
+          <h2>Methodology preview</h2>
+          <p class="muted" style="margin-top:8px;">The free scan measures public readiness signals: the material AI can read before it decides whether to trust or recommend a business.</p>
+          <div class="grid-2" style="margin-top:18px;">
+            <div class="card"><h3>Inputs</h3><p class="muted">Homepage, metadata, schema, robots.txt, llms.txt, public profiles, and corroborating search results.</p></div>
+            <div class="card"><h3>Outputs</h3><p class="muted">Readiness score, tier, five driver scores, key findings, and recommended next moves.</p></div>
+          </div>
+        </section>
+      </div>
+
+      <section class="panel email-gate">
+        <div>
+          <p class="eyebrow">Private report link</p>
+          <h2>Send the full report to your inbox</h2>
+          <p class="muted" style="margin-top:8px;">The hosted report link is token-enabled and available for 30 days.</p>
+        </div>
+        <div class="email-form">
+          <input aria-label="Email address" value="you@yourbusiness.com" />
+          <button class="cta">Send report</button>
+        </div>
+      </section>
+    </section>
+
+    <div class="section-label" id="tokenized">Tokenized post-email report</div>
+
+    <section class="shell">
+      <nav class="nav">
+        <div class="tabs" data-tabs="token">
+          <button class="tab active" data-tab="report">Report</button>
+          <button class="tab" data-tab="evidence">Evidence</button>
+          <button class="tab" data-tab="methodology">Methodology</button>
+        </div>
+        <div class="brand">Marty Koepke</div>
+      </nav>
+
+      <article class="paper">
+        <p class="eyebrow">Free AI readiness check</p>
+        <h1>Marty Koepke</h1>
+        <p class="muted" style="margin-top:8px;">Generated July 8, 2026 · private report link expires after 30 days</p>
+
+        <div class="pane active" data-pane-group="token" data-pane="report">
+          <section style="margin-top:26px;">
+            <h2>What stood out</h2>
+            <div class="grid-2" style="margin-top:16px;">
+              <div class="card"><h3>Source support</h3><p class="muted">The site makes credible claims, but they are not consistently paired with proof that AI can associate with the claim.</p></div>
+              <div class="card"><h3>Recommendation fit</h3><p class="muted">AI can infer the target buyer, but the site needs explicit use cases and not-fit language to preserve recommendation context.</p></div>
+            </div>
+          </section>
+
+          <section style="margin-top:30px;">
+            <h2>3 ways to improve AI visibility</h2>
+            <p class="muted" style="margin-top:8px;">These recommendations are designed as implementation moves. They explain where the content belongs, what to add, and what success should look like.</p>
+            <div class="recommendations">
+              <article class="recommendation">
+                <div class="rec-num">1</div>
+                <div>
+                  <h3>Add proof beside the claims you want AI to repeat</h3>
+                  <p class="muted" style="margin-top:8px;">AI needs nearby evidence it can connect to the claim. A testimonial on a separate page is less useful than proof placed directly under the claim it supports.</p>
+                  <div class="rec-grid">
+                    <div class="rec-note"><h4>Where</h4><p class="muted">Primary service page below the offer explanation. Add a shorter proof band on the homepage and credentials on the About page.</p></div>
+                    <div class="rec-note"><h4>How</h4><p class="muted">Create a Claim / Evidence / Source block. Each row should include one claim, one proof asset, and a source link or named example.</p></div>
+                    <div class="rec-note"><h4>Success</h4><p class="muted">AI can answer why the business is credible without flattening the claim into vague category language.</p></div>
+                  </div>
+                  <p class="example"><strong>Example:</strong> Claim: "We improve AI readiness." Evidence: "Client scan moved from Hidden to Discoverable after schema, proof, and fit updates." Source: link to case note or before/after screenshot.</p>
+                </div>
+              </article>
+
+              <article class="recommendation">
+                <div class="rec-num">2</div>
+                <div>
+                  <h3>Add explicit use cases and not-fit language</h3>
+                  <p class="muted" style="margin-top:8px;">AI recommendations improve when the site states the buyer situations where the business is the right answer.</p>
+                  <div class="rec-grid">
+                    <div class="rec-note"><h4>Where</h4><p class="muted">Primary service page, offer/pricing page, FAQ, consultation booking page, and a short homepage section near the CTA.</p></div>
+                    <div class="rec-note"><h4>How</h4><p class="muted">Add four blocks: Best for, Common triggers, Not a fit for, and Choose this when. Use buyer language, not internal positioning language.</p></div>
+                    <div class="rec-note"><h4>Success</h4><p class="muted">AI recommends the business for specific buyer prompts and avoids wrong-fit recommendations.</p></div>
+                  </div>
+                  <p class="example"><strong>Example:</strong> Best for founder-led service firms with a real offer and a public website. Not a fit for ecommerce brands looking for paid media management.</p>
+                </div>
+              </article>
+
+              <article class="recommendation">
+                <div class="rec-num">3</div>
+                <div>
+                  <h3>Restructure important pages with AI-readable headings</h3>
+                  <p class="muted" style="margin-top:8px;">Headings are not decoration. They tell AI what each section means and which passages answer which questions.</p>
+                  <div class="rec-grid">
+                    <div class="rec-note"><h4>Where</h4><p class="muted">Homepage, top service page, About page, FAQ, methodology/process page, and any page in the main navigation.</p></div>
+                    <div class="rec-note"><h4>How</h4><p class="muted">Use one H1 and H2s like Who this is for, What this measures, What you receive, Proof, Use cases, and FAQ. Add schema and llms.txt after the page structure is clear.</p></div>
+                    <div class="rec-note"><h4>Success</h4><p class="muted">AI can extract identity, offer, proof, and buyer fit from named sections instead of guessing from scattered copy.</p></div>
+                  </div>
+                  <p class="example"><strong>Example:</strong> Replace "Our Services" with "AI Readiness Audit for Founder-Led Service Businesses," then structure the page around buyer questions.</p>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <section style="margin-top:30px;" class="score-block">
+            <div>
+              <p class="eyebrow">Readiness snapshot</p>
+              <div class="score"><span class="num">68</span><span class="denom">/ 100</span><span class="tier">Discoverable</span></div>
+              <p>AI tools recognize this business as a credible answer. Closing the remaining gaps moves it closer to a default recommendation.</p>
+            </div>
+            <div class="card">
+              <h3>Report scope</h3>
+              <p class="muted">This free check reads public site signals and scores readiness. The paid audit measures live AI answers across major engines.</p>
+            </div>
+          </section>
+
+          <section style="margin-top:30px;">
+            <h2>Driver details from the preview</h2>
+            <div class="driver" style="margin-top:16px;"><div class="driver-head"><h3>Source support</h3><div class="points">2.5 / 5</div></div><div class="bar"><span style="width:50%"></span></div><p class="muted">Needs more visible proof and third-party corroboration.</p></div>
+            <div class="driver" style="margin-top:14px;"><div class="driver-head"><h3>Recommendation fit</h3><div class="points">3.0 / 5</div></div><div class="bar"><span style="width:60%"></span></div><p class="muted">Needs clearer use-case and not-fit language.</p></div>
+          </section>
+        </div>
+
+        <div class="pane" data-pane-group="token" data-pane="evidence">
+          <section style="margin-top:26px;">
+            <h2>Evidence used in this report</h2>
+            <div class="grid-2" style="margin-top:16px;">
+              <div class="card">
+                <h3>Site signals</h3>
+                <ul class="list"><li>Page title and meta description read</li><li>Organization schema present</li><li>robots.txt present</li><li>llms.txt missing</li><li>FAQ schema not found</li></ul>
+              </div>
+              <div class="card">
+                <h3>Corroboration signals</h3>
+                <ul class="list"><li>LinkedIn profile found</li><li>Wikidata not found</li><li>3 third-party domains found</li><li>SameAs links partial</li></ul>
+              </div>
+            </div>
+            <div class="card" style="margin-top:18px;">
+              <h3>How to read this evidence</h3>
+              <p class="muted">Evidence here shows what the free scan could observe from the public site and entity signals. It does not include live AI answers, claim verification, or competitor comparisons.</p>
+            </div>
+          </section>
+        </div>
+
+        <div class="pane" data-pane-group="token" data-pane="methodology">
+          <section style="margin-top:26px;">
+            <h2>How this free readiness check is scored</h2>
+            <p class="muted" style="margin-top:8px;">The free check measures whether public site and source signals make the business easy for AI to classify, trust, parse, differentiate, and recommend in the right situations.</p>
+            <div class="grid-3" style="margin-top:18px;">
+              <div class="card"><h3>Inputs</h3><p class="muted">Homepage, metadata, structured data, robots.txt, llms.txt, public profiles, and corroborating search results.</p></div>
+              <div class="card"><h3>Scores</h3><p class="muted">Five readiness drivers produce a 0-100 score and a tier. The free score is readiness only.</p></div>
+              <div class="card"><h3>Limits</h3><p class="muted">The paid audit adds live AI answer testing, claim verification, and competitor comparison.</p></div>
+            </div>
+          </section>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <script>
+    document.querySelectorAll("[data-tabs]").forEach((group) => {
+      group.addEventListener("click", (event) => {
+        const button = event.target.closest("[data-tab]");
+        if (!button) return;
+        const name = button.dataset.tab;
+        const groupName = group.dataset.tabs;
+        group.querySelectorAll("[data-tab]").forEach((item) => {
+          item.classList.toggle("active", item === button);
+        });
+        document.querySelectorAll(`[data-pane-group="${groupName}"]`).forEach((pane) => {
+          pane.classList.toggle("active", pane.dataset.pane === name);
+        });
+      });
+    });
+  </script>
+</body>
+</html>

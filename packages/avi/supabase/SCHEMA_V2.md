@@ -268,9 +268,9 @@ CREATE INDEX IF NOT EXISTS idx_api_calls_audit_id
 
 ## 5. RLS — service-role-only for every new table
 
-Follow the existing pattern from migration 0001: enable RLS, no SELECT/INSERT/UPDATE/DELETE policies for `anon` or `authenticated`. Service role bypasses RLS by virtue of its role.
+Follow the existing pattern from migration 0001: enable RLS, then deny `anon` and `authenticated` outright. As of migration `0021` this is **explicit** — every table carries a restrictive `deny_all_anon_authenticated` policy (`using (false) with check (false)`) rather than relying on the implicit "RLS on, no policy" deny. The two are functionally identical, but the explicit policy documents intent and keeps the Supabase security advisor clean (the implicit form trips the `rls_enabled_no_policy` INFO lint). Service role bypasses RLS by virtue of its role, so the policy is inert for the `/api/*` layer.
 
-For tables that may eventually be customer-readable (e.g., the customer's own audit results via a magic link), add policies in a later migration when that surface exists. Today: lock everything down.
+For tables that may eventually be customer-readable (e.g., the customer's own audit results via a magic link), replace the deny-all with a scoped policy in a later migration when that surface exists. Today: lock everything down.
 
 ## 6. View: `v_audit_progress`
 

@@ -7,7 +7,7 @@
  * to be touched.
  */
 
-export const CONTACT_EMAIL = "marty.koepke@practicalinformatics.com";
+export const CONTACT_EMAIL = "hello@martykoepke.com";
 
 export const MARTYKOEPKE_URL = "https://martykoepke.com";
 
@@ -34,7 +34,7 @@ export const BOOK_CALL_HREF = "https://tally.so/r/xXVPgo";
 export const BOOK_CALL_LABEL = "Schedule a free 20-minute conversation";
 
 /**
- * AVI checkout links — Stripe Payment Links from env vars.
+ * Daizie checkout links — Stripe Payment Links from env vars.
  *
  * These are NEXT_PUBLIC_ because the customer's browser navigates to them.
  * .env.local uses TEST links during development; Vercel production env vars
@@ -44,10 +44,10 @@ export const BOOK_CALL_LABEL = "Schedule a free 20-minute conversation";
  * still does something useful (no broken links).
  */
 export const AVI_CHECKOUT = {
-  report:
-    process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK_REPORT || "/contact",
-  sprint:
-    process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK_SPRINT || "/contact",
+  audit:
+    process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK_AUDIT || "/contact",
+  monitoring:
+    process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK_MONITORING || "/contact",
 } as const;
 
 /**
@@ -55,8 +55,8 @@ export const AVI_CHECKOUT = {
  * Keeps the resolution logic in one place so content can stay declarative.
  */
 export function resolveTierCta(target: string): string {
-  if (target === "STRIPE_LINK_REPORT") return AVI_CHECKOUT.report;
-  if (target === "STRIPE_LINK_SPRINT") return AVI_CHECKOUT.sprint;
+  if (target === "STRIPE_LINK_AUDIT") return AVI_CHECKOUT.audit;
+  if (target === "STRIPE_LINK_MONITORING") return AVI_CHECKOUT.monitoring;
   if (target === "BOOK_CALL") return BOOK_CALL_HREF;
   if (target === "SCAN") return "/scan";
   return target; // already a path/URL

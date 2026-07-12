@@ -43,7 +43,7 @@ export async function fetchSourceEvidence(
     const res = await fetch(url, {
       signal: controller.signal,
       redirect: 'follow',
-      headers: { 'User-Agent': 'PracticalInformatics-AVI/3.0 (source-evidence)' },
+      headers: { 'User-Agent': 'MartyKoepke-AVI/3.0 (source-evidence)' },
     });
     clearTimeout(timeout);
 

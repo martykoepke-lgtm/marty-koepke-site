@@ -1,4 +1,4 @@
-# Practical Informatics — Positioning & Competitive Comparison
+# Marty Koepke — Positioning & Competitive Comparison
 
 *Working messaging document. The copy below is lift-ready for the website; apply your forest-green/gold palette and Playfair Display styling in your own design layer. The comparison is written to be fair to competitors on purpose — a trust-first brand wins by being accurate about what others do well, then showing where you're different.*
 
@@ -20,7 +20,7 @@
 
 **Classic format (for internal clarity and investor/partner conversations):**
 
-> For small and midsize businesses, solo founders, and practices who are becoming invisible in AI search but don't have a marketing team to fix it, **Practical Informatics** is a *done-with-you AI visibility partner* that measures where you actually stand, explains it in plain English, remediates it alongside you, and then proves the number moved. Unlike AI-visibility software that hands you a dashboard, or agencies that sell a retainer in marketing jargon, Practical Informatics pairs a transparent, Lean-validated methodology with two decades of domain-translation experience — turning AI visibility from a black box into something you understand and control.
+> For small and midsize businesses, solo founders, and practices who are becoming invisible in AI search but don't have a marketing team to fix it, **Marty Koepke** is a *done-with-you AI visibility partner* that measures where you actually stand, explains it in plain English, remediates it alongside you, and then proves the number moved. Unlike AI-visibility software that hands you a dashboard, or agencies that sell a retainer in marketing jargon, Marty Koepke pairs a transparent, Lean-validated methodology with two decades of domain-translation experience — turning AI visibility from a black box into something you understand and control.
 
 **Plain-English version (for the website):**
 
@@ -61,9 +61,9 @@ You sit in the gap between them: the trusted expert who *translates and implemen
 
 ---
 
-## 6. Side-by-side: Practical Informatics vs. Tools vs. Agencies
+## 6. Side-by-side: Marty Koepke vs. Tools vs. Agencies
 
-| | **AI Visibility Tools** *(Otterly, Peec, Profound)* | **Traditional GEO/SEO Agencies** | **Practical Informatics** |
+| | **AI Visibility Tools** *(Otterly, Peec, Profound)* | **Traditional GEO/SEO Agencies** | **Marty Koepke** |
 |---|---|---|---|
 | **What you get** | A dashboard and a score | A monthly retainer of services | Measurement + translation + done-with-you fixes + proof |
 | **Built for** | In-house marketing teams | Companies with a marketing budget | Owners who aren't marketers |
@@ -75,7 +75,7 @@ You sit in the gap between them: the trusted expert who *translates and implemen
 | **Pricing model** | Software subscription (~$29–$1,500+/mo) | Retainer (~$1,000–$10,000/mo) | Service & outcome-based |
 | **Who you actually deal with** | A login | An account manager | The expert, directly |
 
-*Fair-play note: the tools are genuinely excellent at scaled measurement, and good agencies deliver real results for clients who have the budget and the in-house fluency. The difference isn't quality — it's fit. They serve teams who already know what to do with the data. Practical Informatics serves the owner who needs a translator and a partner.*
+*Fair-play note: the tools are genuinely excellent at scaled measurement, and good agencies deliver real results for clients who have the budget and the in-house fluency. The difference isn't quality — it's fit. They serve teams who already know what to do with the data. Marty Koepke serves the owner who needs a translator and a partner.*
 
 ---
 
@@ -110,4 +110,4 @@ You sit in the gap between them: the trusted expert who *translates and implemen
 
 ---
 
-*Draft v1. As you gather real before/after results from your own site and your benchmark studies, fold the strongest ones in as proof points — measured evidence will do more for this page than any claim.*
+*As you gather real before/after results from your own site and your benchmark studies, fold the strongest ones in as proof points — measured evidence will do more for this page than any claim.*

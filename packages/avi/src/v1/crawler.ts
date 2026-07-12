@@ -61,7 +61,7 @@ export type CrawlerOutput = {
   preliminaryFindings: CrawlerFinding[];
 };
 
-const USER_AGENT = "PracticalInformaticsBot/1.0 (+https://www.practicalinformatics.com)";
+const USER_AGENT = "MartyKoepkeBot/1.0 (+https://www.martykoepke.com)";
 const FETCH_TIMEOUT_MS = 10_000;
 
 // ============================================================================

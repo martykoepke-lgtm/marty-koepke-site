@@ -3,12 +3,12 @@ import PolicyPage from "@/components/layout/PolicyPage";
 import { SITE } from "@/lib/content";
 
 export const metadata: Metadata = {
-  title: "Return Policy | Practical Informatics",
+  title: "Return Policy | Marty Koepke",
   description:
     "Return and refund policy for services purchased from Practical Informatics LLC.",
   alternates: { canonical: "/returns" },
   openGraph: {
-    title: "Return Policy | Practical Informatics",
+    title: "Return Policy | Marty Koepke",
     description:
       "Return and refund policy for services purchased from Practical Informatics LLC.",
     url: `${SITE.url}/returns`,

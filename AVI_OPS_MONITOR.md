@@ -80,7 +80,7 @@ The full sample email you'd get a few weeks in, with realistic numbers and the l
 
 ```
 Subject:   AVI weekly ops report — June 15, 2026
-From:      hello@practicalinformatics.com
+From:      hello@martykoepke.com
 To:        mkoepkeci@gmail.com
 
 ────────────────────────────────────────────────────────

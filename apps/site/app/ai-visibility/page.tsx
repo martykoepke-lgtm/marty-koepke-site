@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Section from "@/components/ui/Section";
-import Button from "@/components/ui/Button";
+import Link from "next/link";
+import DaizieHeader from "@/components/daizie/DaizieHeader";
 import Reveal, { RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import Faq from "@/components/sections/Faq";
-import { Icon, ArrowRightIcon, CheckIcon } from "@/components/ui/Icons";
 import { META, AVI, SITE } from "@/lib/content";
 import { BOOK_CALL_HREF, resolveTierCta } from "@/lib/links";
 
@@ -19,7 +18,6 @@ export const metadata: Metadata = {
   },
 };
 
-// Structured data — helps real search engines AND models AI scrape this page
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -33,55 +31,43 @@ const faqJsonLd = {
 const serviceJsonLd = {
   "@context": "https://schema.org",
   "@type": "Service",
-  name: "AI Visibility and AI Business Accuracy",
+  name: "Daizie AI Visibility Assessment",
   provider: { "@id": `${SITE.url}/#org` },
   description: META.aiVisibility.description,
   offers: [
     {
       "@type": "Offer",
-      name: "Free AI Readiness Check",
-      price: "0",
-      priceCurrency: "USD",
-      description: "Readiness-only website scan with 2-3 obvious findings.",
-    },
-    {
-      "@type": "Offer",
-      name: "AI Visibility Snapshot",
-      price: "495",
-      priceCurrency: "USD",
-      description:
-        "Focused paid review of whether AI can find, understand, and describe the business, with a short fix list and walkthrough.",
-    },
-    {
-      "@type": "Offer",
-      name: "AI Business Accuracy Audit",
-      price: "1950",
-      priceCurrency: "USD",
-      description:
-        "Core audit measuring readiness, visibility, representation accuracy, claim support, context preservation, and recommendation fit.",
-    },
-    {
-      "@type": "Offer",
-      name: "Monthly Monitoring",
-      price: "500",
-      priceCurrency: "USD",
-      description:
-        "Monthly monitoring for AI visibility and accuracy drift after a Snapshot or Audit.",
-    },
-    {
-      "@type": "Offer",
-      name: "Implementation Planning",
+      name: "Free Daizie Readiness Check",
       price: "0",
       priceCurrency: "USD",
       description:
-        "Scoped after diagnosis. Implementation work is quoted only after the audit clarifies what needs fixing.",
+        "Readiness-only website scan with a master-key presence check and top 2-3 findings.",
+    },
+    {
+      "@type": "Offer",
+      name: "Daizie AI Visibility Assessment",
+      price: "895",
+      priceCurrency: "USD",
+      description:
+        "Full measurement protocol: four engines, every claim verified, plotted against two named competitors. Includes a 30-minute review call.",
+    },
+    {
+      "@type": "Offer",
+      name: "Daizie Monthly Monitoring",
+      price: "149",
+      priceCurrency: "USD",
+      description:
+        "Full Assessment re-run every month, dashboard, trends across all 11 measurements. Available after the Assessment.",
     },
   ],
 };
 
 export default function AiVisibilityPage() {
+  const freeOffer = AVI.compareOffers.find((o) => o.id === "free")!;
+  const paidOffer = AVI.compareOffers.find((o) => o.id === "paid")!;
+
   return (
-    <>
+    <div className="daizie-shell">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
@@ -91,304 +77,401 @@ export default function AiVisibilityPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }}
       />
 
-      {/* Hero — light, centered. Sub-tagline carries the methodology pitch. */}
-      <Section tone="cream" width="narrow" className="text-center">
+      <DaizieHeader />
+
+      <main className="daizie-main">
+        <div className="daizie-hero-spacer" aria-hidden="true" />
+
+        {/* ── Hero ─────────────────────────────────────────────────────── */}
         <Reveal>
-          <p className="font-serif text-sm uppercase tracking-[0.18em] text-gold-dark">
-            {AVI.heroEyebrow}
-          </p>
-          <h1 className="mt-3 text-4xl text-forest sm:text-5xl">
-            {AVI.heroHeadline}
-          </h1>
-          <p className="mx-auto mt-4 max-w-2xl font-serif text-lg italic text-gold-dark sm:text-xl">
-            {AVI.subTagline}
-          </p>
-          <p className="mx-auto mt-4 max-w-2xl font-serif text-xl text-moss">
-            {AVI.heroSubhead}
-          </p>
-          <div className="mt-9">
-            <Button href="/scan">
-              Run the free Readiness Check
-              <ArrowRightIcon className="h-4 w-4" />
-            </Button>
-          </div>
-          <div className="mx-auto mt-7 max-w-xl border-t border-tan pt-4">
-            <p className="text-[11px] uppercase tracking-[0.14em] text-moss sm:text-xs">
+          <article className="daizie-pane daizie-hero-pane">
+            <div className="daizie-product-lockup">
+              <Image
+                src="/images/brand-2026/daizie-mark.png"
+                alt=""
+                width={420}
+                height={420}
+                priority
+              />
+              <span className="lockup-text">
+                <span className="lockup-name">Daizie</span>
+                <span className="lockup-tag">AI visibility, made clear</span>
+              </span>
+            </div>
+            <p className="daizie-eyebrow">{AVI.heroEyebrow}</p>
+            <h1>{AVI.heroHeadline}</h1>
+            <p className="daizie-italic-tag">{AVI.subTagline}</p>
+            <p className="daizie-lede">{AVI.heroSubhead}</p>
+            <div className="daizie-actions">
+              <Link
+                className="daizie-btn primary"
+                href={AVI.heroPrimaryCta.href}
+              >
+                {AVI.heroPrimaryCta.label} →
+              </Link>
+              <a className="plain-link" href={AVI.heroSecondaryCta.href}>
+                {AVI.heroSecondaryCta.label}
+              </a>
+            </div>
+            <div className="daizie-trust">
               {AVI.heroTrust.map((item, i) => (
-                <span key={i}>
-                  {i <= 1 ? (
-                    <span className="text-gold-dark">{item}</span>
-                  ) : (
-                    item
-                  )}
+                <span
+                  key={i}
+                  className={i <= 1 ? "emph" : undefined}
+                >
+                  {item}
                   {i < AVI.heroTrust.length - 1 && (
-                    <span className="mx-2 text-tan">·</span>
+                    <span aria-hidden="true"> · </span>
                   )}
                 </span>
               ))}
-            </p>
-          </div>
+            </div>
+          </article>
         </Reveal>
-      </Section>
 
-      {/* The problem — FOREST band sets the gravity */}
-      <Section tone="forest" width="narrow">
+        {/* ── Two offers at a glance (Free vs Paid) ─────────────────────── */}
         <Reveal>
-          <h2 className="text-3xl text-cream sm:text-4xl">
-            The shift nobody&apos;s talking about.
-          </h2>
-        </Reveal>
-        <RevealGroup className="mt-8 space-y-5">
-          {AVI.problem.map((p, i) => (
-            <RevealItem key={i}>
-              <p className="text-lg leading-relaxed text-cream/85">{p}</p>
-            </RevealItem>
-          ))}
-        </RevealGroup>
-      </Section>
-
-      {/* The six dimensions — cream-dim, 6-up grid with line-art icons */}
-      <Section tone="cream-dim">
-        <Reveal>
-          <p className="text-center font-serif text-sm uppercase tracking-[0.18em] text-gold-dark">
-            {AVI.dimensionsEyebrow}
-          </p>
-          <h2 className="mt-3 text-center text-3xl text-forest sm:text-4xl">
-            {AVI.dimensionsHeadline}
-          </h2>
-        </Reveal>
-        <RevealGroup className="mt-14 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {AVI.dimensions.map((d) => (
-            <RevealItem
-              key={d.name}
-              className="rounded-lg border border-tan bg-cream p-7"
-            >
-              <Icon
-                name={d.icon as "user" | "search" | "fingerprint" | "layers" | "code" | "network"}
-                className="h-8 w-8 text-gold-dark"
-              />
-              <h3 className="mt-5 font-serif text-xl text-forest">{d.name}</h3>
-              <p className="mt-3 leading-relaxed text-charcoal">{d.body}</p>
-            </RevealItem>
-          ))}
-        </RevealGroup>
-      </Section>
-
-      {/* Org-level section — brand context: complementary, not substitutive */}
-      <Section tone="cream" width="narrow">
-        <Reveal>
-          <p className="font-serif text-sm uppercase tracking-[0.18em] text-gold-dark">
-            {AVI.orgSection.eyebrow}
-          </p>
-          <h2 className="mt-3 font-serif text-3xl text-forest sm:text-4xl">
-            {AVI.orgSection.headline}
-          </h2>
-        </Reveal>
-        <RevealGroup className="mt-8 space-y-5">
-          {AVI.orgSection.bodyParagraphs.map((p, i) => (
-            <RevealItem key={i}>
-              <p className="text-lg leading-relaxed text-charcoal">{p}</p>
-            </RevealItem>
-          ))}
-        </RevealGroup>
-        <RevealGroup className="mt-10 grid gap-6 md:grid-cols-2">
-          <RevealItem className="rounded-lg border border-tan bg-cream-dim p-6">
-            <p className="font-serif text-sm uppercase tracking-[0.14em] text-gold-dark">
-              What we bring
-            </p>
-            <ul className="mt-4 space-y-2">
-              {AVI.orgSection.weBring.map((item) => (
-                <li
-                  key={item}
-                  className="flex items-start gap-2 text-charcoal"
-                >
-                  <CheckIcon className="mt-0.5 h-4 w-4 shrink-0 text-gold-dark" />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </RevealItem>
-          <RevealItem className="rounded-lg border border-tan bg-cream-dim p-6">
-            <p className="font-serif text-sm uppercase tracking-[0.14em] text-gold-dark">
-              What we never replace
-            </p>
-            <ul className="mt-4 space-y-2">
-              {AVI.orgSection.weNeverReplace.map((item) => (
-                <li
-                  key={item}
-                  className="flex items-start gap-2 text-charcoal"
-                >
-                  <span className="mt-0.5 inline-block h-4 w-4 shrink-0 text-center text-gold-dark">
-                    —
-                  </span>
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </RevealItem>
-        </RevealGroup>
-      </Section>
-
-      {/* Why this is different — anti-generic-SEO positioning */}
-      <Section tone="cream-dim" width="narrow">
-        <Reveal>
-          <p className="font-serif text-sm uppercase tracking-[0.18em] text-gold-dark">
-            {AVI.differentEyebrow}
-          </p>
-          <h2 className="mt-3 font-serif text-3xl text-forest sm:text-4xl">
-            {AVI.differentHeadline}
-          </h2>
-        </Reveal>
-        <RevealGroup className="mt-8 space-y-5">
-          {AVI.differentBody.map((p, i) => (
-            <RevealItem key={i}>
-              <p className="text-lg leading-relaxed text-charcoal">{p}</p>
-            </RevealItem>
-          ))}
-        </RevealGroup>
-      </Section>
-
-      {/* Pricing — three tiers, middle featured */}
-      <Section tone="cream-dim" width="wide">
-        <Reveal>
-          <p className="text-center font-serif text-sm uppercase tracking-[0.18em] text-gold-dark">
-            {AVI.pricingEyebrow}
-          </p>
-          <h2 className="mt-3 text-center text-3xl text-forest sm:text-4xl">
-            {AVI.pricingHeadline}
-          </h2>
-        </Reveal>
-        <RevealGroup className="mt-14 grid gap-8 md:grid-cols-2">
-          {AVI.tiers.map((tier) => {
-            const href = resolveTierCta(tier.ctaTarget);
-            return (
-              <RevealItem
-                key={tier.id}
-                className={
-                  tier.featured
-                    ? "relative flex flex-col rounded-lg border-2 border-gold bg-cream p-8 shadow-sm md:-translate-y-2"
-                    : "flex flex-col rounded-lg border border-tan bg-cream p-8"
-                }
-              >
-                {tier.featured && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gold px-3 py-1 font-serif text-[11px] uppercase tracking-[0.14em] text-forest-dark">
-                    Most chosen
-                  </span>
-                )}
-                <h3 className="font-serif text-xl text-forest">{tier.name}</h3>
-                <p className="mt-4 font-serif text-4xl text-forest">
-                  {tier.price}
-                </p>
-                <p className="mt-1 text-xs uppercase tracking-[0.12em] text-moss">
-                  {tier.priceNote}
-                </p>
-                <p className="mt-4 font-serif text-base italic text-gold-dark">
-                  {tier.tagline}
-                </p>
-                <ul className="mt-6 flex-1 space-y-3">
-                  {tier.includes.map((item, i) => (
-                    <li
-                      key={i}
-                      className="flex gap-3 text-sm leading-relaxed text-charcoal"
-                    >
-                      <CheckIcon className="mt-0.5 h-4 w-4 shrink-0 text-gold-dark" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-                <div className="mt-8">
-                  <Button
-                    href={href}
-                    variant={tier.featured ? "primary" : "ghost"}
-                    className="w-full"
+          <article className="daizie-pane center" id="compare">
+            <p className="daizie-eyebrow">{AVI.compareEyebrow}</p>
+            <h2>{AVI.compareHeadline}</h2>
+            <p className="daizie-lede">{AVI.compareSubhead}</p>
+            <div className="daizie-tiers">
+              {[freeOffer, paidOffer].map((offer) => {
+                const href = resolveTierCta(offer.cta.href);
+                return (
+                  <div
+                    key={offer.id}
+                    className={`daizie-tier${offer.featured ? " featured" : ""}`}
                   >
-                    {tier.cta}
-                    <ArrowRightIcon className="h-4 w-4" />
-                  </Button>
-                </div>
-              </RevealItem>
-            );
-          })}
-        </RevealGroup>
-      </Section>
-
-      {/* Who it's for / isn't for — two bordered cards */}
-      <Section tone="cream">
-        <RevealGroup className="grid gap-8 md:grid-cols-2">
-          <RevealItem className="rounded-lg border border-tan bg-cream-dim p-7">
-            <h2 className="font-serif text-2xl text-forest">
-              {AVI.forYouHeadline}
-            </h2>
-            <p className="mt-4 leading-relaxed text-charcoal">{AVI.forYou}</p>
-          </RevealItem>
-          <RevealItem className="rounded-lg border border-tan bg-cream-dim p-7">
-            <h2 className="font-serif text-2xl text-forest">
-              {AVI.notForYouHeadline}
-            </h2>
-            <p className="mt-4 leading-relaxed text-charcoal">
-              {AVI.notForYou}
+                    {offer.featured && (
+                      <span className="ribbon">Most chosen</span>
+                    )}
+                    <h3>{offer.name}</h3>
+                    <p className="price" style={{ marginTop: 10 }}>
+                      {offer.price}
+                    </p>
+                    <p style={{ fontSize: ".78rem", opacity: 0.75, marginTop: 2 }}>
+                      {offer.priceNote}
+                    </p>
+                    <p
+                      style={{
+                        marginTop: 16,
+                        fontStyle: "italic",
+                        fontSize: "1rem",
+                        lineHeight: 1.55,
+                      }}
+                    >
+                      {offer.tagline}
+                    </p>
+                    <ul>
+                      {offer.whatYouGet.map((item, i) => (
+                        <li key={i}>{item}</li>
+                      ))}
+                    </ul>
+                    <div className="tier-cta">
+                      <Link
+                        className={`daizie-btn ${offer.featured ? "primary" : "ghost"}`}
+                        href={href}
+                        style={{ display: "flex", width: "100%" }}
+                      >
+                        {offer.cta.label} →
+                      </Link>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            <p style={{ marginTop: 24, fontStyle: "italic", opacity: 0.8, fontSize: ".92rem" }}>
+              {AVI.compareFootnote}{" "}
+              <a
+                className="plain-link"
+                href={BOOK_CALL_HREF}
+              >
+                Book a free 20-minute conversation →
+              </a>
             </p>
-          </RevealItem>
-        </RevealGroup>
-      </Section>
+          </article>
+        </Reveal>
 
-      {/* About Marty — credibility for the AVI specifically */}
-      <Section tone="cream-dim">
+        {/* ── Robust crosswalk ─────────────────────────────────────────── */}
         <Reveal>
-          <div className="grid items-center gap-10 md:grid-cols-[260px_1fr]">
+          <article className="daizie-pane">
+            <div className="center">
+              <p className="daizie-eyebrow">{AVI.crosswalkEyebrow}</p>
+              <h2>{AVI.crosswalkHeadline}</h2>
+              <p className="daizie-lede" style={{ marginLeft: "auto", marginRight: "auto" }}>
+                {AVI.crosswalkSubhead}
+              </p>
+            </div>
+            <div className="daizie-crosswalk">
+              <div className="cw-head">
+                <div />
+                <div>
+                  <p>Free Readiness Check</p>
+                  <p>$0 · instant</p>
+                </div>
+                <div>
+                  <p>AI Visibility Assessment</p>
+                  <p>$895 · 24–48 hrs</p>
+                </div>
+              </div>
+              <RevealGroup>
+                {AVI.crosswalkRows.map((row) => (
+                  <RevealItem key={row.dimension} className="cw-row">
+                    <div className="cw-dim">{row.dimension}</div>
+                    <p>
+                      <span className="cw-mobile-label">Free</span>
+                      {row.free}
+                    </p>
+                    <p>
+                      <span className="cw-mobile-label">Assessment</span>
+                      {row.paid}
+                    </p>
+                  </RevealItem>
+                ))}
+              </RevealGroup>
+            </div>
+          </article>
+        </Reveal>
+
+        {/* ── Audience-lane story ──────────────────────────────────────── */}
+        <Reveal>
+          <article className="daizie-pane">
+            <div className="center">
+              <p className="daizie-eyebrow">{AVI.audienceLanesEyebrow}</p>
+              <h2>{AVI.audienceLanesHeadline}</h2>
+              <p className="daizie-lede" style={{ marginLeft: "auto", marginRight: "auto" }}>
+                {AVI.audienceLanesSubhead}
+              </p>
+            </div>
+            <div className="daizie-lanes">
+              {AVI.audienceLanes.map((lane) => (
+                <div key={lane.id} className="daizie-lane">
+                  <p className="daizie-eyebrow" style={{ marginBottom: 6 }}>
+                    Lane
+                  </p>
+                  <h3>{lane.label}</h3>
+                  <p className="lane-sub">{lane.subLabel}</p>
+                  <p
+                    style={{
+                      color: "var(--dz-forest)",
+                      fontSize: ".78rem",
+                      fontWeight: 700,
+                      letterSpacing: ".14em",
+                      textTransform: "uppercase",
+                      marginBottom: 8,
+                    }}
+                  >
+                    The profiles that matter
+                  </p>
+                  <ul>
+                    {lane.keys.map((k) => (
+                      <li key={k.name}>
+                        <strong>{k.name}</strong>
+                        <span>{k.why}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="lane-note">{lane.queryStyle}</p>
+                </div>
+              ))}
+            </div>
+            <p
+              className="center"
+              style={{
+                marginTop: 22,
+                fontStyle: "italic",
+                fontSize: ".95rem",
+                opacity: 0.8,
+              }}
+            >
+              {AVI.audienceLanesFootnote}
+            </p>
+          </article>
+        </Reveal>
+
+        {/* ── What we measure — the five readiness drivers ─────────────── */}
+        <Reveal>
+          <article className="daizie-pane">
+            <div className="center">
+              <p className="daizie-eyebrow">{AVI.dimensionsEyebrow}</p>
+              <h2>{AVI.dimensionsHeadline}</h2>
+            </div>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+                gap: 18,
+                marginTop: 30,
+              }}
+            >
+              {AVI.dimensions.map((d) => (
+                <div
+                  key={d.name}
+                  style={{
+                    padding: 24,
+                    border: "1px solid var(--dz-line)",
+                    borderRadius: 20,
+                    background: "rgba(255,255,255,.55)",
+                  }}
+                >
+                  <h3 style={{ fontSize: "1.15rem", marginBottom: 8 }}>
+                    {d.name}
+                  </h3>
+                  <p style={{ fontSize: ".92rem", lineHeight: 1.6 }}>
+                    {d.body}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </article>
+        </Reveal>
+
+        {/* ── Inside the paid Assessment ───────────────────────────────── */}
+        <Reveal>
+          <article className="daizie-pane">
+            <div className="center">
+              <p className="daizie-eyebrow">{AVI.insideAssessmentEyebrow}</p>
+              <h2>{AVI.insideAssessmentHeadline}</h2>
+              <p className="daizie-lede" style={{ marginLeft: "auto", marginRight: "auto" }}>
+                {AVI.insideAssessmentSubhead}
+              </p>
+            </div>
+            <div className="daizie-cards-3">
+              {AVI.insideAssessmentCards.map((card) => (
+                <div key={card.title}>
+                  <h3 style={{ fontSize: "1.2rem", marginBottom: 10 }}>
+                    {card.title}
+                  </h3>
+                  <p style={{ fontSize: ".93rem", lineHeight: 1.65 }}>
+                    {card.body}
+                  </p>
+                </div>
+              ))}
+            </div>
+            <p
+              className="center"
+              style={{
+                marginTop: 24,
+                fontSize: "1rem",
+                lineHeight: 1.6,
+              }}
+            >
+              ✓ {AVI.insideAssessmentIncluded}
+            </p>
+          </article>
+        </Reveal>
+
+        {/* ── Who this is for / isn't for ──────────────────────────────── */}
+        <Reveal>
+          <article className="daizie-pane">
+            <div className="daizie-cards-2">
+              <div>
+                <h3>{AVI.forYouHeadline}</h3>
+                <p style={{ marginTop: 12, lineHeight: 1.65 }}>{AVI.forYou}</p>
+              </div>
+              <div>
+                <h3>{AVI.notForYouHeadline}</h3>
+                <p style={{ marginTop: 12, lineHeight: 1.65 }}>
+                  {AVI.notForYou}
+                </p>
+              </div>
+            </div>
+          </article>
+        </Reveal>
+
+        {/* ── Monthly Monitoring callout ───────────────────────────────── */}
+        <Reveal>
+          <article className="daizie-pane center">
+            <p className="daizie-eyebrow">{AVI.monitoringEyebrow}</p>
+            <h2>{AVI.monitoringHeadline}</h2>
+            <p className="daizie-lede" style={{ marginLeft: "auto", marginRight: "auto" }}>
+              {AVI.monitoringBody}
+            </p>
+            <div className="daizie-actions">
+              <Link
+                className="daizie-btn ghost"
+                href={resolveTierCta(AVI.monitoringCta.href)}
+              >
+                {AVI.monitoringCta.label} →
+              </Link>
+            </div>
+          </article>
+        </Reveal>
+
+        {/* ── About Marty ──────────────────────────────────────────────── */}
+        <Reveal>
+          <article
+            className="daizie-pane"
+            style={{
+              display: "grid",
+              gridTemplateColumns: "220px 1fr",
+              gap: 40,
+              alignItems: "center",
+            }}
+          >
             <Image
               src="/images/headshot.jpg"
               alt="Marty Koepke"
-              width={260}
-              height={260}
-              className="mx-auto h-[220px] w-[220px] rounded-full object-cover md:h-[260px] md:w-[260px]"
+              width={220}
+              height={280}
+              style={{
+                width: 220,
+                height: 280,
+                objectFit: "cover",
+                borderRadius: "110px 110px 24px 24px",
+                border: "5px solid rgba(255,255,255,.72)",
+              }}
             />
             <div>
-              <p className="font-serif text-sm uppercase tracking-[0.18em] text-gold-dark">
-                {AVI.aboutMartyEyebrow}
-              </p>
-              <h2 className="mt-3 font-serif text-2xl text-forest sm:text-3xl">
-                {AVI.aboutMartyHeadline}
-              </h2>
+              <p className="daizie-eyebrow">{AVI.aboutMartyEyebrow}</p>
+              <h2>{AVI.aboutMartyHeadline}</h2>
               {AVI.aboutMartyBody.map((p, i) => (
-                <p key={i} className="mt-4 leading-relaxed text-charcoal">
+                <p
+                  key={i}
+                  style={{
+                    marginTop: 14,
+                    lineHeight: 1.7,
+                    fontSize: "1rem",
+                  }}
+                >
                   {p}
                 </p>
               ))}
             </div>
-          </div>
+          </article>
         </Reveal>
-      </Section>
 
-      {/* FAQ */}
-      <Section tone="cream" width="narrow">
+        {/* ── FAQ ──────────────────────────────────────────────────────── */}
         <Reveal>
-          <h2 className="text-3xl sm:text-4xl">
-            Frequently asked questions
-          </h2>
+          <article className="daizie-pane">
+            <h2 style={{ marginBottom: 24 }}>Frequently asked questions</h2>
+            <Faq items={AVI.faq} />
+          </article>
         </Reveal>
-        <Reveal className="mt-8">
-          <Faq items={AVI.faq} />
-        </Reveal>
-      </Section>
 
-      {/* Secondary CTA — for talk-first folks */}
-      <Section tone="forest" width="narrow" className="text-center">
+        {/* ── Secondary CTA (forest pane) ──────────────────────────────── */}
         <Reveal>
-          <h2 className="text-3xl text-cream sm:text-4xl">
-            {AVI.secondaryCta.headline}
-          </h2>
-          <p className="mx-auto mt-5 max-w-xl text-lg text-cream/80">
-            {AVI.secondaryCta.body}
-          </p>
-          <div className="mt-9">
-            <Button href={BOOK_CALL_HREF} variant="onForest">
-              Schedule a free 20-minute conversation
-              <ArrowRightIcon className="h-4 w-4" />
-            </Button>
-          </div>
+          <article className="daizie-pane forest center">
+            <h2>{AVI.secondaryCta.headline}</h2>
+            <p
+              className="daizie-lede"
+              style={{
+                marginLeft: "auto",
+                marginRight: "auto",
+                color: "rgba(250,246,238,.85)",
+              }}
+            >
+              {AVI.secondaryCta.body}
+            </p>
+            <div className="daizie-actions">
+              <a className="daizie-btn light" href={BOOK_CALL_HREF}>
+                Schedule a free 20-minute conversation →
+              </a>
+            </div>
+          </article>
         </Reveal>
-      </Section>
-    </>
+      </main>
+    </div>
   );
 }

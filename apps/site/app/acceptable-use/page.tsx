@@ -3,14 +3,14 @@ import PolicyPage from "@/components/layout/PolicyPage";
 import { SITE } from "@/lib/content";
 
 export const metadata: Metadata = {
-  title: "Acceptable Use Policy | Practical Informatics",
+  title: "Acceptable Use Policy | Marty Koepke",
   description:
-    "Rules governing acceptable use of practicalinformatics.com and services from Practical Informatics LLC.",
+    "Rules governing acceptable use of martykoepke.com and services from Practical Informatics LLC.",
   alternates: { canonical: "/acceptable-use" },
   openGraph: {
-    title: "Acceptable Use Policy | Practical Informatics",
+    title: "Acceptable Use Policy | Marty Koepke",
     description:
-      "Rules governing acceptable use of practicalinformatics.com and services from Practical Informatics LLC.",
+      "Rules governing acceptable use of martykoepke.com and services from Practical Informatics LLC.",
     url: `${SITE.url}/acceptable-use`,
   },
 };

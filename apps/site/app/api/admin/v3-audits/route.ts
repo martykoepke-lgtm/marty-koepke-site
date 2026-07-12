@@ -10,7 +10,7 @@ export const runtime = "nodejs";
 export const maxDuration = 300;
 
 type Body = {
-  mode?: "snapshot" | "audit" | "monitoring";
+  mode?: "audit" | "monitoring";
   queryCount?: number;
   subject?: Partial<Subject> & {
     competitors?: CompetitorInput[];
@@ -40,10 +40,10 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const mode = body.mode ?? "snapshot";
+  const mode = body.mode ?? "audit";
   const options: RunAuditV3Options = {
     mode,
-    queryCount: body.queryCount ?? 4,
+    queryCount: body.queryCount ?? 8,
   };
 
   try {
@@ -55,7 +55,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(
         {
           ok: false,
-          error: "V3 audit ran, but persistence failed.",
+          error: "Audit ran, but persistence failed.",
           auditId: audit.audit_id,
           scores: audit.public_scores,
           persist: persisted,
@@ -90,7 +90,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(
       {
         ok: false,
-        error: e instanceof Error ? e.message : "V3 audit failed.",
+        error: e instanceof Error ? e.message : "Audit failed.",
       },
       { status: 500 }
     );

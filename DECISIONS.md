@@ -5,6 +5,48 @@ Each entry: what we chose, why, what we considered, when we logged it.
 
 ---
 
+## D009 — Explicit deny-all RLS policies instead of implicit "RLS on, no policy"
+
+**Date:** 2026-06-25
+**Status:** Locked. Applied in migration `0021_explicit_deny_all_policies.sql`.
+
+**Decision.** Every table in the `public` schema now carries an explicit
+restrictive policy, `deny_all_anon_authenticated`
+(`as restrictive for all to anon, authenticated using (false) with check
+(false)`), added across all 24 existing tables in migration `0021`. New
+tables should ship the same policy in the migration that creates them.
+
+**Why.** Since `0001` the security model has been correct but *implicit*:
+RLS enabled, no policies, which denies `anon`/`authenticated` and lets the
+`service_role` key (used by `/api/*` and the console's `supabaseAdmin()`)
+bypass RLS. Supabase's security advisor flags every such table with the
+INFO-level `rls_enabled_no_policy` lint. That's noise for a service-role-only
+app, but it (a) buried any *real* future advisor finding in 24 lines of
+false positives, and (b) made the schema ambiguous — a reader can't tell
+"locked down on purpose" from "someone forgot the policy." An explicit
+deny-all removes both problems. It is functionally identical to the prior
+state: service role still bypasses RLS, so console and `/api/*` are
+unaffected; only the already-denied `anon`/`authenticated` roles are now
+denied *explicitly*.
+
+**Considered.** (a) Leave it implicit and ignore the lints — rejected; the
+advisor stays permanently dirty and hides real findings. (b) Add permissive
+`using (true)` read policies to "satisfy" the linter — rejected outright;
+that would expose customer submissions, payments, and the `api_calls` cost
+log to the open internet. The linter wants *a* policy, not an *open* one.
+(c) Add per-customer owner-based policies now — rejected as premature: there
+is no customer-auth model in the schema (`customer_id` is an unlinked uuid,
+identity is by email, `auth.users` holds only operator logins). Direct
+customer access to Supabase would contradict the service-role-only standard
+and needs its own ADR if it's ever pursued.
+
+**Scope note.** This does **not** change the locked rule that customers
+never authenticate to Supabase directly. It hardens and documents that
+rule. See `AVI_OPERATING_STANDARD.md` and the "Never disable Supabase RLS"
+bullet in `CLAUDE.md`.
+
+---
+
 ## D008 — Split the repo into a pnpm + Turborepo monorepo
 
 **Date:** 2026-06-17

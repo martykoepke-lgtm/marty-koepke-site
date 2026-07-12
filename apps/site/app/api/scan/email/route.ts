@@ -14,13 +14,14 @@ import type { Tier } from "@practical-informatics/avi";
  * row with the customer's email, subscribes them to Kit with a tier
  * tag, and sends the full readiness report via Resend.
  *
- * V1: the report is delivered as a styled HTML email (tier + 7-dim
- * scorecard + findings + upsell + book-call CTA). A PDF attachment is
- * the next iteration — see task #7.
+ * The report is delivered as a styled HTML email plus a token-gated hosted
+ * report link. The hosted link is valid for 30 days from scan creation.
  */
 
 export const runtime = "nodejs";
 export const maxDuration = 30;
+const REPORT_TOKEN_TTL_DAYS = 30;
+const REPORT_TOKEN_TTL_MS = REPORT_TOKEN_TTL_DAYS * 24 * 60 * 60 * 1000;
 
 type EmailBody = {
   scanId?: string;
@@ -35,6 +36,7 @@ type SubmissionRow = {
   access_token: string | null;
   status: string;
   email: string | null;
+  created_at: string;
 };
 
 type AuditRow = {
@@ -91,7 +93,7 @@ export async function POST(req: NextRequest) {
   const { data: submission, error: subErr } = await supabase
     .from("submissions")
     .select(
-      "id, url, company_name, access_token, status, email"
+      "id, url, company_name, access_token, status, email, created_at"
     )
     .eq("id", scanId)
     .maybeSingle<SubmissionRow>();
@@ -106,6 +108,16 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(
       { ok: false, error: "That scan link is invalid or expired." },
       { status: 403 }
+    );
+  }
+  if (isExpired(submission.created_at)) {
+    return NextResponse.json(
+      {
+        ok: false,
+        error:
+          "That report link has expired. Please re-run the free check to generate a fresh report.",
+      },
+      { status: 410 }
     );
   }
 
@@ -162,7 +174,7 @@ export async function POST(req: NextRequest) {
   // ---- Render + send the report email ----
   const subjectDomain = friendlyDomain(submission.url);
   const siteUrl =
-    process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.practicalinformatics.com";
+    process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.martykoepke.com";
   const reportUrl = `${siteUrl}/scan/report/${submission.id}?t=${encodeURIComponent(accessToken)}`;
   const html = renderFreeScanEmail({
     tier,
@@ -201,7 +213,7 @@ export async function POST(req: NextRequest) {
       {
         ok: false,
         error:
-          "We couldn't send your report. Please reply to your confirmation email or contact marty.koepke@practicalinformatics.com.",
+          "We couldn't send your report. Please reply to your confirmation email or contact hello@martykoepke.com.",
       },
       { status: 502 }
     );
@@ -232,6 +244,12 @@ function friendlyDomain(url: string | null): string {
   }
 }
 
+function isExpired(createdAt: string): boolean {
+  const created = new Date(createdAt).getTime();
+  if (!Number.isFinite(created)) return true;
+  return Date.now() - created > REPORT_TOKEN_TTL_MS;
+}
+
 function plaintextFallback(opts: {
   subjectName: string;
   tier: Tier;
@@ -255,9 +273,9 @@ What stood out:
 
 ${findingsText}
 
-Want the paid review? The AI Visibility Snapshot ($495) adds a focused live-AI review and walkthrough. The AI Business Accuracy Audit ($1,950) goes deeper on accuracy, claim support, context preservation, and recommendation fit.
+Want the full picture? The $895 AI Business Accuracy Audit tests four AI engines, captures 32 live AI responses, verifies every factual claim AI makes about you, and plots you against two competitors you name. Includes a 30-minute review call with Marty.
 
-Read more: https://www.practicalinformatics.com/ai-visibility
+Read more: https://www.martykoepke.com/ai-visibility
 Book a free 20-minute conversation: https://tally.so/r/xXVPgo
 
 — Marty Koepke

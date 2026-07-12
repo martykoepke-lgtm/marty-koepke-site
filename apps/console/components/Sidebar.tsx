@@ -26,7 +26,7 @@ export function Sidebar({ userEmail }: { userEmail: string | null }) {
     <aside className="w-60 shrink-0 bg-sidebar/92 border-r border-white/10 flex flex-col text-paper backdrop-blur-xl shadow-[12px_0_40px_rgba(0,0,0,0.16)]">
       <div className="px-5 py-6">
         <div className="text-base font-semibold text-paper tracking-tight leading-tight">
-          Practical Informatics
+          Marty Koepke
           <span className="text-gold text-xs font-medium ml-1.5 align-top">LLC</span>
         </div>
         <div className="text-xs text-paper/60 mt-1">Operator console</div>

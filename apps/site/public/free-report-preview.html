@@ -1,0 +1,811 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Free AI Readiness Check - Preview</title>
+    <style>
+      :root {
+        --forest: #1f3a2e;
+        --forest-dark: #16291f;
+        --gold: #c9a961;
+        --gold-dark: #a8893f;
+        --cream: #faf6ee;
+        --surface: #ffffff;
+        --page: #f6f8f5;
+        --charcoal: #2c2a26;
+        --moss: #5a6b5a;
+        --tan: #d8ccb4;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--page);
+        color: var(--charcoal);
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        line-height: 1.62;
+      }
+
+      h1,
+      h2,
+      h3 {
+        margin: 0;
+        color: var(--forest);
+        font-family: Georgia, "Times New Roman", serif;
+        font-weight: 600;
+        line-height: 1.15;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .wrap {
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 40px 24px 64px;
+      }
+
+      .actions {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 16px;
+      }
+
+      .button {
+        border: 0;
+        border-radius: 6px;
+        background: var(--forest);
+        color: var(--cream);
+        cursor: pointer;
+        font: inherit;
+        font-size: 14px;
+        font-weight: 700;
+        padding: 10px 16px;
+      }
+
+      .button:hover {
+        background: var(--forest-dark);
+      }
+
+      .panel {
+        border: 1px solid rgba(216, 204, 180, 0.9);
+        border-radius: 8px;
+        background: var(--surface);
+        box-shadow: 0 8px 22px rgba(22, 41, 31, 0.06);
+      }
+
+      .header {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 28px;
+        padding: 28px;
+      }
+
+      .eyebrow {
+        margin: 0 0 10px;
+        color: var(--gold-dark);
+        font-size: 12px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+      }
+
+      .header h1 {
+        font-size: clamp(34px, 5vw, 54px);
+      }
+
+      .muted {
+        color: var(--moss);
+        font-size: 14px;
+      }
+
+      .meta {
+        min-width: 230px;
+        border: 1px solid var(--tan);
+        border-radius: 6px;
+        background: var(--cream);
+        color: var(--moss);
+        font-size: 12px;
+        padding: 14px 16px;
+        text-align: right;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 230px;
+        gap: 28px;
+        margin-top: 22px;
+        padding: 28px;
+      }
+
+      .score-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: 14px 20px;
+      }
+
+      .tier {
+        color: var(--forest);
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(40px, 5vw, 58px);
+        font-weight: 700;
+      }
+
+      .score-pill {
+        border: 1px solid rgba(31, 58, 46, 0.16);
+        border-radius: 999px;
+        background: var(--cream);
+        color: var(--forest);
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 28px;
+        padding: 4px 14px;
+      }
+
+      .scope {
+        border-radius: 8px;
+        background: var(--forest);
+        color: var(--cream);
+        padding: 20px;
+      }
+
+      .scope .eyebrow {
+        color: var(--gold);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
+        gap: 22px;
+        margin-top: 22px;
+      }
+
+      .section {
+        padding: 26px;
+        margin-bottom: 22px;
+      }
+
+      .key-findings,
+      .priority-improvements {
+        grid-column: 1 / -1;
+      }
+
+      .section-head {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 18px;
+        margin-bottom: 22px;
+      }
+
+      .section h2 {
+        margin-top: 8px;
+        font-size: 28px;
+      }
+
+      .driver {
+        border: 1px solid rgba(216, 204, 180, 0.75);
+        border-radius: 8px;
+        background: rgba(250, 246, 238, 0.5);
+        margin-top: 14px;
+        padding: 16px;
+      }
+
+      .driver-top,
+      .signal {
+        display: flex;
+        justify-content: space-between;
+        gap: 18px;
+      }
+
+      .driver-title {
+        color: var(--forest);
+        font-family: Georgia, "Times New Roman", serif;
+        font-weight: 700;
+      }
+
+      .score {
+        color: var(--forest);
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      .bar {
+        height: 10px;
+        margin-top: 12px;
+        overflow: hidden;
+        border-radius: 999px;
+        background: rgba(216, 204, 180, 0.5);
+      }
+
+      .fill {
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, var(--gold), var(--forest));
+      }
+
+      .finding {
+        border-left: 4px solid var(--gold);
+        border-radius: 8px;
+        background: rgba(250, 246, 238, 0.58);
+        margin-top: 14px;
+        padding: 18px;
+      }
+
+      .key-findings {
+        display: grid;
+        gap: 14px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .key-findings > .eyebrow,
+      .key-findings > h2 {
+        grid-column: 1 / -1;
+      }
+
+      .key-findings .finding {
+        margin-top: 0;
+      }
+
+      .finding h3 {
+        font-size: 18px;
+      }
+
+      .improvement-list {
+        display: grid;
+        gap: 14px;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        margin: 22px 0 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .improvement {
+        border: 1px solid rgba(216, 204, 180, 0.75);
+        border-radius: 8px;
+        background: rgba(250, 246, 238, 0.5);
+        margin-top: 14px;
+        padding: 18px;
+      }
+
+      .improvement-row {
+        display: flex;
+        gap: 16px;
+      }
+
+      .improvement-number {
+        align-items: center;
+        background: var(--forest);
+        border-radius: 999px;
+        color: var(--cream);
+        display: flex;
+        flex: 0 0 auto;
+        font-size: 14px;
+        font-weight: 700;
+        height: 32px;
+        justify-content: center;
+        width: 32px;
+      }
+
+      .improvement h3 {
+        font-size: 19px;
+      }
+
+      .example {
+        border-left: 2px solid var(--gold);
+        margin-top: 10px;
+        padding-left: 12px;
+      }
+
+      .signal {
+        align-items: center;
+        border-radius: 6px;
+        background: rgba(250, 246, 238, 0.58);
+        margin-top: 9px;
+        padding: 9px 12px;
+        font-size: 14px;
+      }
+
+      .chip {
+        border-radius: 999px;
+        background: rgba(216, 204, 180, 0.65);
+        color: var(--moss);
+        font-size: 12px;
+        font-weight: 700;
+        padding: 2px 9px;
+      }
+
+      .chip.yes {
+        background: var(--forest);
+        color: var(--cream);
+      }
+
+      .cta {
+        margin-top: 12px;
+        border: 1px solid var(--forest);
+        border-radius: 8px;
+        background: var(--forest);
+        color: var(--cream);
+        padding: 30px;
+      }
+
+      .cta h2 {
+        color: var(--cream);
+      }
+
+      .cta strong,
+      .cta .eyebrow {
+        color: var(--gold);
+      }
+
+      .cta-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 22px;
+      }
+
+      .cta-links a {
+        border-radius: 6px;
+        font-weight: 700;
+        padding: 11px 16px;
+        text-decoration: none;
+      }
+
+      .primary {
+        background: var(--gold);
+        color: var(--forest);
+      }
+
+      .secondary {
+        border: 1px solid var(--gold);
+        color: var(--gold);
+      }
+
+      footer {
+        border-top: 1px solid var(--tan);
+        color: var(--moss);
+        font-size: 14px;
+        margin-top: 38px;
+        padding-top: 24px;
+      }
+
+      @media (max-width: 860px) {
+        .header,
+        .hero,
+        .grid,
+        .key-findings,
+        .improvement-list {
+          grid-template-columns: 1fr;
+        }
+
+        .header {
+          display: block;
+        }
+
+        .meta {
+          margin-top: 20px;
+          text-align: left;
+        }
+      }
+
+      @page {
+        size: Letter;
+        margin: 0.42in;
+      }
+
+      @media print {
+        body {
+          background: white;
+          color: var(--charcoal);
+          font-size: 10.5pt;
+          line-height: 1.38;
+        }
+
+        .wrap {
+          max-width: none;
+          padding: 0;
+        }
+
+        .actions {
+          display: none;
+        }
+
+        .panel {
+          border: 0;
+          border-radius: 0;
+          background: transparent;
+          box-shadow: none;
+          break-inside: auto;
+          page-break-inside: auto;
+        }
+
+        .header,
+        .hero,
+        .grid {
+          display: grid;
+        }
+
+        .header {
+          grid-template-columns: minmax(0, 1fr) 210px;
+          align-items: end;
+          border-bottom: 2px solid var(--forest);
+          margin-bottom: 14px;
+          padding: 0 0 12px;
+        }
+
+        .hero {
+          grid-template-columns: minmax(0, 1fr) 250px;
+          border-bottom: 1px solid var(--tan);
+          margin-bottom: 14px;
+          padding: 0 0 12px;
+        }
+
+        .grid {
+          grid-template-columns: minmax(0, 1.12fr) minmax(240px, 0.88fr);
+          gap: 18px;
+        }
+
+        .grid > div:first-child {
+          display: contents;
+        }
+
+        .key-findings,
+        .improvement-list {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .key-findings {
+          break-inside: avoid;
+          page-break-inside: avoid;
+        }
+
+        .scope,
+        .driver,
+        .finding,
+        .improvement,
+        .signal,
+        .cta {
+          break-inside: avoid;
+          page-break-inside: avoid;
+        }
+
+        .section {
+          border-top: 1px solid var(--tan);
+          margin-bottom: 12px;
+          padding: 10px 0 0;
+        }
+
+        .section h2 {
+          font-size: 17pt;
+          margin-bottom: 8px;
+        }
+
+        .eyebrow {
+          font-size: 8pt;
+          margin-bottom: 4px;
+        }
+
+        .tier {
+          font-size: 30pt;
+        }
+
+        .score-pill {
+          font-size: 18pt;
+        }
+
+        .scope,
+        .cta {
+          border-radius: 0;
+          padding: 14px;
+        }
+
+        .driver,
+        .finding,
+        .improvement,
+        .signal {
+          border-radius: 0;
+          background: transparent;
+          margin-top: 8px;
+          padding: 0 0 7px 10px;
+          border: 0;
+          border-left: 2px solid var(--gold);
+        }
+
+        .driver {
+          border-left-color: var(--tan);
+        }
+
+        .improvement-list {
+          gap: 10px 16px;
+        }
+
+        .improvement {
+          margin-top: 0;
+        }
+
+        .improvement-row {
+          gap: 10px;
+        }
+
+        .improvement-number {
+          height: 22px;
+          width: 22px;
+          font-size: 10px;
+        }
+
+        .improvement h3,
+        .finding h3 {
+          font-size: 11.5pt;
+        }
+
+        .bar {
+          height: 7px;
+          margin-top: 6px;
+        }
+
+        .cta {
+          margin-top: 12px;
+          break-inside: avoid;
+          page-break-inside: avoid;
+        }
+
+        .cta-links {
+          display: none;
+        }
+
+        footer {
+          margin-top: 14px;
+          padding-top: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="wrap">
+      <div class="actions">
+        <button class="button" onclick="window.print()">Download report</button>
+      </div>
+
+      <header class="panel header">
+        <div>
+          <p class="eyebrow">Free AI Readiness Check</p>
+          <h1>Marty Koepke</h1>
+          <p class="muted">martykoepke.com &middot; personal brand</p>
+        </div>
+        <div class="meta">
+          <div>Generated July 7, 2026</div>
+          <div>Private report link expires after 30 days</div>
+        </div>
+      </header>
+
+      <section class="panel hero">
+        <div>
+          <p class="eyebrow">Your tier</p>
+          <div class="score-row">
+            <span class="tier">Discoverable</span>
+            <span class="score-pill">68/100</span>
+          </div>
+          <p>
+            AI tools recognize this business as a credible answer. Closing the
+            remaining gaps moves you to a default recommendation.
+          </p>
+        </div>
+        <aside class="scope">
+          <p class="eyebrow">Report scope</p>
+          <p>
+            This free check reads public site signals and scores readiness. The
+            paid audit measures live AI answers across major engines.
+          </p>
+        </aside>
+      </section>
+
+      <div class="grid">
+        <div>
+          <section class="panel section score-breakdown">
+            <div class="section-head">
+              <div>
+                <p class="eyebrow">Score breakdown</p>
+                <h2>The readiness drivers</h2>
+              </div>
+              <p class="muted">0-5, based on observable site evidence</p>
+            </div>
+
+            <div class="driver">
+              <div class="driver-top">
+                <div class="driver-title">Business clarity</div>
+                <div class="score">4.0 / 5</div>
+              </div>
+              <div class="bar"><div class="fill" style="width: 80%"></div></div>
+              <p>
+                The site clearly explains what the business does and who it
+                helps, with enough specificity for AI systems to classify it.
+              </p>
+            </div>
+
+            <div class="driver">
+              <div class="driver-top">
+                <div class="driver-title">Source support</div>
+                <div class="score">2.0 / 5</div>
+              </div>
+              <div class="bar"><div class="fill" style="width: 40%"></div></div>
+              <p>
+                Several claims are visible, but there is limited supporting
+                evidence for AI to cite or verify.
+              </p>
+            </div>
+
+            <div class="driver">
+              <div class="driver-top">
+                <div class="driver-title">Distinctive point of view</div>
+                <div class="score">3.0 / 5</div>
+              </div>
+              <div class="bar"><div class="fill" style="width: 60%"></div></div>
+              <p>
+                The positioning is distinct, but the strongest proof and
+                examples could be easier for AI to extract.
+              </p>
+            </div>
+          </section>
+
+          <section class="panel section key-findings">
+            <p class="eyebrow">Key findings</p>
+            <h2>What stood out</h2>
+            <div class="finding">
+              <h3>Source Support <span class="muted">(2.0 / 5)</span></h3>
+              <p>
+                The evidence shows a single clear topic focus, but crawled pages
+                reveal limited content depth beyond the homepage and one About
+                page.
+              </p>
+            </div>
+            <div class="finding">
+              <h3>Recommendation Fit <span class="muted">(3.0 / 5)</span></h3>
+              <p>
+                AI can infer who this is for, but stronger service examples
+                would help preserve context when buyers ask narrower questions.
+              </p>
+            </div>
+          </section>
+
+          <section class="panel section priority-improvements">
+            <p class="eyebrow">Priority improvements</p>
+            <h2>3 ways to improve your AI visibility</h2>
+            <p class="muted">
+              These are practical next moves based on the weakest readiness
+              signals we could observe from your public site. They are not a
+              substitute for live AI answer testing, but they are good places to
+              start.
+            </p>
+
+            <ol class="improvement-list">
+              <li class="improvement">
+                <div class="improvement-row">
+                  <span class="improvement-number">1</span>
+                  <div>
+                    <h3>Support the claims you want AI to repeat</h3>
+                    <p>
+                      <strong>Do this:</strong> Add proof next to important
+                      claims: case examples, named credentials, source links,
+                      testimonials, screenshots, or short evidence notes.
+                    </p>
+                    <p class="muted">
+                      <strong>Why it helps:</strong> Unsupported claims are
+                      harder for AI to trust and cite. Evidence gives AI a
+                      reason to repeat the claim confidently.
+                    </p>
+                    <p class="example">
+                      <strong>Example:</strong> If the site says “AI visibility
+                      audit,” add a short example showing what was measured,
+                      what changed, and which source or result supports it.
+                    </p>
+                  </div>
+                </div>
+              </li>
+
+              <li class="improvement">
+                <div class="improvement-row">
+                  <span class="improvement-number">2</span>
+                  <div>
+                    <h3>Tell AI when you are the right recommendation</h3>
+                    <p>
+                      <strong>Do this:</strong> Add explicit best-fit and
+                      not-fit language to service pages so AI knows which buyer
+                      situations should point toward you.
+                    </p>
+                    <p class="muted">
+                      <strong>Why it helps:</strong> AI recommendations improve
+                      when the source material includes conditions. Without fit
+                      signals, AI may recommend you too broadly or skip you for
+                      safer generic options.
+                    </p>
+                    <p class="example">
+                      <strong>Example:</strong> “Best fit for founder-led
+                      service businesses with a real offer and public website.
+                      Not a fit for ecommerce brands looking for paid media
+                      management.”
+                    </p>
+                  </div>
+                </div>
+              </li>
+
+              <li class="improvement">
+                <div class="improvement-row">
+                  <span class="improvement-number">3</span>
+                  <div>
+                    <h3>Give AI a specific reason to choose you</h3>
+                    <p>
+                      <strong>Do this:</strong> Name your method, framework, or
+                      point of view, then explain what tradeoff it makes and why
+                      it matters to the buyer.
+                    </p>
+                    <p class="muted">
+                      <strong>Why it helps:</strong> When several businesses
+                      sound similar, AI defaults to generic recommendations. A
+                      distinct, supportable perspective helps it understand why
+                      you are different.
+                    </p>
+                    <p class="example">
+                      <strong>Example:</strong> “Our approach measures accuracy
+                      before visibility, because being recommended for the wrong
+                      reason can be worse than not showing up.”
+                    </p>
+                  </div>
+                </div>
+              </li>
+            </ol>
+          </section>
+        </div>
+
+        <aside>
+          <section class="panel section">
+            <p class="eyebrow">Site signals</p>
+            <h2>What we read</h2>
+            <div class="signal"><span>Organization schema</span><span class="chip yes">yes</span></div>
+            <div class="signal"><span>Person schema</span><span class="chip">no</span></div>
+            <div class="signal"><span>llms.txt</span><span class="chip yes">yes</span></div>
+            <div class="signal"><span>Founder named</span><span class="chip yes">yes</span></div>
+            <div class="signal"><span>Pricing visible</span><span class="chip">no</span></div>
+          </section>
+
+          <section class="panel section">
+            <p class="eyebrow">Corroboration</p>
+            <h2>What the web says</h2>
+            <p>We found 2 corroborating domains that name this business.</p>
+            <div class="signal"><span>LinkedIn</span><span class="chip yes">found</span></div>
+            <div class="signal"><span>Wikidata</span><span class="chip">not found</span></div>
+          </section>
+        </aside>
+      </div>
+
+      <section class="cta">
+        <p class="eyebrow">The next step</p>
+        <h2>Want to know if AI is actually finding you?</h2>
+        <p>
+          This report scored what's on your site. The paid
+          <strong>AI Business Accuracy Audit</strong> ($895) goes further:
+          four engines tested, every factual claim verified, and you plotted
+          against two competitors you name.
+        </p>
+        <div class="cta-links">
+          <a class="primary" href="#">See the paid Audit</a>
+          <a class="secondary" href="#">Book a 20-minute call</a>
+        </div>
+      </section>
+
+      <footer>
+        Practical Informatics LLC &middot; Mokelumne Hill, California &middot;
+        martykoepke.com
+        <br />
+        Free Readiness Check &middot; Report ID 1234abcd
+      </footer>
+    </main>
+  </body>
+</html>

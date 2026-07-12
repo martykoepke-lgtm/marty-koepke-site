@@ -10,7 +10,7 @@ You probably came here because you want to know how the measurement actually wor
 
 I built this differently. The whole point of being here is to show you the work — what I measure, how I measure it, what I cite, and what I cannot measure.
 
-I'm Marty Koepke. I run Practical Informatics. I've spent twenty years in healthcare informatics, which means I've spent twenty years translating between technology and the people who have to use it. That's the role I play here too. This page is the long version of how I do it.
+I'm Marty Koepke. I run Marty Koepke. I've spent twenty years in healthcare informatics, which means I've spent twenty years translating between technology and the people who have to use it. That's the role I play here too. This page is the long version of how I do it.
 
 ---
 

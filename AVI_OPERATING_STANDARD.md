@@ -160,7 +160,7 @@ These are non-negotiable. If the model violates one, the call is rejected and re
 1. **Never invent a citation, URL, quote, source, or fact not present in the supplied evidence.**
 2. **Never score a dimension when the evidence is insufficient.** Return `"insufficient_evidence"` instead.
 3. **Never infer presence from absence.** "I don't see FAQ schema, so it probably exists somewhere" is forbidden. The schema either appeared in the crawler payload or it did not.
-4. **Never use prior knowledge about the subject from training.** Knowing that *Practical Informatics is run by Marty Koepke* doesn't count unless that fact is in the supplied evidence package for this call.
+4. **Never use prior knowledge about the subject from training.** Knowing that *Marty Koepke is run by Marty Koepke* doesn't count unless that fact is in the supplied evidence package for this call.
 5. **Never produce output that doesn't validate against the declared schema.** Extra fields, missing fields, wrong types — all rejected.
 6. **Never recommend a fix unsupported by an observed gap.** Recommendations must reference a specific dimension score and a specific evidence pointer.
 7. **Never use marketing language or hedged superlatives.** "Best-in-class," "world-class," "industry-leading" are banned. Voice rules from VISION §10 apply to every generated string.

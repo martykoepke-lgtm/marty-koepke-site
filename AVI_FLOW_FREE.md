@@ -62,7 +62,7 @@ After the free result lands, the customer is offered: "What the paid Index would
 ## Open questions before this is written
 
 1. Email gate placement — before or after the on-screen tier? Current canon: email gate for the PDF, not for the on-screen tier.
-2. Pricing references — reconcile with `public/Practical-Informatics-Pricing-Structure.md`. Current numbers in flight; verify before writing customer-facing copy.
+2. Pricing references — reconcile with `public/Marty-Koepke-Pricing-Structure.md`. Current numbers in flight; verify before writing customer-facing copy.
 3. Routing — `/scan` is the active route per D006; verify against current code before writing.
 
 ---

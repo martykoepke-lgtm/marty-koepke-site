@@ -5,10 +5,10 @@
  */
 
 export const SITE = {
-  name: "Practical Informatics",
+  name: "Marty Koepke",
   legalName: "Practical Informatics LLC",
-  url: "https://www.practicalinformatics.com",
-  tagline: "Applied AI for businesses that want to do this right.",
+  url: "https://www.martykoepke.com",
+  tagline: "People · Process · Possibilities",
   location: "Mokelumne Hill, California",
   foundingYear: 2024,
   foundingDate: "2024-08-13",
@@ -25,8 +25,9 @@ export type NavItem = {
 
 export const NAV: NavItem[] = [
   { label: "Home", href: "/" },
+  { label: "AI visibility", href: "/ai-visibility", emphasized: true },
+  { label: "AI governance", href: "/craizie" },
   { label: "About", href: "/about" },
-  { label: "AI Visibility", href: "/ai-visibility", emphasized: true },
   // Blog is intentionally hidden from nav until the first posts ship.
   // To re-enable, add: { label: "Blog", href: "/blog" }
   { label: "Contact", href: "/contact" },
@@ -45,34 +46,29 @@ export const POLICIES: { label: string; href: string; gettermsSlug: string }[] =
 export const META = {
   home: {
     title:
-      "Practical Informatics | Applied AI for businesses that want to do this right.",
+      "Marty Koepke | Applied AI for businesses that want to do this right.",
     description:
-      "Practical Informatics LLC is an applied AI consultancy led by Marty Koepke. We provide tools, assessments, and infrastructure that help organizations and professionals adopt AI thoughtfully and improve operational efficiency and AI visibility.",
+      "Marty Koepke is an applied AI consultant helping organizations and professionals adopt AI thoughtfully. Tools, assessments, and infrastructure — twenty years of informatics behind every recommendation.",
   },
   about: {
-    title: "About Marty Koepke | Practical Informatics",
+    title: "About Marty Koepke | Marty Koepke",
     description:
-      "Marty Koepke (she/her), founder of Practical Informatics LLC. Twenty years in informatics, author of Between the Clicks. Applied AI consulting and custom software development for businesses adopting AI thoughtfully.",
-  },
-  assessment: {
-    title: "The Time Back Assessment | Practical Informatics",
-    description:
-      "An assessment that maps where your information work is leaking time, then fixes one quick win before we're done. Coming soon as part of the operational AI assessments lineup.",
+      "Marty Koepke (she/her). Twenty years in enterprise informatics, author of Between the Clicks. Applied AI consulting and custom software development for businesses adopting AI thoughtfully.",
   },
   aiVisibility: {
-    title: "AI Visibility & Business Accuracy | Practical Informatics",
+    title: "Daizie — AI visibility",
     description:
-      "Does AI get your business right? Practical Informatics measures whether AI systems can find, understand, cite, and recommend your business in right-fit situations.",
+      "Does AI get your business right? Marty Koepke measures whether AI systems can find, understand, cite, and recommend your business in right-fit situations.",
   },
   blog: {
-    title: "Notes | Practical Informatics",
+    title: "Notes | Marty Koepke",
     description:
       "Practical writing on applied AI, AI visibility, and operational efficiency for businesses that want to do this right.",
   },
   contact: {
-    title: "Contact | Practical Informatics",
+    title: "Contact | Marty Koepke",
     description:
-      "Book a free 20-minute conversation about your business. Practical Informatics is an applied AI consultancy serving businesses across the United States.",
+      "Book a free 20-minute conversation about your business. Marty Koepke is an applied AI consultancy serving businesses across the United States.",
   },
 } as const;
 
@@ -82,7 +78,7 @@ export const HOME = {
   heroEyebrow: "Applied AI Consultancy",
   /** Italic gold sub-tagline between H1 and CTAs. The positioning sentence. */
   heroPositioning:
-    "Practical Informatics LLC is an applied AI consultancy led by Marty Koepke.",
+    "Marty Koepke is an applied AI consultant. Twenty years of informatics behind every recommendation.",
   /** Trust strip below the hero CTAs. */
   heroTrust: [
     "20+ years informatics",
@@ -109,25 +105,18 @@ export const HOME = {
           "A quick website-readiness score in plain English. URL-only, about 30 seconds.",
       },
       {
-        name: "AI Visibility Snapshot",
-        price: "$495",
-        note: "Entry paid review",
-        description:
-          "A focused review of whether AI can find, understand, and describe your business, with a short fix list and walkthrough.",
-      },
-      {
         name: "AI Business Accuracy Audit",
-        price: "$1,950",
-        note: "Core offer",
+        price: "$895",
+        note: "The paid product",
         description:
-          "A deeper audit of visibility, accuracy, claim support, context preservation, and recommendation fit.",
+          "Four engines, eight buyer-question queries, every claim verified, you plotted next to two named competitors. Includes a 30-minute review call.",
       },
       {
         name: "Monthly Monitoring",
-        price: "$500/mo",
-        note: "After a Snapshot or Audit",
+        price: "$149/mo",
+        note: "After your Audit",
         description:
-          "A light monthly watch on AI visibility and accuracy drift, with trend notes and recommended next actions.",
+          "Your full Audit re-run every month, with a dashboard that tracks how your scores move over time. Email when each new report is ready.",
       },
     ],
     cta: { label: "See AI Visibility & Business Accuracy", href: "/ai-visibility" },
@@ -180,7 +169,6 @@ export const HOME = {
   },
 
   /** Forthcoming services — small text, one line. */
-  forthcoming: "Time Back Assessments or AI opportunity assessments — coming soon!",
 
   /** Disclaimer — verbatim from Marty. Rendered in the footer. */
   disclaimer:
@@ -291,129 +279,6 @@ export const ABOUT = {
   ],
 } as const;
 
-/* ===== TIME BACK ASSESSMENT ===== */
-export const ASSESSMENT = {
-  heroHeadline: "The Time Back Assessment",
-  /** Sub-tagline — italic gold treatment, between H1 and subhead.
-   *  Carries AI signal above the fold on this page too. */
-  subTagline: "On-site observation. AI-fluent analysis. A report you can act on.",
-  heroSubhead:
-    "A clear-eyed look at where your time and revenue are actually going — and a plain-English plan to get some of both back.",
-  /** Trust strip below the hero CTA — same AI-credibility pattern as home.
-   *  Capability-led for own builds, named products for enterprise rollouts. */
-  heroTrust: [
-    "20+ years informatics",
-    "AI-powered tools designed & shipped",
-    "Enterprise informatics strategy: Abridge, Notable",
-    "$26M+ saved",
-  ],
-  whatsDifferent: [
-    "Most AI assessments happen on a Zoom call. This one happens in your business.",
-    "I come on-site, watch how the work actually flows, listen more than I talk, and explicitly don't give recommendations in the moment — because the work deserves real thinking, not the first thing that comes to mind.",
-    "You'll get the recommendations in writing, in a report I can stand behind. And before we're done, I'll roll up my sleeves and implement one of the quick wins with you — so you don't just have a plan, you have momentum.",
-  ],
-  notLocal: {
-    heading: "What if I'm not local?",
-    body: "The on-site visit is the heart of this offer, but it isn't the only way I work. I take on a limited number of remote and hybrid engagements when the work fits the format. Send a note anyway — tell me about your business and we'll figure out together whether this is right for you and what shape it takes.",
-  },
-  reportBullets: [
-    "The 3–5 biggest time leaks I observed, named in plain language",
-    "For each one: what's causing it, what it's costing you, and what to do about it",
-    "A prioritized list of quick wins — things implementable in under a day each",
-    "A short “Bigger Opportunities” section — deeper changes worth a separate conversation",
-    "Specific tool recommendations where relevant, with honest notes on whether AI is actually the right answer",
-  ],
-  /* The Path — the 5-step client journey (repurposed PULSE interaction) */
-  path: [
-    {
-      id: "conversation",
-      step: "01",
-      title: "A free 20-minute fit conversation",
-      short: "Free fit call",
-      detail:
-        "We'll talk for twenty minutes about your business and figure out together whether the assessment is the right next step. No pitch, no pressure.",
-    },
-    {
-      id: "onsite",
-      step: "02",
-      title: "A 90-minute on-site visit",
-      short: "On-site visit",
-      detail:
-        "I'll meet you and any key team members, watch the work happen, ask questions, and capture our conversation with an AI notetaking tool so I can focus on listening rather than scribbling notes. I'll be in observation mode — no recommendations on the day. I'll tell you what I'm seeing only after I've had time to think about all of it together.",
-    },
-    {
-      id: "report",
-      step: "03",
-      title: "A written Time Back Report, within 7 business days",
-      short: "Time Back Report",
-      detail:
-        "The report includes the 3–5 biggest time leaks I observed named in plain language; for each one, what's causing it, what it's costing you, and what to do about it; a prioritized list of quick wins implementable in under a day each; a short “Bigger Opportunities” section for deeper changes worth a separate conversation; and specific tool recommendations where relevant, with honest notes on whether AI is actually the right answer.",
-    },
-    {
-      id: "followup",
-      step: "04",
-      title: "A 30-minute follow-up call",
-      short: "Follow-up call",
-      detail:
-        "We walk through the report together, answer questions, and pick which quick win we'll implement.",
-    },
-    {
-      id: "quickwin",
-      step: "05",
-      title: "One implemented quick win",
-      short: "Quick win, built",
-      detail:
-        "Up to 3 hours of my time, hands-on, getting one real thing built or configured in your business. I'll also give you a short written walkthrough of what we built, so you and your team can use it confidently after I leave.",
-    },
-  ],
-  cost: {
-    headline: "$1,500 flat. Includes everything above.",
-  },
-  forYou:
-    "Owners of small businesses (typically 1–25 employees) who feel like they're working more hours than the business should require — and who want a partner who'll do the thinking with them, not just hand them a report and walk away.",
-  notForYou:
-    "Owners looking for someone to just install AI tools without examining the underlying process. Businesses where leadership isn't open to changing how things are done. Anyone who wants the work done remotely — this one is on-site, in your business, by design.",
-  noteOnAI: [
-    "I use AI throughout this work. To help analyze what I observe. To draft your report. To handle the parts of the work that AI is actually good at.",
-    "The reason I tell you this is because part of what you're hiring me for is the judgment about which parts of your business AI should touch and which parts it shouldn't. I won't recommend it where it doesn't belong. I will use it where it does.",
-  ],
-  faq: [
-    {
-      q: "How long does the whole thing take from start to finish?",
-      a: "About four weeks. One week to schedule the on-site, seven business days for me to deliver the report, then a 30-minute follow-up call and the quick win implementation within two weeks after that.",
-    },
-    {
-      q: "What if I'm not local to Northern California?",
-      a: "Reach out anyway — we can talk about it. The on-site format is the heart of this offer, so a remote version isn't equivalent, but I can occasionally make exceptions for businesses that justify the travel.",
-    },
-    {
-      q: "What if I don't see a quick win I want to implement?",
-      a: "That happens rarely, but it happens. If the best opportunities in your business are all bigger than a 3-hour fix, I'll credit that time toward the first phase of a larger engagement if you choose to move forward, or you can use it as an extended advisory call to map out the implementation plan together.",
-    },
-    {
-      q: "Do you sign NDAs?",
-      a: "Yes, if you'd like one. I have a simple mutual NDA I can send you, or I'm happy to sign yours.",
-    },
-    {
-      q: "What does the on-site visit actually look like?",
-      a: "Mostly me watching, asking questions, and listening. I'll want to see how new work comes in, how it moves through your business, where it gets stuck, and how things get tracked. I'll talk with you and any key team members, but the visit isn't a formal interview — it's closer to a working shadow day.",
-    },
-    {
-      q: "Will the recording be private?",
-      a: "Yes. The AI notetaking tool I use is HIPAA-compliant and SOC2 certified, and recordings are used only to produce your report. I'll ask for your explicit consent before starting any recording. If you'd prefer no recording, I'll take notes the old-fashioned way.",
-    },
-    {
-      q: "What happens if the assessment doesn't go well?",
-      a: "If you read the report and feel it doesn't deliver what I promised, tell me. I'll refund part or all of the fee. I'd rather have a refunded client who tells the truth about their experience than a frustrated client who never says anything.",
-    },
-    {
-      q: "How do I prepare for the on-site?",
-      a: "You don't need to. The whole point of the on-site is to see your business as it actually runs, not as a curated version. Don't clean up, don't prepare slides, don't pull together documentation. Just go about your day and let me observe.",
-    },
-  ],
-  finalCta:
-    "If this sounds like a fit, the next step is a free 20-minute conversation. We'll talk about your business and figure out together whether the assessment is right for you.",
-} as const;
 
 /* ===== SHARED FINAL CTA (Home + About) ===== */
 export const FINAL_CTA = {
@@ -428,18 +293,27 @@ export const CONTACT = {
     "The best first step is a free 20-minute conversation about your business.",
   serviceAreaTitle: "Where I work",
   serviceArea:
-    "Practical Informatics is based in Mokelumne Hill, California, and serves small and mid-sized businesses across the United States.",
+    "Marty Koepke is based in Mokelumne Hill, California, and serves small and mid-sized businesses across the United States.",
 } as const;
 
 /* ===== AI VISIBILITY INDEX ===== */
 export const AVI = {
-  /** Hero - the load-bearing question. */
-  heroEyebrow: "AI Visibility + AI Business Accuracy",
-  heroHeadline: "We help AI get your business right.",
+  /** Hero — one clear promise, one primary CTA to the free check. */
+  heroEyebrow: "AI Visibility",
+  heroHeadline: "Be found. Be understood. Be represented accurately.",
   /** Italic gold sub-tagline between H1 and subhead. */
-  subTagline: "AI Visibility is the doorway. AI Business Accuracy is the framework.",
+  subTagline: "AI is your new introduction. Make sure it gets you right.",
   heroSubhead:
-    "ChatGPT, Claude, Perplexity, and Gemini are answering questions about your industry right now. We test whether AI can find, understand, cite, and recommend your business in right-fit situations.",
+    "Your prospects ask ChatGPT, Claude, Perplexity, and Gemini questions about your industry every day. Daizie tests what those systems say about your business — whether they find you, describe you accurately, and recommend you when you're a right fit — then hands you the fixes that matter most.",
+  /** Primary CTA and the anchor for the secondary "see the paid offer" link. */
+  heroPrimaryCta: {
+    label: "Get your free readiness check",
+    href: "/scan",
+  },
+  heroSecondaryCta: {
+    label: "See what's in the paid Assessment",
+    href: "#compare",
+  },
   /** Trust strip below the hero CTAs. Concrete proof of method. */
   heroTrust: [
     "Live AI testing for paid audits",
@@ -448,6 +322,218 @@ export const AVI = {
     "Built by an enterprise informaticist",
   ],
 
+  /* ---------- Two offers at a glance ---------- */
+  /** Section anchor: id="compare". Side-by-side Free vs Paid cards. */
+  compareEyebrow: "Two ways in",
+  compareHeadline: "Free or full.",
+  compareSubhead:
+    "Both start with your website. The free check tells you how ready you are. The paid Assessment tells you how AI is actually representing you.",
+  compareOffers: [
+    {
+      id: "free",
+      name: "Free Daizie Readiness Check",
+      price: "$0",
+      priceNote: "30 seconds. No email required.",
+      tagline: "A fast, honest read on whether your website gives AI clear signals.",
+      whatYouGet: [
+        "Your AI Readiness Score across five drivers",
+        "A quick check on the profiles AI reads for your business type",
+        "Your two or three biggest gaps, in plain English",
+        "A clear next step, whether that's fixing your site or booking the Assessment",
+      ],
+      cta: {
+        label: "Run the free check",
+        href: "/scan",
+        variant: "ghost" as const,
+      },
+      featured: false,
+    },
+    {
+      id: "paid",
+      name: "Daizie AI Visibility Assessment",
+      price: "$895",
+      priceNote: "One-time. Delivered in 24–48 hours.",
+      tagline:
+        "The full protocol: live AI testing on four engines, every claim verified, and a plan tuned to your business type.",
+      whatYouGet: [
+        "Four AI engines tested: ChatGPT, Claude, Perplexity, Gemini",
+        "Eight buyer-question queries; 32 live AI responses captured and saved",
+        "Every factual AI claim about your business verified against your real sources",
+        "Quadrant chart plotting you against two competitors you name",
+        "Three readiness fixes and three accuracy fixes, separated and prioritized",
+        "30-minute review call with Marty",
+      ],
+      cta: {
+        label: "Book the Assessment",
+        href: "BOOK_CALL",
+        variant: "primary" as const,
+      },
+      featured: true,
+    },
+  ],
+  /** Small line below the comparison, above the crosswalk section. */
+  compareFootnote:
+    "Prefer to talk before you buy? Book a free 20-minute conversation — no pressure.",
+
+  /* ---------- Robust crosswalk ---------- */
+  crosswalkEyebrow: "The detail",
+  crosswalkHeadline: "What actually changes when you upgrade.",
+  crosswalkSubhead:
+    "Same starting point, very different job. Here's the honest crosswalk — what each tier measures, what it can and can't claim, and what you walk away with.",
+  crosswalkRows: [
+    {
+      dimension: "What we look at",
+      free: "Your website and the profiles AI reads for your business type.",
+      paid:
+        "Your website, those profiles, plus what live AI systems actually say when your prospects ask.",
+    },
+    {
+      dimension: "How we measure",
+      free: "A 30-second automated scan against the five readiness drivers.",
+      paid:
+        "Live queries to four AI engines; every response captured; every factual claim verified against your real sources.",
+    },
+    {
+      dimension: "AI engines tested",
+      free: "None — the free check does not run live AI.",
+      paid: "ChatGPT, Claude, Perplexity, Gemini.",
+    },
+    {
+      dimension: "Live AI responses captured",
+      free: "0",
+      paid: "32 responses (8 queries × 4 engines).",
+    },
+    {
+      dimension: "Claim verification",
+      free: "Not included. The free check cannot tell you if AI is misrepresenting your business.",
+      paid:
+        "Every factual claim labeled supported, unsupported, contradicted, stale, ambiguous, or not verifiable — with source excerpts.",
+    },
+    {
+      dimension: "Competitor comparison",
+      free: "Not included.",
+      paid:
+        "Two named competitors plotted on a Readiness × Visibility quadrant against you, on the same eight queries.",
+    },
+    {
+      dimension: "What you're allowed to honestly claim from the result",
+      free:
+        "That your website is or isn't ready for AI to understand you, and what the biggest gaps are.",
+      paid:
+        "Everything the free check says, plus: whether AI mentions you, recommends you, gets your facts right, and how you stack up against competitors.",
+    },
+    {
+      dimension: "Deliverable",
+      free: "An on-screen report with your score, master-key check, and top gaps.",
+      paid:
+        "A three-page artifact — Report, Evidence Ledger, Methodology page — plus a 30-minute review call with Marty.",
+    },
+    {
+      dimension: "Turnaround",
+      free: "Instant. About 30 seconds.",
+      paid: "24–48 hours after intake, plus your review call.",
+    },
+    {
+      dimension: "Best for",
+      free: "Anyone curious. A first look before deciding what to invest in.",
+      paid:
+        "A defensible baseline before you spend on AI-visibility work, and a real plan you can act on.",
+    },
+  ],
+
+  /* ---------- Audience-lane story ---------- */
+  audienceLanesEyebrow: "How AI treats different businesses",
+  audienceLanesHeadline:
+    "AI doesn't answer for a local plumber the way it answers for an online consultant.",
+  audienceLanesSubhead:
+    "The Assessment tunes queries and scoring for your type. This is the research that decides which profiles matter for you — and which don't.",
+  audienceLanes: [
+    {
+      id: "local",
+      label: "Local & brick-and-mortar",
+      subLabel:
+        "Plumbers, restaurants, dentists, salons, retail, home services, medical practices.",
+      keys: [
+        {
+          name: "Google Business Profile",
+          why: "Feeds Gemini, Google AI Overviews, and Claude's places lookup.",
+        },
+        {
+          name: "Bing Places",
+          why: "Feeds ChatGPT and Microsoft Copilot local answers.",
+        },
+        {
+          name: "Yelp",
+          why: "Feeds Perplexity local citations and now ChatGPT (via a 2026 licensing deal).",
+        },
+      ],
+      queryStyle:
+        "AI answers this business type with prompts like \"recommend a [category] in [city].\" The Assessment runs those.",
+    },
+    {
+      id: "online_b2b",
+      label: "Online consultants, coaches, and agencies",
+      subLabel:
+        "Fractional executives, marketing agencies, B2B consultants, coaches, professional services delivered remotely.",
+      keys: [
+        {
+          name: "LinkedIn (company + founder)",
+          why: "The #1 cited domain for professional queries across every major AI engine.",
+        },
+        {
+          name: "One vertical directory",
+          why: "Clutch, G2, Capterra, Avvo, Super Lawyers — whichever one your category actually uses.",
+        },
+        {
+          name: "Current-year listicles",
+          why: "88% of AI citations for B2B categories point to third-party \"best [X] 2026\" articles.",
+        },
+      ],
+      queryStyle:
+        "AI answers this business type with prompts like \"best [category] for [ICP].\" The Assessment runs those.",
+    },
+  ],
+  audienceLanesFootnote:
+    "At intake, you tell us which lane you're in. The Assessment picks the right queries and grades the right signals — no generic average.",
+
+  /* ---------- Inside the paid Assessment ---------- */
+  insideAssessmentEyebrow: "What's inside the $895 Assessment",
+  insideAssessmentHeadline: "A three-page artifact you can act on.",
+  insideAssessmentSubhead:
+    "Not a hundred-page report. Three pages that matter — plus every piece of evidence behind them, so you can verify anything and re-run it yourself.",
+  insideAssessmentCards: [
+    {
+      title: "The Report",
+      body:
+        "Your three public scores — AI Visibility, AI Readiness, AI Business Accuracy — and the composite Business Accuracy Index. Three readiness fixes and three accuracy fixes, separated and prioritized for your business type.",
+      icon: "layers",
+    },
+    {
+      title: "The Evidence Ledger",
+      body:
+        "Every one of the 32 AI responses we captured. Every factual claim we extracted. Every source we checked. Nothing hidden. If you want to re-run it yourself, you can.",
+      icon: "search",
+    },
+    {
+      title: "The Methodology page",
+      body:
+        "How the scoring works, cited to the research it came from. So you can defend the number, share it with your team, or hand it to your web person.",
+      icon: "fingerprint",
+    },
+  ],
+  insideAssessmentIncluded:
+    "Also included: a 30-minute review call with Marty to walk through what matters most for your business — not everything at once.",
+
+  /* ---------- Monthly Monitoring — small callout ---------- */
+  monitoringEyebrow: "After the Assessment",
+  monitoringHeadline: "Watch your visibility move over time.",
+  monitoringBody:
+    "Monthly Monitoring re-runs your full Assessment every month for $149/month. Dashboard of every monthly run, trends across all eleven measurements, and an email when each new report is ready. Two named competitors tracked monthly, one swap allowed per quarter. Available only after your first Assessment.",
+  monitoringCta: {
+    label: "Ask Marty about Monthly Monitoring",
+    href: "BOOK_CALL",
+  },
+
   /** The problem framing - short, visceral, true. */
   problem: [
     "Your customers are increasingly asking AI instead of Google. Best [your industry] near me. Who should I call for [the work you do]? Is [your business] reputable? The answer they get shapes who they trust.",
@@ -455,7 +541,7 @@ export const AVI = {
     "Our process measures both sides: whether AI can find you, and whether AI is getting the business right. Then it tells you what to fix first.",
   ],
 
-  /** The V3 readiness drivers. */
+  /** The readiness drivers. */
   dimensionsEyebrow: "What gets measured",
   dimensionsHeadline: "Five readiness drivers. Clearer AI answers.",
   dimensions: [
@@ -491,7 +577,7 @@ export const AVI = {
     eyebrow: "How we work",
     headline: "Complementary, not substitutive.",
     bodyParagraphs: [
-      "Practical Informatics LLC partners with organizations and professionals who are the recognized experts in their own fields. We provide the tools, assessments, and infrastructure that help them adopt AI thoughtfully and improve operational efficiency and AI visibility.",
+      "Marty Koepke partners with organizations and professionals who are the recognized experts in their own fields, providing the tools, assessments, and infrastructure that help them adopt AI thoughtfully and improve operational efficiency and AI visibility.",
       "Our role is complementary, not substitutive. A physician remains the medical expert in her practice. An attorney remains the legal expert in his firm. A facility operator remains the operational expert in his business. We bring expertise in AI, software, and process design - and we leave the substantive professional judgment, licensed decision-making, and final implementation choices where they belong: with our clients.",
     ],
     weBring: [
@@ -510,7 +596,7 @@ export const AVI = {
 
   /** Pricing tiers visible on the landing page. */
   pricingEyebrow: "Choose your starting point",
-  pricingHeadline: "Five ways in.",
+  pricingHeadline: "Three ways in.",
   tiers: [
     {
       id: "scan",
@@ -529,67 +615,36 @@ export const AVI = {
       featured: false,
     },
     {
-      id: "snapshot",
-      name: "AI Visibility Snapshot",
-      price: "$495",
-      priceNote: "Focused paid review",
-      tagline: "A practical first look at how AI understands your business.",
-      includes: [
-        "Focused live AI visibility review",
-        "Business accuracy and obvious misrepresentation checks",
-        "Light competitor and source gap review",
-        "Short fix list ranked by practical next step",
-        "Walkthrough call with Marty",
-      ],
-      cta: "Get the Snapshot",
-      ctaTarget: "STRIPE_LINK_REPORT",
-      featured: true,
-    },
-    {
       id: "core-audit",
       name: "AI Business Accuracy Audit",
-      price: "$1,950",
-      priceNote: "Core audit",
-      tagline: "The full measurement protocol for AI visibility and accuracy.",
+      price: "$895",
+      priceNote: "The paid product",
+      tagline: "The full measurement protocol — four engines, every claim verified, two named competitors plotted.",
       includes: [
-        "Readiness drivers plus measured AI outcomes",
-        "Live AI testing across the agreed prompt set",
-        "Representation accuracy and claim-support review",
-        "Context preservation and recommendation-fit assessment",
-        "Prioritized remediation roadmap",
+        "Four AI engines tested: ChatGPT, Claude, Perplexity, Gemini",
+        "Eight buyer-question queries, 32 live AI responses captured",
+        "Every factual claim AI makes about you verified against your real sources",
+        "Quadrant chart placing you against two competitors you name",
+        "Three readiness fixes and three accuracy fixes, separated",
+        "30-minute review call with Marty to walk through what matters most",
       ],
-      cta: "Book a fit call",
+      cta: "Book the Audit",
       ctaTarget: "BOOK_CALL",
-      featured: false,
-    },
-    {
-      id: "implementation",
-      name: "Implementation Planning",
-      price: "Scoped after audit",
-      priceNote: "Not sold before diagnosis",
-      tagline: "We define what to fix before offering an implementation sprint.",
-      includes: [
-        "Translate audit findings into a work plan",
-        "Identify which fixes belong to site copy, schema, source support, or positioning",
-        "Separate quick wins from larger content or authority work",
-        "Quote an implementation sprint only after scope is known",
-      ],
-      cta: "Talk through implementation",
-      ctaTarget: "BOOK_CALL",
-      featured: false,
+      featured: true,
     },
     {
       id: "monitoring",
       name: "Monthly Monitoring",
-      price: "$500/mo",
-      priceNote: "After a Snapshot or Audit",
-      tagline: "Track whether AI visibility and business accuracy are drifting or improving.",
+      price: "$149/mo",
+      priceNote: "After your Audit",
+      tagline: "Your full Audit, re-run every month, with a dashboard that tracks your movement over time.",
       includes: [
-        "Monthly rerun of a lightweight prompt set",
-        "Visibility and accuracy drift notes",
-        "Citation/source changes worth watching",
-        "Competitor movement highlights",
-        "Monthly action note; optional quarterly deep re-measure if needed",
+        "Full audit re-run every month — same four engines, same protocol",
+        "A dashboard with all your monthly Audits in one place",
+        "Trends view tracking your movement across all 11 measurements",
+        "Email when each new report is ready",
+        "Same two competitors tracked monthly, with one swap allowed per quarter",
+        "Manage your subscription anytime",
       ],
       cta: "Talk to Marty",
       ctaTarget: "BOOK_CALL",
@@ -626,32 +681,20 @@ export const AVI = {
   /** FAQ - answers the real objections. */
   faq: [
     {
-      q: "Is this AI Visibility, GEO, or AEO?",
-      a: "AI Visibility, GEO, and AEO are the doorway. AI Business Accuracy is the framework behind this service. We measure whether AI can find your business, understand it, support what it says, and recommend it in right-fit situations.",
-    },
-    {
       q: "How long does the free Readiness Check take?",
-      a: "About 30 seconds. The free check reads your website and looks for readiness signals: business clarity, source support, AI readability, distinctive point of view, and recommendation fit. It does not claim that live AI systems recommend you unless live prompts are actually run.",
+      a: "About 30 seconds. The free check reads your website and does a quick presence check on the profiles AI reads for your business type (Google Business Profile / Bing Places / Yelp for local; LinkedIn / one vertical directory / listicles for online B2B). It reports readiness only. It does not claim that live AI systems mention or recommend you — those are live-outcome claims that require the paid Assessment.",
     },
     {
-      q: "What is in the $495 AI Visibility Snapshot?",
-      a: "The Snapshot is a focused paid review. It gives you a practical first look at whether AI can find, understand, and describe your business, plus obvious source gaps, misrepresentation risks, and a short prioritized fix list.",
+      q: "What's the difference between the free check and the $895 Assessment?",
+      a: "The free check tells you if your website is ready for AI to understand you. The paid Daizie AI Visibility Assessment tells you whether AI is actually doing it. We run 32 live queries across ChatGPT, Claude, Perplexity, and Gemini, verify every factual claim AI makes against your real sources, and plot you against two competitors you name. Two different questions — see the crosswalk above.",
     },
     {
-      q: "What is different about the $1,950 AI Business Accuracy Audit?",
-      a: "The Core Audit is the full protocol. It measures readiness drivers and live AI outcomes: visibility, representation accuracy, claim support, context preservation, recommendation quality, and stability where enough runs exist. It is the right choice when you need a defensible baseline and a serious remediation roadmap.",
-    },
-    {
-      q: "Why not sell an implementation sprint immediately?",
-      a: "Because we should not quote implementation before we know what needs fixing. Some businesses need copy cleanup. Some need schema. Some need source support, directories, reviews, citations, or sharper positioning. The audit defines the work before a sprint is scoped.",
+      q: "Why does it matter what type of business I am?",
+      a: "AI systems pull local recommendations from Google Business Profile, Bing Places, and Yelp — but almost never for online consultants or agencies. Those queries pull from LinkedIn, vertical directories like Clutch or G2 or Avvo, and current-year 'best of' listicles. If the tool doesn't know which lane you're in, it grades you on signals that don't matter for your business. The Assessment tunes queries and scoring for your type at intake.",
     },
     {
       q: "What does Monthly Monitoring include?",
-      a: "Monthly Monitoring is a lighter recurring check for $500/month after a Snapshot or Audit. It reruns a focused prompt set, watches for visibility or accuracy drift, notes citation/source changes, flags competitor movement, and gives you a short monthly action note.",
-    },
-    {
-      q: "How is monthly monitoring different from quarterly re-measure?",
-      a: "Monthly monitoring is a lightweight pulse check. A quarterly re-measure is a deeper audit-style rerun using the fuller protocol to compare progress against the original baseline. For now, the clean offer is $500/month monitoring, with a quarterly deep re-measure treated as an optional add-on when a client needs it.",
+      a: "After your first Assessment, Monthly Monitoring re-runs the full protocol every month for $149/month. You get a dashboard with all your monthly runs, a trends view tracking your movement across all 11 measurements, and an email when each new report is ready. Two named competitors tracked monthly, with one swap allowed per quarter.",
     },
     {
       q: "Will this guarantee AI recommends my business?",
@@ -666,8 +709,8 @@ export const AVI = {
       a: "Yes. We do not sell, share, or train on your submission data. The AI queries we run are public-style business questions, and your report is treated as client work.",
     },
     {
-      q: "I would rather just talk to you first.",
-      a: "That is fine. Book a free 20-minute conversation. We can talk about your business and whether the free check, Snapshot, Core Audit, monitoring, or future implementation work is the right next step.",
+      q: "I'd rather just talk to you first.",
+      a: "That's fine. Book a free 20-minute conversation. We'll talk about your business and whether the free check, the Assessment, or ongoing monitoring is the right next step for you.",
     },
   ],
 

@@ -1,6 +1,6 @@
 # AI Visibility — Learning & Citation Reference
 
-*A working reference for Practical Informatics. Everything here is something you should be able to explain in plain English AND cite to a source. Links go to the primary or strongest available source so you can verify the details yourself.*
+*A working reference for Marty Koepke. Everything here is something you should be able to explain in plain English AND cite to a source. Links go to the primary or strongest available source so you can verify the details yourself.*
 
 **How to use this:** Read top to bottom once to build the mental model. After that, treat it as a citation lookup — when you make a claim in a post, a report, or a video, pull the matching source from here. A note on source quality: weight peer-reviewed and primary sources (arXiv, Google's own docs, Anthropic's own engineering) above vendor blogs, and when vendors disagree, *say so* — the disagreement is usually the real story.
 

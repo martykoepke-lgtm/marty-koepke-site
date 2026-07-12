@@ -1,4 +1,4 @@
-# Practical Informatics — Project Context
+# Marty Koepke — Project Context
 
 ## Founder
 
@@ -9,11 +9,29 @@ Clicks: The Hidden Work of Healthcare Informatics*. Based in Mokelumne Hill,
 California. Use **she/her** pronouns throughout the site, schema, copy, and any
 AI-facing documentation. Female. Do not assume otherwise based on the name "Marty."
 
-## Strategic spine
+## Canon — read these first
 
-`VISION.md` is the strategic north star. Read it when a design, copy, scope,
-or pricing decision is hard. The voice rules in section 10 govern every
-piece of brand-facing output (site pages, reports, emails, social copy):
+The repo carries a lot of documentation. When canon and code disagree, canon
+wins; when two canon docs disagree, the more recent one wins. The current
+hierarchy:
+
+| Doc | Role |
+|---|---|
+| `AI_BUSINESS_ACCURACY_V3_RUBRIC.md` | **V3 source of truth.** Drivers, outcomes, scores, public-vs-paid boundary. |
+| `V3_MIGRATION_MAP.md` | The 10-phase plan moving the codebase from V1/V2 to V3. Tells you what to keep, rewrite, and archive. |
+| `AVI_OPERATING_STANDARD.md` | How AI is *allowed* to work inside the pipeline. The Retrieve / Constrain / Express pattern. Every LLM-call rule. |
+| `AVI_FLOW_FREE.md`, `AVI_FLOW_PAID.md` | Plain-English walkthroughs of the two scan flows. |
+| `AVI_OPS_MONITOR.md` | Per-call logging, weekly summary email, 95% spend alerts. |
+| `AVI_PIPELINE_REFERENCE.md` | Service-by-service map of the paid pipeline. |
+| `VISION.md` | Strategic north star. Voice rules (§10) govern every brand-facing word. §8 is the refusal list. |
+| `DECISIONS.md` | Chronological ADR log. Check here when you suspect a design choice already exists. |
+
+Archived in `archive/legacy-v1-v2/` (do not restore, do not copy patterns
+from): `AVI_AGENT_DESIGN.md`, `AVI_CUSTOMER_FLOW.md`, `AVI_BUILD_PLAN.md`,
+`AVI_FREE_FLOW.md` (old), `AVI_INDEX_REPORT.md`, `AGENTS.md`. See
+`archive/README.md` for why each was retired.
+
+## Voice rules (from VISION.md §10)
 
 - Plain English; no jargon, no buzzwords
 - Sentence case headings, not Title Case
@@ -22,104 +40,238 @@ piece of brand-facing output (site pages, reports, emails, social copy):
 - Specific over vague — cite the number and the study
 - Generous to the reader — footnote sources, link to rubric, show the work
 
-Section 8 ("What we are deliberately not building") is a refusal list. If a
-proposed feature contradicts it (a SaaS dashboard, a generalist agency
-service line, a guaranteed-rankings promise), flag it before building.
-
-`AVI_BUILD_PLAN.md` is the locked tactical sequence for the AI Visibility
-Index work. `DECISIONS.md` logs architectural and product decisions in
-chronological order — read it when you suspect a design choice has been
-made and you want to confirm. `AVI_CUSTOMER_FLOW.md` documents the customer
-journey (v1.0; supersedes pending). `AVI_FREE_FLOW.md` is the plain-English
-walkthrough of the free Readiness Check — read this before touching any
-code that implements the free scan. `AVI_OPS_MONITOR.md` is the plain-English
-walkthrough of the AVI ops monitor (per-call logging + weekly summary email
-+ 95% out-of-band spend alerts) — read this before touching anything in
-`lib/avi/llm.ts`, `app/api/cron/*`, or the `api_calls` table.
-
-`AVI_INDEX_REPORT.md` is the plain-English walkthrough of the **full AVI
-scoring tool** (Crawler → Corroboration → QueryGrid → Extraction →
-Aggregation → Scoring → Composite). CLI-driven, no customer-facing pages
-in this build per D005. Read before touching `lib/avi/corroboration.ts`,
-`lib/avi/extraction.ts`, `lib/avi/aggregation.ts`, `lib/avi/scoring.ts`,
-`scripts/run-audit.mjs`, or any of the `audit_*` tables.
-
-**Build order is locked to monitor-first** (DECISIONS.md D004): the ops
-monitor ships before any customer-facing AVI work. No exceptions.
-
-`AVI_AGENT_DESIGN.md` is **v1.0 and superseded** — its "4 agents + orchestrator"
-framing is rejected in favor of deterministic pipeline orchestration; see the
-build plan §2 and DECISIONS.md D001.
-
 ## What This Is
 
-Marketing site for **Practical Informatics LLC**, Marty Koepke's one-person local
-consulting practice. The site has a single purpose: explain the **Time Back
-Assessment** and convert visitors into a free 20-minute conversation.
+Practical Informatics LLC offers two distinct services:
 
-Practical Informatics serves small businesses (typically 1–25 employees) in
-**Calaveras, Amador, and Tuolumne counties** — the California foothills. Marty is
-based in Mokelumne Hill. The work: bring AI and smarter process to the
-information work eating a small business owner's time and revenue.
-
-**Single offer:** the **Time Back Assessment** — $1,500 flat. An on-site visit, a
-written Time Back Report within 7 business days, a follow-up call, and one
-implemented quick win.
-
-**Sole conversion goal:** book a free 20-minute conversation (Tally form).
+1. **AI Visibility + AI Business Accuracy** — a productized national service
+   that tests whether AI systems (ChatGPT, Claude, Perplexity, Gemini) can
+   find, understand, cite, and recommend a business in right-fit situations.
+   This is the lead offer on the site.
 
 Marty's broader healthcare-informatics, speaking, and writing work lives at a
 separate site, **martykoepke.com** — cross-linked here, not featured.
 
-**Live URL:** https://www.practicalinformatics.com
+**Live URL:** https://www.martykoepke.com
 
-### Second offering: AI Visibility Index (added May 2026)
+> The two-offer narrative is still in tension (VISION.md positions AVI as the
+> primary practice; legacy framing still describes the local consulting
+> practice). Flag in copy or nav changes that depend on the answer.
 
-The site also hosts a separate productized service, the **AI Visibility Index**,
-that lives under `/ai-visibility`. This is not a foothills-local offering — it
-serves established small businesses, solo founders, and small practices
-anywhere in the U.S. who want to be findable by AI search engines (ChatGPT,
-Claude, Gemini, Perplexity). Four-tier ladder:
+### The AI Visibility offer ladder
 
-1. **Free AI Readiness Check** — URL-only, ~30s, lead magnet
-2. **Paid AI Visibility Index Report — $1,000** — ~3–8 min async pipeline,
-   8–10 page PDF + walkthrough call. Fee credits 100% toward a Sprint if
-   booked within 30 days.
-3. **Done-with-You Remediation Sprint — $3,000 (Foundations) / $5,000 (Expanded)**
-4. **Visibility Partner — $600/mo (optional, post-Sprint only)**
+The site `/ai-visibility` page presents:
 
-See `VISION.md` for the strategic framing and `AVI_BUILD_PLAN.md` for build
-sequence. Code lives in `app/ai-visibility/`, `app/api/submissions/`,
-`components/ai-visibility/`, `lib/avi/`, and `supabase/`.
+1. **Free AI Readiness Check** — $0. URL-only, ~30s, public lead magnet.
+2. **AI Visibility Snapshot** — $495. Focused paid review.
+3. **AI Business Accuracy Audit** — $1,950. The core paid offer. Measures
+   readiness drivers + live AI outcomes.
+4. **Implementation Planning** — scoped after diagnosis.
+5. **Monthly Monitoring** — $500/month post-Snapshot/Audit.
 
-> Note: VISION.md positions Practical Informatics as primarily an AI
-> visibility consultancy. The existing "one-person local consulting practice"
-> framing above (still serving the Time Back Assessment) is in tension with
-> that. The two-offer narrative isn't fully resolved yet — flag in copy or
-> nav changes that depend on the answer.
+**Pricing source of truth:** `apps/site/public/Marty-Koepke-Pricing-Structure.md`.
+On-page copy in `apps/site/lib/content.ts` must match it. State may drift —
+verify before quoting numbers.
 
-## Architecture
+## V3 scoring model (summary)
 
-Next.js (App Router) with TypeScript, Tailwind CSS v4, and Framer Motion.
-Calm, light, foothills-local aesthetic. Deployed to **Vercel**.
+V3 has **two scoring layers** and **three public scores plus one composite**.
+Do not collapse readiness and outcomes into a single generic visibility
+score. The full rubric is in `AI_BUSINESS_ACCURACY_V3_RUBRIC.md`.
 
-| Layer | Choice |
-|---|---|
-| Framework | Next.js (App Router) |
-| Language | TypeScript |
-| Styling | Tailwind CSS v4 (config lives in `app/globals.css` via `@theme`, no `tailwind.config`) |
-| Animations | Framer Motion |
-| Fonts | Inter (`--font-inter`, body) + Lora (`--font-lora`, serif headlines) |
-| Blog | Markdown files in `content/blog/`, parsed by a tiny in-repo renderer (`lib/blog.ts`) — no CMS |
-| Deployment | Vercel (push to `main` auto-deploys) |
+**Readiness drivers** (used by free + paid):
+1. Business Clarity
+2. Source Support
+3. AI Readability
+4. Distinctive Point of View
+5. Recommendation Fit
 
-## Design Direction — "calm canvas, kinetic story"
+**Measured AI outcomes** (paid only — require live AI prompts + claim
+verification):
+1. Visibility
+2. Representation Accuracy
+3. Claim Support
+4. Context Preservation
+5. Recommendation Quality
+6. Stability
 
-The visual brand is calm and grounded; **motion is the storytelling layer**, not
-decoration. Any new section must pass both tests: does it look calm at rest, and
-does motion advance the story rather than ornament it.
+**Public scores:**
+- AI Visibility Score = 70% Visibility + 30% Stability
+- AI Business Accuracy Score = 30/25/20/15/10 across Representation,
+  Claim Support, Context, Recommendation, Stability
+- AI Readiness Score = 25/25/20/15/15 across the five readiness drivers
+- AI Business Accuracy Index (composite) = 45% Accuracy + 30% Visibility +
+  25% Readiness
 
-**Palette** (defined in `app/globals.css` `@theme`):
+The free scan must report *readiness only*. It must not claim that AI
+systems mention or recommend the business — those are live-outcome claims
+that require the paid audit.
+
+## Repository shape — monorepo
+
+This is a turbo monorepo (`turbo.json`, npm workspaces). Three packages:
+
+| Workspace | Path | Purpose |
+|---|---|---|
+| `site` | `apps/site/` | Public marketing site + `/scan` free flow + `/ai-visibility/*` + admin viewer. Next.js (App Router), Tailwind v4, Framer Motion. Deployed to Vercel on push to `main`. |
+| `console` | `apps/console/` | Authed operator dashboard. Run subjects, view audits, compare, watch spend. Supabase-auth-gated. |
+| `@practical-informatics/avi` | `packages/avi/` | Shared engine: crawler, corroboration, query grid, extraction, scoring, persistence. Imported by both apps. |
+
+Top-level scripts (run from repo root):
+
+```bash
+npm run dev        # turbo dev across all workspaces
+npm run build      # turbo build
+npm run typecheck  # turbo tsc --noEmit across all three
+npm run site:dev   # site only
+npm run console:dev
+npm run audit      # CLI audit runner from packages/avi
+npm run compare    # CLI compare runner from packages/avi
+```
+
+## Where V3 is wired (and where it isn't yet)
+
+V3 code lives in `packages/avi/src/v3/`. Wiring status:
+
+| Surface | Engine | Status |
+|---|---|---|
+| Console **paid** run (`apps/console/.../subjects/[id]/run/actions.ts`) | `runAuditV3` + `persistAuditV3` | Fully V3 |
+| Console **free** run | `runAudit` (V2) | Still legacy — flag before relying on it |
+| Admin V3 audit viewer (`apps/site/app/admin/v3-audits/[id]/page.tsx`) | `runAuditV3` | V3 |
+| Public `/api/scan` (free) | `runFreeScan` from `v3/free-scan.ts` | **V3 facade over legacy internals.** Calls legacy 7-dim scorer, then maps to V3 drivers by averaging. Score is a relabel, not new math. |
+| Public `/api/submissions` (paid teaser) | `runCrawler` from `v1/crawler.ts` | V1 still load-bearing |
+
+The public boundary in `packages/avi/src/index.ts` is the single import
+entry for both apps — internal modules import each other via relative paths.
+
+## Site structure (`apps/site/`)
+
+```
+apps/site/
+├── app/
+│   ├── layout.tsx              # Root layout, fonts, ProfessionalService JSON-LD
+│   ├── page.tsx                # Home
+│   ├── globals.css             # Tailwind v4 @theme palette + base styles
+│   ├── icon.png, apple-icon.png
+│   ├── robots.ts, sitemap.ts, not-found.tsx
+│   ├── about/page.tsx
+│   ├── contact/page.tsx
+│   ├── blog/, blog/[slug]/      # Markdown blog (lib/blog.ts renderer)
+│   ├── privacy/, terms/, cookies/, acceptable-use/, returns/
+│   ├── ai-visibility/page.tsx          # AVI landing
+│   ├── ai-visibility/order/            # Order form
+│   ├── ai-visibility/results/[id]/     # Token-gated teaser
+│   ├── scan/page.tsx                   # Free scan UI
+│   ├── scan/report/[id]/               # Free scan report page
+│   ├── admin/audits/[id]/              # V2 admin viewer
+│   ├── admin/v3-audits/[id]/           # V3 admin viewer
+│   └── api/
+│       ├── scan/route.ts               # Free scan handler
+│       ├── scan/email/route.ts         # Email-gate handler (Kit + Resend)
+│       ├── submissions/route.ts        # Paid teaser intake
+│       ├── admin/v3-audits/route.ts    # Run a V3 audit
+│       └── cron/                       # Ops monitoring routes
+├── components/
+│   ├── layout/                  # Navbar, Footer, PolicyPage
+│   ├── sections/                # HeroBanner, BuiltThings, Faq, FinalCta
+│   ├── motion/                  # Reveal, RouteTransition
+│   ├── ui/                      # Section, Button, Icons
+│   ├── modals/                  # WorkModal
+│   ├── embeds/                  # GetTermsEmbed
+│   └── ai-visibility/           # AVI-specific UI (FreeScanFlow, ScanForm, …)
+├── lib/
+│   ├── content.ts               # All site copy as typed constants
+│   ├── links.ts                 # Outbound links + CTAs
+│   └── blog.ts                  # Markdown reader/renderer
+├── content/blog/                # Markdown posts
+├── public/
+│   ├── images/                  # Hero, headshot, logo set, work shots
+│   ├── llms.txt                 # AI-agent content file (public)
+│   ├── AI-Visibility-Index-Rubric-and-Protocol.md
+│   ├── AI-Visibility-Learning-and-Citation-Reference.md
+│   ├── Marty-Koepke-Pricing-Structure.md   # canonical pricing
+│   └── googleefff2183f67c65a4.html
+├── brand-assets/
+└── vercel.json
+```
+
+## Console structure (`apps/console/`)
+
+Operator-only Next.js app. Supabase auth gates everything under `(authed)/`.
+
+```
+apps/console/
+├── app/
+│   ├── (authed)/
+│   │   ├── audits/                     # List + detail
+│   │   ├── subjects/                   # CRUD + run flow
+│   │   ├── compare/                    # Multi-audit comparison
+│   │   ├── spend/                      # Cost dashboard
+│   │   └── submissions/                # Inbound from /api/submissions
+│   ├── account/password/
+│   ├── auth/callback/
+│   └── login/
+├── components/                  # Card, Sidebar, RunAuditForm, PillSelect, …
+├── lib/
+│   ├── supabase/{server,middleware}.ts
+│   └── data/                    # audits, subjects, stats, analytics
+└── middleware.ts                # Supabase session refresh
+```
+
+## AVI package structure (`packages/avi/`)
+
+```
+packages/avi/
+├── src/
+│   ├── index.ts                 # PUBLIC surface — only entry consumers import
+│   ├── v3/                      # V3 modules (rubric, orchestrator, free-scan,
+│   │                            # readiness, outcomes, composite, extractor,
+│   │                            # claim-verifier, source-evidence, recommender,
+│   │                            # persist, queries, synthesizer, types)
+│   ├── v1/                      # Legacy crawler (still used by /api/submissions)
+│   ├── orchestrator-v2.ts       # V2 paid pipeline (used by console free runs)
+│   ├── aggregator-v2.ts, composite-v2.ts, extractor-v2.ts, judge-v2.ts,
+│   ├── recommender-v2.ts, render-v2.ts, synthesize-v2.ts
+│   ├── free-scan.ts             # Legacy free scan (v3/free-scan.ts wraps this)
+│   ├── crawler-v2.ts, corroboration-v2.ts, engine-clients.ts
+│   ├── llm.ts, llm-providers/   # Provider clients (Anthropic, OpenAI, Google, Perplexity)
+│   ├── persist-audit.ts         # V2 persistence
+│   ├── supabase-client.ts       # Service-role admin client
+│   ├── turnstile.ts, rate-limit.ts, email.ts, kit.ts, tavily.ts
+│   ├── email-templates/
+│   ├── subject-loader.ts, subjects (JSON fixtures live in /subjects/v1/)
+│   ├── types.ts, json-clean.ts, logging.ts, queries.ts
+├── scripts/
+│   ├── audit.mts, compare.mts   # CLI runners
+│   ├── smoke-crawler.mts, smoke-v3-db.mts, diagnose-v3-recent.mts
+├── subjects/v1/                 # Subject JSON fixtures
+├── queries/                     # Query template markdown
+├── agents/                      # Agent role docs (EXTRACTOR.md, V3_*, etc.)
+└── supabase/
+    ├── migrations/              # 0001 → 0020. V3 schema lands at 0015.
+    ├── SCHEMA_V2.md
+    └── SCHEMA_V3.md
+```
+
+V3 schema reference: `packages/avi/supabase/SCHEMA_V3.md`. The migration
+chain through 0020 covers V3 tables (`audit_claims`,
+`audit_claim_verifications`, `audit_source_evidence`,
+`audit_outcome_scores`, etc.) plus the V2 → V3 compatibility shims and the
+Gemini engine addition.
+
+## Content management
+
+All site copy lives in `apps/site/lib/content.ts` as typed constants —
+components never hardcode copy. All outbound links and CTAs live in
+`apps/site/lib/links.ts`. `BOOK_CALL_HREF` is the single most important CTA.
+
+## Design direction — "calm canvas, kinetic story"
+
+The visual brand is calm and grounded; **motion is the storytelling layer**,
+not decoration. Any new section must pass both tests: does it look calm at
+rest, and does motion advance the story rather than ornament it.
+
+**Palette** (defined in `apps/site/app/globals.css` `@theme`):
 - Background / cream: `#FAF6EE`; dimmer warm tan: `#F2EBDC` (`cream-dim`)
 - Forest green: `#1F3A2E` (primary), `#16291F` (dark)
 - Gold: `#C9A961`, `#A8893F` (`gold-dark`), `#6B5424` (`gold-darker`)
@@ -127,178 +279,75 @@ does motion advance the story rather than ornament it.
 - Tan hairline: `#D8CCB4`
 
 **Conventions:** quiet serif (Lora) headlines, sentence case, generous
-whitespace, no drop shadows, no gratuitous gradients. Sections alternate tone
-bands (`cream`, `cream-dim`, `forest`) via the `Section` component. Motion is
-slow (~0.6s), eased, scroll-driven — never spring/bounce. All motion honors
-`prefers-reduced-motion` (enforced globally in `globals.css`).
-
-## File Structure
-
-```
-PracticalInformatics/
-├── app/
-│   ├── layout.tsx              # Root layout, fonts, SEO metadata, ProfessionalService JSON-LD
-│   ├── page.tsx                # Home
-│   ├── globals.css             # Tailwind v4 import + @theme palette + base styles
-│   ├── icon.png                # Favicon (App Router auto-discovery)
-│   ├── robots.ts               # robots.txt
-│   ├── sitemap.ts              # sitemap.xml
-│   ├── not-found.tsx           # 404 page
-│   ├── about/page.tsx          # About Marty
-│   ├── time-back-assessment/page.tsx  # The single offer — full detail
-│   ├── contact/page.tsx        # Contact + booking
-│   ├── blog/page.tsx           # Blog index (empty-state aware)
-│   ├── blog/[slug]/page.tsx    # Individual post
-│   ├── privacy/page.tsx        # Policy pages (GetTerms embeds)
-│   ├── terms/page.tsx
-│   ├── cookies/page.tsx
-│   ├── acceptable-use/page.tsx
-│   └── returns/page.tsx
-├── components/
-│   ├── layout/
-│   │   ├── Navbar.tsx           # Top nav
-│   │   ├── Footer.tsx           # Footer (cream plate behind dark logo)
-│   │   └── PolicyPage.tsx       # Shared policy page wrapper
-│   ├── sections/
-│   │   ├── HeroBanner.tsx       # Home hero (oak / foothills background)
-│   │   ├── ThePath.tsx          # Interactive 5-step Time Back Assessment journey
-│   │   ├── BuiltThings.tsx      # "A few things I've built" cards → WorkModal
-│   │   ├── Faq.tsx              # Expandable FAQ accordion
-│   │   └── FinalCta.tsx         # Shared closing CTA (Home, About, Assessment)
-│   ├── motion/
-│   │   ├── Reveal.tsx           # Scroll-reveal primitives (Reveal, RevealGroup, RevealItem)
-│   │   └── RouteTransition.tsx  # Page-to-page transition wrapper
-│   ├── ui/
-│   │   ├── Section.tsx          # Tone-banded section + SoftDivider
-│   │   ├── Button.tsx           # Button variants (primary, ghost, onForest)
-│   │   └── Icons.tsx            # Inline SVG icon set (Icon, ArrowRightIcon)
-│   ├── modals/
-│   │   └── WorkModal.tsx        # Built-thing detail modal
-│   └── embeds/
-│       └── GetTermsEmbed.tsx    # GetTerms policy-document embed
-├── lib/
-│   ├── content.ts               # All site copy as typed constants
-│   ├── links.ts                 # Outbound links + CTAs (single source of truth)
-│   └── blog.ts                  # Markdown blog reader/renderer (frontmatter + minimal MD)
-├── content/
-│   └── blog/                    # Markdown posts (zero at launch — empty state handled)
-├── public/
-│   ├── images/
-│   │   ├── hero-bg.jpg          # Foothills oak hero / OG image
-│   │   ├── headshot.jpg
-│   │   ├── logo-horizontal.png  # Nav logo / JSON-LD logo
-│   │   ├── logo-lockup.png
-│   │   ├── logo-mark.png
-│   │   ├── governiq/            # 5 screenshots
-│   │   └── activiteez/          # 5 screenshots
-│   ├── llms.txt                 # AI agent content file
-│   └── googleefff2183f67c65a4.html  # Search Console verification
-├── CLAUDE.md
-├── next.config.ts
-├── tsconfig.json
-└── package.json
-```
-
-## Content Management
-
-All site copy lives in `lib/content.ts` as typed constants — components never
-hardcode copy. Key exports:
-- `SITE` — name, legal name, URL, tagline, location, service area
-- `NAV` / `POLICIES` — navigation and policy route definitions
-- `META` — per-page title/description
-- `HOME` — hero intro, problem prose, "what I do" columns, differentiation, "who I am"
-- `ABOUT` — story, principles, credentials, `built` (things-I've-built data)
-- `ASSESSMENT` — the full Time Back Assessment page: hero, what's different,
-  `path` (5-step journey), report bullets, cost, who-it's-for, note on AI, FAQ
-- `FINAL_CTA` / `CONTACT` / `BLOG` — shared CTA, contact copy, blog copy
-
-All outbound links and CTAs live in `lib/links.ts` — change them there and the
-whole site updates. `BOOK_CALL_HREF` is the single most important CTA.
-
-## Pages
-
-| Route | Purpose |
-|---|---|
-| `/` | Home — hero, the problem, "what I do", differentiation (anti-AI-guru), "who I am", recent posts (only when 3+ exist), final CTA |
-| `/about` | Marty's story, "How I work" principles, credentials, "A few things I've built", final CTA |
-| `/time-back-assessment` | The single offer in full — what's different, not-local note, **The Path** (interactive 5 steps), cost, who it's/isn't for, note on AI, FAQ, final CTA |
-| `/contact` | Hero + booking band (Tally) + email fallback + service-area note |
-| `/blog`, `/blog/[slug]` | Markdown blog. Zero posts at launch; UI handles the empty state. Hidden from nav until first posts ship |
-| `/ai-visibility` | AI Visibility Index landing — value prop, four-tier ladder, CTA to order form |
-| `/ai-visibility/order` | Form (URL + email + business info) → posts to `/api/submissions` → redirects to results teaser |
-| `/ai-visibility/results/[id]` | Token-gated teaser of the free crawler scan + CTA to purchase the full Index Report |
-| `/api/submissions` | POST handler: validate, crawl URL, score, persist row to Supabase, return access token |
-| `/privacy`, `/terms`, `/cookies`, `/acceptable-use`, `/returns` | Policy pages — GetTerms embeds via `PolicyPage` + `GetTermsEmbed` |
-| 404 | `app/not-found.tsx` |
-
-## The Path
-
-The Time Back Assessment's 5-step client journey, rendered as an interactive
-scroll-driven component (`ThePath.tsx`): free fit call → 90-minute on-site visit
-→ written Time Back Report → 30-minute follow-up call → one implemented quick
-win. The assessment page also renders an always-in-DOM `<ol>` of the same five
-steps below it as an SEO / no-JS / AI-readable fallback.
+whitespace, no drop shadows, no gratuitous gradients. Sections alternate
+tone bands (`cream`, `cream-dim`, `forest`) via the `Section` component.
+Motion is slow (~0.6s), eased, scroll-driven — never spring/bounce. All
+motion honors `prefers-reduced-motion` (enforced globally in `globals.css`).
 
 ## External URLs
 
 | Destination | URL | Notes |
 |---|---|---|
 | Book a Call (primary CTA) | `https://tally.so/r/xXVPgo` | `BOOK_CALL_HREF` in `lib/links.ts` |
-| Contact email | `marty.koepke@practicalinformatics.com` | `CONTACT_EMAIL`; `mailto()` helper builds prefilled links |
-| martykoepke.com | `https://martykoepke.com` | Healthcare informatics / speaking / writing — cross-linked |
+| Contact email | `hello@martykoepke.com` | `CONTACT_EMAIL` |
+| martykoepke.com | `https://martykoepke.com` | Cross-linked |
 | LinkedIn | `https://www.linkedin.com/in/marty-koepke` | |
 | Facebook | `https://www.facebook.com/profile.php?id=61564713020344` | |
-| EHR Governance Assistant demo | `https://sophiav2.vercel.app/` | Linked from "things I've built" |
-
-> Note: `lib/links.ts` anticipates a future booking tool (Cal.com/Calendly) and
-> form backend (Formspree/Resend). When those ship, change the values in
-> `links.ts` only.
 
 ## SEO
 
-- JSON-LD: `ProfessionalService` in `app/layout.tsx`; `Service` + `FAQPage` on
-  the assessment page; `ContactPage` on the contact page
-- Open Graph + Twitter Card meta (hero image), per-page metadata via `META`
-- `app/robots.ts` + `app/sitemap.ts` generate `robots.txt` / `sitemap.xml`
-- `app/icon.png` is the favicon (App Router auto-discovery)
-- `/llms.txt` linked from `<head>` as an LLM-readable summary
+- JSON-LD: `ProfessionalService` in root layout; `Service` + `FAQPage` on
+  the AI Visibility / assessment pages; `ContactPage` on contact
+- Open Graph + Twitter Card meta, per-page metadata via `META`
+- `robots.ts` + `sitemap.ts` generate `robots.txt` / `sitemap.xml`
+- `/llms.txt` linked from `<head>` as an LLM-readable summary — kept in
+  sync with the V3 model (five-driver readiness + six measured outcomes)
 - Google Search Console verified
 
-## AVI app — architectural rules
+## AVI architectural rules — locked
 
-The AVI implementation in `lib/avi/`, `app/api/submissions/`, and
-`app/ai-visibility/` follows these locked decisions (see `AVI_BUILD_PLAN.md`):
+These come from `AVI_OPERATING_STANDARD.md` and DECISIONS.md. Do not
+contradict them without a new ADR.
 
-- **No autonomous orchestrating agent.** Deterministic pipeline orchestration
-  (Inngest is the planned background-job surface for the paid pipeline).
-  LLM calls happen at bounded points only: structured extraction per query
-  response, LLM-as-judge per driver dimension.
-- **Every LLM call:** temperature 0, JSON mode where supported, schema-validated
-  output, raw inputs and outputs logged. Replay against logged inputs must
-  produce the same result.
+- **AI is an aggregator, not an assessor.** The pipeline never asks an LLM
+  to assess. It asks the LLM to *report what was observed*, against a
+  human-locked rubric, in a human-defined shape. The math is in code.
+- **No autonomous orchestrating agent.** Deterministic pipeline
+  orchestration in plain TypeScript. LLM calls are bounded to extraction
+  per query response and LLM-as-judge per dimension.
+- **Every LLM call:** temperature 0, JSON mode where supported,
+  schema-validated output, one bounded job per call, every claim cites
+  evidence pointers, "insufficient evidence" is always a valid answer, no
+  training-data knowledge of the specific subject, all inputs and outputs
+  logged to `api_calls`. Replay against logged inputs must produce the
+  same result.
 - **Never disable Supabase RLS.** Every table is RLS-enabled in the same
-  migration that creates it. The AVI app uses service-role-only access
-  through `/api/*` — customers never authenticate to Supabase directly.
-- **Never commit `.env.local`.** Set hard daily spend caps in every LLM
-  vendor dashboard. `.env.example` enumerates every key the AVI runtime
-  expects, with comments on which phase each one is needed for.
-- **Rubric version stamped on every audit row.** Bump `AVI_RUBRIC_VERSION`
-  when scoring prompts or anchored scales change.
-- **Pricing source of truth:** `public/Practical-Informatics-Pricing-Structure.md`
-  is canonical. On-page copy in `lib/content.ts` needs to match it. Current
-  state may drift — verify before quoting numbers.
-
-## Development
-
-```bash
-npm run dev    # Dev server at http://localhost:3000
-npm run build  # Production build
-npm run start  # Production server
-```
+  migration that creates it, and carries an explicit restrictive
+  `deny_all_anon_authenticated` policy (`using (false) with check (false)`,
+  applied to all tables in migration `0021`) so the "service-role only"
+  intent is self-documenting and the security advisor stays clean. The AVI
+  app uses service-role-only access through `/api/*` — customers never
+  authenticate to Supabase directly. The service role bypasses RLS, so the
+  deny-all policies have no runtime effect on it; they only lock out the
+  `anon` and `authenticated` roles.
+- **Rubric version stamped on every audit row.** `AVI_RUBRIC_VERSION`
+  (V2) and `AVI_V3_RUBRIC_VERSION` (V3). Bump when scoring prompts or
+  anchored scales change. Old audits stay reproducible against their own
+  version.
+- **Cost ceilings + ops monitor.** Set hard daily caps in every LLM
+  vendor dashboard. Per-call logging + weekly summary email + 95%
+  spend alert run on cron — see `AVI_OPS_MONITOR.md`. Touch with care.
+- **Never commit `.env.local`.** `.env.example` (root) and
+  `apps/console/.env.example` enumerate the keys the runtime expects.
+- **Free scan reports readiness only.** Must not claim AI mentions or
+  recommends the business — those are live-outcome claims that require a
+  paid audit. The boundary is defined in
+  `AI_BUSINESS_ACCURACY_V3_RUBRIC.md` §Free Vs Paid Boundary.
 
 ## Deployment
 
-Vercel. Push to `main` triggers auto-deploy. AVI runtime needs API keys in
-Vercel env vars (Anthropic, OpenAI, Google AI, Supabase, eventually
-Perplexity/Tavily/Inngest/Stripe/Resend) — add them in the Vercel dashboard
-when ready to enable paid flows.
+Vercel. Push to `main` triggers auto-deploy of `apps/site`. The console
+deploys separately. The AVI runtime needs API keys in Vercel env vars
+(Anthropic, OpenAI, Google AI, Perplexity, Supabase, Resend, Kit, Tavily,
+Turnstile) — add them in the Vercel dashboard when ready to enable paid
+flows.

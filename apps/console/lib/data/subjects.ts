@@ -22,7 +22,7 @@ export type SubjectJson = {
   buyer_type?: string;
   problem?: string;
   aliases?: string[];
-  competitors?: Array<{ canonical_name: string; aliases?: string[] }>;
+  competitors?: Array<{ canonical_name: string; aliases?: string[]; url?: string }>;
   known_differentiation_terms?: string[];
   right_fit_situations?: string[];
   wrong_fit_situations?: string[];

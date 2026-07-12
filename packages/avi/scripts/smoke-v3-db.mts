@@ -16,7 +16,7 @@ const audit: V3Audit = {
   audit_id: auditId,
   rubric_version: AVI_V3_RUBRIC_VERSION,
   created_at: now,
-  mode: 'snapshot',
+  mode: 'audit',
   subject: {
     canonical_name: 'V3 DB Smoke Test',
     aliases: ['V3 Smoke'],

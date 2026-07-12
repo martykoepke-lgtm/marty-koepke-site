@@ -67,7 +67,7 @@ These same keys are used by the existing v1 pipeline — if `/scan` works locall
 # 1. Make sure env vars are set
 source .env.local
 
-# 2. Run an audit on Practical Informatics
+# 2. Run an audit on Marty Koepke
 npx tsx scripts/audit.mts subjects/practicalinformatics.json --mode=paid
 
 # 3. Open the generated report in your browser

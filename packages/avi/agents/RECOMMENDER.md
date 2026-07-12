@@ -188,7 +188,7 @@ These are priors, not rules. Specific evidence in the subject's package override
 
 **Input (excerpt):**
 ```
-subject: { canonical_name: "Practical Informatics", industry: "AI visibility consulting", subject_type: "personal_brand" }
+subject: { canonical_name: "Marty Koepke", industry: "AI visibility consulting", subject_type: "personal_brand" }
 driver_scores: [
   { dimension_id: "D1", band: 4, ... },
   { dimension_id: "D2", band: 2, justification: "Solid LinkedIn presence, no Reddit/Wikipedia presence, sparse third-party reviews", ... },

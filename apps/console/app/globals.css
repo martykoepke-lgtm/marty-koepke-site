@@ -21,6 +21,7 @@
   --color-moss: #536C55;
 
   --font-sans: var(--font-inter);
+  --font-serif: var(--font-lora);
 }
 
 html {
@@ -28,14 +29,25 @@ html {
 }
 
 body {
-  background:
-    linear-gradient(90deg, rgba(10, 28, 18, 0.76), rgba(32, 52, 34, 0.5), rgba(246, 229, 183, 0.16)),
-    url("/large-tree-background.png") center / cover fixed;
+  background: transparent;
   color: #F6F8F5;
   font-family: var(--font-sans), system-ui, sans-serif;
   font-size: 0.9375rem;
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(9, 25, 17, 0.78) 0%, rgba(29, 58, 37, 0.56) 42%, rgba(230, 205, 144, 0.2) 100%),
+    radial-gradient(circle at 80% 12%, rgba(244, 200, 96, 0.38), transparent 24rem),
+    url("/large-tree-background.png") center / cover no-repeat;
+  will-change: transform;
 }
 
 h1,
@@ -74,10 +86,8 @@ h4 {
 }
 
 .console-workspace {
-  background:
-    linear-gradient(90deg, rgba(9, 25, 17, 0.78) 0%, rgba(29, 58, 37, 0.56) 42%, rgba(230, 205, 144, 0.2) 100%),
-    radial-gradient(circle at 80% 12%, rgba(244, 200, 96, 0.38), transparent 24rem),
-    url("/large-tree-background.png") center / cover fixed;
+  position: relative;
+  background: transparent;
   color: #F6F8F5;
   min-height: 100vh;
 }

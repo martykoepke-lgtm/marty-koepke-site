@@ -18,6 +18,14 @@ export type { Synthesis } from './synthesize-v2';
 // V3 free-scan (live, used by /scan route; legacy persistence underneath until V3 DB lands)
 export { runFreeScan, tierFor } from './v3/free-scan';
 export type { Tier } from './v3/free-scan';
+export { checkMasterKeys } from './v3/master-keys';
+export type {
+  MasterKeyReport,
+  MasterKeyCheck,
+  MasterKeyId,
+  MasterKeyConfidence,
+} from './v3/master-keys';
+export type { AudienceLane } from './types';
 export { runAuditV3 } from './v3/orchestrator';
 export type { RunAuditV3Options } from './v3/orchestrator';
 export { persistAuditV3 } from './v3/persist';
@@ -64,6 +72,18 @@ export {
   v3MeasuredOutcomes,
 } from './v3/outcomes';
 export { classifyClaimSupport, sourceSupportsClaim } from './v3/claim-verifier';
+export { synthesizeV3 } from './v3/synthesizer';
+export { recommendV3 } from './v3/recommender';
+export { accuracyRecommendV3 } from './v3/accuracy-recommender';
+export { selectV3Quotes } from './v3/quote-selector';
+export { aggregateCompetitorVisibility } from './v3/competitor-visibility';
+export { runCompetitorReadinessPass } from './v3/competitor-readiness';
+export { getImprovements, listImprovementSources } from './v3/improvement-library';
+export type {
+  V3DimensionId,
+  V3Improvement,
+  V3ImprovementSource,
+} from './v3/improvement-library';
 export type {
   Engine,
   DimensionId,
@@ -108,4 +128,14 @@ export type {
   V3CompositeInput,
   V3FreeScanResult,
   V3Audit,
+  V3Quadrant,
+  V3Verdict,
+  V3ClaimType,
+  V3SelectedQuote,
+  V3QuoteCategory,
+  V3AccuracyFix,
+  V3AccuracyRecommenderOutput,
+  V3CompetitorVisibility,
+  V3CompetitorVisibilityOutput,
+  V3CompetitorReadinessRow,
 } from './v3/types';

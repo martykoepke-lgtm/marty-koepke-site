@@ -57,8 +57,9 @@ export function RunningBanner({ mode }: { mode: "free" | "paid" }) {
               </>
             ) : (
               <>
-                The Readiness Check takes <strong>about 30 seconds</strong>: crawler,
-                corroboration, 5 driver judges, and recommender. You will be
+                The Readiness Check takes <strong>2-3 minutes</strong>: crawler,
+                corroboration (7 Tavily searches), 5 driver judges (sequential Claude calls),
+                recommender, and synthesizer. Leave this tab open — you will be
                 redirected to the audit detail page when it completes.
               </>
             )}

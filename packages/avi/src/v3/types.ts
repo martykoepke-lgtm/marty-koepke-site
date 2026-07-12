@@ -22,8 +22,10 @@ import type {
   PreparedQuery,
   Subject,
 } from '../types';
+import type { CrawlerOutput } from '../v1/crawler';
+import type { CorroborationOutput } from '../v1/corroboration';
 
-export const AVI_V3_RUBRIC_VERSION = 'v3.0';
+export const AVI_V3_RUBRIC_VERSION = 'v3.1';
 
 export type V3ReadinessDriverId =
   | 'business_clarity'
@@ -174,6 +176,76 @@ export interface V3PublicScores {
   tier: V3Tier;
 }
 
+export type V3Quadrant = 'invisible' | 'fragile' | 'undiscovered' | 'compounding';
+
+export interface V3Verdict {
+  quadrant: V3Quadrant;
+  verdict_sentence: string;
+  fix_this_first: string;
+  rubric_version: string;
+  generated_at: string;
+  synthesizer_model: string;
+}
+
+export type V3ClaimType = V3Claim['claim_type'];
+
+export interface V3CompetitorReadinessRow {
+  canonical_name: string;
+  url: string;
+  readiness_score: number | null;
+  driver_scores: V3ReadinessScore[];
+  crawled_at: string | null;
+  errors: AuditError[];
+}
+
+export interface V3CompetitorVisibility {
+  display_name: string;
+  raw_names_observed: string[];
+  mention_count: number;
+  first_named_count: number;
+  coverage: number;
+  engines_seen: string[];
+}
+
+export interface V3CompetitorVisibilityOutput {
+  total_responses: number;
+  subject_named_count: number;
+  subject_first_named_count: number;
+  competitors: V3CompetitorVisibility[];
+}
+
+export type V3QuoteCategory = 'missed' | 'named_with_issues' | 'named_cleanly';
+
+export interface V3SelectedQuote {
+  category: V3QuoteCategory;
+  template_id: string;
+  engine: string;
+  query: string;
+  response_excerpt: string;
+  annotation: string;
+  evidence: {
+    mentioned: boolean;
+    position: 'top' | 'middle' | 'late' | 'not_named';
+    sentiment: 'positive' | 'neutral' | 'negative' | 'missing';
+    competitors_mentioned: string[];
+  };
+}
+
+export interface V3AccuracyFix {
+  rank: 1 | 2 | 3;
+  claim_type: V3ClaimType;
+  dominant_failure: V3ClaimSupportLabel;
+  affected_claim_count: number;
+  gap: string;
+  tactic: string;
+  framed_as: string;
+}
+
+export interface V3AccuracyRecommenderOutput {
+  fixes: V3AccuracyFix[];
+  rubric_version: string;
+}
+
 export interface V3CompositeInput {
   readiness_scores: V3ReadinessScore[];
   outcomes?: Partial<V3MeasuredOutcomes>;
@@ -200,6 +272,8 @@ export interface V3FreeScanResult {
     score: number | null;
     summary: string;
   }>;
+  crawler: CrawlerOutput;
+  corroboration: CorroborationOutput;
   crawlerReachable: boolean;
   durationMs: number;
 }
@@ -209,7 +283,7 @@ export interface V3Audit {
   rubric_version: string;
   created_at: string;
   subject: Subject;
-  mode: 'free' | 'snapshot' | 'audit' | 'monitoring';
+  mode: 'free' | 'audit' | 'monitoring';
   protocol: {
     query_grid: PreparedQuery[];
     engines: Engine[];
@@ -228,5 +302,10 @@ export interface V3Audit {
   claim_verifications: V3ClaimVerification[];
   outcomes?: V3MeasuredOutcomes;
   public_scores: V3PublicScores;
+  verdict?: V3Verdict;
+  accuracy_recommendations?: V3AccuracyRecommenderOutput;
+  representative_quotes?: V3SelectedQuote[];
+  competitor_visibility?: V3CompetitorVisibilityOutput;
+  competitor_readiness?: V3CompetitorReadinessRow[];
   errors: AuditError[];
 }
