@@ -9,7 +9,11 @@
 
   --color-paper: #FFFFFF;
   --color-bg: #0F2419;
-  --color-sidebar: #07150F;
+  /* Sidebar: darker blue-green sampled from the marketing background
+     image. Blue-shifted from the pure forest palette on the site so it
+     reads as a companion tone, not a duplicate. */
+  --color-sidebar: #0E3336;
+  --color-sidebar-hover: #144045;
   --color-cream: #FFFFFF;
   --color-cream-dim: #EDF3EA;
   --color-paper-dim: #F7FAF5;

@@ -23,13 +23,20 @@ export function Sidebar({ userEmail }: { userEmail: string | null }) {
   const pathname = usePathname();
 
   return (
-    <aside className="w-60 shrink-0 bg-sidebar/92 border-r border-white/10 flex flex-col text-paper backdrop-blur-xl shadow-[12px_0_40px_rgba(0,0,0,0.16)]">
+    <aside className="w-60 shrink-0 bg-sidebar/95 border-r border-white/10 flex flex-col text-paper backdrop-blur-xl shadow-[12px_0_40px_rgba(0,0,0,0.16)]">
       <div className="px-5 py-6">
-        <div className="text-base font-semibold text-paper tracking-tight leading-tight">
-          Marty Koepke
-          <span className="text-gold text-xs font-medium ml-1.5 align-top">LLC</span>
+        <div
+          className="text-lg font-semibold text-paper tracking-tight leading-none"
+          style={{ fontFamily: "var(--font-serif), Georgia, serif" }}
+        >
+          Daizie
         </div>
-        <div className="text-xs text-paper/60 mt-1">Operator console</div>
+        <div className="text-[11px] text-gold font-medium uppercase tracking-[0.14em] mt-1">
+          AI Visibility
+        </div>
+        <div className="text-xs text-paper/55 mt-2">
+          Operator console
+        </div>
         <div className="gold-accent mt-3" />
       </div>
 
