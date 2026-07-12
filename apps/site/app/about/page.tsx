@@ -66,7 +66,7 @@ export default function AboutPage() {
                 >
                   martykoepke.substack.com
                 </a>{" "}
-                — ongoing notes on applied AI, informatics, and adopting
+                — ongoing notes on AI visibility, informatics, and adopting
                 AI thoughtfully as a small business.
               </p>
             </div>

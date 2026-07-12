@@ -88,7 +88,8 @@ export default async function BlogPostPage({
         <div>
           <p className="font-serif text-forest">Marty Koepke</p>
           <p className="text-sm text-moss">
-            Applied AI consulting grounded in twenty years of informatics.
+            AI visibility for small business, grounded in twenty years of
+            informatics.
           </p>
         </div>
       </div>

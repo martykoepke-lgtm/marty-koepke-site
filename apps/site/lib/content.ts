@@ -46,14 +46,14 @@ export const POLICIES: { label: string; href: string; gettermsSlug: string }[] =
 export const META = {
   home: {
     title:
-      "Marty Koepke | Applied AI for businesses that want to do this right.",
+      "Daizie by Marty Koepke | AI visibility assessments for small business",
     description:
-      "Marty Koepke is an applied AI consultant helping organizations and professionals adopt AI thoughtfully. Tools, assessments, and infrastructure — twenty years of informatics behind every recommendation.",
+      "Daizie helps small businesses be seen — accurately — by AI. Informaticist Marty Koepke tests what ChatGPT, Claude, Perplexity, and Gemini actually say about your business, then hands you the specific fixes. Free readiness check; full assessment $895.",
   },
   about: {
     title: "About Marty Koepke | Marty Koepke",
     description:
-      "Marty Koepke (she/her). Twenty years in enterprise informatics, author of Between the Clicks. Applied AI consulting and custom software development for businesses adopting AI thoughtfully.",
+      "Marty Koepke (she/her). Twenty years in enterprise informatics, author of Between the Clicks. Founder of Daizie, the AI visibility assessment that helps small businesses show up accurately when ChatGPT, Claude, Perplexity, and Gemini describe and recommend them.",
   },
   aiVisibility: {
     title: "Daizie — AI visibility (AEO / GEO) for small business",
@@ -63,12 +63,12 @@ export const META = {
   blog: {
     title: "Notes | Marty Koepke",
     description:
-      "Practical writing on applied AI, AI visibility, and operational efficiency for businesses that want to do this right.",
+      "Practical writing on AI visibility, AEO / GEO, and helping small businesses be seen accurately by AI systems.",
   },
   contact: {
     title: "Contact | Marty Koepke",
     description:
-      "Book a free 20-minute conversation about your business. Marty Koepke is an applied AI consultancy serving businesses across the United States.",
+      "Book a free 20-minute conversation about your business's AI visibility. Daizie by Marty Koepke helps small businesses show up accurately in AI answers, serving businesses across the United States.",
   },
 } as const;
 
