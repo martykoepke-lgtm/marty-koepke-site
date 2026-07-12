@@ -89,7 +89,7 @@ export default function HomePage() {
               </p>
               <div className="daizie-actions">
                 <Link className="daizie-btn primary" href="/ai-visibility">
-                  See AI visibility →
+                  See Daizie AI visibility →
                 </Link>
                 <Link className="daizie-btn secondary" href="/craizie">
                   See AI governance →
@@ -144,7 +144,7 @@ export default function HomePage() {
             </p>
             <div className="daizie-actions">
               <Link className="daizie-btn primary" href="/ai-visibility">
-                AI visibility →
+                Daizie AI visibility →
               </Link>
               <Link className="daizie-btn secondary" href="/craizie">
                 AI governance →
@@ -201,7 +201,7 @@ export default function HomePage() {
                 Free readiness check · <strong>$895</strong> full Assessment
               </p>
               <Link className="text-link" href="/ai-visibility">
-                Explore AI visibility <span>→</span>
+                Explore Daizie AI visibility <span>→</span>
               </Link>
             </article>
           </Reveal>
