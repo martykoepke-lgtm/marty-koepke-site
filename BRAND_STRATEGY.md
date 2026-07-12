@@ -14,7 +14,7 @@ Marty Koepke is an applied AI consultant with twenty years in enterprise healthc
 
 Two productized offerings sit under that umbrella:
 
-- **Daizie** — AI visibility. A rigorous, research-backed audit of whether AI systems (ChatGPT, Claude, Perplexity, Gemini) accurately find, understand, cite, and recommend a small business when its buyers ask. Free readiness check + paid AI Business Accuracy Audit + monthly monitoring.
+- **Daizie** — AI visibility. A rigorous, research-backed audit of whether AI systems (ChatGPT, Claude, Perplexity, Gemini) accurately find, understand, cite, and recommend a small business when its buyers ask. Free readiness check + paid Daizie AI Visibility Assessment + Optimizations + Remeasure add-on + monthly monitoring.
 - **Craizie** — AI governance. An informational + lead-generation surface (no paid product yet) helping small businesses that are *using or building with* AI understand governance without drowning in enterprise-security language. Content, playbooks, framework, newsletter.
 
 ## 2 · Positioning
@@ -129,7 +129,7 @@ The convention is: **any surface where the user reads long content gets a legibl
 /daizie                      Landing
 /daizie/scan                 Free AI Readiness Check
 /daizie/scan/report/[id]     Free report renderer
-/daizie/order                Paid AI Business Accuracy Audit
+/daizie/order                Paid Daizie AI Visibility Assessment
 /daizie/report/[token]       Paid report renderer (token-gated)
 /daizie/methodology          Show-your-work rubric page
 /daizie/framework            What we measure + why

@@ -11,7 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "",
     "/about",
     "/ai-visibility",
-    "/our-framework",
+    "/methodology",
     "/scan",
     "/ai-visibility/order",
     ...blogRoutes,
@@ -30,7 +30,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
           ? 1
           : path === "/ai-visibility" || path === "/scan"
             ? 0.9
-            : path === "/our-framework"
+            : path === "/methodology"
               ? 0.8
               : 0.7,
     })),

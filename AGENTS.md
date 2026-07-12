@@ -63,11 +63,18 @@ separate site, **martykoepke.com** — cross-linked here, not featured.
 The site `/ai-visibility` page presents:
 
 1. **Free AI Readiness Check** — $0. URL-only, ~30s, public lead magnet.
-2. **AI Visibility Snapshot** — $495. Focused paid review.
-3. **AI Business Accuracy Audit** — $1,950. The core paid offer. Measures
-   readiness drivers + live AI outcomes.
-4. **Implementation Planning** — scoped after diagnosis.
-5. **Monthly Monitoring** — $500/month post-Snapshot/Audit.
+2. **Daizie AI Visibility Assessment** — $895. The paid product. Four
+   engines, 32 responses, claim verification, competitor quadrant, 3+3
+   fixes, 30-min review call.
+3. **Optimizations + Remeasure** — $4,100 add-on to the Assessment
+   ($4,995 all-in). Implementation + remeasure. Only with the Assessment.
+4. **Monthly Monitoring** — $197/month add-on to the Assessment.
+
+*Superseded ladder (do not restore):* Earlier drafts named an "AI
+Visibility Snapshot" ($495) and an "AI Business Accuracy Audit" ($1,950).
+Both retired. The customer-facing product name is "Daizie AI Visibility
+Assessment." Only "AI Business Accuracy" as a scoring mechanism inside
+the Assessment remains.
 
 **Pricing source of truth:** `apps/site/public/Marty-Koepke-Pricing-Structure.md`.
 On-page copy in `apps/site/lib/content.ts` must match it. State may drift —

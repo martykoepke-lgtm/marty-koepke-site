@@ -124,7 +124,7 @@ export default async function ResultsPage({
             What&apos;s NOT in this teaser.
           </h2>
           <p className="mt-4 text-lg leading-relaxed text-charcoal">
-            The $895 AI Business Accuracy Audit adds:
+            The $895 Daizie AI Visibility Assessment adds:
           </p>
         </Reveal>
         <ul className="mt-7 space-y-3">

@@ -171,7 +171,7 @@ export default async function V3AdminAuditPage({
       <article className="mx-auto max-w-4xl px-8 py-14">
         <header className="border-b border-tan pb-8">
           <p className="text-xs uppercase tracking-[0.18em] text-gold-dark">
-            AI Business Accuracy Audit
+            Daizie AI Visibility Assessment
           </p>
           <h1 className="mt-3 font-serif text-4xl text-forest">{subject.canonical_name}</h1>
           <dl className="mt-6 grid gap-2 text-sm sm:grid-cols-2">

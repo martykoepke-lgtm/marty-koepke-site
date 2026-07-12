@@ -107,7 +107,7 @@ These should be updated after V3 product boundaries are represented in code and 
 | `apps/site/components/ai-visibility/FreeScanFlow.tsx` | Update claims and UI labels | Free scan must be readiness-only unless live AI prompts are run. |
 | `apps/site/components/ai-visibility/ScanForm.tsx` | Update field language | Intake should support Business Clarity, Source Support, POV, and Recommendation Fit. |
 | `apps/site/app/ai-visibility/results/[id]/page.tsx` | Update report language | Results should separate readiness from measured outcomes. |
-| `apps/site/app/ai-visibility/order/page.tsx` | Update paid offer | Paid offer should be AI Business Accuracy Audit. |
+| `apps/site/app/ai-visibility/order/page.tsx` | Update paid offer | Paid offer should be the Daizie AI Visibility Assessment. |
 | `apps/site/app/scan/page.tsx` | Review / consolidate | Avoid competing scan language if this overlaps free scan. |
 | `apps/site/app/scan/report/[id]/page.tsx` | Review / consolidate | Ensure result framing matches V3. |
 | `apps/site/public/AI-Visibility-Index-Rubric-and-Protocol.md` | Replace or archive | Public legacy rubric should not conflict with V3. |

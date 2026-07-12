@@ -324,11 +324,11 @@ The free scan should not say:
 
 Those claims require live AI testing and claim-level verification.
 
-### Paid AI Business Accuracy Audit
+### Paid Daizie AI Visibility Assessment
 
-The paid audit should measure both readiness and live outcomes.
+The paid Assessment should measure both readiness and live outcomes. (Product name: "Daizie AI Visibility Assessment." Inside the Assessment, the AI Business Accuracy scoring framework is the mechanism — but the Assessment is the product, not the framework.)
 
-The paid audit should include:
+The paid Assessment should include:
 
 - Intake and business context
 - Website and source review
