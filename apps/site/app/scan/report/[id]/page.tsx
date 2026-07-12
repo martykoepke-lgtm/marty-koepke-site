@@ -13,6 +13,7 @@ import {
   supabaseAdmin,
   tierFor,
   getStartHereNudge,
+  V3_READINESS_DRIVER_DEFINITIONS,
   type Tier,
   type MasterKeyReport,
 } from "@practical-informatics/avi";
@@ -87,6 +88,11 @@ type ScoringSnapshot = {
     dimensionName: string;
     score: number | null;
     summary: string;
+  }>;
+  dimensions?: Array<{
+    id: string;
+    name: string;
+    score: number | null;
   }>;
   masterKeys?: MasterKeyReport | null;
 };
@@ -180,6 +186,16 @@ async function loadScanData(
       .order("dimension_id", { ascending: true })
       .returns<DimensionRow[]>();
 
+    // Fallback: if audit_dimension_scores is empty (older audits, or a
+    // silent persist failure), synthesize DimensionRow[] from
+    // scoring_output.dimensions + scoring_output.findings. The tokenized
+    // report should never show fewer drivers than the pre-email surface.
+    const dbDimensions = dimRows ?? [];
+    const dimensions =
+      dbDimensions.length > 0
+        ? dbDimensions
+        : synthesizeDimensionsFromScoring(scoringOutput);
+
     return {
       submission,
       audit: {
@@ -187,7 +203,7 @@ async function loadScanData(
         crawler_output: crawlerOutput,
         scoring_output: scoringOutput,
       },
-      dimensions: dimRows ?? [],
+      dimensions,
     };
   } catch (e) {
     console.error("[scan/report] loadScanData failed:", e);
@@ -205,6 +221,32 @@ function parseIfString<T>(v: unknown): T | null {
     }
   }
   return v as T;
+}
+
+/**
+ * When `audit_dimension_scores` is empty, build the same DimensionRow[]
+ * shape from `scoring_output.dimensions` + `scoring_output.findings`.
+ * Justification comes from the matching finding summary if present,
+ * otherwise from the driver's plain question so a driver row never
+ * renders empty.
+ */
+function synthesizeDimensionsFromScoring(
+  scoring: ScoringSnapshot | null
+): DimensionRow[] {
+  const dims = scoring?.dimensions ?? [];
+  if (dims.length === 0) return [];
+  const findings = scoring?.findings ?? [];
+  return dims.map((d) => {
+    const finding = findings.find((f) => f.dimensionId === d.id);
+    const driver =
+      V3_READINESS_DRIVER_DEFINITIONS[d.id as V3ReadinessDriverId];
+    return {
+      dimension_id: d.id,
+      dimension_name: d.name,
+      score: d.score,
+      justification: finding?.summary ?? driver?.plain_question ?? null,
+    };
+  });
 }
 
 // ============================================================================
@@ -227,7 +269,6 @@ export default async function ScanReportPage({
   if (!data) notFound();
 
   const { submission, audit, dimensions } = data;
-  const findings = audit.scoring_output?.findings ?? [];
   const masterKeys = audit.scoring_output?.masterKeys ?? null;
 
   return (
@@ -241,7 +282,6 @@ export default async function ScanReportPage({
           <ReportActions />
           <ReportHeader submission={submission} audit={audit} />
           <TierHeadline audit={audit} />
-          {findings.length > 0 && <FindingsSection findings={findings} />}
           <DimensionsSection
             dimensions={dimensions}
             crawler={audit.crawler_output}
@@ -631,32 +671,6 @@ function PaidBullet({ title, body }: { title: string; body: string }) {
         {body}
       </p>
     </li>
-  );
-}
-
-function FindingsSection({
-  findings,
-}: {
-  findings: NonNullable<ScoringSnapshot["findings"]>;
-}) {
-  return (
-    <section className="daizie-scan-card">
-      <p className="card-eyebrow">Key findings</p>
-      <h3>What stood out</h3>
-      <div className="daizie-findings">
-        {findings.slice(0, 4).map((f) => (
-          <div key={f.dimensionId} className="finding-card">
-            <p className="title">
-              {f.dimensionName}
-              {typeof f.score === "number" && (
-                <span className="score">({f.score.toFixed(1)} / 5)</span>
-              )}
-            </p>
-            <p className="body">{f.summary}</p>
-          </div>
-        ))}
-      </div>
-    </section>
   );
 }
 

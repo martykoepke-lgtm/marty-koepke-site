@@ -211,6 +211,7 @@ async function persistV3FreeScanResult(
       scoring_output: {
         corroboration: result.corroboration,
         findings: result.findings,
+        dimensions: result.dimensions,
         masterKeys: masterKeys ?? null,
         v3: true,
         legacy_free_scan_version: LEGACY_FREE_SCAN_RUBRIC_VERSION,
