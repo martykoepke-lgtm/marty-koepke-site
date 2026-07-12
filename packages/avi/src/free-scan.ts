@@ -43,7 +43,7 @@ export type FreeScanInput = {
   /** Which audience lane the visitor selected on the intake form.
    *  Controls which master-key profiles (GBP/Bing/Yelp vs
    *  LinkedIn/directory/listicles) the readiness scan checks. */
-  audienceLane?: 'local' | 'online_b2b';
+  audienceLane?: 'local' | 'services' | 'product';
 };
 
 export type FreeScanFinding = {

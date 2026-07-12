@@ -72,6 +72,28 @@ The "Reddit dominates everything" headline is only half true, and saying so out 
 
 ---
 
+## 4.5 The three-lane playbook framework
+
+The contextual nuance in §4 crystallizes into a working operating framework. Same underlying research (§1–§3), three distinctly different playbooks by *business type × query type*. This is the taxonomy Daizie uses at intake and the audit branches on.
+
+**Lane 1 — Local businesses live in *opinion* territory.**
+A coffee shop's buyer is asking *best latte in town, cutest brunch spot, good place to bring a first date.* Subjective, community-anchored queries. The winning citation sources are Google Business Profile, Yelp reviews, Bing Places, Reddit threads about the city, and a handful of local blog mentions. In February 2026, Yelp signed a formal partnership with OpenAI giving ChatGPT direct access to its review corpus, explicitly because roughly half of all search queries carry local intent and OpenAI needed Yelp's content to answer them [15]. ChatGPT itself confirms it searches the live web through Bing to bring in fresh local information [16].
+
+**Lane 2 — Services businesses live in *advice* territory.**
+A coach or consultant's buyer is asking *how do I switch careers, what does executive coaching actually cost, do I need a bookkeeper yet.* Advice queries. The source pattern is different again — LinkedIn ranks as one of the most-cited domains for professional queries in AI search, alongside long-form blog posts, podcast appearances, and being quoted in credible third-party publications [17]. A Google Business Profile that a coach cannot even qualify for is not the lever here. Thought leadership placed where AI already looks — LinkedIn Pulse articles, guest posts on category-authoritative blogs, HARO citations — moves the needle.
+
+**Lane 3 — Product / SaaS businesses live in *comparison* territory.**
+A software buyer is asking *best CRM for a two-person team, cheapest scheduling tool with a good API.* Structured comparison queries. G2, Capterra, TrustRadius, GetApp — the software review platforms — carry the day for feature and buyer-fit questions. AlternativeTo, SaaSHub, and Product Hunt handle the "which tools are out there" path. Third-party comparison articles ("X vs Y," "best [category] for [use case]") drive comparison-query citations. Own-site clean factual pages — with pricing, integrations, and use cases explicit — reinforce entity recognition. **Reddit is unlikely to move the needle** for a factual SaaS query the way it does for a coffee shop's opinion query [4].
+
+**Teaching takeaway:** same research, three playbooks. Never sell a coach a coffee shop's playbook, or a SaaS founder a coach's playbook. The lane taxonomy is at the top of every Daizie intake for exactly this reason.
+
+- New citations for this section:
+  - [15] **Diginomica — Yelp's search tie-up with OpenAI (2026)** — https://diginomica.com/yelps-search-tie-up-openai
+  - [16] **OpenAI — ChatGPT search / how it works** — https://openai.com/chatgpt/search/ (ChatGPT surfaces fresh info via Bing web search)
+  - [17] **Search Engine Land — AI Search Engines Cite Reddit, YouTube, and LinkedIn Most (Semrush study)** — https://searchengineland.com/ai-search-engines-cite-reddit-youtube-and-linkedin-most-study-473138 (reference at [56] above; new relevance for the services lane)
+
+---
+
 ## 5. The local / entity layer — Google Business Profile
 
 A concrete, verifiable rule set that matters for your local foothills buyers.

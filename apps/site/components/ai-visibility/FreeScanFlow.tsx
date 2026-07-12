@@ -46,7 +46,7 @@ type Tier =
   | "discoverable"
   | "agent-ready";
 
-type AudienceLane = "local" | "online_b2b";
+type AudienceLane = "local" | "services" | "product";
 
 type MasterKeyCheck = {
   id: string;
@@ -284,9 +284,14 @@ function UrlForm({
                 sub: "Local & brick-and-mortar — customers come to me, or I go to them.",
               },
               {
-                value: "online_b2b" as const,
-                title: "Online",
-                sub: "Consultants, coaches, agencies — work delivered remotely.",
+                value: "services" as const,
+                title: "Advice-driven service",
+                sub: "Coaches, consultants, agencies, professional services — I sell expertise, delivered remotely or on-site.",
+              },
+              {
+                value: "product" as const,
+                title: "Product or software",
+                sub: "SaaS, physical products, digital products — buyers compare features and pick.",
               },
             ]
           ).map((opt) => {

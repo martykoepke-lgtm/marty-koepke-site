@@ -138,18 +138,29 @@ Every band carries a footnote linking to its primary source. When a band cannot 
 
 **Why it matters:** Engines diverge sharply in which platforms they cite [3, 10]. Native-platform → engine mappings are real and divergent. Presence on the wrong platform won't surface in the buyer's engine.
 
-**Engine-platform mapping (anchors this dimension):**
+**"Relevant platform" is a two-lookup answer**, not a one-lookup. Both the engine AND the business lane matter. A coffee shop's relevant platforms are Yelp / Google Business Profile / Reddit city threads; a SaaS founder's relevant platforms are G2 / Capterra / comparison articles. The engine table alone would tell you both need Perplexity's platforms — the lane table tells you WHICH of those platforms.
+
+**Engine-platform mapping (still anchors what each engine reads):**
 
 | Engine | Favored platforms |
 |---|---|
-| **ChatGPT** | Wikipedia, Forbes, G2, Reuters, established news |
+| **ChatGPT** | Wikipedia, Forbes, G2, Reuters, Yelp (Feb 2026 partnership), established news |
 | **Claude (Anthropic)** | Academic/government sources, vendor-neutral analyst coverage (Gartner-style), niche SaaS/practitioner blogs, technical documentation |
 | **Perplexity** | Reddit, YouTube, Gartner, Yelp, TripAdvisor |
+| **Gemini / Google AI Overviews** | Google Business Profile, YouTube, Reddit, established news |
 
-**How to measure:** Identify the buyer's most likely engine(s) for this subject's category. Map to the favored platforms. Verify the subject has credible presence (profile + content + recency) on those platforms.
+**Lane-platform priority mapping (which of the engine's platforms actually matter for THIS business):**
 
-**Anchored scale:**
-- **0** — Presence only on platforms irrelevant to the buyer's engines.
+| Lane | Priority platforms (in order) | Query type buyers ask |
+|---|---|---|
+| **Local** (brick-and-mortar) | Google Business Profile · Bing Places · Yelp · Reddit city threads · local blogs | Opinion — "best latte in town" |
+| **Services** (advice-driven) | LinkedIn (company + founder) · services vertical directory (Clutch / Avvo / Super Lawyers / Chief Outsiders) · current-year "best of" listicle · podcast appearances | Advice — "what does executive coaching cost" |
+| **Product / SaaS** | Software review platform (G2 / Capterra / TrustRadius) · SaaS directory (AlternativeTo / SaaSHub / Product Hunt) · comparison articles ("X vs Y") · clean factual own-site pages | Comparison — "best CRM for a 2-person team" |
+
+**How to measure:** (1) Identify the buyer's most likely engine(s) for the subject's category. (2) Identify the subject's lane (local / services / product) from intake. (3) Map both — the priority platforms are the intersection. (4) Verify the subject has credible presence (profile + content + recency) on those platforms.
+
+**Anchored scale (unchanged; "relevant platform" is now lane-aware):**
+- **0** — Presence only on platforms irrelevant to the buyer's engines AND the subject's lane.
 - **1** — Minimal presence on one relevant platform.
 - **2** — Present on one relevant platform, weak engagement.
 - **3** — Solid presence on the single most relevant platform.
@@ -221,7 +232,18 @@ The 60/40 weighting reflects that drivers are leading indicators; the outcome is
 | Total query calls | **32** | 8 × 4 × 1 |
 | Query category mix | 80% informational / 10% transactional / 10% navigational | Aggarwal 2024 GEO-bench distribution [6] |
 
-For paid audits, the query set asks what the company does, what services it offers, how much it costs, how it works, how it compares, what makes it different, what problems it solves, and whether it can deliver the outcome it promises.
+**The 8 queries are *not* one universal set.** Buyers ask different question types depending on the business's lane. Same 8 slots, three different query archetype tables — chosen at intake from the lane the visitor selected.
+
+**Lane: Local (brick-and-mortar) — opinion queries:**
+Buyers ask *best latte in town, recommend a plumber in Sacramento, cutest brunch spot for a first date.* Query archetypes: category+location recommendation, best-of-city framing, use-case-specific fit ("kid-friendly," "quick lunch"), reviews-focused ("well-reviewed," "highly rated"), competitor comparison ("[our category] vs [their category]" adjacent), hours/availability, price-tier ("cheap," "upscale"), and disambiguation ("[our name] or [similar-named local]").
+
+**Lane: Services (advice-driven) — advice queries:**
+Buyers ask *what does executive coaching cost, how do I switch careers, do I need a bookkeeper yet.* Query archetypes: category recommendation for a persona ("best [category] for [ICP]"), pricing and scope ("how much does [service] cost"), outcome question ("how do I [outcome]"), decision-stage ("when do I need [service]"), fit criteria ("[service] for [buyer type]"), credential check ("is [subject] qualified for [scope]"), competitor comparison ("[subject] vs [named competitor]"), and problem statement ("I'm dealing with X, who do I hire").
+
+**Lane: Product / SaaS — comparison queries:**
+Buyers ask *best CRM for a two-person team, cheapest scheduling tool with a good API.* Query archetypes: best-in-category-for-use-case ("best [category] for [use case]"), price-tier ("cheapest [category] with [feature]"), feature-first ("[category] with [feature]"), competitor comparison ("[our product] vs [competitor]"), alternative-search ("alternatives to [competitor]"), integration ("[category] that integrates with [X]"), sizing ("[category] for [company size]"), and API/technical ("[category] with a good API").
+
+**Which lane the audit uses** is decided by the `audience_lane` set on the subject at intake — `local` / `services` / `product`. The 32-total-responses math and the four visibility sub-metrics below don't change. Only the query set does.
 
 ### C.2 The four Visibility sub-metrics
 

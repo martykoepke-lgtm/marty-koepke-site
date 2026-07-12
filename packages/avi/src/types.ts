@@ -50,8 +50,23 @@ export type Platform =
 
 /** Which audience "lane" a business lives in. Decides which master-key
  *  profiles the free scan checks and which prompt grid the paid audit
- *  uses. Nullable — legacy rows may be un-stamped. */
-export type AudienceLane = 'local' | 'online_b2b';
+ *  uses. Nullable — legacy rows may be un-stamped.
+ *
+ *  Three lanes, mapped to Marty's three-playbook framework:
+ *
+ *    local    — brick-and-mortar / face-to-face service. AI answers
+ *               OPINION queries ("best latte in town"). Master keys:
+ *               Google Business Profile, Bing Places, Yelp.
+ *    services — coach / consultant / agency / professional services.
+ *               AI answers ADVICE queries ("what does executive
+ *               coaching cost"). Master keys: LinkedIn, vertical
+ *               directory (Clutch/Avvo/etc.), current-year listicle.
+ *    product  — SaaS / physical / digital product. AI answers
+ *               COMPARISON queries ("best CRM for a 2-person team").
+ *               Master keys: software review platform (G2/Capterra),
+ *               SaaS directory (AlternativeTo/SaaSHub), current-year
+ *               comparison article. */
+export type AudienceLane = 'local' | 'services' | 'product';
 
 /** Subject — the thing being audited. */
 export interface Subject {
@@ -61,9 +76,10 @@ export interface Subject {
   subject_type: 'company' | 'personal_brand';
   url: string;
   location?: string;
-  /** In-person (local & brick-and-mortar) vs online B2B (consultants,
-   *  coaches, agencies delivered remotely). Set at intake; controls which
-   *  master-key profiles matter and which query grid the audit runs. */
+  /** Three-lane taxonomy: local (in-person / brick-and-mortar), services
+   *  (advice-driven professional services), or product (SaaS / physical /
+   *  digital products). Set at intake; controls which master-key profiles
+   *  matter and which query grid the paid audit runs. */
   audience_lane?: AudienceLane;
   buyer_type?: string;
   problem?: string;

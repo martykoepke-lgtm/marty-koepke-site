@@ -74,7 +74,7 @@ export async function runFreeScan(input: FreeScanInput): Promise<FreeScanResult>
 
 async function persistAudienceLane(
   submissionId: string,
-  lane: 'local' | 'online_b2b'
+  lane: 'local' | 'services' | 'product'
 ): Promise<void> {
   const supabase = supabaseAdmin();
   const { error } = await supabase
@@ -92,7 +92,7 @@ async function persistAudienceLane(
  *  when meta description doesn't name a category. */
 function buildSubjectForMasterKeys(
   legacy: Extract<FreeScanResult, { ok: true }>,
-  audienceLane: 'local' | 'online_b2b'
+  audienceLane: 'local' | 'services' | 'product'
 ): Subject {
   const crawler: any = legacy.crawler || {};
   const location =
