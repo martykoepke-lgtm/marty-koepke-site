@@ -40,11 +40,10 @@ export async function runFreeScan(input: FreeScanInput): Promise<FreeScanResult>
   if (!legacy.ok) return legacy;
 
   const v3 = translateLegacyFreeScanToV3(legacy);
-  await persistV3FreeScanResult(v3);
 
   // Audience-aware master-key presence check — only runs when the visitor
-  // told us which lane they're in. Runs in the background of the response
-  // path; failures degrade gracefully (masterKeys omitted).
+  // told us which lane they're in. Runs before persist so we can save the
+  // result into scoring_output for the tokenized report to load later.
   let masterKeys: MasterKeyReport | undefined = undefined;
   if (input.audienceLane) {
     try {
@@ -58,6 +57,8 @@ export async function runFreeScan(input: FreeScanInput): Promise<FreeScanResult>
       console.error('[v3/free-scan] master-keys check failed:', err);
     }
   }
+
+  await persistV3FreeScanResult(v3, masterKeys);
 
   return {
     ...legacy,
@@ -195,7 +196,10 @@ export const LEGACY_FREE_SCAN_VERSION = LEGACY_FREE_SCAN_RUBRIC_VERSION;
 export { tierFor };
 export type { FreeScanInput, FreeScanResult, Tier };
 
-async function persistV3FreeScanResult(result: V3FreeScanResult): Promise<void> {
+async function persistV3FreeScanResult(
+  result: V3FreeScanResult,
+  masterKeys?: MasterKeyReport | undefined
+): Promise<void> {
   const supabase = supabaseAdmin();
 
   await supabase
@@ -207,6 +211,7 @@ async function persistV3FreeScanResult(result: V3FreeScanResult): Promise<void> 
       scoring_output: {
         corroboration: result.corroboration,
         findings: result.findings,
+        masterKeys: masterKeys ?? null,
         v3: true,
         legacy_free_scan_version: LEGACY_FREE_SCAN_RUBRIC_VERSION,
       },

@@ -2,6 +2,11 @@
 
 import { useState, type FormEvent } from "react";
 import { ArrowRightIcon } from "@/components/ui/Icons";
+import {
+  getStartHereNudge,
+  type StartHereCrawlerSignals,
+} from "@practical-informatics/avi";
+import type { V3ReadinessDriverId } from "@practical-informatics/avi";
 
 /**
  * The free /scan interactive flow.
@@ -45,6 +50,7 @@ type MasterKeyCheck = {
   evidenceUrl?: string;
   evidenceTitle?: string;
   notes?: string;
+  remediationOptions?: string[];
 };
 
 type MasterKeyReport = {
@@ -383,8 +389,8 @@ function MasterKeysSection({ report }: { report: MasterKeyReport }) {
                 {c.found ? "Present" : "Missing"}
               </span>
             </div>
-            <div className="mk-body">
-              {c.found && c.evidenceUrl ? (
+            {c.found && c.evidenceUrl ? (
+              <div className="mk-body">
                 <a
                   href={c.evidenceUrl}
                   target="_blank"
@@ -392,13 +398,42 @@ function MasterKeysSection({ report }: { report: MasterKeyReport }) {
                 >
                   {c.evidenceTitle || c.evidenceUrl}
                 </a>
-              ) : (
-                <p style={{ margin: 0 }}>
-                  {c.notes ??
-                    "No obvious result. Claim or update the profile so AI can find you."}
-                </p>
-              )}
-            </div>
+              </div>
+            ) : (
+              c.remediationOptions &&
+              c.remediationOptions.length > 0 && (
+                <div style={{ marginTop: 10 }}>
+                  <p
+                    style={{
+                      margin: 0,
+                      fontSize: "0.68rem",
+                      letterSpacing: "0.16em",
+                      textTransform: "uppercase",
+                      fontWeight: 700,
+                      color: "var(--dz-gold)",
+                    }}
+                  >
+                    How to fix (pick one or a few)
+                  </p>
+                  <ol
+                    style={{
+                      margin: "8px 0 0",
+                      padding: "0 0 0 20px",
+                      fontSize: "0.82rem",
+                      color: "#4a5b52",
+                      lineHeight: 1.6,
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 6,
+                    }}
+                  >
+                    {c.remediationOptions.map((opt, i) => (
+                      <li key={i}>{opt}</li>
+                    ))}
+                  </ol>
+                </div>
+              )
+            )}
           </div>
         ))}
       </div>
@@ -530,6 +565,20 @@ function ScanResult({
                   key={d.id}
                   dim={d}
                   finding={findingByDimensionId.get(d.id)}
+                  crawler={
+                    scan.crawler
+                      ? {
+                          organizationSchemaPresent:
+                            scan.crawler.organizationSchemaPresent,
+                          personSchemaPresent: scan.crawler.personSchemaPresent,
+                          faqSchemaPresent: scan.crawler.faqSchemaPresent,
+                          serviceSchemaPresent:
+                            scan.crawler.serviceSchemaPresent,
+                          llmsTxtPresent: scan.crawler.llmsTxtPresent,
+                          robotsTxtPresent: scan.crawler.robotsTxtPresent,
+                        }
+                      : null
+                  }
                 />
               ))}
             </div>
@@ -677,12 +726,19 @@ function DimensionBar({ dim }: { dim: Dimension }) {
 function DaizieDriverRow({
   dim,
   finding,
+  crawler,
 }: {
   dim: Dimension;
   finding?: Finding;
+  crawler?: StartHereCrawlerSignals | null;
 }) {
   const score = typeof dim.score === "number" ? dim.score : 0;
   const pct = (score / 5) * 100;
+  const nudge = getStartHereNudge(
+    dim.id as V3ReadinessDriverId,
+    dim.score,
+    crawler
+  );
   return (
     <div className="daizie-driver-row">
       <div className="row-head">
@@ -702,6 +758,40 @@ function DaizieDriverRow({
         <div className="fill" style={{ width: `${pct}%` }} />
       </div>
       {finding && <p className="finding">{finding.summary}</p>}
+      {nudge && (
+        <div
+          style={{
+            marginTop: 10,
+            padding: "10px 12px",
+            borderRadius: 8,
+            background: "rgba(189, 143, 36, .08)",
+            borderLeft: "3px solid var(--dz-gold)",
+          }}
+        >
+          <p
+            style={{
+              margin: 0,
+              fontSize: "0.68rem",
+              letterSpacing: "0.18em",
+              textTransform: "uppercase",
+              fontWeight: 700,
+              color: "var(--dz-gold)",
+            }}
+          >
+            Start here
+          </p>
+          <p
+            style={{
+              margin: "6px 0 0",
+              fontSize: "0.9rem",
+              lineHeight: 1.6,
+              color: "var(--dz-charcoal)",
+            }}
+          >
+            {nudge}
+          </p>
+        </div>
+      )}
     </div>
   );
 }

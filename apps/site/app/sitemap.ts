@@ -5,12 +5,15 @@ import { getAllPostMeta } from "@/lib/blog";
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
   // /blog only appears in the sitemap once at least one post exists.
-  const blogRoutes = getAllPostMeta().length > 0 ? ["/blog"] : [];
+  const posts = getAllPostMeta();
+  const blogRoutes = posts.length > 0 ? ["/blog"] : [];
   const primary = [
     "",
     "/about",
     "/ai-visibility",
     "/our-framework",
+    "/scan",
+    "/ai-visibility/order",
     ...blogRoutes,
     "/contact",
   ];
@@ -25,11 +28,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority:
         path === ""
           ? 1
-          : path === "/ai-visibility"
+          : path === "/ai-visibility" || path === "/scan"
             ? 0.9
             : path === "/our-framework"
               ? 0.8
               : 0.7,
+    })),
+    ...posts.map((post) => ({
+      url: `${SITE.url}/blog/${post.slug}`,
+      lastModified: post.date ? new Date(post.date) : now,
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
     })),
     ...policy.map((path) => ({
       url: `${SITE.url}${path}`,

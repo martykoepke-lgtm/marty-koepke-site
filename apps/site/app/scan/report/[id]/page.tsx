@@ -9,11 +9,17 @@
  */
 
 import { notFound } from "next/navigation";
-import { supabaseAdmin } from "@practical-informatics/avi";
-import { tierFor, type Tier } from "@practical-informatics/avi";
+import {
+  supabaseAdmin,
+  tierFor,
+  getStartHereNudge,
+  type Tier,
+  type MasterKeyReport,
+} from "@practical-informatics/avi";
 import DaizieHeader from "@/components/daizie/DaizieHeader";
 import { ReportActions } from "./ReportActions";
 import { TokenReportNav } from "./TokenReportNav";
+import type { V3ReadinessDriverId } from "@practical-informatics/avi";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -82,6 +88,7 @@ type ScoringSnapshot = {
     score: number | null;
     summary: string;
   }>;
+  masterKeys?: MasterKeyReport | null;
 };
 
 type DimensionRow = {
@@ -221,7 +228,7 @@ export default async function ScanReportPage({
 
   const { submission, audit, dimensions } = data;
   const findings = audit.scoring_output?.findings ?? [];
-  const improvements = pickImprovements(dimensions);
+  const masterKeys = audit.scoring_output?.masterKeys ?? null;
 
   return (
     <div className="daizie-shell">
@@ -235,16 +242,16 @@ export default async function ScanReportPage({
           <ReportHeader submission={submission} audit={audit} />
           <TierHeadline audit={audit} />
           {findings.length > 0 && <FindingsSection findings={findings} />}
-          {dimensions.length > 0 && (
-            <DimensionsSection dimensions={dimensions} />
-          )}
-          {improvements.length > 0 && (
-            <ImprovementsSection improvements={improvements} />
-          )}
+          <DimensionsSection
+            dimensions={dimensions}
+            crawler={audit.crawler_output}
+          />
+          {masterKeys && <MasterKeysSection report={masterKeys} />}
           <CrawlerSection crawler={audit.crawler_output} />
           <CorroborationSection
             corroboration={audit.scoring_output?.corroboration ?? null}
           />
+          <PaidTeaserSection />
           <UpsellSection />
           <ReportFooter audit={audit} />
         </article>
@@ -324,18 +331,49 @@ function TierHeadline({ audit }: { audit: AuditRow }) {
   );
 }
 
-function DimensionsSection({ dimensions }: { dimensions: DimensionRow[] }) {
+function DimensionsSection({
+  dimensions,
+  crawler,
+}: {
+  dimensions: DimensionRow[];
+  crawler: CrawlerSnapshot | null;
+}) {
   return (
     <section className="daizie-scan-card">
       <p className="card-eyebrow">Score breakdown</p>
       <h3>The five readiness drivers</h3>
       <p className="muted" style={{ marginTop: 6, fontSize: "0.9rem" }}>
-        0–5, based on observable site evidence.
+        0–5, based on observable site evidence. Each driver has a
+        &ldquo;Start here&rdquo; next step — even the strong ones have
+        something to sharpen.
       </p>
+      {dimensions.length === 0 && (
+        <p
+          className="muted"
+          style={{ marginTop: 16, fontStyle: "italic" }}
+        >
+          Driver scores unavailable for this scan. Please re-run the free
+          check or contact hello@martykoepke.com.
+        </p>
+      )}
       <div className="daizie-driver-list" style={{ marginTop: 16 }}>
         {dimensions.map((d) => {
           const score = typeof d.score === "number" ? d.score : 0;
           const pct = (score / 5) * 100;
+          const nudge = getStartHereNudge(
+            d.dimension_id as V3ReadinessDriverId,
+            d.score,
+            crawler
+              ? {
+                  organizationSchemaPresent: crawler.organizationSchemaPresent,
+                  personSchemaPresent: crawler.personSchemaPresent,
+                  faqSchemaPresent: crawler.faqSchemaPresent,
+                  serviceSchemaPresent: crawler.serviceSchemaPresent,
+                  llmsTxtPresent: crawler.llmsTxtPresent,
+                  robotsTxtPresent: crawler.robotsTxtPresent,
+                }
+              : null
+          );
           return (
             <div key={d.dimension_id} className="daizie-driver-row">
               <div className="row-head">
@@ -355,11 +393,244 @@ function DimensionsSection({ dimensions }: { dimensions: DimensionRow[] }) {
                 <div className="fill" style={{ width: `${pct}%` }} />
               </div>
               {d.justification && <p className="finding">{d.justification}</p>}
+              {nudge && (
+                <div
+                  style={{
+                    marginTop: 10,
+                    padding: "10px 12px",
+                    borderRadius: 8,
+                    background: "rgba(189, 143, 36, .08)",
+                    borderLeft: "3px solid var(--dz-gold)",
+                  }}
+                >
+                  <p
+                    style={{
+                      margin: 0,
+                      fontSize: "0.68rem",
+                      letterSpacing: "0.18em",
+                      textTransform: "uppercase",
+                      fontWeight: 700,
+                      color: "var(--dz-gold)",
+                    }}
+                  >
+                    Start here
+                  </p>
+                  <p
+                    style={{
+                      margin: "6px 0 0",
+                      fontSize: "0.9rem",
+                      lineHeight: 1.6,
+                      color: "var(--dz-charcoal)",
+                    }}
+                  >
+                    {nudge}
+                  </p>
+                </div>
+              )}
             </div>
           );
         })}
       </div>
     </section>
+  );
+}
+
+function MasterKeysSection({ report }: { report: MasterKeyReport }) {
+  const laneLabel =
+    report.lane === "local"
+      ? "Local & brick-and-mortar"
+      : "Online consultants, coaches, and agencies";
+  return (
+    <section className="daizie-scan-card">
+      <p className="card-eyebrow">
+        Master-key presence · {laneLabel}
+      </p>
+      <h3>The profiles AI reads for your kind of business</h3>
+      <p style={{ marginTop: 10, maxWidth: 720 }}>{report.headline}</p>
+      <div className="daizie-masterkeys">
+        {report.checks.map((c) => (
+          <div key={c.id} className={`mk-card ${c.found ? "present" : "missing"}`}>
+            <div className="mk-head">
+              <span className="mk-label">{c.label}</span>
+              <span className={`mk-badge ${c.found ? "ok" : "no"}`}>
+                {c.found ? "Present" : "Missing"}
+              </span>
+            </div>
+            {c.found && c.evidenceUrl ? (
+              <div className="mk-body">
+                <a href={c.evidenceUrl} target="_blank" rel="noopener noreferrer">
+                  {c.evidenceTitle || c.evidenceUrl}
+                </a>
+              </div>
+            ) : (
+              c.remediationOptions &&
+              c.remediationOptions.length > 0 && (
+                <div style={{ marginTop: 10 }}>
+                  <p
+                    style={{
+                      margin: 0,
+                      fontSize: "0.68rem",
+                      letterSpacing: "0.16em",
+                      textTransform: "uppercase",
+                      fontWeight: 700,
+                      color: "var(--dz-gold)",
+                    }}
+                  >
+                    How to fix (pick one or a few)
+                  </p>
+                  <ol
+                    style={{
+                      margin: "8px 0 0",
+                      padding: "0 0 0 20px",
+                      fontSize: "0.82rem",
+                      color: "#4a5b52",
+                      lineHeight: 1.6,
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 6,
+                    }}
+                  >
+                    {c.remediationOptions.map((opt, i) => (
+                      <li key={i}>{opt}</li>
+                    ))}
+                  </ol>
+                </div>
+              )
+            )}
+          </div>
+        ))}
+      </div>
+      <p style={{ marginTop: 16, fontSize: ".82rem", color: "#56675c", fontStyle: "italic" }}>
+        Presence only — this doesn&rsquo;t claim AI recommends you. The paid
+        Assessment tests what AI actually says.
+      </p>
+    </section>
+  );
+}
+
+function PaidTeaserSection() {
+  return (
+    <section
+      className="daizie-scan-card"
+      style={{
+        border: "1px solid rgba(189, 143, 36, .35)",
+        background: "linear-gradient(180deg, rgba(189, 143, 36, .04), rgba(255, 255, 255, 1))",
+      }}
+    >
+      <p className="card-eyebrow" style={{ color: "var(--dz-gold)" }}>
+        What the paid Assessment adds
+      </p>
+      <h3>The strategy — informed by what AI is actually saying</h3>
+      <p style={{ marginTop: 10 }}>
+        This free report showed you the diagnosis. The paid Daizie AI
+        Visibility Assessment ($895) shows you the strategy — ranked by
+        what will move visibility fastest, backed by live evidence, not a
+        generic checklist.
+      </p>
+      <ul
+        style={{
+          listStyle: "none",
+          padding: 0,
+          margin: "20px 0 0",
+          display: "grid",
+          gap: 14,
+          gridTemplateColumns: "1fr",
+        }}
+      >
+        <PaidBullet
+          title="Live AI transcripts — 4 engines, 32 responses"
+          body="We run 8 buyer-question queries against ChatGPT, Claude, Perplexity, and Gemini. You get every response captured, timestamped, and saved."
+        />
+        <PaidBullet
+          title="Claim-by-claim verification"
+          body="Every factual claim AI makes about you gets labeled — supported, unsupported, contradicted, stale, ambiguous, or not verifiable — with a source excerpt showing where the truth lives."
+        />
+        <PaidBullet
+          title="Competitor comparison quadrant"
+          body="You name two competitors. We plot all three of you on a Readiness × Visibility chart across the same 8 queries. You see where you stand — and where you can move."
+        />
+        <PaidBullet
+          title="Priority-ranked playbook"
+          body="Not a generic checklist. The three highest-ROI fixes for your specific business, ranked by what AI is actually saying (or misrepresenting) about you today."
+        />
+        <PaidBullet
+          title="30-minute review call with Marty"
+          body="We walk through what matters most for your business, not everything at once."
+        />
+      </ul>
+      <div style={{ display: "flex", gap: 14, marginTop: 24, flexWrap: "wrap" }}>
+        <a
+          href="https://www.martykoepke.com/ai-visibility"
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 8,
+            padding: "12px 22px",
+            borderRadius: 999,
+            background: "var(--dz-forest)",
+            color: "var(--dz-cream)",
+            textDecoration: "none",
+            fontWeight: 600,
+            fontSize: "0.92rem",
+          }}
+        >
+          See the Assessment →
+        </a>
+        <a
+          href="https://tally.so/r/xXVPgo"
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 8,
+            padding: "12px 22px",
+            borderRadius: 999,
+            background: "transparent",
+            color: "var(--dz-forest)",
+            border: "1px solid var(--dz-forest)",
+            textDecoration: "none",
+            fontWeight: 600,
+            fontSize: "0.92rem",
+          }}
+        >
+          Book a 20-minute call
+        </a>
+      </div>
+    </section>
+  );
+}
+
+function PaidBullet({ title, body }: { title: string; body: string }) {
+  return (
+    <li
+      style={{
+        padding: "14px 16px",
+        borderRadius: 12,
+        background: "rgba(23, 62, 44, .04)",
+        border: "1px solid rgba(23, 62, 44, .1)",
+      }}
+    >
+      <p
+        style={{
+          margin: 0,
+          fontFamily: "var(--font-serif), Georgia, serif",
+          fontWeight: 500,
+          color: "var(--dz-forest)",
+          fontSize: "1rem",
+        }}
+      >
+        {title}
+      </p>
+      <p
+        style={{
+          margin: "6px 0 0",
+          fontSize: "0.88rem",
+          lineHeight: 1.55,
+          color: "#4a5b52",
+        }}
+      >
+        {body}
+      </p>
+    </li>
   );
 }
 
