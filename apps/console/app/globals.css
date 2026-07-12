@@ -48,9 +48,13 @@ body::before {
   z-index: -1;
   pointer-events: none;
   background:
-    linear-gradient(90deg, rgba(9, 25, 17, 0.78) 0%, rgba(29, 58, 37, 0.56) 42%, rgba(230, 205, 144, 0.2) 100%),
-    radial-gradient(circle at 80% 12%, rgba(244, 200, 96, 0.38), transparent 24rem),
-    url("/large-tree-background.png") center / cover no-repeat;
+    /* Slightly darker forest tint so the marketing background image
+       has enough contrast against white cards and paper-dim tables
+       in the console workspace. Lighter and less gold-heavy than the
+       previous large-tree overlay — the new background image already
+       carries the gold accents. */
+    linear-gradient(120deg, rgba(14, 51, 54, 0.72) 0%, rgba(20, 64, 69, 0.55) 55%, rgba(31, 58, 46, 0.62) 100%),
+    url("/website-background.png") center / cover no-repeat;
   will-change: transform;
 }
 

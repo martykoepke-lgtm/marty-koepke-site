@@ -1,7 +1,5 @@
 "use server";
 
-import { readFile, writeFile, access } from "node:fs/promises";
-import { join, resolve } from "node:path";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import {
@@ -9,6 +7,7 @@ import {
   persistAuditV3,
   runAudit,
   runAuditV3,
+  supabaseAdmin,
 } from "@practical-informatics/avi";
 
 /**
@@ -62,43 +61,30 @@ export async function runAuditWithParamsAction(formData: FormData) {
     known_differentiation_terms,
   };
 
-  // Persist edited metadata back to the JSON file so it's remembered
+  // Persist edited metadata to the subjects table so it's remembered
   // next time. Toggleable via the "save_to_subject" checkbox; defaults on.
   const saveToSubject = formData.get("save_to_subject") === "1";
   if (saveToSubject && subjectId) {
     try {
-      const dir = await findSubjectsDir();
-      const path = join(dir, `${subjectId}.json`);
-
-      let existing: Record<string, unknown> = {};
-      try {
-        existing = JSON.parse(await readFile(path, "utf-8"));
-      } catch {
-        /* file doesn't exist or unparseable — start fresh */
-      }
-
-      const updated: Record<string, unknown> = {
-        ...existing,
-        canonical_name,
-        aliases,
-        industry,
-        subject_type,
-        url,
-      };
-      if (location) updated.location = location;
-      else delete updated.location;
-      if (buyer_type) updated.buyer_type = buyer_type;
-      else delete updated.buyer_type;
-      if (problem) updated.problem = problem;
-      else delete updated.problem;
-      if (competitors.length) updated.competitors = competitors;
-      else delete updated.competitors;
-      if (known_differentiation_terms.length)
-        updated.known_differentiation_terms = known_differentiation_terms;
-      else delete updated.known_differentiation_terms;
-
-      await writeFile(path, JSON.stringify(updated, null, 2) + "\n", "utf-8");
-      console.log(`[console] saved subject metadata to ${path}`);
+      const supabase = supabaseAdmin();
+      const { error } = await supabase
+        .from("subjects")
+        .update({
+          canonical_name,
+          aliases,
+          industry,
+          subject_type,
+          url,
+          location: location ?? null,
+          buyer_type: buyer_type ?? null,
+          problem: problem ?? null,
+          competitors,
+          known_differentiation_terms,
+          updated_at: new Date().toISOString(),
+        })
+        .eq("id", subjectId);
+      if (error) throw error;
+      console.log(`[console] saved subject metadata for ${subjectId}`);
     } catch (e) {
       console.error(
         `[console] failed to save subject metadata: ${
@@ -189,24 +175,6 @@ export async function runAuditWithParamsAction(formData: FormData) {
   revalidatePath("/");
   revalidatePath(`/subjects/${subjectId}`);
   redirect(`/audits/${audit.audit_id}`);
-}
-
-async function findSubjectsDir(): Promise<string> {
-  const cwd = process.cwd();
-  const candidates = [
-    resolve(cwd, "..", "..", "packages", "avi", "subjects", "v1"),
-    resolve(cwd, "packages", "avi", "subjects", "v1"),
-    resolve(cwd, "..", "packages", "avi", "subjects", "v1"),
-  ];
-  for (const d of candidates) {
-    try {
-      await access(d);
-      return d;
-    } catch {
-      /* try next */
-    }
-  }
-  return candidates[0];
 }
 
 function strOrUndef(v: FormDataEntryValue | null): string | undefined {

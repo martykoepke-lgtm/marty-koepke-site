@@ -1,51 +1,39 @@
 "use server";
 
-import { access, unlink } from "node:fs/promises";
-import { join, resolve, relative } from "node:path";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { supabaseAdmin } from "@practical-informatics/avi";
+
+/** Subject id is a UUID (Postgres gen_random_uuid). Accept only that shape. */
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 export async function deleteSubjectAction(formData: FormData) {
   const subjectId = String(formData.get("subjectId") ?? "").trim();
 
-  if (!/^[a-z0-9-]+$/.test(subjectId)) {
+  if (!UUID_RE.test(subjectId)) {
     throw new Error("Invalid business id.");
   }
 
-  const dir = await findSubjectsDir();
-  const path = resolve(join(dir, `${subjectId}.json`));
-  const rel = relative(resolve(dir), path);
+  const supabase = supabaseAdmin();
+  const { data, error } = await supabase
+    .from("subjects")
+    .delete()
+    .eq("id", subjectId)
+    .select("id")
+    .maybeSingle<{ id: string }>();
 
-  if (rel.startsWith("..") || rel === "" || rel.includes(":")) {
-    throw new Error("Refusing to delete a file outside the subjects directory.");
-  }
-
-  try {
-    await access(path);
-    await unlink(path);
-  } catch {
-    redirect(`/subjects?deleted=${encodeURIComponent(subjectId)}&missing=1`);
+  if (error) {
+    console.error("[console/subjects/delete] failed:", error);
+    throw new Error(`Could not delete the business: ${error.message}`);
   }
 
   revalidatePath("/subjects");
   revalidatePath("/");
-  redirect(`/subjects?deleted=${encodeURIComponent(subjectId)}`);
-}
 
-async function findSubjectsDir(): Promise<string> {
-  const cwd = process.cwd();
-  const candidates = [
-    resolve(cwd, "..", "..", "packages", "avi", "subjects", "v1"),
-    resolve(cwd, "packages", "avi", "subjects", "v1"),
-    resolve(cwd, "..", "packages", "avi", "subjects", "v1"),
-  ];
-  for (const d of candidates) {
-    try {
-      await access(d);
-      return d;
-    } catch {
-      /* try next */
-    }
+  if (!data) {
+    // Row was already gone. Not an error — surface as "missing" like before.
+    redirect(`/subjects?deleted=${encodeURIComponent(subjectId)}&missing=1`);
   }
-  return candidates[0];
+
+  redirect(`/subjects?deleted=${encodeURIComponent(subjectId)}`);
 }
