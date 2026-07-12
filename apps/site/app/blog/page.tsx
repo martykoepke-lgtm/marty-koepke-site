@@ -55,16 +55,21 @@ export default function BlogIndexPage() {
         ) : (
           posts.map((post) => (
             <Reveal key={post.slug}>
-              <article className="daizie-pane daizie-post-card">
-                <p className="daizie-eyebrow">{formatDate(post.date)}</p>
-                <h2>
-                  <Link href={`/blog/${post.slug}`}>{post.title}</Link>
-                </h2>
-                <p className="post-desc">{post.description}</p>
-                <Link className="text-link" href={`/blog/${post.slug}`}>
-                  {BLOG.readMore} <span>→</span>
-                </Link>
-              </article>
+              <details className="daizie-pane daizie-post-card">
+                <summary>
+                  <p className="daizie-eyebrow">{formatDate(post.date)}</p>
+                  <h2>{post.title}</h2>
+                  <span className="post-toggle" aria-hidden="true">
+                    +
+                  </span>
+                </summary>
+                <div className="post-expand">
+                  <p className="post-desc">{post.description}</p>
+                  <Link className="text-link" href={`/blog/${post.slug}`}>
+                    {BLOG.readMore} <span>→</span>
+                  </Link>
+                </div>
+              </details>
             </Reveal>
           ))
         )}
