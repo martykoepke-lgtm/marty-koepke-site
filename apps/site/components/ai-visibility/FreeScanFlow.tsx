@@ -7,13 +7,12 @@ import {
   type StartHereCrawlerSignals,
   type V3ReadinessDriverId,
 } from "@practical-informatics/avi/client";
-import {
-  TierHeatmap,
-  MasterKeysCard,
-  DriverHeatmapTiles,
-  OpportunityCards,
-  PaidTeaserCard,
-} from "./ReportSurface";
+// ReportSurface components are no longer rendered on the /scan surface.
+// The full report is shown exclusively on the tokenized
+// /scan/report/[id]?t=... link that the visitor clicks from their email.
+// Keeping the /scan surface's post-email view to a bare confirmation
+// preserves Marty's single-value-gate rule: nothing about the report
+// leaks on-screen even after the email address is captured.
 
 /**
  * The free /scan interactive flow.
@@ -488,21 +487,6 @@ function ScanResult({
   onEmailSent: () => void;
   emailSent: boolean;
 }) {
-  const [activeTab, setActiveTab] = useState<
-    "report" | "evidence" | "methodology"
-  >("report");
-
-  const crawlerSignals: StartHereCrawlerSignals | null = scan.crawler
-    ? {
-        organizationSchemaPresent: scan.crawler.organizationSchemaPresent,
-        personSchemaPresent: scan.crawler.personSchemaPresent,
-        faqSchemaPresent: scan.crawler.faqSchemaPresent,
-        serviceSchemaPresent: scan.crawler.serviceSchemaPresent,
-        llmsTxtPresent: scan.crawler.llmsTxtPresent,
-        robotsTxtPresent: scan.crawler.robotsTxtPresent,
-      }
-    : null;
-
   // Pre-email: gate the entire report body behind the email form. Nothing
   // of substance is shown until the visitor gives their email.
   if (!emailSent) {
@@ -575,69 +559,57 @@ function ScanResult({
     );
   }
 
-  // Post-email: full report surface (same components render on the
-  // tokenized /scan/report/[id] page so the two surfaces stay in lock
-  // step).
+  // Post-email: confirmation only. The full report is NEVER shown on the
+  // /scan surface — it renders exclusively at the tokenized
+  // /scan/report/[id]?t=... link that was just emailed. This preserves
+  // Marty's rule that email is the single value gate: nothing about the
+  // report content leaks on-screen even after the email address is
+  // captured. Report link stays valid 30 days.
   return (
     <div className="daizie-scan-result">
-      <nav className="result-nav" aria-label="Report sections">
-        <div className="tabs">
-          {(["report", "evidence", "methodology"] as const).map((tab) => (
-            <button
-              key={tab}
-              type="button"
-              onClick={() => setActiveTab(tab)}
-              className={activeTab === tab ? "active" : undefined}
-            >
-              {tab}
-            </button>
-          ))}
-        </div>
-        <span className="brand-tag">Daizie</span>
-      </nav>
-
       <section className="daizie-scan-card">
         <p className="card-eyebrow">Free Daizie Readiness Check</p>
-        <h2>{scan.subjectName}</h2>
+        <h2>Your report is on its way.</h2>
         <p className="muted" style={{ marginTop: 6 }}>
-          {friendlyDomain(scan.url)}
+          {scan.subjectName} · {friendlyDomain(scan.url)}
         </p>
-        {!scan.crawlerReachable && (
-          <p
-            className="muted"
+        <p style={{ marginTop: 14, maxWidth: 620 }}>
+          We just sent a private report link to your inbox. Click it to
+          open your full readiness report — heatmap, driver scores,
+          master-key check, and your two biggest opportunities to
+          improve. The link stays valid for 30 days.
+        </p>
+        <p
+          style={{
+            marginTop: 14,
+            padding: "12px 14px",
+            borderRadius: 10,
+            background: "rgba(189, 143, 36, .08)",
+            borderLeft: "3px solid var(--dz-gold)",
+            maxWidth: 620,
+            fontSize: "0.9rem",
+            lineHeight: 1.55,
+          }}
+        >
+          <strong>Give it 30 seconds.</strong> If nothing arrives within
+          5 minutes, check your spam folder or email{" "}
+          <a
+            href="mailto:hello@martykoepke.com"
             style={{
-              marginTop: 10,
-              fontSize: ".85rem",
-              fontStyle: "italic",
+              color: "var(--dz-forest)",
+              textDecoration: "underline",
+              textDecorationColor: "var(--dz-gold)",
+              textUnderlineOffset: 3,
             }}
           >
-            We couldn&rsquo;t fully read your site directly, so this result
-            is based on the signals we could observe.
-          </p>
-        )}
+            hello@martykoepke.com
+          </a>
+          .
+        </p>
       </section>
-
-      {activeTab === "report" && (
-        <>
-          <TierHeatmap
-            readinessScore={scan.readinessScore}
-            tier={scan.tier}
-          />
-          {scan.masterKeys && <MasterKeysCard report={scan.masterKeys} />}
-          <DriverHeatmapTiles dimensions={scan.dimensions} />
-          <OpportunityCards
-            dimensions={scan.dimensions}
-            findings={scan.findings}
-            crawler={crawlerSignals}
-          />
-          <PaidTeaserCard />
-        </>
-      )}
-
-      {activeTab === "evidence" && <PreviewEvidence scan={scan} />}
-      {activeTab === "methodology" && <PreviewMethodology />}
-
-      <EmailGate scan={scan} onEmailSent={onEmailSent} emailSent={emailSent} />
+      {/* EmailGate is intentionally NOT re-rendered here — its own
+          emailSent state would show a second confirmation card. The
+          confirmation above is the whole post-email view. */}
     </div>
   );
 }
