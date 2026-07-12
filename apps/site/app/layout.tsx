@@ -138,7 +138,11 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
+    // Font variables live on <html> so the @theme aliases
+    // (--font-serif → --font-lora, --font-sans → --font-inter) resolve at
+    // :root; on <body> the :root-level aliases compute to invalid and every
+    // heading silently falls back to the system stack.
+    <html lang="en" className={`${inter.variable} ${lora.variable}`}>
       <head>
         <link
           rel="alternate"
@@ -153,9 +157,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body
-        className={`${inter.variable} ${lora.variable} font-sans antialiased`}
-      >
+      <body className="font-sans antialiased">
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-forest focus:px-4 focus:py-2 focus:text-cream"
