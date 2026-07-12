@@ -1252,6 +1252,58 @@ h1, h2, h3, h4 {
 .daizie-post-card h2 a:hover {
   color: var(--dz-forest-dark);
 }
+/* Cards are <details> — collapsed to date + title, expanding to the
+   preview. The full piece lives only at its own URL. */
+.daizie-post-card summary {
+  cursor: pointer;
+  list-style: none;
+  position: relative;
+  padding-right: 52px;
+}
+.daizie-post-card summary::-webkit-details-marker {
+  display: none;
+}
+.daizie-post-card summary h2 {
+  margin: 6px 0 0;
+}
+.daizie-post-card summary:hover h2 {
+  color: var(--dz-forest-dark);
+}
+.daizie-post-card summary:focus-visible {
+  outline: 2px solid var(--dz-gold);
+  outline-offset: 6px;
+  border-radius: 8px;
+}
+.daizie-post-card .post-toggle {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  margin-top: -0.9em;
+  color: var(--dz-gold);
+  font-size: 1.7rem;
+  font-weight: 400;
+  line-height: 1;
+  transition: transform .35s ease;
+}
+.daizie-post-card[open] .post-toggle {
+  transform: rotate(45deg);
+}
+.daizie-post-card .post-expand {
+  padding-top: 16px;
+}
+/* Smooth open/close where the browser supports animating to auto height;
+   everywhere else the toggle is instant, which is fine. */
+.daizie-post-card {
+  interpolate-size: allow-keywords;
+}
+.daizie-post-card::details-content {
+  block-size: 0;
+  overflow: hidden;
+  transition: block-size .45s ease, content-visibility .45s allow-discrete;
+}
+.daizie-post-card[open]::details-content {
+  block-size: auto;
+}
 .daizie-post-card .post-desc {
   margin: 0 0 16px;
   line-height: 1.65;
