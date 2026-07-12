@@ -738,6 +738,7 @@ export const BLOG = {
   heading: "The evidence behind the advice.",
   lede: "Research writeups, methodology notes, and plain-English explanations of how AI systems find, understand, and recommend small businesses. The structured, source-backed versions live here — the conversational takes land on Substack.",
   substackLabel: "Read the conversational notes on Substack →",
+  backLabel: "Back to the blog",
   comingSoon:
     "The first pieces are being written now. In the meantime, the conversational notes are on Substack.",
   readMore: "Read the piece",
