@@ -1318,6 +1318,26 @@ h1, h2, h3, h4 {
 }
 .daizie-post-card .text-link span { color: var(--dz-gold); }
 
+.daizie-back-link {
+  display: inline-block;
+  margin-bottom: 20px;
+  color: var(--dz-forest);
+  font-size: .9rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+.daizie-back-link span {
+  color: var(--dz-gold);
+  transition: transform .3s ease;
+  display: inline-block;
+}
+.daizie-back-link:hover {
+  color: var(--dz-forest-dark);
+}
+.daizie-back-link:hover span {
+  transform: translateX(-3px);
+}
+
 .daizie-article-body {
   max-width: 72ch;
   font-size: 1.02rem;

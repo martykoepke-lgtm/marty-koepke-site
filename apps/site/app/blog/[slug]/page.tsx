@@ -66,6 +66,9 @@ export default async function BlogPostPage({
         {/* ── The piece itself ────────────────────────────────────────── */}
         <Reveal>
           <article className="daizie-pane">
+            <Link className="daizie-back-link" href="/blog">
+              <span aria-hidden="true">←</span> {BLOG.backLabel}
+            </Link>
             <p className="daizie-eyebrow">{formatDate(post.date)}</p>
             <h1>{post.title}</h1>
             <div
