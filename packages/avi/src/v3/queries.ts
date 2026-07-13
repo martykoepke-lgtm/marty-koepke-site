@@ -1,9 +1,21 @@
 import type { PreparedQuery, QueryIntent, Subject } from '../types';
 
+/**
+ * Build the V3 query grid for a subject.
+ *
+ * The canonical V3 protocol runs the full 8-question set below (each
+ * asked to 4 engines = 32 responses). For pipeline smoke tests and
+ * timeout-limited runs, callers can request a smaller queryCount — the
+ * function returns the first N queries in the array. The narrower
+ * coverage produces less stable scoring (Share-of-Voice etc. get noisy
+ * at N<8) but the pipeline stages all still exercise, which is what
+ * validation runs care about.
+ *
+ * Valid queryCount: 1–8. Larger values are clamped to 8 rather than
+ * throwing so callers can't accidentally over-request.
+ */
 export function buildV3QueryGrid(subject: Subject, queryCount = 8): PreparedQuery[] {
-  if (queryCount !== 8) {
-    throw new Error('Only queryCount=8 is implemented for V3 audits');
-  }
+  const n = Math.max(1, Math.min(8, Math.floor(queryCount)));
 
   const category = subject.industry;
   const problem = subject.problem ?? `choose the right ${category}`;
@@ -62,7 +74,7 @@ export function buildV3QueryGrid(subject: Subject, queryCount = 8): PreparedQuer
     },
   ];
 
-  return queries.map((query) => ({
+  return queries.slice(0, n).map((query) => ({
     ...query,
     intent_subtype: query.intent === 'informational' ? 'exploratory' : undefined,
   }));
