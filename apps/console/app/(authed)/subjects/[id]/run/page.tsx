@@ -11,6 +11,15 @@ type SearchParams = Promise<{ mode?: string; error?: string }>;
 
 export const dynamic = "force-dynamic";
 
+// Vercel serverless function timeout for the paid audit run.
+// Pro plan max is 300s (5 min); Hobby caps at 60s.
+// A full 32-response paid audit typically takes 8–15 minutes, so even
+// 300s isn't enough for the full grid. Short runs (queryCount = 1–3)
+// fit within 300s. Long-term fix: move the audit run to a background
+// queue (Inngest / QStash / Vercel Cron) and poll for completion. See
+// AVI_OPS_MONITOR.md notes on task queue design.
+export const maxDuration = 300;
+
 export default async function RunAuditPage({
   params,
   searchParams,
