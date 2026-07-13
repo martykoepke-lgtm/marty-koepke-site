@@ -2,13 +2,8 @@
 
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
-import {
-  persistAudit,
-  persistAuditV3,
-  runAudit,
-  runAuditV3,
-  supabaseAdmin,
-} from "@practical-informatics/avi";
+import { supabaseAdmin } from "@practical-informatics/avi";
+import { inngest } from "@/lib/inngest/client";
 
 /**
  * Runs an audit with parameters supplied by the form on the run page.
@@ -96,76 +91,29 @@ export async function runAuditWithParamsAction(formData: FormData) {
   }
 
   console.log(
-    `[console] runAuditWithParamsAction: subject=${canonical_name} mode=${mode} queryCount=${queryCount}`
+    `[console] runAuditWithParamsAction: subject=${canonical_name} mode=${mode} queryCount=${queryCount} — dispatching to Inngest`
   );
 
-  if (mode === "paid") {
-    let audit: Awaited<ReturnType<typeof runAuditV3>>;
-    try {
-      audit = await runAuditV3(subject, {
-        mode: "audit",
+  // Dispatch to Inngest and return immediately. The background function
+  // in lib/inngest/functions/run-audit.ts picks up the event and runs
+  // the full pipeline outside the Vercel request-cycle timeout — that
+  // fixes the 504 on full 32-response paid audits.
+  try {
+    await inngest.send({
+      name: "avi/audit.run.requested",
+      data: {
+        subjectId,
+        subject,
+        mode: mode === "paid" ? "audit" : "free",
         queryCount,
-      });
-    } catch (e) {
-      const message = e instanceof Error ? e.message : String(e);
-      console.error(`[console] runAuditV3 failed before persistence: ${message}`);
-      redirect(
-        `/subjects/${subjectId}/run?mode=${mode}&error=${encodeURIComponent(
-          `The assessment failed before it could be saved: ${message}`
-        )}`
-      );
-    }
-
-    console.log(
-      `[console] runAuditV3 complete: index=${audit.public_scores.ai_business_accuracy_index} tier=${audit.public_scores.tier} errors=${audit.errors.length}`
-    );
-
-    const persist = await persistAuditV3(audit);
-    console.log(
-      `[console] persistAuditV3: ok=${persist.ok} steps=${persist.steps_persisted.join(",")} errors=${persist.errors.length}`
-    );
-
-    if (!persist.ok) {
-      const firstErr = persist.errors[0];
-      console.error(
-        `[console] V3 persist failed at '${firstErr?.step}': ${firstErr?.message}`
-      );
-      redirect(
-        `/subjects/${subjectId}/run?mode=${mode}&error=${encodeURIComponent(
-          `The assessment ran, but the report could not be saved. Failed at ${firstErr?.step}: ${firstErr?.message}`
-        )}`
-      );
-    }
-
-    revalidatePath("/audits");
-    revalidatePath("/compare");
-    revalidatePath("/");
-    revalidatePath(`/subjects/${subjectId}`);
-    redirect(`/audits/${audit.audit_id}/v31`);
-  }
-
-  const audit = await runAudit(subject, {
-    mode,
-    queryCount: undefined,
-  });
-
-  console.log(
-    `[console] runAudit complete: composite=${audit.composite.composite} tier=${audit.composite.tier} errors=${audit.errors.length}`
-  );
-
-  const persist = await persistAudit(audit);
-  console.log(
-    `[console] persistAudit: ok=${persist.ok} steps=${persist.steps_persisted.join(",")} errors=${persist.errors.length}`
-  );
-
-  if (!persist.ok) {
-    const firstErr = persist.errors[0];
-    console.error(
-      `[console] persist failed at '${firstErr?.step}': ${firstErr?.message}`
-    );
+      },
+    });
+  } catch (e) {
+    const message = e instanceof Error ? e.message : String(e);
+    console.error(`[console] failed to dispatch Inngest event: ${message}`);
     redirect(
       `/subjects/${subjectId}/run?mode=${mode}&error=${encodeURIComponent(
-        `The scan ran, but the report could not be saved. Failed at ${firstErr?.step}: ${firstErr?.message}`
+        `Could not queue the ${mode === "paid" ? "assessment" : "scan"}: ${message}`
       )}`
     );
   }
@@ -174,7 +122,7 @@ export async function runAuditWithParamsAction(formData: FormData) {
   revalidatePath("/compare");
   revalidatePath("/");
   revalidatePath(`/subjects/${subjectId}`);
-  redirect(`/audits/${audit.audit_id}`);
+  redirect(`/subjects/${subjectId}?queued=${mode}`);
 }
 
 function strOrUndef(v: FormDataEntryValue | null): string | undefined {

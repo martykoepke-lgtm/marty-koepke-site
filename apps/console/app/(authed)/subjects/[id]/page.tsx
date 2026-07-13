@@ -34,12 +34,18 @@ async function getAuditHistory(subjectUrl: string) {
   }
 }
 
+type SearchParams = Promise<{ queued?: string }>;
+
 export default async function SubjectDetail({
   params,
+  searchParams,
 }: {
   params: Promise<{ id: string }>;
+  searchParams?: SearchParams;
 }) {
   const { id } = await params;
+  const sp = (await searchParams) ?? {};
+  const queuedMode = sp.queued === "paid" || sp.queued === "free" ? sp.queued : null;
   const subject = await getSubject(id);
 
   if (!subject) {
@@ -58,6 +64,35 @@ export default async function SubjectDetail({
           Back to businesses
         </Link>
       </div>
+
+      {queuedMode && (
+        <div className="mb-6 border border-gold/45 bg-white rounded-md p-4 text-sm text-charcoal shadow-sm">
+          <div className="font-semibold text-forest-dark">
+            {queuedMode === "paid"
+              ? "Assessment queued"
+              : "Free scan queued"}
+          </div>
+          <div className="mt-1 text-muted">
+            {queuedMode === "paid"
+              ? "Daizie is running your Assessment in the background. This typically takes 8–15 minutes for a full 32-response run — much shorter for smaller queryCounts. Refresh this page to see the audit appear in the history below once complete, or check the /audits list."
+              : "The free scan was queued. Refresh in ~30 seconds to see it appear in the history."}
+          </div>
+          <div className="mt-3 flex items-center gap-3">
+            <Link
+              href={`/subjects/${id}`}
+              className="inline-flex px-3 py-1.5 rounded-md bg-forest text-white text-xs font-semibold hover:bg-forest-dark"
+            >
+              Refresh
+            </Link>
+            <Link
+              href="/audits"
+              className="text-xs text-muted hover:text-charcoal"
+            >
+              See all audits →
+            </Link>
+          </div>
+        </div>
+      )}
 
       <PageHeader
         title={subject.canonical_name}
