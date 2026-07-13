@@ -228,10 +228,12 @@ export default async function RunAuditPage({
               <div className="grid grid-cols-2 gap-x-6 gap-y-5">
                 <Field
                   label="Prompt set"
-                  hint="Uses eight company-centered questions about what the business does, services, pricing, process, competitors, differentiation, problems solved, and promised outcome."
+                  hint="8-question is the full V3 protocol. Smaller sets are for pipeline testing — they fit within Vercel's 5-min serverless timeout while task #52 (per-step audit refactor) is pending."
                 >
                   <select name="queryCount" defaultValue="8" className="form-input">
-                    <option value="8">8-question V3 business accuracy test</option>
+                    <option value="2">2-question smoke test (~2 min)</option>
+                    <option value="4">4-question mid test (~4 min)</option>
+                    <option value="8">8-question V3 business accuracy test (full)</option>
                   </select>
                 </Field>
                 <Field
