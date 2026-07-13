@@ -17,10 +17,14 @@ import { runAuditFunction } from "@/lib/inngest/functions/run-audit";
 // The Inngest function needs Node runtime (calls AVI orchestrator that
 // uses Anthropic/OpenAI/Google/Perplexity/Tavily/Supabase SDKs).
 export const runtime = "nodejs";
-// Long default — Inngest itself doesn't need this since the function
-// runs in its own container, but the discovery request should complete
-// quickly. Set generously in case any startup work runs long.
-export const maxDuration = 60;
+// IMPORTANT: Inngest executes each step.run() as a separate call BACK
+// to this webhook. Each call is a Vercel serverless invocation, so the
+// step body has to complete inside this timeout. 300s is the Vercel
+// Pro maximum. Full 32-response audits (~8–15 min) still won't fit —
+// that requires breaking runAuditV3 into smaller step.run() blocks
+// (per-engine or per-query) so each individual invocation is short.
+// Small runs (queryCount = 1–2, ~2–3 min) fit comfortably here.
+export const maxDuration = 300;
 
 export const { GET, POST, PUT } = serve({
   client: inngest,
