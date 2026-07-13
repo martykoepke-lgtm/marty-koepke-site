@@ -47,6 +47,11 @@ export async function updateSession(request: NextRequest) {
     pathname.startsWith("/account/password") ||
     pathname.startsWith("/_next") ||
     pathname.startsWith("/api/auth") ||
+    // Inngest signs its own webhook requests with INNGEST_SIGNING_KEY —
+    // the inngest/next serve() handler validates the signature per call.
+    // Exempting this route from Supabase auth lets Inngest reach us for
+    // function discovery and event execution without a session cookie.
+    pathname.startsWith("/api/inngest") ||
     pathname === "/favicon.ico";
 
   if (!user && !isPublic) {
