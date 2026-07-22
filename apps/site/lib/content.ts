@@ -307,6 +307,51 @@ export const HOME = {
 
 /* ===== ABOUT ===== */
 export const ABOUT = {
+  siteStory: {
+    eyebrow: "About Marty",
+    headline: "I turn complex operational needs into systems people can understand, trust, and use.",
+    lede: "I am an informatics leader, founder, writer, and applied AI builder. For more than fifteen years, my work has centered on translating between the people doing the work, the leaders accountable for it, and the technical teams building the systems around it.",
+    proof: [
+      { value: "2,500+", label: "ambulatory sites reached by enterprise informatics work" },
+      { value: "25,000+", label: "clinicians across the systems I support" },
+      { value: "$26M+", label: "annual labor savings from automation work I helped lead" },
+      { value: "15+ years", label: "translating operational needs into usable systems" },
+    ],
+    throughline: {
+      eyebrow: "The throughline",
+      headline: "The technology changes. The work of making it useful does not.",
+      paragraphs: [
+        "My career has been spent where operations, clinical expertise, and technology meet. I listen to the people doing the work, help a group define what actually needs to change, translate that need into decisions a technical team can act on, and stay with the work through design, implementation, adoption, and refinement.",
+        "At CommonSpirit Health, that has meant helping guide informatics strategy and governance across more than 2,500 ambulatory sites and 25,000 clinicians using multiple EHR platforms. The scale is large, but the central question remains practical: did we build the right thing, and did it make the work meaningfully better?",
+      ],
+    },
+    principles: [
+      { number: "01", title: "Understand the real workflow", body: "Start with how the work actually happens, including the handoffs, exceptions, constraints, and decisions that are easy to miss from a distance." },
+      { number: "02", title: "Translate needs into clear decisions", body: "Create enough shared clarity that operational leaders, subject-matter experts, vendors, and technical teams can move forward together." },
+      { number: "03", title: "Build governance into delivery", body: "Make ownership, evidence, boundaries, review, and accountability part of the system rather than an afterthought." },
+      { number: "04", title: "Measure whether the change helped", body: "A launch is not the outcome. Follow the work far enough to learn whether the workflow improved and where refinement is still needed." },
+    ],
+    outcomes: {
+      eyebrow: "Measured work",
+      headline: "Useful change should leave evidence behind.",
+      body: "The enterprise initiatives I have helped lead include front- and back-office automation across 350 clinics associated with more than $26 million in annual labor savings; ambient documentation work across 222 providers associated with a 14.7% reduction in documentation time and 12% wRVU growth; and quality-improvement work that increased Medicare Annual Wellness Visit completion by 42% and screening compliance by 17%.",
+      note: "These were collaborative enterprise outcomes. My role included informatics leadership, workflow integration, standards, governance, quality assurance, and adoption—not sole authorship of the underlying vendor products.",
+    },
+    builder: {
+      eyebrow: "The founder-builder chapter",
+      headline: "I wanted to understand modern AI products from the builder's side.",
+      paragraphs: [
+        "Over the last eighteen months, I moved from helping organizations implement technology to building applications of my own. That meant learning why a working screen is only the beginning: useful products also require architecture, data design, integrations, migrations, testing, deployment, observability, security, and governance.",
+        "This work is an extension of my informatics career, not a departure from it. The same disciplines still matter: understand the problem, preserve human judgment, define the decision boundaries, test the whole workflow, and be honest about what the technology can and cannot do.",
+      ],
+    },
+    currentWork: [
+      { type: "Founder-built product", title: "Daizie", body: "An AI visibility and business-accuracy product that measures what major AI systems say about a business, separates observation from evidence, and gives an owner a practical next move.", href: "https://daizie.ai", label: "Visit Daizie.ai", external: true },
+      { type: "Application prototype", title: "Governed workflow tools", body: "A connected operating environment for moving ideas through prioritization, assignment, delivery, resource balancing, and portfolio oversight.", href: "/work/governed-workflow-tools", label: "Explore the workflow tools", external: false },
+    ],
+    distinction: "I distinguish carefully between products I designed and built, enterprise vendor products I helped implement and govern, and ideas I am still testing. Credibility depends on making those boundaries visible.",
+    credentials: ["Master of Healthcare Administration", "Lean Six Sigma Black Belt", "Certified SAFe 6.0 Agilist", "Scrum Master", "Epic Clinical Informaticist"],
+  },
   heroHeadline:
     "Twenty years inside enterprise systems. Now an applied AI consultancy.",
   story: [
