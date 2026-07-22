@@ -8,7 +8,7 @@ export const SITE = {
   name: "Marty Koepke",
   legalName: "Practical Informatics LLC",
   url: "https://www.martykoepke.com",
-  tagline: "People · Process · Possibilities",
+  tagline: "Making complex technology useful, trustworthy, and human.",
   location: "Mokelumne Hill, California",
   foundingYear: 2024,
   foundingDate: "2024-08-13",
@@ -21,16 +21,16 @@ export type NavItem = {
   label: string;
   href: string;
   emphasized?: boolean;
+  external?: boolean;
 };
 
 export const NAV: NavItem[] = [
   { label: "Home", href: "/" },
-  { label: "Daizie AI visibility", href: "/ai-visibility", emphasized: true },
-  { label: "Methodology", href: "/methodology" },
-  { label: "AI governance", href: "/craizie" },
+  { label: "Work", href: "/work" },
+  { label: "Writing and resources", href: "/resources" },
   { label: "About", href: "/about" },
-  { label: "Blog", href: "/blog" },
   { label: "Contact", href: "/contact" },
+  { label: "Daizie.ai ↗", href: "https://daizie.ai", emphasized: true, external: true },
 ];
 
 /** Policy routes, also surfaced in the footer.
@@ -45,15 +45,14 @@ export const POLICIES: { label: string; href: string; gettermsSlug: string }[] =
 
 export const META = {
   home: {
-    title:
-      "Daizie by Marty Koepke | AI visibility assessments for small business",
+    title: "Marty Koepke | Informatics leader, founder, and applied AI builder",
     description:
-      "Daizie is a research-backed, rubric-based AI visibility assessment for small and medium businesses — coaches, consultants, agencies, retail, service, SaaS. See what AI actually says about your business across ChatGPT, Claude, Perplexity, and Gemini, then get specific, tangible fixes calibrated to your business type. Free readiness check; full assessment $895.",
+      "Marty Koepke is an informatics leader, founder, writer, and applied AI builder working where operational needs, technical systems, and human judgment meet.",
   },
   about: {
     title: "About Marty Koepke | Marty Koepke",
     description:
-      "Marty Koepke (she/her). Twenty years in enterprise informatics, author of Between the Clicks. Founder of Daizie, the AI visibility assessment that helps small businesses show up accurately when ChatGPT, Claude, Perplexity, and Gemini describe and recommend them.",
+      "Marty Koepke is an informatics leader, founder, writer, and applied AI builder with more than fifteen years of enterprise digital health experience.",
   },
   aiVisibility: {
     title: "Daizie — AI visibility (AEO / GEO) for small business",
@@ -65,11 +64,87 @@ export const META = {
     description:
       "Practical writing on AI visibility, AEO / GEO, and helping small businesses be seen accurately by AI systems.",
   },
+  work: {
+    title: "Work | Marty Koepke",
+    description: "Selected products, applications, writing, and enterprise informatics work by Marty Koepke.",
+  },
+  resources: {
+    title: "Writing and resources | Marty Koepke",
+    description: "Field notes, practical guides, and grounded resources for building and adopting AI thoughtfully.",
+  },
   contact: {
     title: "Contact | Marty Koepke",
     description:
-      "Book a free 20-minute conversation about your business's AI visibility. Daizie by Marty Koepke helps small businesses show up accurately in AI answers, serving businesses across the United States.",
+      "Connect with Marty Koepke about thoughtful advisory work, speaking, teaching, product collaboration, or Daizie.",
   },
+} as const;
+
+export const HUB = {
+  hero: {
+    eyebrow: "Informatics leader · Founder · Applied AI builder",
+    headline: "Making complex technology useful, trustworthy, and human.",
+    lede: "I’m Marty Koepke. I work at the point where operational needs, technical systems, and human judgment meet — turning complicated ideas into systems people can understand, govern, and actually use.",
+    primary: { label: "Explore my work", href: "/work" },
+    secondary: { label: "Read field notes", href: "/resources" },
+  },
+  introduction: {
+    eyebrow: "The throughline",
+    headline: "The tools change. The work underneath them does not.",
+    body: [
+      "For more than fifteen years, I have helped clinical, operational, and technical teams make consequential systems work in the real world. That means defining the actual problem, making evidence visible, keeping judgment with the right people, and designing a path people can follow.",
+      "Over the last eighteen months, I brought that same discipline into founder-led product building. I learned the stack from the ground up — not to chase a trend, but to understand what separates a promising prototype from a useful, governed, market-ready product.",
+    ],
+  },
+  themes: [
+    { number: "01", title: "Make complex systems useful", body: "Workflow design, informatics, implementation, governance, and the translation between operational needs and technical teams." },
+    { number: "02", title: "Build AI products responsibly", body: "Clear decision boundaries, human review, evidence, testing, traceability, and honest limits — built into the product rather than added at the end." },
+    { number: "03", title: "Help good work become understood", body: "Helping experts and businesses communicate clearly, establish trustworthy evidence, and be represented accurately in an AI-mediated market." },
+  ],
+  featured: {
+    eyebrow: "A product of the work",
+    headline: "Daizie helps businesses see what AI is saying about them.",
+    body: "Daizie grew from my own experience building a business and discovering that AI systems were already describing it — sometimes accurately, sometimes not. It brings together measurement, evidence, human verification, and a practical next move.",
+    label: "Visit Daizie.ai",
+    href: "https://daizie.ai",
+  },
+  proof: [
+    { value: "2,500+", label: "ambulatory sites reached by enterprise informatics work" },
+    { value: "25,000+", label: "clinicians across the systems I support" },
+    { value: "$26M+", label: "annual labor savings from automation work I helped lead" },
+    { value: "15+ years", label: "translating operational needs into usable systems" },
+  ],
+  closing: {
+    eyebrow: "Keep exploring",
+    headline: "I share the work while I am still close enough to remember what was difficult.",
+    body: "Field notes, practical frameworks, and carefully chosen resources for people building, adopting, or trying to make sense of AI.",
+  },
+} as const;
+
+export const WORK = {
+  eyebrow: "Selected work",
+  headline: "Products, systems, and ideas made practical.",
+  lede: "My work spans enterprise informatics, founder-built products, and public writing. The common thread is careful translation: from a real need to a system people can trust and use.",
+  items: [
+    { type: "Founder-built product", title: "Daizie", body: "An AI visibility and business-accuracy product that measures what major AI systems say about a business, separates observation from evidence, and gives an owner a practical next move.", href: "https://daizie.ai", label: "Visit Daizie.ai", external: true },
+    { type: "Book", title: "Between the Clicks", body: "A book about the hidden work of healthcare informatics: the decisions, translation, and human effort required to make clinical technology useful in practice.", href: "/contact", label: "Ask Marty about the book", external: false },
+    { type: "Enterprise informatics", title: "AI and automation in clinical workflows", body: "Informatics strategy, workflow integration, governance, quality assurance, and adoption for automation and ambient clinical documentation across complex, multi-state environments.", href: "/about", label: "Read the professional background", external: false },
+    { type: "Applications and prototypes", title: "Governed workflow tools", body: "Applications that make complex governance, decision tracking, structured intake, and operational processes easier to understand and act on.", href: "/contact", label: "Discuss a collaboration", external: false },
+  ],
+  distinction: "I distinguish carefully between products I designed and built, enterprise vendor products I helped implement and govern, and ideas still being tested. Credibility depends on making those boundaries visible.",
+} as const;
+
+export const RESOURCES = {
+  eyebrow: "Writing and resources",
+  headline: "A grounded place to learn in a fast-moving field.",
+  lede: "This is a growing collection for people trying to build useful AI products, adopt AI responsibly, or understand how an AI-mediated market is changing their work.",
+  collections: [
+    { title: "Start here", body: "A guided path through the practical questions that come before tools: the problem, the workflow, the evidence, the risks, and the human decision points." },
+    { title: "Field notes", body: "Ongoing essays about building with AI, learning the full stack, governing what we create, and bringing a real product into the market." },
+    { title: "Practical guides", body: "Checklists, frameworks, and decision aids designed to help a thoughtful operator take the next step without becoming an AI specialist." },
+    { title: "Research shelf", body: "Annotated studies, standards, and references worth reading — with scope and limitations preserved rather than reduced to a headline." },
+  ],
+  substack: { eyebrow: "Field notes", headline: "Read and subscribe on Substack", body: "Substack is where new writing appears first. This site provides the durable structure; the newsletter carries the ongoing conversation.", label: "Visit Marty’s Substack", href: "https://substack.com/@martykoepke" },
+  topics: ["What AI-assisted coding removes — and what it does not", "The distance between a prototype and a market-ready product", "Decision boundaries and human review in AI applications", "Hallucination, bias, drift, and evidence", "Why a good product is not automatically discoverable", "What small founders should know about data, testing, deployment, and governance"],
 } as const;
 
 /* ===== HOME ===== */

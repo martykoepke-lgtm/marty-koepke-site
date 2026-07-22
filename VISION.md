@@ -1,5 +1,37 @@
 # Marty Koepke — Vision
 
+## 0. Personal hub and product separation (2026-07-22)
+
+This section supersedes older language that makes AI visibility, Daizie, or a
+two-product ladder the primary identity of martykoepke.com.
+
+**MartyKoepke.com is Marty Koepke's professional and intellectual home.** It
+presents Marty as an informatics leader, founder, writer, and applied-AI
+builder whose throughline is making complex technology useful, trustworthy,
+and human. It holds her professional foundation, selected work, writing,
+resources, and ways to collaborate.
+
+**Daizie.ai is a distinct product and website.** It is one fruit of Marty's
+work, not the container for her complete identity. MartyKoepke.com features and
+links to Daizie, while product marketing, methodology, pricing, reports, and
+customer journeys belong at daizie.ai.
+
+**The site's three organizing themes are:**
+
+1. Make complex systems useful.
+2. Build AI products responsibly.
+3. Help good work become understood.
+
+Practical Informatics LLC remains the legal and business umbrella. Substack is
+the ongoing publishing channel; martykoepke.com provides the durable resource
+architecture and curated paths through the work.
+
+The site does not position Marty as a cybersecurity consultant. It may speak
+to responsible AI product design, governance, human review, evidence,
+traceability, testing, data-handling questions, and secure development
+practices without promising security audits, penetration testing, regulatory
+certification, or cyber-risk consulting.
+
 **Author:** Marty Koepke, Founder
 **Status:** Working document, v1.1
 **Purpose:** The strategic north star. Read this when a decision is hard. Update when the world changes.

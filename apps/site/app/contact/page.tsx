@@ -24,12 +24,11 @@ export default function ContactPage() {
 
         <Reveal>
           <article className="daizie-pane daizie-contact-pane">
-            <p className="daizie-eyebrow">Start with a real conversation</p>
-            <h1>What question is AI creating for your business?</h1>
+            <p className="daizie-eyebrow">Connect with Marty</p>
+            <h1>Bring the question. We can start there.</h1>
             <p className="daizie-lede" style={{ marginLeft: "auto", marginRight: "auto" }}>
-              Whether you&rsquo;re trying to be found or trying to put sensible
-              safeguards around what you&rsquo;ve built, we can start with the
-              situation in front of you.
+              For thoughtful advisory work, speaking, teaching, product collaboration,
+              or a conversation about Daizie, tell me what you are working through.
             </p>
             <div className="daizie-actions">
               <a className="daizie-btn primary" href={BOOK_CALL_HREF}>

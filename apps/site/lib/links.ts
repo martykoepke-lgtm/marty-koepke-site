@@ -14,8 +14,10 @@ export const MARTYKOEPKE_URL = "https://martykoepke.com";
 export const SOCIAL = {
   linkedin: "https://www.linkedin.com/in/marty-koepke",
   facebook: "https://www.facebook.com/profile.php?id=61564713020344",
-  substack: "https://martykoepke.substack.com/",
+  substack: "https://substack.com/@martykoepke",
 } as const;
+
+export const DAIZIE_URL = "https://daizie.ai";
 
 /** Canonical Substack URL — pulled out for reuse in schema + copy. */
 export const SUBSTACK_URL = SOCIAL.substack;

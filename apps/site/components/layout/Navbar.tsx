@@ -24,6 +24,10 @@ export default function Navbar() {
     pathname === "/" ||
     pathname === "/about" ||
     pathname === "/contact" ||
+    pathname === "/work" ||
+    pathname.startsWith("/work/") ||
+    pathname === "/resources" ||
+    pathname.startsWith("/resources/") ||
     pathname === "/craizie" ||
     pathname.startsWith("/craizie/") ||
     pathname === "/ai-visibility" ||

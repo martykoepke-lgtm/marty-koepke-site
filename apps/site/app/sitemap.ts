@@ -10,6 +10,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const primary = [
     "",
     "/about",
+    "/work",
+    "/resources",
     "/ai-visibility",
     "/methodology",
     "/scan",
@@ -28,8 +30,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority:
         path === ""
           ? 1
-          : path === "/ai-visibility" || path === "/scan"
+          : path === "/work" || path === "/resources"
             ? 0.9
+            : path === "/ai-visibility" || path === "/scan"
+              ? 0.6
             : path === "/methodology"
               ? 0.8
               : 0.7,
