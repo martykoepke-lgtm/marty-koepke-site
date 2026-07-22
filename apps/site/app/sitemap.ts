@@ -11,6 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "",
     "/about",
     "/work",
+    "/work/governed-workflow-tools",
     "/resources",
     "/ai-visibility",
     "/methodology",
